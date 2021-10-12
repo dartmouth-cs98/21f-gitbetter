@@ -24,6 +24,21 @@ Deployment for hot reload
 ```
 npm run serve
 ```
+
+
+Deployment for hot reload 
+```
+npm run serve
+```
+
+Local development environment with electron
+```
+npm run electron:build
+npm run electron:serve
+```
+
+
+
 Before deployment, run 
 ```
 npm run lint
