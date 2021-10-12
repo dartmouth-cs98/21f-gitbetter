@@ -1,24 +1,24 @@
-# Project Name
+# 21f-gitbetter
 
-![Team Photo](Insert a Team Photo URL here)
-[*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
+## Project setup
+```
+npm install
+```
 
-TODO: short project description, some sample screenshots or mockups
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-## Architecture
+### Compiles and minifies for production
+```
+npm run build
+```
 
-TODO:  descriptions of code organization and tools and libraries used
+### Lints and fixes files
+```
+npm run lint
+```
 
-## Setup
-
-TODO: how to get the project dev environment up and running, npm install etc
-
-## Deployment
-
-TODO: how to deploy the project
-
-## Authors
-
-TODO: list of authors
-
-## Acknowledgments
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
