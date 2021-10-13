@@ -1,8 +1,12 @@
 # Git Better
-![Team Photo](Insert a Team Photo URL here)
-[*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
 
-TODO: short project description, some sample screenshots or mockups
+![Team Selfie](https://i.imgur.com/HZ7Heww.jpg)
+
+Ever felt clueless trying to find which `git` command is appropriate for your use case? Ever ran through a series of commands to see what would work, only to delete and reclone the entire repository? 
+
+GitBetter is a platform where users can hook up their project repository and test various git commands to see the effects that the commands would have on their project's status. Through GitBetter, you will be able to walk through various commands and visualize the effects the command has on your code. In doing so, we hope to alleviate your stress about possibly messing up your project's repository as there will be no permanent repercussions. 
+
+TODO: some sample screenshots or mockups
 
 
 ## Architecture
@@ -37,8 +41,13 @@ npm run lint
 npm run build
 ```
 
-## Authors
+## Our Team
 
-TODO: list of authors
+* Kimberley Rangel Campos
+* Hailey Fox
+* Irene Lam
+* Joanna Liu
+* Elizabeth Wilson
+* Zoe Wortzman
 
 ## Acknowledgments
