@@ -19,16 +19,9 @@ npm install
 ## Deployment
 
 TODO: how to deploy the project
-
 Deployment for hot reload 
 ```
-npm run serve
-```
-
-
-Deployment for hot reload 
-```
-npm run serve
+npm run electron:serve
 ```
 
 Local development environment with electron

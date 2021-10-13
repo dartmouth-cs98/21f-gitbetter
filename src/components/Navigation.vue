@@ -1,16 +1,25 @@
 <template>
-  <div>
-    <nav class="navbar">
-      <router-link 
-        class="nav-link" 
-        v-for="routes in links" 
-        v-bind:key="routes.id"
-        :to="`${routes.page}`"
-      >
-        {{routes.text}}
-      </router-link>
+    <nav class="nav level">
+        <router-link 
+            class="level-item has-text-centered is-info"
+            :to="'/'"
+        >
+            Home
+        </router-link>
+
+        <div class="level-item has-text-centered">
+            <div class="is-info" style="font-size: 40px;">
+                Git Better
+            </div>
+        </div>
+        
+        <router-link 
+            class="level-item has-text-centered is-info"
+            :to="'/profile'"
+        >
+            Profile
+        </router-link>
     </nav>
-  </div>
 </template>
 
 <script>
@@ -36,26 +45,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.navbar { 
-  background-color: rgb(234, 234, 234);
-  display: flex;
-  justify-content: space-around;
-
-  .nav-link {
-    color: rgb(10, 10, 10);
-    font-weight: 500;
-    font-size: 20px;
-    justify-self: flex-start;
-    transition: all 0.3s;
-
-    &:hover {
-      color: rgb(0, 49, 147);
-    }
+  .nav {
+      min-height: 3.25rem;
+      background-color: rgb(232, 208, 255) !important;
   }
-  
-
-  .social-icon {
-    align-self: flex-end !important;
-  }
-}
 </style>

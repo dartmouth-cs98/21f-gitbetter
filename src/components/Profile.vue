@@ -1,14 +1,32 @@
 <template>
-  <div class="hello">
-    <div> 
-      User profile component
+  <div class="main">
+    <div class="columns">
+        <div class="column is-fullheight is-one-fifth">
+            <Sidebar />
+        </div>
+        <div class="column py-0">
+           
+        
+            <h1 class="title">Profile</h1>
+            <h2 class="subtitle is-4">Here is your user profile...</h2>
+                     
+        </div>
+                
     </div>
   </div>
 </template>
 
 <script>
+
+import Sidebar from './Sidebar.vue'
+
 export default {
-  name: 'Profile',
+  name: 'Home',
+  components: {
+    
+    Sidebar,
+  }
+
 //   props: {
 //     msg: String
 //   }
@@ -17,18 +35,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.columns {
+    height: 100%;
 }
 </style>

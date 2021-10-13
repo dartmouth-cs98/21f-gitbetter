@@ -1,8 +1,6 @@
 <template>
-  <div class="hello">
-    <div> 
-      Window for the git visualizations!
-    </div>
+  <div class="vis-box">
+    <h1 class="title"> Window for the git visualizations! </h1>
   </div>
 </template>
 
@@ -17,18 +15,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.vis-box {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65%;
+    background-color: rgb(183, 183, 183);
 }
 </style>
