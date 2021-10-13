@@ -16,6 +16,8 @@ TODO:  descriptions of code organization and tools and libraries used
 ## Setup
 
 TODO: how to get the project dev environment up and running, npm install etc
+
+Run
 ```
 npm install
 ``` 
@@ -51,3 +53,4 @@ npm run build
 * Zoe Wortzman
 
 ## Acknowledgments
+We would like to acknowledge Professor Tregubov for his guidance on how to build our app.
