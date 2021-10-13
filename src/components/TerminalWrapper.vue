@@ -1,12 +1,20 @@
 <template>
   <div class="level term">
      <h1 class="title"> Term! </h1>
+     <div class="container">
+         <!-- <Term /> -->
+     </div>
     </div>
 </template>
 
 <script>
+// import Term from './Terminal'
+
 export default {
   name: 'TerminalWrapper',
+  components: {
+    //   Term,
+  }
 //   props: {
 //     msg: String
 //   }
@@ -19,7 +27,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 25%;
+    height: 28%;
     background-color: rgb(215, 215, 215);
 }
 </style>

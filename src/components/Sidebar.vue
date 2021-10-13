@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar">
+    <div class="sidebar ml-0">
         <div> Sidebar options ... </div>
         <div> Not sure what... </div>
     </div>
@@ -30,6 +30,6 @@ export default {
 <style lang="scss" scoped>
   .sidebar {
       height: 100%;
-      background-color: rgb(158, 54, 255) !important;
+      background-color: rgb(207, 157, 255) !important;
   }
 </style>

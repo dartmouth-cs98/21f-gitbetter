@@ -1,5 +1,5 @@
 <template>
-    <nav class="nav level">
+    <nav class="nav level has-shadow">
         <router-link 
             class="level-item has-text-centered is-info"
             :to="'/'"
@@ -46,6 +46,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .nav {
+      margin-bottom: 0 !important;
       min-height: 3.25rem;
       background-color: rgb(232, 208, 255) !important;
   }

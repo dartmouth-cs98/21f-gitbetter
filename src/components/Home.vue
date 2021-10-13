@@ -4,15 +4,14 @@
         <div class="column is-fullheight is-one-fifth">
             <Sidebar />
         </div>
-        <div class="column py-0">
-           
-        
-            <h1 class="title">Home</h1>
-            <h2 class="subtitle is-4">All your git needs...</h2>
+        <div class="column mr-4">
+            <div class="header">
+                <h1 class="title">Home</h1>
+                <h2 class="subtitle is-4 mb-1">All your git needs...</h2>
+            </div>
 
             <VizWindow />  
-            <TerminalWrapper />
-                     
+            <TerminalWrapper />         
         </div>
                 
     </div>
@@ -42,5 +41,8 @@ export default {
 <style scoped>
 .columns {
     height: 100%;
+}
+.header {
+    height: 15%;
 }
 </style>

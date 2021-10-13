@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="wrapper">
     <Navigation />
+    <div class="divider"></div>
     <router-view />
   </div>
 </template>

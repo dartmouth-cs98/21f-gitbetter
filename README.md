@@ -31,7 +31,6 @@ npm run electron:serve
 ```
 
 
-
 Before deployment, run 
 ```
 npm run lint
