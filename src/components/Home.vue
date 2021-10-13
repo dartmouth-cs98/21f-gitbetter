@@ -7,6 +7,7 @@
         <div class="column mr-4">
             <div class="header">
                 <h1 class="title">Home</h1>
+                <h2 class="subtitle is-2 mb-1">Hi this is Kim!</h2>
                 <h2 class="subtitle is-4 mb-1">All your git needs...</h2>
             </div>
 
