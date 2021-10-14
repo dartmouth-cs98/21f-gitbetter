@@ -16,7 +16,7 @@ TODO: descriptions of code organization and tools and libraries used
 
 TODO: how to get the project dev environment up and running, npm install etc
 
-Tested with node v14. If you have a different version of node, we recommend switching to v14.
+Tested with node v14. If your code is failing and you have a different version of node, we recommend trying v14.
 
 Run
 
