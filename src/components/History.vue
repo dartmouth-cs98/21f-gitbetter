@@ -6,8 +6,8 @@
         </div>
         <div class="column mr-4">
             <div class="header">
-                <h1 class="title">Profile</h1>
-                <h2 class="subtitle is-4 mb-1">Your user profile...</h2>
+                <h1 class="title">History</h1>
+                <h2 class="subtitle is-4 mb-1">Your history of commands...</h2>
             </div>      
         </div>
                 

@@ -15,9 +15,9 @@
         
         <router-link 
             class="level-item has-text-centered is-info"
-            :to="'/profile'"
+            :to="'/history'"
         >
-            Profile
+            History
         </router-link>
     </nav>
 </template>
