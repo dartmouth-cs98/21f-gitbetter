@@ -1,7 +1,9 @@
 <template>
     <div class="sidebar ml-0">
-        <div> Sidebar options ... </div>
-        <div> Not sure what... </div>
+        <div> Sidebar options: </div>
+        <div> Help </div>
+        <div> About </div>
+        <div> Profile </div>
     </div>
 </template>
 
