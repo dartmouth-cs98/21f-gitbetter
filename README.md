@@ -53,7 +53,7 @@ npm run build
 - Hailey Fox
 - Irene Lam
 - Joanna Liu
-- Elizabeth Wilson
+- Elizabeth (Edie) Wilson
 - Zoe Wortzman
 
 ## Acknowledgments
