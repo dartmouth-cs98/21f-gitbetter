@@ -25,12 +25,6 @@ setTimeout(() => {
     });
 }, 1000);
 
-//console.log(new_directory)
-
-// currently hard coded because still working through a bug but for now should
-// work if you copy and paste output from pwd twice but at _gb to pwd for second
-// command
-
 // first parameter after flag is directory to be copied
 // second is name of directory and location it will be copied in,
 // for now I have made copied direcotry have exension .gb 
