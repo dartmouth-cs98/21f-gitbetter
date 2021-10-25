@@ -48,6 +48,6 @@ export default {
   .nav {
       margin-bottom: 0 !important;
       min-height: 3.25rem;
-      background-color: rgb(232, 208, 255) !important;
+      background-color: #edaca2;
   }
 </style>
