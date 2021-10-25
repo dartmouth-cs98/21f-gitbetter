@@ -1,21 +1,21 @@
 <template>
-  <div class="main">
+  <!-- <div class="main"> -->
     <div class="columns">
-        <div class="column is-fullheight is-one-fifth">
+        <div class="column is-fullheight is-one-fifth sidebar">
             <Sidebar />
         </div>
-        <div class="column mr-4">
-            <div class="header">
-                <h1 class="title">Home!</h1>
-                <h2 class="subtitle is-4 mb-1">All your git needs...</h2>
+        <div class="top-wrapper column">
+            <div class="terminal-wrapper">
+              <div class="headline-component">Terminal</div>
+                <TerminalWrapper />
             </div>
-
-            <VizWindow />  
-            <TerminalWrapper />         
-        </div>
-                
+            <div class="visualizations-wrapper">
+              <div class="headline-component">Visualizations</div>
+              <VizWindow /> 
+            </div>
+        </div>   
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -42,7 +42,28 @@ export default {
 .columns {
     height: 100%;
 }
-.header {
-    height: 15%;
+.sidebar {
+  padding-right: 0;
+}
+.general-wrapper {
+  display:flex;
+}
+.top-wrapper {
+  display:flex;
+  padding-left: 0;
+}
+.headline-component {
+  background-color: #F5CAC2;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+}
+.terminal-wrapper {
+  height: 100%;
+  width: 200%;
+}
+.visualizations-wrapper {
+  height: 100%;
+  width: 200%;
 }
 </style>
