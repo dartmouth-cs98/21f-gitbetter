@@ -1,37 +1,23 @@
 <template>
     <div class="sidebar ml-0">
-        <div> Sidebar options: </div>
-        <div> Help </div>
-        <div> About </div>
-        <div> Profile </div>
+        <div> 
+          <b>Project Structure:</b>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
   name: 'Sidebar',
-//   data() {
-//     return {
-//       links: [
-//         {
-//           id: 0,
-//           text: 'Home',
-//           page:'/'
-//         },
-//         {
-//           id: 1,
-//           text: 'Profile',
-//           page:'/profile'
-//         },
-     
-//       ]
-//     }
-//   }
 }
 </script>
 <style lang="scss" scoped>
   .sidebar {
       height: 100%;
-      background-color: rgb(7, 157, 255) !important;
+      background-color: #FAE5DF;
+      padding: 5%;
+      border-color: black;
+      border-width: 1px;
+      border-style: solid;
   }
 </style>
