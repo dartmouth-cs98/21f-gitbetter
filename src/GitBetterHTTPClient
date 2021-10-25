@@ -1,0 +1,132 @@
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+
+// import (
+//     "fmt"
+//     "io/ioutil"
+//     "net/http"
+//     "time"
+// )
+
+public class GitBetterHTTPClient { 
+
+    //==================================================================================================================
+    // Public Static Members:
+    public static final String GITHUB_BASE_URL = "https://github.com/";
+
+    
+    //==================================================================================================================
+    // Private Static Members:
+    private static final int BUFFER_SIZE_BYTES    = 1024 * 1024;
+
+    
+    //==================================================================================================================
+    // Private Members:
+
+    // Data variables:
+    protected String projectName;
+    protected String repositoryName;
+    protected String gitUsername;
+    protected String gitPassword;
+    protected String gitAuthentication;
+
+    // Copy buffer:
+    public static byte copyBuffer[] = new byte[BUFFER_SIZE_BYTES];
+
+    
+    //==================================================================================================================
+    // Constructors:
+
+    /**
+     * {@link GitBetterHTTPClient}
+     * This internal constructor is to be used by the class itself.
+     * @param projectName The {@link String} representing the project folder in which the user's repository is found.
+     * @param repositoryName The {@link String} representing the name of the user's repository.
+     * @param gitUsername The {@link String} representing the login Github username.
+     * @param gitPassword The {@link String} representing the login Github password.
+     * @param gitAuthentication The {@link String} representing the DuoAuthentication password. 
+     */
+     protected GitBetterHttpClient(final String projectName, final String repositoryName, final String gitUsername, final String gitPassword, final String gitAuthentication) {
+         this.projectName           = projectName;
+         this.repositoryName        = repositoryName;
+         this.gitUsername           = gitUsername;
+         this.gitPassword           = gitPassword;
+         this.gitAuthentication     = gitAuthentication;
+     }
+
+    //==================================================================================================================
+    // Static Methods:
+
+    /**
+     * Create an {@link GitBetterHTTPClient}.
+     * @param projectName The {@link String} representing the project folder in which the user's repository is found.
+     * @param repositoryName The {@link String} representing the name of the user's repository.
+     * @param gitUsername The {@link String} representing the login Github username.
+     * @param gitPassword The {@link String} representing the login Github password.
+     * @param gitAuthentication The {@link String} representing the DuoAuthentication password. 
+     * @return An {@link GitBetterHTTPClient} initialized to copy the state of the user's Github repository.
+     */
+    public static GitBetterHttpClient create(final String projectName, final String repositoryName, final String gitUsername, final String gitPassword, final String gitAuthentication) {
+        return new GitBetterHTTPClient(projectName, repositoryName, gitUsername, gitPassword, gitAuthentication);
+    }
+
+    public static void loadInRepo(final String fullGitURL) {
+        // Creating CloseableHttpClient object to access the webpage and retrieve the file:
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+
+        // Creating an HttpGet object to send the request to the server:
+        HttpGet request = new HttpGet(dsURL);
+
+         try {
+            // Using an HttpResponse class object to catch the response from the server
+            HttpResponse response = client.execute(request);
+            // The data sent by the server is obtained in this getEntity() function:
+            HttpEntity entity = response.getEntity();
+
+            // Extracting the data from the entity object:
+            try( final InputStream inputStream = entity.getContent();
+                 final OutputStream outputStream = Files.newOutputStream(outputDestination) )
+            {
+
+                // Perform the copy:
+                while (true) {
+
+                    // Read from our input:
+                    final int bytesRead = inputStream.read(copyBuffer);
+                    if (bytesRead == -1) {
+                        break;
+                    }
+
+                    // Write to our output:
+                    outputStream.write(copyBuffer, 0, bytesRead);
+                }
+            }
+            catch (final IOException ex) {
+                throw new UserException("Could not copy file: " + dsURL + " -> " + outputDestination.toUri().toString(), ex);
+            }
+        }
+        catch (final IOException ex) {
+            throw new UserException("Could not obtain data from "+ dsURL, ex);
+        }
+    }
+
+    }
+
+
+
+}
+
+func main() {
+    c := http.Client{Timeout: time.Duration(1) * time.Second}
+    resp, err := c.Get("https://www.google.com")
+    if err != nil {
+        fmt.Printf("Error %s", err)
+        return
+    }
+    defer resp.Body.Close()
+    body, err := ioutil.ReadAll(resp.Body)
+    fmt.Printf("Body : %s", body)
+}
