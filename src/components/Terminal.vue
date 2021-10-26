@@ -1,46 +1,58 @@
+// Adapted from: https://vuejsexamples.com/component-vuejs-to-simulate-a-terminal/
 <template>
-    <div class="xterm" />
+  <div>
+    <v-shell
+      :banner="banner"
+      :shell_input="send_to_terminal"
+      :commands="commands"
+      @shell_output="prompt"
+    ></v-shell>
+  </div>
 </template>
+
 <script>
-import 'xterm/css/xterm.css'
-import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
-import { WebLinksAddon } from 'xterm-addon-web-links'
-import { Unicode11Addon } from 'xterm-addon-unicode11'
+import Vue from "vue";
+import shell from 'vue-shell'
+Vue.use(shell);
 
 export default {
-    name: "Term",
-    mounted() {
-        this.$term = new Terminal({})
-        this.$fitAddon = new FitAddon()
-        this.$term.loadAddon(this.$fitAddon)
-        this.$term.loadAddon(new WebLinksAddon())
-        this.$term.loadAddon(new Unicode11Addon())
-        this.$term.unicode.activeVersion = '11'
-        this.$term.open(this.$el)
-        this.$fitAddon.fit()
-        this.$term.onTitleChange((title) => this.$emit('title-change', title))
-    },
-    
-    methods: {
-        fit() {
-            this.$fitAddon.fit()
+  data() {
+    return {
+      send_to_terminal: "",
+      banner: {
+        header: "GitBetter 🔥",
+        helpHeader: 'Enter "help" for more information.',
+        emoji: {
+            first: "🔅",
+            second: "🔆",
+            time: 750
         },
-        focus() {
-            this.$term.focus()
-        },
-        blur() {
-            this.$term.blur()
-        },
-        paste(data){
-            this.$term.paste(data)
+        sign: "GitBetterShell $",
+      },
+      commands: [
+        { name: "credits",
+          get() {
+            return `With ❤️ By Salah Bentayeb @halasproject.`;
         }
+        },
+        {
+          name: "uname",
+          get() {
+            return navigator.appVersion;
+          }
+        }
+      ]
+    };
+  },
+  methods: {
+    prompt(value) {
+      if (value == "node -v") {
+        this.send_to_terminal = process.versions.node;
+      }
     }
-}
+  }
+};
 </script>
-<style scoped>
-.xterm {
-    height: 50%;
-    width: 100%;
-}
+
+<style>
 </style>

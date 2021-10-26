@@ -7,7 +7,7 @@
         <div class="top-wrapper column">
             <div class="terminal-wrapper">
               <div class="headline-component">Terminal</div>
-                <TerminalWrapper />
+                <Terminal />
             </div>
             <div class="visualizations-wrapper">
               <div class="headline-component">Visualizations</div>
@@ -20,14 +20,14 @@
 
 <script>
 import VizWindow from './VizWindow.vue'
-import TerminalWrapper from './TerminalWrapper.vue'
+import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
 
 export default {
   name: 'Home',
   components: {
     VizWindow,
-    TerminalWrapper,
+    Terminal,
     Sidebar,
   }
 
@@ -61,6 +61,7 @@ export default {
 .terminal-wrapper {
   height: 100%;
   width: 200%;
+  background-color: black;
 }
 .visualizations-wrapper {
   height: 100%;
