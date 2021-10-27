@@ -47,6 +47,20 @@ npm run lint
 npm run build
 ```
 
+## Using the CLI
+GitBetter uses a command line interface. If it's your first time, use the set up instructions below. 
+
+From within the GitBetter repository, run:
+```
+cp .gitbetter-commands.sh ~/.gitbetter-commands.sh 
+```  
+
+```  
+source ~/.gitbetter-commands.sh 
+```  
+First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on how to use the tool, or information about the tool. For developers - if you make changes to the script, you'll need to rerun `source ~/.gitbetter-commands.sh `.
+
+
 ## Our Team
 
 - Kimberley Rangel Campos
