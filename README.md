@@ -52,7 +52,7 @@ GitBetter uses a command line interface. If it's your first time, use the set up
 
 From within the GitBetter repository, run:
 ```
-cp .gitbetter-commands.sh ~/.gitbetter-commands.sh 
+cp gitbetter-commands.sh ~/.gitbetter-commands.sh 
 ```  
 
 ```  
