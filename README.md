@@ -10,7 +10,8 @@ TODO: some sample screenshots or mockups
 
 ## Architecture
 
-TODO: descriptions of code organization and tools and libraries used
+We will be creating our own terminal to run git better commands in which we will use Java Script to control the users terminal to run commands they type in our terminal and interpret their results. 
+
 
 ## Setup
 
