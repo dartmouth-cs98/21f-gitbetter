@@ -5,12 +5,16 @@
             <Sidebar />
         </div>
         <div class="top-wrapper column">
-            <div class="terminal-wrapper">
+            <div class="terminal-wrapper">  
               <div class="headline-component">Terminal</div>
                 <TerminalWrapper />
             </div>
             <div class="visualizations-wrapper">
               <div class="headline-component">Visualizations</div>
+                <GitStarted /> 
+                <div>
+                  <StartOver />
+                </div>
               <VizWindow /> 
             </div>
         </div>   
@@ -22,6 +26,8 @@
 import VizWindow from './VizWindow.vue'
 import TerminalWrapper from './TerminalWrapper.vue'
 import Sidebar from './Sidebar.vue'
+import GitStarted from './GitStarted.vue'
+import StartOver from './StartOver.vue'
 
 export default {
   name: 'Home',
@@ -29,6 +35,8 @@ export default {
     VizWindow,
     TerminalWrapper,
     Sidebar,
+    GitStarted,
+    StartOver,
   }
 
 //   props: {
@@ -47,13 +55,14 @@ export default {
 }
 .general-wrapper {
   display:flex;
+  
 }
 .top-wrapper {
   display:flex;
   padding-left: 0;
 }
 .headline-component {
-  background-color: #F5CAC2;
+  background-color: #d7a3df;
   border-color: black;
   border-width: 1px;
   border-style: solid;
@@ -65,5 +74,6 @@ export default {
 .visualizations-wrapper {
   height: 100%;
   width: 200%;
+  
 }
 </style>
