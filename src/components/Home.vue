@@ -82,6 +82,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
+  height: 100%;
 }
 .headline-component {
   background-color: #F5CAC2;
@@ -113,5 +114,14 @@ export default {
 }
 #opening-icon {
   display:none;
+}
+
+@media only screen and (max-width: 770px) {
+  .sidebar {
+    display: none;
+  }
+  .terminal-wrapper {
+    margin-left: 12px;
+  }
 }
 </style>
