@@ -73,5 +73,8 @@ export default {
   .sidebar {
     display: none;
   }
+  .terminal-wrapper {
+    margin-left: 12px;
+  }
 }
 </style>
