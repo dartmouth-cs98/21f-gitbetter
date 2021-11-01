@@ -51,6 +51,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
+  height: 100%;
 }
 .headline-component {
   background-color: #F5CAC2;
@@ -66,5 +67,11 @@ export default {
 .visualizations-wrapper {
   height: 100%;
   width: 200%;
+}
+
+@media only screen and (max-width: 770px) {
+  .sidebar {
+    display: none;
+  }
 }
 </style>
