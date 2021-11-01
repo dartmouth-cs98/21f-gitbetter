@@ -123,7 +123,7 @@ function gitbetter() {
                 echo "This command will initialize a local Git repository."
             elif [ "$2" = "clone" ]; then 
                 echo "This command will create a local copy of a remote repository."
-            elif [ "$2" = "status" ]; then 
+            elif [ "$2" = "status" ]; then  
                 echo "This command will allow you to check the status of your branch to see what changes have been made that have not been added or committed. It will also allow you to see what files (if any) have been deleted."
             elif [ "$2" = "add" ]; then 
                 echo "This command will allow you to add a file to the staging area so that it will be included in your next commit. If you run 'add -A' this will add all new and changed files to the staging area."
@@ -135,8 +135,6 @@ function gitbetter() {
                 echo "This command will allow you to see the list of branches that you have locally. It will also highlight the branch which you are currently on. If you run 'git branch -a' this will list all branches, both locally and remote. If you run 'git branch [branch name]', this will create a new branch named 'branch name'. If you run 'git branch -d [branch name]', this will delete the branch named 'branch name'."
             elif [ "$2" = "checkout" ]; then 
                 echo "This command will allow you to switch to a new branch. If you run 'git checkout -b [branch name]' this will allow you to create a new branch with the name 'branch name'. If your run 'git checkout -b [branch name] origin/[branch name]', this will allow you to clone a remote branch that is on your Github repository and then switch to that branch locally. If you run 'git branch -m [old branch name] [new branch name]', you can rename a local branch. If you run 'git checkout -', you an switch to the branch last checked out. If you run 'git checkout -- [file-name.txt]', you can discard changes made to the file [file-name.txt]."
-            elif[ "$2" = "merge" ]; then
-                echo "This command will allow you to merge a branch into the active branch which is likely called 'main' or 'master'. If you run 'git merge [source branch] [target branch]', you can merge a branch into a targe branch. If you run 'git merge [alias]/[branch]', this will merge a remote branch into your current branch to bring it up to date."
             elif [ "$2" = "stash" ]; then 
                 echo "This command will allow you to stash changes in a dirty working directory. If you run 'git stash clear', this will remove all stashed entries. If you run 'git stash list', this will list the stack-order of stashed file changes. If you run 'git stash pop', this will write working from top of stash stack. If you run 'git stash drop', this will discard the changes from the top of the stash stack."
             elif [ "$2" = "push" ]; then 
