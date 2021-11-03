@@ -1,3 +1,4 @@
+
 <template>
   <!-- <div class="main"> -->
     <div class="columns">
@@ -11,6 +12,10 @@
             </div>
             <div class="visualizations-wrapper">
               <div class="headline-component">Visualizations</div>
+               <GitStarted /> 
+                <div>
+                  <StartOver />
+                </div>
               <VizWindow /> 
             </div>
         </div>   
@@ -22,6 +27,8 @@
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
+import GitStarted from './GitStarted.vue'
+import StartOver from './StartOver.vue'
 
 export default {
   name: 'Home',
@@ -29,8 +36,10 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
+    GitStarted,
+    StartOver,
   }
-
+  
 //   props: {
 //     msg: String
 //   }

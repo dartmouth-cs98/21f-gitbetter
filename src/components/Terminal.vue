@@ -13,6 +13,9 @@
 <script>
 import Vue from "vue";
 import shell from 'vue-shell'
+import replicate from '../../replicate_repo.js'
+import run_script from '../../replicate_repo_electron.js'
+
 Vue.use(shell);
 
 export default {
@@ -40,16 +43,43 @@ export default {
           get() {
             return navigator.appVersion;
           }
-        }
+        },
+        {
+          name: "gitstarted",
+          get() {
+            return replicate();
+          }
+        },
+        // {
+        //   name: 'pwd',
+        //   get() {
+        //     return run_script("pwd");
+        //   }
+        // }
+
       ]
     };
   },
+  
   methods: {
     prompt(value) {
       if (value == "node -v") {
         this.send_to_terminal = process.versions.node;
       }
+      else {
+        var returnVal;
+        setTimeout(() => {
+          returnVal = run_script(value);
+          console.log('return value is ', returnVal);
+          this.send_to_terminal = returnVal;
+        }, 1500);
+      }
+    },
+
+    readInput(input) {
+      run_script(input);
     }
+
   }
 };
 </script>

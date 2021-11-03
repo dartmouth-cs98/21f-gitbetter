@@ -12,6 +12,18 @@
                 Git Better
             </div>
         </div>
+
+        <div class="level-item has-text-centered">
+          <div class="is-info" style="font-size: 40px">
+            Start Over
+          </div>
+        </div>
+
+        <div class="level-item has-text-centered">
+          <div class="is-info" style="font-size: 40px">
+            Git Started
+          </div>
+        </div>
         
         <router-link 
             class="level-item has-text-centered is-info"
