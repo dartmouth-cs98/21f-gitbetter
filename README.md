@@ -59,7 +59,10 @@ cp gitbetter-commands.sh ~/.gitbetter-commands.sh
 ```  
 source ~/.gitbetter-commands.sh 
 ```  
-First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on how to use the tool, or information about the tool. For developers - if you make changes to the script, you'll need to rerun `source ~/.gitbetter-commands.sh `.
+First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on how to use the tool, or information about the tool. For developers: If you make changes to the script, you'll need to rerun
+`cp gitbetter-commands.sh ~/.gitbetter-commands.sh` and then `source ~/.gitbetter-commands.sh `.
+
+**Note to Windows Users: The `source` command might not work in your Powershell or regular command prompt terminal. One workaround is to use Git Bash as your terminal.
 
 
 ## Our Team
