@@ -17,11 +17,18 @@ function gitstarted() {
         echo -e "# Created at $d.\n\n" >> "$CPDIR/hist.gb.txt"
         # Adds the gitbetter hist to .gitignore
         echo -e "\nhist.gb.txt\n" > "$CPDIR/.gitignore"
+        echo "the directory we want to copy over to $CPDIR"
+        echo "the directory we are referring to $CURRENT_DIR"
         cp -af /$CURRENT_DIR/. /$CPDIR/
-        # TODO: Can't figure out why it's creating a CPDIR inside, need to fix this in a better way
-        rm -rf "$CPDIR/CPDIR"
-        echo "You're good to go. Let's git started!"
-        echo "To learn how to use the tool, try gitbetter -h ( or --help for help ) gitbetter -i ( or --info for info about the tool )."
+        if [ $? -ne 0 ]
+        then
+            echo "Failed to copy directory. Exiting..."
+        else
+            # TODO: Can't figure out why it's creating a CPDIR inside, need to fix this in a better way
+            rm -rf "$CPDIR/CPDIR"
+            echo "You're good to go. Let's git started!"
+            echo "To learn how to use the tool, try gitbetter -h ( or --help for help ) gitbetter -i ( or --info for info about the tool )."
+        fi
 }
 
 # Handles custom as well as git valued GitBetter commands
