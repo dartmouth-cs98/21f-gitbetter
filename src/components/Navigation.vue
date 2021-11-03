@@ -15,9 +15,9 @@
         
         <router-link 
             class="level-item has-text-centered is-info"
-            :to="'/history'"
+            :to="'/help'"
         >
-            History
+            Help
         </router-link>
     </nav>
 </template>
@@ -35,8 +35,8 @@ export default {
         },
         {
           id: 1,
-          text: 'Profile',
-          page:'/profile'
+          text: 'Help',
+          page:'/help'
         },
      
       ]
