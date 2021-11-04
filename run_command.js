@@ -4,6 +4,17 @@ const dialog = require('@electron/remote');
 var output;
 
 var run_script = function run_script(command, args, callback) {
+
+   // this is one way to change working directory if we want to have change it by command 
+   
+    // try {
+    //     process.chdir('../21f-gitbetter.gb');
+    //     console.log('New directory: ' + process.cwd());
+    // }
+    // catch (err) {
+    //     console.log(err)
+    // }
+
     var child = child_process.spawn(command, args, {
         encoding: 'utf8',
         shell: true
@@ -32,17 +43,6 @@ var run_script = function run_script(command, args, callback) {
     });
 
     child.on('close', (code) => {
-      //  Here you can get the exit code of the script  
-        // switch (code) {
-        //     case 0:
-
-        //         electron.showMessageBox({
-        //             title: 'Title',
-        //             type: 'info',
-        //             message: 'End process.\r\n'
-        //         });
-        //         break;
-        // }
         output = dataResponse
         console.log('Done!', code, dataResponse);
         
@@ -53,5 +53,6 @@ var run_script = function run_script(command, args, callback) {
     console.log(output)
     return output; 
 }
+
 
 module.exports.run_script = run_script;
