@@ -1,6 +1,20 @@
-export default function replicate() {
-    console.log("Hello");
-    const { exec } = require('child_process');
+<template>
+  <div>
+        <button v-on:click="gitStarted">Git Started</button>
+  </div>
+</template>
+
+<style scoped>
+</style>
+
+<script>
+
+export default {
+  name: 'GitStarted',
+  methods: {
+   gitStarted() {
+     console.log('clicked gitstarted');
+     const { exec } = require('child_process');
     
     // this returns the users current working directory so that correct repo can be 
     // replicated and new repo can be created in same folder
@@ -50,5 +64,8 @@ export default function replicate() {
         console.log("directory has been copied");
     });
     }, 1500);
-
+   } 
+  }
 }
+ </script>
+ 

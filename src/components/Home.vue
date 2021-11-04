@@ -1,3 +1,4 @@
+
 <template>
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -39,6 +40,8 @@
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
+import GitStarted from './GitStarted.vue'
+import StartOver from './StartOver.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -52,6 +55,7 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
+<<<<<<< HEAD
   },
   methods: {
     closeVisualization() {
@@ -63,6 +67,15 @@ export default {
       document.getElementById("opening-icon").style.display = "none";
     }
   }
+=======
+    GitStarted,
+    StartOver,
+  }
+  
+//   props: {
+//     msg: String
+//   }
+>>>>>>> 154/connect-terminals-zw
 }
 
 </script>
