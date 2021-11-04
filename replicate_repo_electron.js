@@ -1,8 +1,9 @@
 //const electron = require('electron');
 const child_process = require('child_process');
 const dialog = require('@electron/remote');
+var output;
 
-export default function run_script(command, args, callback) {
+var run_script = function run_script(command, args, callback) {
     var child = child_process.spawn(command, args, {
         encoding: 'utf8',
         shell: true
@@ -20,22 +21,18 @@ export default function run_script(command, args, callback) {
     child.stdout.on('data', (data) => {
         //Here is the output
         data=data.toString();  
-        dataResponse = data; 
-        console.log(dataResponse);     
+        dataResponse = data;     
     });
     var mainWindow;
     child.stderr.setEncoding('utf8');
     child.stderr.on('data', (data) => {
         // Return some data to the renderer process with the mainprocess-response ID
-        mainWindow.webContents.send('mainprocess-response', data);
-        //Here is the output from the command
-        console.log(data);  
+        mainWindow.webContents.send('mainprocess-response', data);  
         dataResponse = data; 
-        console.log(dataResponse); 
     });
 
     child.on('close', (code) => {
-        //Here you can get the exit code of the script  
+      //  Here you can get the exit code of the script  
         // switch (code) {
         //     case 0:
 
@@ -46,9 +43,15 @@ export default function run_script(command, args, callback) {
         //         });
         //         break;
         // }
+        output = dataResponse
         console.log('Done!', code, dataResponse);
-        return dataResponse; 
+        
     });
     if (typeof callback === 'function')
         callback();
+
+    console.log(output)
+    return output; 
 }
+
+module.exports.run_script = run_script;

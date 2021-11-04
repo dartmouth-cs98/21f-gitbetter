@@ -1,4 +1,5 @@
-function start_over() {
+
+export default function start_over() {
 
     const { exec } = require('child_process');
     

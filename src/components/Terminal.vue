@@ -14,14 +14,15 @@
 import Vue from "vue";
 import shell from 'vue-shell'
 import replicate from '../../replicate_repo.js'
-import run_script from '../../replicate_repo_electron.js'
+//import run_script from '../../replicate_repo_electron.js'
+var run_command = require('../../replicate_repo_electron')
 
 Vue.use(shell);
 
 export default {
   data() {
     return {
-      send_to_terminal: "",
+      send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
         helpHeader: 'Enter "help" for more information.',
@@ -63,26 +64,25 @@ export default {
   
   methods: {
     prompt(value) {
-      if (value == "node -v") {
-        this.send_to_terminal = process.versions.node;
+      if (value == "cwd") {
+        this.send_to_terminal = process.cwd();
       }
       else {
         var returnVal;
         setTimeout(() => {
-          returnVal = run_script(value);
+          returnVal = run_command.run_script(value);
           console.log('return value is ', returnVal);
           this.send_to_terminal = returnVal;
         }, 1500);
       }
     },
 
-    readInput(input) {
-      run_script(input);
-    }
+    //readInput(input) {
+      //run_script(input);
+   // }
 
   }
 };
 </script>
 
-<style>
 </style>

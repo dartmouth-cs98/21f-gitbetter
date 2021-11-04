@@ -1,5 +1,5 @@
-function replicate() {
-
+export default function replicate() {
+    console.log("Hello");
     const { exec } = require('child_process');
     
     // this returns the users current working directory so that correct repo can be 
@@ -50,7 +50,5 @@ function replicate() {
         console.log("directory has been copied");
     });
     }, 1500);
-    
-    }
-    
-    replicate()
+
+}

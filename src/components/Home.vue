@@ -12,7 +12,7 @@
             </div>
             <div class="visualizations-wrapper">
               <div class="headline-component">Visualizations</div>
-               <GitStarted /> 
+                <GitStarted /> 
                 <div>
                   <StartOver />
                 </div>
