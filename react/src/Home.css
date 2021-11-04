@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
+.columns {
+    height: 100%;
+}
+.sidebar {
+  padding-right: 0;
+}
+.general-wrapper {
+  display:flex;
+}
+.top-wrapper {
+  display:flex;
+  padding-left: 0;
+  height: 100%;
+}
+.headline-component {
+  background-color: #F5CAC2;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  text-align: center;
+  font-weight:bold;
+  font-size: 20px;
+  padding: 15px 0px;
+}
+.terminal-wrapper {
+  height: 100%;
+  width: 200%;
+  background-color: black;
+  position: relative;
+}
+.visualizations-wrapper {
+  height: 100%;
+  width: 200%;
+  position: relative;
+}
+.closing-icon {
+  background-color: #F5CAC2;
+  border-radius: 15px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+#opening-icon {
+  display:none;
+}
+
+@media only screen and (max-width: 770px) {
+  .sidebar {
+    display: none;
+  }
+  .terminal-wrapper {
+    margin-left: 12px;
+  }
+}
