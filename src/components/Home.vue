@@ -1,3 +1,4 @@
+
 <template>
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,6 +22,10 @@
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
               <div>Visualizations</div>
+                <GitStarted/>
+                <div>
+                  <StartOver />
+                </div>
               <md-button 
                 id="closing-icon" 
                 class="md-icon-button md-raised closing-icon"
@@ -39,6 +44,8 @@
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
+import GitStarted from './GitStarted.vue'
+import StartOver from './StartOver.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -52,6 +59,8 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
+    GitStarted,
+    StartOver
   },
   methods: {
     closeVisualization() {
