@@ -22,6 +22,10 @@
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
               <div>Visualizations</div>
+                <GitStarted/>
+                <div>
+                  <StartOver />
+                </div>
               <md-button 
                 id="closing-icon" 
                 class="md-icon-button md-raised closing-icon"
@@ -55,7 +59,8 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
-<<<<<<< HEAD
+    GitStarted,
+    StartOver
   },
   methods: {
     closeVisualization() {
@@ -67,15 +72,6 @@ export default {
       document.getElementById("opening-icon").style.display = "none";
     }
   }
-=======
-    GitStarted,
-    StartOver,
-  }
-  
-//   props: {
-//     msg: String
-//   }
->>>>>>> 154/connect-terminals-zw
 }
 
 </script>
