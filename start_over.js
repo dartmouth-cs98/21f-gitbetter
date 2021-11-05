@@ -1,8 +1,15 @@
 
-export default function start_over() {
+var start_over =  function start_over() {
 
     const { exec } = require('child_process');
-    
+
+    try {
+        process.chdir('../21f-gitbetter');
+        console.log('New directory: ' + process.cwd());
+    }
+    catch (err) {
+        console.log('chdir: ' + err);   
+    }
     
     // this returns the users current working directory so that correct repo can be 
     // replicated and new repo can be created in same folder
@@ -41,7 +48,7 @@ export default function start_over() {
     
         if (stderr) {
             console.log(`error: ${error.message}`)
-            return
+            return 
         }
     
         console.log(`stdout ${stdout}`);
@@ -51,4 +58,4 @@ export default function start_over() {
     
 }
 
-start_over()
+module.exports.start_over = start_over;
