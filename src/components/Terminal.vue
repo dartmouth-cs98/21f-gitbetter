@@ -12,13 +12,11 @@
 
 <script>
 import Vue from "vue";
-import shell from 'vue-shell'
-import replicate from '../../replicate_repo.js'
+import shell from 'vue-shell';
+import replicate from '../../replicate_repo.js';
 //import run_script from '../../replicate_repo_electron.js'
-var run_command = require('../../replicate_repo_electron')
-
+var run_command = require('../../run_command');
 Vue.use(shell);
-
 export default {
   data() {
     return {
@@ -51,13 +49,6 @@ export default {
             return replicate();
           }
         },
-        // {
-        //   name: 'pwd',
-        //   get() {
-        //     return run_script("pwd");
-        //   }
-        // }
-
       ]
     };
   },
@@ -76,13 +67,6 @@ export default {
         }, 1500);
       }
     },
-
-    //readInput(input) {
-      //run_script(input);
-   // }
-
   }
 };
 </script>
-
-</style>

@@ -1,4 +1,4 @@
-export default function replicate() {
+var replicate =  function replicate() {
     console.log("Hello");
     const { exec } = require('child_process');
     
@@ -52,3 +52,5 @@ export default function replicate() {
     }, 1500);
 
 }
+
+module.exports.replicate = replicate;
