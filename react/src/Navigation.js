@@ -13,7 +13,7 @@ class Navigation extends Component {
           </NavLink>
 
           <div className="level-item has-text-centered">
-              <div className="is-info">
+              <div className="nav-title">
                   Git Better
               </div>
           </div>

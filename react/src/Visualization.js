@@ -4,8 +4,8 @@ import './Visualization.css';
 class Visualization extends Component {
     render() {
         return(
-            <div class="vis-box">
-                <h1 class="title"> Window for the git visualizations! </h1>
+            <div className="vis-box">
+                <h1 className="title"> Window for the git visualizations! </h1>
             </div>
         );
     }
