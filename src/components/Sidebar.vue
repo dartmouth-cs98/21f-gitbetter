@@ -1,15 +1,11 @@
 <template>
     <div class="sidebar ml-0">
         <div> 
-          <b>Project Structure:</b>
+          <b>Project Structure: {{this.dir}}</b>
         </div>
-        <button @click="readDirectory">Press Here</button>
     <v-btn  v-for="file in files" :key="file.id">
     {{file}}
- </v-btn>
-
-  
-         
+ </v-btn>   
     </div>
 </template>
 
@@ -19,11 +15,16 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      dir:'C:/Users/GWC-NYC-13/21f-gitbetter',
+      dir: process.cwd(),
       files:[],
       file:"",
 
     }
+  },
+  // created is the equivalent to componentDidMount
+  created(){
+    console.log("it was created!")
+    this.readDirectory()
   },
   methods: {
     readDirectory() {
@@ -31,6 +32,8 @@ export default {
       console.log(dir);
       for(let filePath of dir)
       console.log(filePath)
+      console.log(__dirname);
+      console.log(process.cwd())
       this.files = dir
       })
     },
