@@ -5,6 +5,7 @@ var switch_cwd =  function switch_cwd() {
         process.chdir('../21f-gitbetter.gb');
         console.log('New directory: ' + process.cwd());
     }
+    
     catch (err) {
     console.log('chdir: ' + err);   
     }

@@ -43,8 +43,13 @@ var run_script = function run_script(command, args, callback) {
     });
 
     child.on('close', (code) => {
-        output = dataResponse
+        
+        if (code !== 0) {
+            dataResponse = "Command not found"
+        }
+        
         console.log('Done!', code, dataResponse);
+        output = dataResponse
         
     });
     if (typeof callback === 'function')
@@ -53,6 +58,5 @@ var run_script = function run_script(command, args, callback) {
     console.log(output)
     return output; 
 }
-
 
 module.exports.run_script = run_script;

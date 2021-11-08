@@ -14,9 +14,10 @@
 import Vue from "vue";
 import shell from 'vue-shell';
 import replicate from '../../replicate_repo.js';
-//import run_script from '../../replicate_repo_electron.js'
 var run_command = require('../../run_command');
+
 Vue.use(shell);
+
 export default {
   data() {
     return {
@@ -55,16 +56,16 @@ export default {
   
   methods: {
     prompt(value) {
-      if (value == "cwd") {
-        this.send_to_terminal = process.cwd();
+      try {
+          const send_value = async () => {
+            const returnVal = await run_command.run_script(value);
+            this.send_to_terminal = returnVal;
+
+          }  
+          send_value();
       }
-      else {
-        var returnVal;
-        setTimeout(() => {
-          returnVal = run_command.run_script(value);
-          console.log('return value is ', returnVal);
-          this.send_to_terminal = returnVal;
-        }, 1500);
+      catch(error) {
+        this.send_to_terminal = "Command not found"
       }
     },
   }
