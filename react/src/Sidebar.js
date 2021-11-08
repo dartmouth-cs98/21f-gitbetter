@@ -4,10 +4,8 @@ import './Sidebar.css';
 class Sidebar extends Component {
     render() {
         return(
-            <div className="sidebar ml-0">
-                <div> 
+            <div>
                 <b>Project Structure:</b>
-                </div>
             </div>
         );
     }

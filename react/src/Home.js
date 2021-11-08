@@ -16,10 +16,10 @@ class Home extends Component {
     render() {
         return (
             <div className="columns">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-            <div className="column is-fullheight is-one-fifth sidebar">
-                <Sidebar />
-            </div>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                <div className="sidebar">
+                    <Sidebar />
+                </div>
             <div className="top-wrapper column">
                 <div className="terminal-wrapper">
                     <div className="headline-component">

@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
     height: 100%;
+    display: flex;
 }
 .sidebar {
-  padding-right: 0;
+  width: 18%;
 }
 .general-wrapper {
   display:flex;
@@ -11,7 +12,7 @@
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  height: 100%;
+  width: 100%;
 }
 .headline-component {
   background-color: #F5CAC2;
@@ -24,13 +25,11 @@
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  height: 100%;
   width: 200%;
   background-color: black;
   position: relative;
 }
 .visualizations-wrapper {
-  height: 100%;
   width: 200%;
   position: relative;
 }
@@ -48,8 +47,5 @@
 @media only screen and (max-width: 770px) {
   .sidebar {
     display: none;
-  }
-  .terminal-wrapper {
-    margin-left: 12px;
   }
 }
