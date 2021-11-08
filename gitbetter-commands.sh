@@ -17,9 +17,7 @@ function gitstarted() {
         echo -e "# Created at $d.\n\n" >> "$CPDIR/hist.gb.txt"
         # Adds the gitbetter hist to .gitignore
         echo -e "\nhist.gb.txt\n" > "$CPDIR/.gitignore"
-        echo "the directory we want to copy over to $CPDIR"
-        echo "the directory we are referring to $CURRENT_DIR"
-        cp -af /$CURRENT_DIR/. /$CPDIR/
+        cp -af $CURRENT_DIR $CPDIR
         if [ $? -ne 0 ]
         then
             echo "Failed to copy directory. Exiting..."
