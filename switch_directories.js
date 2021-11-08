@@ -1,7 +1,11 @@
+// this function switches the working directory of our git better terminal 
+// to the .gb repo we created
+
 var switch_cwd =  function switch_cwd() {
 
     console.log('Starting directory: ' + process.cwd());
     try {
+        // need to generlize this process still
         process.chdir('../21f-gitbetter.gb');
         console.log('New directory: ' + process.cwd());
     }
@@ -12,6 +16,7 @@ var switch_cwd =  function switch_cwd() {
     
     const { exec } = require('child_process');
 
+    // This may not be necessary
     let pwd;
     const child = exec('pwd', ((error, stdout, stderr)=> {
         if (error) {
@@ -28,6 +33,7 @@ var switch_cwd =  function switch_cwd() {
         pwd = stdout;
     }));
     
+    // switch to async? also why is this here
     setTimeout(() => {
         console.log("Working dir outer", pwd.replace("\n",""));
         child.on('exit', function() {
