@@ -1,6 +1,6 @@
 <template>
   <div>
-        <button v-on:click="gitStarted">Git Started</button>
+        <button @click="isLoading.value = !isLoading.value">Git Started</button>
   </div>
 </template>
 
@@ -12,9 +12,10 @@
 var replicate_repo = require('../../replicate_repo')
 var switch_directories = require('../../switch_directories')
 
-
 export default {
+  //<button v-on:click="gitStarted">Git Started</button>
   name: 'GitStarted',
+  inject: ['isLoading'],
   methods: {
    gitStarted() {
      console.log('clicked gitstarted');
