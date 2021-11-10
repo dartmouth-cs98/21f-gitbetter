@@ -1,21 +1,21 @@
 <template>
     <nav class="nav level has-shadow">
         <router-link 
-            class="level-item has-text-centered is-info"
+            class="level-item has-text-centered"
             :to="'/'"
+            style="color:black; font-weight:500;"
         >
             Home
         </router-link>
 
         <div class="level-item has-text-centered">
-          <div class="is-info" style="font-size: 40px">
-            Start Over
-          </div>
+          <img src="../assets/logo.png" />
         </div>
 
         <router-link 
-            class="level-item has-text-centered is-info"
+            class="level-item has-text-centered"
             :to="'/help'"
+            style="color:black; font-weight:500;"
         >
             Help
         </router-link>
@@ -48,7 +48,7 @@ export default {
   .nav {
       margin-bottom: 0 !important;
       min-height: 3.25rem;
-      background-color: #edaca2;
+      background-color: #ab47bc;
   }
   @media only screen and (max-width: 770px) {
     .nav {

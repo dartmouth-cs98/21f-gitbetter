@@ -14,22 +14,22 @@
 import Vue from "vue";
 import shell from 'vue-shell';
 import replicate from '../../replicate_repo.js';
-//import run_script from '../../replicate_repo_electron.js'
 var run_command = require('../../run_command');
 Vue.use(shell);
+
 export default {
   data() {
     return {
       send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
-        helpHeader: 'Enter "help" for more information.',
+        helpHeader: 'Enter "gitbetter -help" for more information.',
         emoji: {
-            first: "🔅",
-            second: "🔆",
-            time: 750
+            first: "",
+            second: "",
+            time: 1000000,
         },
-        sign: "GitBetterShell $",
+        sign: "$",
       },
       commands: [
         { name: "credits",
