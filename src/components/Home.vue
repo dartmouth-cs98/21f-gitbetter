@@ -78,6 +78,7 @@ export default {
 }
 .sidebar {
   padding-right: 0;
+  height: 100%;
 }
 .general-wrapper {
   display:flex;
