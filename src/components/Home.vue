@@ -22,9 +22,7 @@
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
               <div>Visualizations</div>
-                <GitStarted/>
                 <div>
-                  <StartOver />
                 </div>
               <md-button 
                 id="closing-icon" 
@@ -44,8 +42,6 @@
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
-import GitStarted from './GitStarted.vue'
-import StartOver from './StartOver.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -58,9 +54,7 @@ export default {
   components: {
     VizWindow,
     Terminal,
-    Sidebar,
-    GitStarted,
-    StartOver
+    Sidebar
   },
   methods: {
     closeVisualization() {
@@ -84,6 +78,7 @@ export default {
 }
 .sidebar {
   padding-right: 0;
+  height: 100%;
 }
 .general-wrapper {
   display:flex;
@@ -94,7 +89,7 @@ export default {
   height: 100%;
 }
 .headline-component {
-  background-color: #F5CAC2;
+  background-color: #ce93d8;
   border-color: black;
   border-width: 1px;
   border-style: solid;
@@ -115,7 +110,7 @@ export default {
   position: relative;
 }
 .closing-icon {
-  background-color: #F5CAC2;
+  background-color: #ce93d8;
   border-radius: 15px;
   position: absolute;
   right: 0;

@@ -24,13 +24,13 @@ export default {
       send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
-        helpHeader: 'Enter "help" for more information.',
+        helpHeader: 'Enter "gitbetter -help" for more information.',
         emoji: {
-            first: "🔅",
-            second: "🔆",
-            time: 750
+            first: "",
+            second: "",
+            time: 1000000,
         },
-        sign: "GitBetterShell $",
+        sign: "$",
       },
       commands: [
         { name: "credits",
