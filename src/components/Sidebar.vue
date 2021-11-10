@@ -34,48 +34,19 @@ export default {
       return path.basename(process.cwd());
     },
     pathToString () {
-      console.log("Process path", process.cwd().toString());
       return process.cwd().toString();
     },
-    // readDirectory() {
-    //   fs.readdir(this.dir, (err, dir) => {
-    //     this.files = dir
-    //   })
-    // },
-    // displayDirectory(){
-    //   fs.readdir(this.dir, (err, dir) => {
-    //   this.files = dir
-    //   })
-    // },
-    // getNestedDirs (dir, files_) {
-    //   files_ = files_ || [];
-    //   var files = fs.readdirSync(dir);
-    //   for (var i in files){
-    //       var name = dir + '/' + files[i];
-    //       if (fs.statSync(name).isDirectory()){
-    //           this.getNestedDirs(name, files_);
-    //       } else {
-    //           files_.push(name);
-    //       }
-    //   }
-    //   console.log(files);
-    //   //return files_;
-    //   this.directories[dir] = files;
-    // },
     filesOnly(root) {
       let fileNames = fs.readdirSync(root, {withFileTypes: true})
       .filter(item => !item.isDirectory())
       .map(item => item.name)
       this.files = fileNames;
-      console.log("File names", fileNames)
-
     },
     dirsOnly(root) {
       let dirNames = fs.readdirSync(root, {withFileTypes: true})
       .filter(item => item.isDirectory())
       .map(item => item.name)
       this.directories = dirNames;
-      console.log("Dir names", dirNames)
     }
   }
 }
@@ -87,5 +58,6 @@ export default {
       border-color: black;
       border-width: 1px;
       border-style: solid;
+      overflow-y: scroll;
   }
 </style>
