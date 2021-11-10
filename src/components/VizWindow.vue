@@ -27,7 +27,7 @@ export default {
   display: flex;
   align-content: space-between;
   flex-direction: column;
-  height: 100%;
+  height: 90%;
   border-color: black;
   border-width: 1px;
   border-style: solid;
