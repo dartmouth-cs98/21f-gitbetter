@@ -1,7 +1,7 @@
 
 <template>
-<div v-on:click="toggleShow">
-    <p class="">
+<div >
+    <p class="" v-on:click="toggleShow">
         {{this.getPadding}}{{this.dirIcon}} {{this.dirname}}
     </p>
     <div v-show="show">
