@@ -38,7 +38,6 @@ var run_script = function run_script(command, args, callback) {
         }
         // otherwise return output from user terminal
         console.log('Done!', code, dataResponse);
-        console.log(dataResponse);
         if (typeof callback === 'function')
             callback(null, dataResponse);
     

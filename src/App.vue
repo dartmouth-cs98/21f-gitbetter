@@ -17,6 +17,7 @@ export default {
     Navigation,
     Loading
   },
+
   data: () => ({
     load: {
       value: false
