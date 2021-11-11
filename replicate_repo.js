@@ -17,8 +17,6 @@ var replicate =  async function replicate() {
         console.log('directory has been copied')
         console.log(stdout)
     });
-
-  //  return await Promise.resolve(false)
     //process.chdir('../21f-gitbetter.gb');
 }
 
