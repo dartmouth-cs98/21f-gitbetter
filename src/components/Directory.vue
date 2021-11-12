@@ -1,6 +1,6 @@
 
 <template>
-<div >
+<div class="directory">
     <p class="" v-on:click="toggleShow">
         {{this.getPadding}}{{this.dirIcon}} {{this.dirname}}
     </p>
@@ -87,5 +87,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+.directory{
+  padding-left: 4%
+}
 
 </style>

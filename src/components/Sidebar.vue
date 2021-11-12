@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     dirRoot () {
-      return path.basename(process.cwd());
+      return path.basename(process.cwd()).toUpperCase();
     },
     pathToString () {
       console.log("Process path", process.cwd().toString());
