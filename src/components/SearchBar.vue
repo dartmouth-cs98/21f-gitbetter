@@ -1,10 +1,9 @@
 <template>
-  
     <div className="options">
-      <label for="first">What do you want to do?</label>
-      <section class="section commandopts">
+      <h3 class="subtitle">What do you want to do?</h3>
+      <div class="commandopts">
         <div class="select">
-          <select name="first" id="first" placeholder="..." v-model="opt" v-on:change="firstSelectChange(opt)" class="form-control">
+          <select ref="first" name="first" id="first" placeholder="..." v-model="opt" v-on:change="firstSelectChange(opt)" class="form-control">
             <option v-for="opt in commandOptions" :key="opt.id" v-bind:value="opt">{{opt.label}}</option>
           </select>
         </div>
@@ -13,23 +12,24 @@
             <option v-for="opt2 in secondaryOptions[this.firstCom]" :key="opt2.id" v-bind:value="opt2">{{opt2.label}}</option>
           </select>
         </div>
-      </section>
-    
-    <div class="select" v-show="showThird">
-      <select v-show="showThird" name="third" id="third" v-model="opt3" v-on:change="thirdSelectChange(opt3)">
-        <option v-for="opt3 in tertiaryOptions[this.secondCommand.value]" :key="opt3.id" v-bind:value="opt3">{{opt3.label}}</option>
-      </select>
+         <div class="select" v-show="showThird">
+          <select v-show="showThird" name="third" id="third" v-model="opt3" v-on:change="thirdSelectChange(opt3)">
+            <option v-for="opt3 in tertiaryOptions[this.secondCommand.value]" :key="opt3.id" v-bind:value="opt3">{{opt3.label}}</option>
+          </select>
+        </div>
+      </div>
+  
+    <div class="results">
+      <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
+        <div class="message-header" style="background-color:#ce93d8">
+          <p>Usage: {{ this.resultCommand.usage }}</p>
+          <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body" style="background-color:#F3E5F0">
+          {{ this.resultCommand.nb }}
+        </div>
+      </article>
     </div>
-
-    <article class="message is-link" v-show="(secondPicked && !this.showThird) || thirdPicked">
-      <div class="message-header">
-        <p>Usage: {{ this.resultCommand.usage }}</p>
-        <button class="delete" aria-label="delete"></button>
-      </div>
-      <div class="message-body">
-        {{ this.resultCommand.nb }}
-      </div>
-    </article>
   </div>
 </template>
 
@@ -692,11 +692,13 @@ export default {
     },
     resetOpts() {
       this.secondCommand = "";
+      this.showSecond = false;
       this.showThird = false;
       this.thirdCommand = "";
       this.secondPicked = false;
       this.resultCommand = "";
       this.thirdPicked = false;
+      //this.$refs.first.selectedIndex = null;
     },
   },
 };
@@ -706,5 +708,26 @@ export default {
 .commandopts {
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px;
+}
+
+.select {
+  margin: 12px;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: #ab47bc;
+}
+
+.message {
+  width: 75%;
 }
 </style>
