@@ -175,6 +175,27 @@ function gitbetter() {
             else 
                 echo "The given command was not a valid git command. Please try again."
             fi 
+        elif [ "$1" = "find" ]; then 
+            if [ "$2" = "add" ]; then 
+                if [ "$3" = "file" ]; then 
+                    echo "To create a new file run 'touch [filename]'. If you are trying to add a file to a commit, then run 'gitbetter add [filename]. If you want to add all changed files to your commit, run 'gitbetter add --all'."
+                elif [ "$3" = "branch" ]; then 
+                    echo "to create a new branch, run 'gitbetter checkout -b [branchname]'."
+            elif [ "$2" = "make" ]; then 
+                if [ "$3" = "branch" ]; then 
+                    echo "To create a new branch, run 'gitbetter checkout -b [branchname]'."
+                elif [ "$3" = "commit" ]; then 
+                    echo "To make a new commit run 'gitbetter commit -m [message]'. You can also run 'gitbetter commit -a' to open a page where you can write a more detailed message."
+            elif [ "$2" = "move" ]; then 
+                if [ "$3" = "branch" ]; then 
+                    echo "To switch branches, run 'gitbetter checkout [branchname]'."
+            elif [ "$2" = "clone" ]; then 
+                echo "To clone a github repository, run 'gitbetter clone [url for github repository]'."
+            elif [ "$2" = "push" ]; then 
+                echo "To push your commits to Github, run 'gitbetter push'. You may need to set you upstream branch before doing this by running 'gitbetter push --set-upstream [localbranch] [upstreambranch]'. You could also run 'gitbetter push -u origin main'."
+            elif [ "$2" = "check" ]; then 
+                echo "If you are trying to check all of the commits that have been made in this repository, run 'gitbetter log'. If you are trying to see the state of your working directory and the staging area, run 'gitbetter status'. If you are trying to see the differences between files in two different commits or between a commit and your current repository, run 'gitbetter diff'."
+            fi 
         else
             INPUT="$*"
             CURRENT_DIR=$(pwd)
