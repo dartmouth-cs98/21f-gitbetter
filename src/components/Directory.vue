@@ -89,7 +89,8 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 
 .directory{
-  padding-left: 4%
+  padding-left: 4%;
+  background-color: #f3e5f5;
 }
 
 </style>

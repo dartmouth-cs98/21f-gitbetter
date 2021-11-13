@@ -29,6 +29,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .file{
-  padding-left: 4%
+  padding-left: 4%;
+  background-color: #f3e5f5;
 }
 </style>

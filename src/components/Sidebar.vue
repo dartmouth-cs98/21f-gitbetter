@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar ml-0">
+    <div class="sidebar">
         <div> 
           <b>{{this.dirRoot()}}</b>
         </div>
@@ -83,9 +83,11 @@ export default {
 <style lang="scss" scoped>
   .sidebar {
       background-color: #f3e5f5;
+      // background-color: black;
       padding: 5%;
-      border-color: black;
+      // height: auto;
+      // border-color: black;
       border-width: 1px;
-      border-style: solid;
+      // border-style: solid;
   }
 </style>
