@@ -85,8 +85,7 @@ export default {
 
 .sidebar {
   padding-right: 0;
-  background-color:#f3e5f5;
-
+  /* background-color:#f3e5f5; */
 }
 .general-wrapper {
   display:flex;
@@ -94,7 +93,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  height: 100%;
+  /* height: 100%; */
 }
 .headline-component {
   background-color: #ce93d8;
@@ -107,13 +106,13 @@ export default {
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   background-color: black;
   position: relative;
 }
 .visualizations-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   position: relative;
 }

@@ -56,7 +56,7 @@ export default {
       background-color: #f3e5f5;
       // background-color: black;
       padding: 5%;
-      // height: auto;
+      height: 100%;
       // border-color: black;
       border-width: 1px;
       border-style: solid;

@@ -99,6 +99,7 @@ img {
     font-size: 15px;
     font-weight: bold;
     font-style: italic;
+    cursor: pointer;
 }
 .center-button:hover {
     color: rgb(0, 0, 0);

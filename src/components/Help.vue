@@ -35,13 +35,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .columns {
-    height: 100%;
+    /* height: 100%; */
 }
 .column {
     padding-right: 0px;
 }
 .container {
-    height: 100%;
+    /* height: 100%; */
     border-top-color: black;
     border-top-width: 1px;
     border-top-style: solid;

@@ -61,6 +61,10 @@ export default {
       min-height: 3.25rem;
       background-color: #ab47bc;
   }
+  img {
+    width: 45%;
+    padding: 10px;
+  }
   @media only screen and (max-width: 770px) {
     .nav {
       display: flex;
