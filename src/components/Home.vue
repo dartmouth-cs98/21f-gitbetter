@@ -1,5 +1,7 @@
 
 <template>
+<div class="main">
+  <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class="column is-fullheight is-one-fifth sidebar">
@@ -36,12 +38,14 @@
           </div>
       </div>   
   </div>
+  </div>
 </template>
 
 <script>
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
+import Navigation from './Navigation.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -54,7 +58,8 @@ export default {
   components: {
     VizWindow,
     Terminal,
-    Sidebar
+    Sidebar,
+    Navigation,
   },
   methods: {
     closeVisualization() {
@@ -80,8 +85,7 @@ export default {
 
 .sidebar {
   padding-right: 0;
-  background-color:#f3e5f5;
-
+  /* background-color:#f3e5f5; */
 }
 .general-wrapper {
   display:flex;
@@ -89,7 +93,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  height: 100%;
+  /* height: 100%; */
 }
 .headline-component {
   background-color: #ce93d8;
@@ -102,13 +106,13 @@ export default {
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   background-color: black;
   position: relative;
 }
 .visualizations-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   position: relative;
 }

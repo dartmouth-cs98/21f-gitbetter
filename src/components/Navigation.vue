@@ -1,5 +1,5 @@
 <template>
-    <nav class="nav level has-shadow">
+    <nav class="nav level has-shadow" >
         <router-link 
             class="level-item has-text-centered"
             :to="'/welcome'"
@@ -9,6 +9,7 @@
         </router-link>
 
         <div class="level-item has-text-centered">
+          
           <router-link 
             class="level-item has-text-centered"
             :to="'/'"
@@ -60,6 +61,10 @@ export default {
       margin-bottom: 0 !important;
       min-height: 3.25rem;
       background-color: #ab47bc;
+  }
+  img {
+    width: 45%;
+    padding: 10px;
   }
   @media only screen and (max-width: 770px) {
     .nav {

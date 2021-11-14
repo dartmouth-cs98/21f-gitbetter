@@ -57,7 +57,6 @@ export default {
   methods: {
     prompt(value) {
       try {
-          //const send_value = async () => {
             run_command.run_script(value, null, (error, returnVal)=> {
               if (error) { 
                 //eventually a look up table for errors will go here
