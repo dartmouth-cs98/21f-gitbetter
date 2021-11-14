@@ -1,19 +1,15 @@
 <template>
   <div id="app" class="wrapper">
-    <Navigation />
     <div class="divider"></div>
     <router-view />
   </div>
 </template>
 
 <script>
-import Navigation from './components/Navigation.vue'
-
 export default {
   name: 'App',
   components: {
-    Navigation,
-  }
+  },
 }
 </script>
 

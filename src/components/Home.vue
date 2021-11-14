@@ -5,6 +5,7 @@
       <div class="column is-fullheight is-one-fifth sidebar">
           <Sidebar />
       </div>
+      <Navigation />
       <div class="top-wrapper column">
           <div class="terminal-wrapper">
             <div class="headline-component">
@@ -42,6 +43,7 @@
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
+import Navigation from './Navigation.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -54,7 +56,8 @@ export default {
   components: {
     VizWindow,
     Terminal,
-    Sidebar
+    Sidebar,
+    Navigation,
   },
   methods: {
     closeVisualization() {

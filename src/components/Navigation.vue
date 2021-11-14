@@ -1,5 +1,5 @@
 <template>
-    <nav class="nav level has-shadow">
+    <nav class="nav level has-shadow" >
         <router-link 
             class="level-item has-text-centered"
             :to="'/welcome'"

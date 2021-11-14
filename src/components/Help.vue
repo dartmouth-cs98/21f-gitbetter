@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <Navigation />
     <div class="columns">
         <div class="column is-fullheight is-one-fifth sidebar">
             <Sidebar />
@@ -17,11 +18,12 @@
 <script>
 
 import Sidebar from './Sidebar.vue'
+import Navigation from './Navigation.vue'
 
 export default {
   name: 'Home',
   components: {
-    
+    Navigation,
     Sidebar,
   }
 }
