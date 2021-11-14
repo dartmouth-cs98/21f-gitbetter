@@ -1,23 +1,21 @@
-var replicate =  async function replicate() {
+async function replicate() {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
     let pwd = process.cwd()
-                
-    await exec('cp -r ' + pwd + ' ' + pwd + '.gb', (error, stdout, stderr)=> {
-        if (error) {
-            console.log(`error: ${error.message}`)
-            return 
+    let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + pwd + '.gb');
+    
+    try {
+        if (stdout) {
+            console.log('directory has been copied')
+            console.log(stdout)
         }
-        if (stderr) {
-            console.log(`error: ${error.message}`)
-            return 
-        }
-        console.log('directory has been copied')
-        console.log(stdout)
-    });
-    //process.chdir('../21f-gitbetter.gb');
+        console.log(stderr)
+    }
+    catch(error) {
+        console.log(error)
+    }
 }
 
 const _replicate = replicate;

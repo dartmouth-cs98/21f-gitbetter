@@ -1,3 +1,5 @@
+
+
 <template>
   <div>
       <button v-on:click="gitStarted()">Git Started</button>
@@ -9,6 +11,8 @@
 </style>
 
 <script>
+
+//https://dmitripavlutin.com/return-await-promise-javascript/
 
 var replicate_repo = require('../../replicate_repo')
 import Loading from './Loading.vue'
@@ -35,12 +39,12 @@ export default {
   },
 
   methods: {
+
     async gitStarted() {
+      //let done = false;
       this.isLoading.value = true;
-      // I have tried putting this in a time out and it still doesn't work 
       await replicate_repo.replicate()
-      this.isLoading.value = false; 
-      // starts loading
+      this.isLoading.value = false;
     }
   }
 }
