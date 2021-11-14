@@ -23,8 +23,8 @@
             <div class="headline-component">
               <div>Visualizations</div>
                 <GitStarted/>
-                   <div>
-                 <StartOver />
+                <div>
+                  <StartOver />
                 </div>
               <md-button 
                 id="closing-icon" 
@@ -60,7 +60,7 @@ export default {
     Terminal,
     Sidebar,
     GitStarted,
-    StartOver,
+    StartOver
   },
   methods: {
     closeVisualization() {
