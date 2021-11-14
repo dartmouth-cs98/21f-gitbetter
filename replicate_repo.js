@@ -16,6 +16,8 @@ async function replicate() {
     catch(error) {
         console.log(error)
     }
+
+   
 }
 
 const _replicate = replicate;

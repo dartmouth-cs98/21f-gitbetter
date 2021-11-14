@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
       <button v-on:click="gitStarted()">Git Started</button>
@@ -18,6 +16,7 @@ var replicate_repo = require('../../replicate_repo')
 import Loading from './Loading.vue'
 
 export default {
+
 
   name: 'GitStarted',
   inject: ['isLoading'],
@@ -41,9 +40,9 @@ export default {
   methods: {
 
     async gitStarted() {
-      //let done = false;
       this.isLoading.value = true;
       await replicate_repo.replicate()
+      process.chdir('../21f-gitbetter.gb');
       this.isLoading.value = false;
     }
   }
