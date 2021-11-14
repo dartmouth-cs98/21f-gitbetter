@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <Navigation />
     <div class="columns">
         <div class="column is-fullheight is-one-fifth sidebar">
             <Sidebar />
@@ -18,11 +19,13 @@
 <script>
 
 import Sidebar from './Sidebar.vue'
+import Navigation from './Navigation.vue'
 import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'Home',
   components: {
+    Navigation,
     SearchBar,
     Sidebar,
   }
@@ -32,13 +35,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .columns {
-    height: 100%;
+    /* height: 100%; */
 }
 .column {
     padding-right: 0px;
 }
 .container {
-    height: 100%;
+    /* height: 100%; */
     border-top-color: black;
     border-top-width: 1px;
     border-top-style: solid;
