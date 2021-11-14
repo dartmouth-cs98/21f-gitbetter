@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar ml-0">
+    <div class="sidebar">
         <div> 
           <b>{{this.dirRoot()}}</b>
         </div>
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     dirRoot () {
-      return path.basename(process.cwd());
+      return path.basename(process.cwd()).toUpperCase();
     },
     pathToString () {
       return process.cwd().toString();
@@ -54,8 +54,10 @@ export default {
 <style lang="scss" scoped>
   .sidebar {
       background-color: #f3e5f5;
+      // background-color: black;
       padding: 5%;
-      border-color: black;
+      // height: auto;
+      // border-color: black;
       border-width: 1px;
       border-style: solid;
       overflow-y: scroll;

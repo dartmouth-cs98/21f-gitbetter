@@ -74,11 +74,14 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100%;
+    height: 100vh;
 }
+
+
 .sidebar {
   padding-right: 0;
-  height: 100%;
+  background-color:#f3e5f5;
+
 }
 .general-wrapper {
   display:flex;
