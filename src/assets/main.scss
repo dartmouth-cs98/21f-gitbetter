@@ -4,7 +4,10 @@
 // Bulma Import
 @import '~bulma';
 
-html, body{min-height:100%;}
+html, body{
+    min-height:100%;
+    overflow: hidden;
+}
 body{height:100vh;}
 
 

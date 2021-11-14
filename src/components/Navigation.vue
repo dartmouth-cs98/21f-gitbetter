@@ -1,21 +1,33 @@
 <template>
-    <nav class="nav level has-shadow">
+    <nav class="nav level has-shadow" >
         <router-link 
-            class="level-item has-text-centered is-info"
-            :to="'/'"
+            class="level-item has-text-centered"
+            :to="'/welcome'"
+            style="color:black; font-weight:500;"
         >
-            Home
+            Welcome
         </router-link>
 
         <div class="level-item has-text-centered">
+<<<<<<< HEAD
           <div class="is-info" style="font-size: 40px">
             Git Better
           </div>
+=======
+          <router-link 
+            class="level-item has-text-centered"
+            :to="'/'"
+            style="color:black; font-weight:500;"
+        >
+            <img src="../assets/logo.png" />
+        </router-link>
+>>>>>>> 76d30f227adf1faa495e0f38e62bd05457a5bc39
         </div>
 
         <router-link 
-            class="level-item has-text-centered is-info"
+            class="level-item has-text-centered"
             :to="'/help'"
+            style="color:black; font-weight:500;"
         >
             Help
         </router-link>
@@ -30,11 +42,16 @@ export default {
       links: [
         {
           id: 0,
+          text: 'Welcome',
+          page:'/welcome'
+        },
+        {
+          id: 1,
           text: 'Home',
           page:'/'
         },
         {
-          id: 1,
+          id: 2,
           text: 'Help',
           page:'/help'
         },
@@ -48,7 +65,11 @@ export default {
   .nav {
       margin-bottom: 0 !important;
       min-height: 3.25rem;
-      background-color: #edaca2;
+      background-color: #ab47bc;
+  }
+  img {
+    width: 45%;
+    padding: 10px;
   }
   @media only screen and (max-width: 770px) {
     .nav {

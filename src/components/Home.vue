@@ -1,5 +1,7 @@
 
 <template>
+<div class="main">
+  <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class="column is-fullheight is-one-fifth sidebar">
@@ -22,9 +24,7 @@
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
               <div>Visualizations</div>
-                <GitStarted/>
-                   <div>
-                 <StartOver />
+                <div>
                 </div>
               <md-button 
                 id="closing-icon" 
@@ -38,14 +38,14 @@
           </div>
       </div>   
   </div>
+  </div>
 </template>
 
 <script>
 import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
-import GitStarted from './GitStarted.vue'
-import StartOver from './StartOver.vue'
+import Navigation from './Navigation.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -59,8 +59,12 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
+<<<<<<< HEAD
     GitStarted,
     StartOver,
+=======
+    Navigation,
+>>>>>>> 76d30f227adf1faa495e0f38e62bd05457a5bc39
   },
   methods: {
     closeVisualization() {
@@ -80,10 +84,13 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100%;
+    height: 100vh;
 }
+
+
 .sidebar {
   padding-right: 0;
+  /* background-color:#f3e5f5; */
 }
 .general-wrapper {
   display:flex;
@@ -91,10 +98,10 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  height: 100%;
+  /* height: 100%; */
 }
 .headline-component {
-  background-color: #F5CAC2;
+  background-color: #ce93d8;
   border-color: black;
   border-width: 1px;
   border-style: solid;
@@ -104,18 +111,18 @@ export default {
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   background-color: black;
   position: relative;
 }
 .visualizations-wrapper {
-  height: 100%;
+  /* height: 100%; */
   width: 200%;
   position: relative;
 }
 .closing-icon {
-  background-color: #F5CAC2;
+  background-color: #ce93d8;
   border-radius: 15px;
   position: absolute;
   right: 0;

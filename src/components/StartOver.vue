@@ -1,6 +1,6 @@
 <template>
   <div>
-        <button v-on:click="startOver">Start Over</button>
+        <button class="button is-outlined is-small" style="width:90px;margin:6px;" v-on:click="startOver">Start Over</button>
   </div>
 </template>
 
