@@ -24,7 +24,7 @@
       </div>
       <img src="../assets/logo.png" />
       <button 
-        @click="$router.push('/')"
+        @click="$router.push('/home')"
         class="center-button"
         >
             Git Started

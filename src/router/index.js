@@ -11,8 +11,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Welcome',
+      component: Welcome
     },
     {
       path: '/help',
@@ -20,9 +20,9 @@ export default new Router({
       component: Help
     },
     {
-      path: '/welcome',
-      name: 'Welcome',
-      component: Welcome
+      path: '/home',
+      name: 'Home',
+      component: Home
     }
   ]
 })
