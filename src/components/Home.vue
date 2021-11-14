@@ -59,12 +59,7 @@ export default {
     VizWindow,
     Terminal,
     Sidebar,
-<<<<<<< HEAD
-    GitStarted,
-    StartOver,
-=======
     Navigation,
->>>>>>> 76d30f227adf1faa495e0f38e62bd05457a5bc39
   },
   methods: {
     closeVisualization() {

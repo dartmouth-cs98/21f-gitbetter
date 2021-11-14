@@ -9,11 +9,11 @@
         </router-link>
 
         <div class="level-item has-text-centered">
-<<<<<<< HEAD
+
           <div class="is-info" style="font-size: 40px">
             Git Better
           </div>
-=======
+
           <router-link 
             class="level-item has-text-centered"
             :to="'/'"
@@ -21,7 +21,6 @@
         >
             <img src="../assets/logo.png" />
         </router-link>
->>>>>>> 76d30f227adf1faa495e0f38e62bd05457a5bc39
         </div>
 
         <router-link 
