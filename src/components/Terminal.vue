@@ -1,6 +1,6 @@
 // Adapted from: https://vuejsexamples.com/component-vuejs-to-simulate-a-terminal/
 <template>
-  <div>
+  <div class="terminal">
     <v-shell
       :banner="banner"
       :shell_input="send_to_terminal"
@@ -73,3 +73,10 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+  .terminal{
+    height: 100%;
+    overflow: auto;
+    
+  }
+</style>
