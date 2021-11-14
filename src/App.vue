@@ -2,19 +2,19 @@
   <div id="app" class="wrapper">
       <Loading :start="load.value" />
         <div class="divider"></div>
-          <Navigation />
+          <!-- <Navigation /> -->
       <router-view />
     </div>
 </template>
 
 <script>
-import Navigation from './components/Navigation.vue'
+// import Navigation from './components/Navigation.vue'
 import Loading from './components/Loading.vue'
 
 export default {
   name: 'App',
   components: {
-    Navigation,
+    // Navigation,
     Loading
   },
 

@@ -9,10 +9,6 @@
         </router-link>
 
         <div class="level-item has-text-centered">
-
-          <div class="is-info" style="font-size: 40px">
-            Git Better
-          </div>
           
           <router-link 
             class="level-item has-text-centered"
