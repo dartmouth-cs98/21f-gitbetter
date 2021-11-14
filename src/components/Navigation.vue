@@ -2,7 +2,7 @@
     <nav class="nav level has-shadow" >
         <router-link 
             class="level-item has-text-centered"
-            :to="'/welcome'"
+            :to="'/'"
             style="color:black; font-weight:500;"
         >
             Welcome
@@ -12,7 +12,7 @@
           
           <router-link 
             class="level-item has-text-centered"
-            :to="'/'"
+            :to="'/home'"
             style="color:black; font-weight:500;"
         >
             <img src="../assets/logo.png" />
@@ -38,12 +38,12 @@ export default {
         {
           id: 0,
           text: 'Welcome',
-          page:'/welcome'
+          page:'/'
         },
         {
           id: 1,
           text: 'Home',
-          page:'/'
+          page:'/home'
         },
         {
           id: 2,
