@@ -1,11 +1,12 @@
 
 <template>
+<div class="main">
+  <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class="column is-fullheight is-one-fifth sidebar">
           <Sidebar />
       </div>
-      <Navigation />
       <div class="top-wrapper column">
           <div class="terminal-wrapper">
             <div class="headline-component">
@@ -36,6 +37,7 @@
             <VizWindow /> 
           </div>
       </div>   
+  </div>
   </div>
 </template>
 
