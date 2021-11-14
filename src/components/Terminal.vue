@@ -24,13 +24,13 @@ export default {
       send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
-        helpHeader: 'Enter "help" for more information.',
+        helpHeader: 'Enter "gitbetter -help" for more information.',
         emoji: {
-            first: "🔅",
-            second: "🔆",
-            time: 750
+            first: "",
+            second: "",
+            time: 1000000,
         },
-        sign: "GitBetterShell $",
+        sign: "$",
       },
       commands: [
         { name: "credits",
@@ -62,7 +62,7 @@ export default {
                 //eventually a look up table for errors will go here
               } 
             this.send_to_terminal = returnVal;
-
+            this.$root.$emit('eventing', value);
             });
       }
       catch(error) {
