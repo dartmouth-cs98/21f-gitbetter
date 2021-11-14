@@ -4,20 +4,37 @@
       <GitStarted/>
       <StartOver />
     </div>
-    <div class="subtitle"> Window for the git visualizations! </div>
+    <div class="subtitle"> 
+      {{this.getCommand()}}
+      <DemoViz :command="this.command"/>
+    </div> <!-- Window for the git visualizations! -->
   </div>
 </template>
 
 <script>
 import GitStarted from './GitStarted.vue'
 import StartOver from './StartOver.vue'
+import DemoViz from './DemoViz.vue'
 
 export default {
   name: 'VizWindow',
+  data() {
+    return {
+      command: ''
+    }  
+  },
   components: {
     GitStarted,
-    StartOver
+    StartOver,
+    DemoViz
   },
+  methods: {
+    getCommand() {
+      this.$root.$on('eventing', data => {
+          this.command = data;
+      })
+    }
+  }
 }
 </script>
 

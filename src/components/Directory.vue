@@ -1,8 +1,8 @@
 
 <template>
-<div >
-    <p class="" v-on:click="toggleShow">
-        {{this.getPadding}}{{this.dirIcon}} {{this.dirname}}
+<div class="directory" v-on:click="toggleShow">
+    <p>
+        {{this.getPadding}} {{this.dirIcon}} {{this.dirname}}
     </p>
     <div v-show="show">
         <File v-for="file in files" :filename="file" :key="file.id" :padding="getPadding"/>
@@ -14,7 +14,6 @@
 <script>
 import File from './File.vue'
 const fs = require('fs-extra');
-// const path = require('path');
 
 export default {
   name: 'Directory',
@@ -38,9 +37,6 @@ export default {
       dirIcon: '>',
       firstClick: true,
     }
-  },
-  created(){
-    console.log("Name in subdir", this.name);
   },
   computed: {
       getPadding() {
@@ -87,5 +83,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+.directory{
+  padding-left: 4%;
+  background-color: #f3e5f5;
+}
 
 </style>

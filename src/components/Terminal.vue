@@ -63,7 +63,7 @@ export default {
                 //eventually a look up table for errors will go here
               } 
             this.send_to_terminal = returnVal;
-
+            this.$root.$emit('eventing', value);
             });
       }
       catch(error) {
