@@ -2,14 +2,20 @@
     <nav class="nav level has-shadow">
         <router-link 
             class="level-item has-text-centered"
-            :to="'/'"
+            :to="'/welcome'"
             style="color:black; font-weight:500;"
         >
-            Home
+            Welcome
         </router-link>
 
         <div class="level-item has-text-centered">
-          <img src="../assets/logo.png" />
+          <router-link 
+            class="level-item has-text-centered"
+            :to="'/'"
+            style="color:black; font-weight:500;"
+        >
+            <img src="../assets/logo.png" />
+        </router-link>
         </div>
 
         <router-link 
@@ -30,11 +36,16 @@ export default {
       links: [
         {
           id: 0,
+          text: 'Welcome',
+          page:'/welcome'
+        },
+        {
+          id: 1,
           text: 'Home',
           page:'/'
         },
         {
-          id: 1,
+          id: 2,
           text: 'Help',
           page:'/help'
         },

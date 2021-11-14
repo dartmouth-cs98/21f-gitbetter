@@ -7,6 +7,7 @@
         <div class="column mr-4 top-container">
             <div class="container">
                 <h1 class="title">Help</h1>
+                <SearchBar />
             </div>      
         </div>
                 
@@ -17,11 +18,12 @@
 <script>
 
 import Sidebar from './Sidebar.vue'
+import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'Home',
   components: {
-    
+    SearchBar,
     Sidebar,
   }
 }
