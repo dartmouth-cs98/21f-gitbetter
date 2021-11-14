@@ -3,7 +3,7 @@ const child_process = require('child_process');
 const dialog = require('@electron/remote');
 
 var run_script = function run_script(command, args, callback) {
-
+    
     var child = child_process.spawn(command, args, {
         encoding: 'utf8',
         shell: true
@@ -40,7 +40,6 @@ var run_script = function run_script(command, args, callback) {
         console.log('Done!', code, dataResponse);
         if (typeof callback === 'function')
             callback(null, dataResponse);
-    
     });
 }
 

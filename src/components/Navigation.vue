@@ -13,7 +13,7 @@
           <div class="is-info" style="font-size: 40px">
             Git Better
           </div>
-
+          
           <router-link 
             class="level-item has-text-centered"
             :to="'/'"
