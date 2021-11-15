@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     dirRoot () {
-      return path.basename(process.cwd()).toUpperCase();
+      return path.basename(process.cwd()).toUpperCase().slice(0, -3);
     },
     pathToString () {
       return process.cwd().toString();
