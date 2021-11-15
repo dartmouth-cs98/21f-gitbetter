@@ -8,7 +8,7 @@
           <Sidebar />
       </div>
       <div class="top-wrapper column">
-          <div class="terminal-wrapper">
+          <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
                 Terminal
@@ -73,9 +73,11 @@ export default {
     closeVisualization() {
       document.getElementById("visualizations").style.display = "none";
       document.getElementById("opening-icon").style.display = "block";
+      document.getElementById("terminal-wrapper").style.width = "100%";
     },
     openVisualization() {
       document.getElementById("visualizations").style.display = "block";
+      document.getElementById("terminal-wrapper").style.width = "50%";
       document.getElementById("opening-icon").style.display = "none";
     }
   }
@@ -89,10 +91,11 @@ export default {
 .columns {
     height: 100vh;
 }
-
 .sidebar {
   padding-right: 0;
-  /* background-color:#272727; */
+}
+.column {
+  width: 83%;
 }
 .general-wrapper {
   display:flex;
@@ -100,6 +103,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
+  max-width: 80%;
 }
 .headline-component {
   background-color: #53336B;
@@ -115,14 +119,14 @@ export default {
   justify-content: center;
   min-height: 72px;
 }
-.terminal-wrapper {
-  width: 200%;
+#terminal-wrapper {
+  width: 50%;
   background-color: black;
   position: relative;
   border-color: green;
 }
 .visualizations-wrapper {
-  width: 200%;
+  width: 50%;
   position: relative;
 }
 .closing-icon {

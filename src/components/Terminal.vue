@@ -6,7 +6,6 @@
       :shell_input="send_to_terminal"
       :commands="commands"
       @shell_output="prompt"
-      style="width:90%;"
     ></v-shell>
   </div>
 </template>
@@ -25,7 +24,7 @@ export default {
       send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
-        helpHeader: 'Enter "gitbetter -help" for more information.',
+        helpHeader: 'Enter "gitbetter -help" for more information. Type "visualizations" to see git commands that currently support visualizations',
         emoji: {
             first: "",
             second: "",
@@ -43,6 +42,12 @@ export default {
           name: "uname",
           get() {
             return navigator.appVersion;
+          }
+        },
+        {
+          name: "visualizations",
+          get() {
+            return `Welcome to GitBetter Term 1!\nFeel free to test git commands on the visualization \nwindow or in your terminal. We currently have (hard-coded) \nvisualization support for the following git commands: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git checkout -b\n* git commit`;
           }
         },
         {
