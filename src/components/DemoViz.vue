@@ -14,19 +14,19 @@ export default {
   methods: {
     imgPath() {
         if (this.command == "git branch") {
-            return require("../assets/demo/branch.png");
+            return require("../assets/demo/branch-dark.png");
         } else if (this.command == "git diff") {
-            return require("../assets/demo/diff.png");
+            return require("../assets/demo/diff-dark.png");
         } else if (this.command == "git status") {
-            return require("../assets/demo/status.png");
+            return require("../assets/demo/status-dark.png");
         } else if (this.command == "git log") {
-            return require("../assets/demo/log.png");
+            return require("../assets/demo/log-dark.png");
         } else if (this.command.startsWith("git checkout -b")) {
-            return require("../assets/demo/checkout.png");
+            return require("../assets/demo/checkout-dark.png");
         } else if (this.command.startsWith("git commit")) {
-            return require("../assets/demo/commit.png");
+            return require("../assets/demo/commit-dark.png");
         } else if (this.command.startsWith("git pull")) {
-            return require("../assets/demo/pull.png");
+            return require("../assets/demo/pull-dark.png");
         } else {
             return;
         }
