@@ -155,5 +155,8 @@ export default {
     width: 15%;
     margin: 0;
   }
+  .top-wrapper {
+    min-width: 100%;
+  }
 }
 </style>
