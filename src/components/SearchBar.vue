@@ -756,8 +756,8 @@ export default {
   border-color: #ab47bc;
 }
 
-button {
-  color: #ab47bc;
+.delete::after, .delete::before{
+  background-color: #ab47bc;
 }
 
 .message {
