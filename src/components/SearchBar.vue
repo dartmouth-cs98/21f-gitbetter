@@ -3,7 +3,7 @@
       <h3 class="subtitle">What do you want to do?</h3>
       <div class="commandopts">
         <div class="select">
-          <select ref="first" name="first" id="first" placeholder="..." v-model="opt" v-on:change="firstSelectChange(opt)" class="form-control">
+          <select name="first" id="first" placeholder="..." v-model="opt" v-on:change="firstSelectChange(opt)" class="form-control">
             <option v-for="opt in commandOptions" :key="opt.id" v-bind:value="opt">{{opt.label}}</option>
           </select>
         </div>
@@ -21,11 +21,11 @@
   
     <div class="results">
       <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
-        <div class="message-header" style="background-color:#ce93d8">
+        <div class="message-header" style="background-color:#272727">
           <p>Usage: {{ this.resultCommand.usage }}</p>
           <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
         </div>
-        <div class="message-body" style="background-color:#F3E5F0">
+        <div class="message-body">
           {{ this.resultCommand.nb }}
         </div>
       </article>
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-// Credit for options goes to GitExplorer open source code 
+// Credit for options and command descriptions goes to GitExplorer open source code 
+// Source: https://github.com/summitech/gitexplorer
 export default {
   name: "SearchBar",
   data () {
@@ -666,11 +667,13 @@ export default {
       opt: "",
       opt2: "",
       opt3: "",
+      firstCommand: "",
     }
   },
   methods: {
       firstSelectChange(option) {
           this.firstCom = option.value;
+          this.firstCommand = option;
           this.resetOpts();
           this.showSecond = true;
       },
@@ -688,9 +691,13 @@ export default {
         this.thirdCommand = option;
         this.thirdPicked = true;
         this.resultCommand = this.thirdCommand;
-      
     },
     resetOpts() {
+      /* 
+        * resets the command dropdowns when the 
+        * close button in the command description is used 
+      */
+      this.newRecentSearch();
       this.secondCommand = "";
       this.showSecond = false;
       this.showThird = false;
@@ -698,8 +705,23 @@ export default {
       this.secondPicked = false;
       this.resultCommand = "";
       this.thirdPicked = false;
-      //this.$refs.first.selectedIndex = null;
     },
+    newRecentSearch() {
+    /* 
+      * adds a command to the recent searches store after user 
+      * searches it
+    */
+      if(this.resultCommand !== "") {
+          let command = this.firstCommand.label + " " + this.secondCommand.label;
+          if(this.thirdCommand !== "") {
+            command = command + " " + this.thirdCommand.label;
+          }
+          // command should be this.resultcommand.usage
+          console.log(command, this.resultCommand.usage);
+          this.$emit('newCommand')
+          this.$store.commit('add', {command: command, usage: this.resultCommand.usage});
+      }
+    }
   },
 };
 </script>
@@ -721,13 +743,24 @@ export default {
 
 .select {
   margin: 12px;
+  color: #272727;
+}
+
+.select select {
+  border-color: green;
+  background-color: #272727;
+  color: white;
 }
 
 .select:not(.is-multiple):not(.is-loading)::after {
   border-color: #ab47bc;
 }
 
+.delete::after, .delete::before{
+  background-color: #ab47bc;
+}
+
 .message {
-  width: 75%;
+  width: 40vw;
 }
 </style>

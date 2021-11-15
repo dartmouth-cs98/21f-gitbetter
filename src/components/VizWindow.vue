@@ -3,7 +3,7 @@
     <div class="subtitle"> 
       {{this.getCommand()}}
       <DemoViz :command="this.command"/>
-    </div> <!-- Window for the git visualizations! -->
+    </div>
   </div>
 </template>
 

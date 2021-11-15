@@ -18,18 +18,23 @@
           </router-link>
         </div>
 
-        <router-link 
+        <a 
+            href="#"
             class="level-item has-text-centered"
-            :to="'/'"
             style="color:black; font-weight:500;"
+             v-on:click="gitStarted"
         >
-            <StartOver />
-        </router-link>
+            End
+            <loading />
+        </a>
     </nav>
 </template>
 
 <script>
-import StartOver from './StartOver.vue'
+var replicate_repo = require('../../replicate_repo')
+import Loading from './Loading.vue'
+
+
 export default {
   name: 'Navigation',
   data() {
@@ -50,19 +55,33 @@ export default {
           text: 'Help',
           page:'/help'
         },
-     
-      ]
+      ],
+      load: false,
     }
   },
-  components: {
-    StartOver,
+  inject: ['isLoading'],
+  provide() {
+    return {
+      isLoading: this.load,
+    };
   },
+  components: {
+    Loading,
+  },
+  methods: {
+    async gitStarted() {
+      this.isLoading.value = true;
+      await replicate_repo.replicate()
+      process.chdir('../21f-gitbetter.gb');
+      this.isLoading.value = false;
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
   .nav {
       margin-bottom: 0 !important;
-      min-height: 3.25rem;
+      min-height: 4.25rem;
       background-color: #ab47bc;
   }
   img {

@@ -5,11 +5,12 @@
         <div class="column is-fullheight is-one-fifth sidebar">
             <Sidebar />
         </div>
-        <div class="column mr-4 top-container">
-            <div class="container">
-                <h1 class="title">Help</h1>
-                <SearchBar />
-            </div>      
+        <div class="top-wrapper column">
+          <div class="general-wrapper">
+          <h1 class="title">Help</h1>
+          <SearchBar @newCommand="newCommand" />
+          <RecentSearches v-bind="{'recents': recents}"/> 
+          </div>
         </div>
                 
     </div>
@@ -21,6 +22,8 @@
 import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
 import SearchBar from './SearchBar.vue'
+import RecentSearches from './RecentSearches.vue'
+
 
 export default {
   name: 'Home',
@@ -28,29 +31,42 @@ export default {
     Navigation,
     SearchBar,
     Sidebar,
+    RecentSearches,
+  },
+  data () {
+    return {
+      recents: [],
+    }
+  },
+  mounted() {
+    this.recents = this.$store.getters.getRecentSearches;
+  },
+  methods: {
+    newCommand() {
+      this.recents = this.$store.getters.getRecentSearches;
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .columns {
-    /* height: 100%; */
+    height: 100vh;
 }
-.column {
-    padding-right: 0px;
-}
-.container {
-    /* height: 100%; */
-    border-top-color: black;
-    border-top-width: 1px;
-    border-top-style: solid;
-    padding: 1%;
+.general-wrapper {
+  min-width: 90%;
 }
 .sidebar {
   padding-right: 0;
 }
-.top-container {
-    padding-left: 0;
+.top-wrapper {
+  display:flex;
+  background-color: #b8b8b8;
+  flex-grow: 1;
+  margin-top: 0.75rem;
+  border-color: green;
+  border-width: 1px;
+  border-style: solid;
+  overflow-y: scroll;
 }
 </style>

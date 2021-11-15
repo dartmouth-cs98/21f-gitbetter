@@ -1,9 +1,9 @@
 
 <template>
 <div class="directory" >
-    <p v-on:click="toggleShow">
-        {{this.getPadding}} {{this.dirIcon}} {{this.dirname}}
-    </p>
+    <div v-on:click="toggleShow">
+        {{this.getPadding}} <font-awesome-icon :icon="['fas', this.dirIcon]"/> {{this.dirname}}
+    </div>
     <div v-show="show">
         <File v-for="file in files" :filename="file" :key="file.id" :padding="getPadding"/>
         <Directory v-for="direc in directories" :key="direc.id" :dirname="direc" :pathname="name" :padding="getPadding" />
@@ -13,6 +13,7 @@
 
 <script>
 import File from './File.vue'
+
 const fs = require('fs-extra');
 
 export default {
@@ -34,7 +35,7 @@ export default {
       files: [],
       directories: [],
       show: false,
-      dirIcon: '>',
+      dirIcon: 'chevron-right',
       firstClick: true,
     }
   },
@@ -62,7 +63,6 @@ export default {
       this.directories = dirNames;
     },
     toggleShow() {
-        console.log("Toggled! < 3", this.show);
         if(this.firstClick) {
             this.filesOnly(this.name);
             this.dirsOnly(this.name);
@@ -70,9 +70,9 @@ export default {
         }
         this.show = !this.show;
         if(this.show) {
-            this.dirIcon = 'V';
+            this.dirIcon = 'chevron-down';
         } else {
-            this.dirIcon = '>';
+            this.dirIcon = 'chevron-right';
         }
     }
   }
@@ -82,8 +82,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Material+Icons");
-
 .directory{
   padding-left: 4%;
   background-color: #272727;

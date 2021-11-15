@@ -10,29 +10,37 @@
       <div class="top-wrapper column">
           <div class="terminal-wrapper">
             <div class="headline-component">
-              Terminal
-              <md-button 
-                id="opening-icon" 
-                class="md-icon-button md-raised closing-icon"
-                @click.native="openVisualization()"
-              >
-                <md-icon class="fa fa-plus"></md-icon>
-              </md-button>
+              <div style="margin-left:auto;">
+                Terminal
+              </div>
+              <div style="margin-right:12px;margin-left:auto;">
+                <button 
+                  id="opening-icon" 
+                  class="button"
+                  @click="openVisualization()"
+                  title="Show visualization window"
+                >
+                  <font-awesome-icon icon="eye"/>
+                </button>
+              </div>
             </div>
               <Terminal />
           </div>
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
-              <div>Visualizations</div>
-                <div>
-                </div>
-              <md-button 
-                id="closing-icon" 
-                class="md-icon-button md-raised closing-icon"
-                @click.native="closeVisualization()"
-              >
-                <md-icon>close</md-icon>
-              </md-button>
+              <div style="margin-left:35%;">
+                Visualizations 
+              </div>
+              <div style="margin-right:12px;margin-left:auto;">
+                <button 
+                    id="closing-icon" 
+                    class="button"
+                    @click="closeVisualization()"
+                    title="Hide visualization window"
+                  >
+                    <font-awesome-icon icon="eye-slash"/>
+                  </button>
+              </div>
             </div>
             <VizWindow /> 
           </div>
@@ -100,10 +108,13 @@ export default {
   color: white;
   border-width: 1px;
   border-style: solid;
-  text-align: center;
   font-weight:bold;
   font-size: 20px;
   padding: 15px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 72px;
 }
 .terminal-wrapper {
   width: 200%;
@@ -126,6 +137,7 @@ export default {
 #opening-icon {
   display:none;
 }
+
 
 @media only screen and (max-width: 770px) {
   .sidebar {
