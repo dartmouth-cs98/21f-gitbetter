@@ -1,7 +1,7 @@
 <template>
   <div>
         <button 
-          @click="$router.push('/')" 
+          @click="$router.push('/Welcome.vue')" 
           class="button end-button" 
           v-on:click="startOver"
         >
@@ -47,6 +47,7 @@ export default {
 
   methods: {
    async startOver() {
+        console.log("end button has been pushed, running start over")
         this.isLoading.value = true;
         await clear.start_over()
         this.isLoading.value = false;

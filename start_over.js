@@ -4,12 +4,17 @@ var start_over =  async function start_over() {
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
-    process.chdir('../21f-gitbetter');
+    try {
+        process.chdir("..")
+        console.log('directory has successfully been changed in start_over to move into general folder')
+    } catch {
+        console.error("error while changing directory")
+    }
     console.log('New directory: ' + process.cwd());
 
     let pwd;
     pwd = process.cwd();
-    let new_directory = pwd + '.gb';
+    let new_directory = pwd + '/GitBetterTestRepository.gb';
 
     let {stdout, stderr} = await exec('rm -r ' + new_directory);
     
@@ -23,6 +28,16 @@ var start_over =  async function start_over() {
     catch(error) {
         console.log(error)
     }
+
+
+    // try {
+    //     process.chdir('./GitBetterTestRepository')
+    //     console.log('directory was successfully changed back to GitBetterTestRepository folder')
+    // } catch(error) {
+    //     console.error('error while changing directory back to GitBetterTestRepository')
+    // }
+
+
 }
 
 const _start_over = start_over;

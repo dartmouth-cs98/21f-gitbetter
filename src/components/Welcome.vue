@@ -65,7 +65,7 @@ export default {
       async gitStarted() {
         this.isLoading.value = true;
         await replicate_repo.replicate()
-        process.chdir('../21f-gitbetter.gb');
+        process.chdir('../GitBetterTestRepository.gb');
         this.isLoading.value = false;
       },
   }

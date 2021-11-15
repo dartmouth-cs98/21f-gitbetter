@@ -55,6 +55,7 @@ import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
 
+
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'

@@ -18,20 +18,20 @@
           </router-link>
         </div>
 
-        <a 
-            href="#"
+        <button
             class="level-item has-text-centered"
             style="color:black; font-weight:500;"
-             v-on:click="gitStarted"
-        >
-            End
+            @click="$router.push('/')"
+            v-on:click="startOver"
+            >
+                End
+            </button>
             <loading />
-        </a>
     </nav>
 </template>
 
 <script>
-var replicate_repo = require('../../replicate_repo')
+var start_over = require('../../start_over')
 import Loading from './Loading.vue'
 
 
@@ -69,10 +69,15 @@ export default {
     Loading,
   },
   methods: {
-    async gitStarted() {
+    async startOver() {
       this.isLoading.value = true;
-      await replicate_repo.replicate()
-      process.chdir('../21f-gitbetter.gb');
+      await start_over.start_over()
+      // try {
+      //   process.chdir('./GitBetterTestRepository.gb');
+      //   console.log("directory has successfully been changed to GitBetterTestRepository.gb folder in Navigation");
+      // } catch {
+      //   console.error("error while changing directory");
+      // }
       this.isLoading.value = false;
     }
   }
