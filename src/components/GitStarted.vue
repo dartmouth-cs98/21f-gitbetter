@@ -1,7 +1,12 @@
 <template>
   <div>
-    <button class="button is-outlined is-small" style="width:90px;margin:6px;" 
-    v-on:click="gitStarted">Git Started</button>
+    <button 
+      class="button is-outlined is-small" 
+      style="width:90px;margin:6px;" 
+      v-on:click="gitStarted"
+    >
+    Git Started
+    </button>
     <loading />
   </div>
 </template>
@@ -10,8 +15,6 @@
 </style>
 
 <script>
-
-//https://dmitripavlutin.com/return-await-promise-javascript/
 
 var replicate_repo = require('../../replicate_repo')
 import Loading from './Loading.vue'

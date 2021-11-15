@@ -9,27 +9,27 @@
         </router-link>
 
         <div class="level-item has-text-centered">
-          
           <router-link 
             class="level-item has-text-centered"
             :to="'/'"
             style="color:black; font-weight:500;"
-        >
-            <img src="../assets/logo.png" />
-        </router-link>
+          >
+          <img src="../assets/logo.png" />
+          </router-link>
         </div>
 
         <router-link 
             class="level-item has-text-centered"
-            :to="'/help'"
+            :to="'/'"
             style="color:black; font-weight:500;"
         >
-            Help
+            <StartOver />
         </router-link>
     </nav>
 </template>
 
 <script>
+import StartOver from './StartOver.vue'
 export default {
   name: 'Navigation',
   data() {
@@ -53,7 +53,10 @@ export default {
      
       ]
     }
-  }
+  },
+  components: {
+    StartOver,
+  },
 }
 </script>
 <style lang="scss" scoped>
