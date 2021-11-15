@@ -14,14 +14,14 @@
       </div>
       <div class="vl"></div>
      
-      <div class= "top-help" style="padding-left:45px;padding-top:30px;width:450px;">
+      <div class= "top-help" style="padding-left:45px;margin-left:8%;padding-top:30px;width:450px;">
               <nav class="panel" style="box-shadow:none;">
                 <p class="panel-heading" style="background-color:rgba(0,0,0,0);color:white;font-size:35px; padding:0 0.5rem 0.5rem 0.5rem;">
                     Search for commands...
                 </p>
-                <div class="panel-block">
+                <div class="panel-block" style="border-bottom:none;">
                     <p class="control has-icons-left">
-                        <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="What are you looking for?">
+                        <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="How do I do this?">
                         <span class="icon is-small is-left">
                             <font-awesome-icon icon="search"/> 
                         </span>
@@ -34,7 +34,7 @@
                     {{ commandOpts.length }} result found...
                 </div>
                 <div v-for="match in commandOpts" :key="match.id" class="panel-block" style="background-color:rgba(225,225,225,0.3);">
-                    git {{ match.command }}: {{ match.desc }}
+                    {{ match.command }}: {{ match.desc }}
                 </div>
               </nav>
       </div>
