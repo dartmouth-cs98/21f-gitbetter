@@ -1,7 +1,7 @@
 // Adapted from: https://vuejsexamples.com/component-vuejs-to-simulate-a-terminal/
 <template>
-  <div>
-    <v-shell
+  <div id="shell">
+    <v-shell 
       :banner="banner"
       :shell_input="send_to_terminal"
       :commands="commands"
@@ -72,3 +72,16 @@ export default {
   }
 };
 </script>
+
+<style>
+#shell{
+  overflow: auto;
+  height: 100%;
+}
+pre {
+  background-color: black !important;
+  color: white !important;
+  font-size: 1em !important;
+  width: inherit !important;
+}
+</style>
