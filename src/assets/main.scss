@@ -5,8 +5,8 @@
 @import '~bulma';
 
 html, body{
-    min-height:100%;
-    overflow: hidden;
+    max-height:100%;
+    // overflow: hidden;
 }
 body{height:100vh;}
 

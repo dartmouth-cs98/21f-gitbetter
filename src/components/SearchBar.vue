@@ -763,4 +763,8 @@ export default {
 .message {
   width: 40vw;
 }
+
+h3, p {
+  color: white;
+}
 </style>

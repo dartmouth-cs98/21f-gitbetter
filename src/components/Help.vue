@@ -61,12 +61,31 @@ export default {
 }
 .top-wrapper {
   display:flex;
-  background-color: #b8b8b8;
+  background-color: #272323;
   flex-grow: 1;
   margin-top: 0.75rem;
   border-color: green;
   border-width: 1px;
   border-style: solid;
   overflow-y: scroll;
+  color: white;
+}
+.title {
+  color: white;
+}
+
+@media only screen and (max-width: 770px) {
+  .sidebar {
+    display: none;
+  }
+  .columns {
+    width: 100%;
+  }
+  .general-wrapper {
+    padding-left: 20px;
+  }
+  .top-wrapper {
+    height: 100%;
+  }
 }
 </style>

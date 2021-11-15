@@ -14,11 +14,9 @@
       </div>
       <div class="vl"></div>
      
-      <div class= "top-help" style="padding-left:45px;margin-left:8%;padding-top:30px;width:450px;">
+      <div class= "top-help" style="padding-left:45px;">
               <nav class="panel" style="box-shadow:none;">
-                <p class="panel-heading" style="background-color:rgba(0,0,0,0);color:white;font-size:35px; padding:0 0.5rem 0.5rem 0.5rem;">
-                    Search for commands...
-                </p>
+                <h1 class="help-header"> Search for commands... </h1>
                 <div class="panel-block" style="border-bottom:none;">
                     <p class="control has-icons-left">
                         <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="How do I do this?">
@@ -44,7 +42,7 @@
       <button 
         @click="$router.push('/home')"
         v-on:click="gitStarted"
-        class="center-button button is-large"
+        class="center-button button"
         >
            Git Started
       </button>
@@ -139,6 +137,7 @@ img {
     position: absolute;
     top: 40%;
     left: 30%;
+    width: 40%;
 }
 .columns {
     height: 100%;
@@ -159,8 +158,8 @@ img {
 }
 .center-button {
     position: absolute;
-    bottom: 20%;
-    left: 43%;
+    top: 65%;
+    left: 44%;
     padding: 10px 15px;
     background-color: white;
     border-color: #4200FF;
@@ -182,10 +181,63 @@ img {
     left: 50%;
     top: 10%;
 }
-
+.panel {
+    color: white;
+}
 .panel-block {
     color: white;
     border: none;
     border-radius: 0 !important;
 }
+.help-header {
+    padding-left: 10px;
+}
+
+@media only screen and (max-width: 970px) {
+    .center-button {
+        width: 15%;
+        left: 42.5%;
+        top: 60%;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    h1 {
+        font-size: 25px;
+    }
+    h2 {
+        font-size: 15px;
+    }
+    input[type="text"] {
+        font-size: 16px;
+    }  
+    .start-box {
+        padding-left: 35px;
+    }
+    .center-button {
+        width: 18%;
+        left: 41%;
+        font-size: 13px;
+    }
+}
+@media only screen and (max-width: 585px) {
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        font-size: 13px;
+    }
+    input[type="text"] {
+        font-size: 12px;
+    }  
+    .start-box {
+        padding-left: 30px;
+    }
+    .center-button {
+        width: 20%;
+        left: 40%;
+        font-size: 12px;
+    }
+}
+
 </style>
