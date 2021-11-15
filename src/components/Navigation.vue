@@ -18,20 +18,20 @@
           </router-link>
         </div>
 
-        <a 
-            href="#"
+        <div
             class="level-item has-text-centered"
-            style="color:black; font-weight:500;"
-             v-on:click="gitStarted"
-        >
-            End
-            <loading />
-        </a>
+            style="color:black; font-weight:500;cursor:pointer;"
+            @click="$router.push('/')"
+            v-on:click="startOver"
+            >
+                End
+        </div>
+      <loading />
     </nav>
 </template>
 
 <script>
-var replicate_repo = require('../../replicate_repo')
+var start_over = require('../../start_over')
 import Loading from './Loading.vue'
 
 
@@ -69,10 +69,9 @@ export default {
     Loading,
   },
   methods: {
-    async gitStarted() {
-      this.isLoading.value = true;
-      await replicate_repo.replicate()
-      process.chdir('../21f-gitbetter.gb');
+    async startOver() {
+     this.isLoading.value = true;
+      await start_over.start_over()
       this.isLoading.value = false;
     }
   }
