@@ -124,6 +124,7 @@ export default {
   background-color: black;
   position: relative;
   border-color: green;
+  /* max-height: 92%; */
 }
 .visualizations-wrapper {
   width: 50%;

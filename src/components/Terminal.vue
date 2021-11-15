@@ -87,7 +87,7 @@ export default {
 <style>
 #shell{
   overflow: auto;
-  height: 100%;
+  height: 83%;
 }
 pre {
   background-color: black !important;
