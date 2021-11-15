@@ -105,6 +105,7 @@ img {
     position: absolute;
     top: 40%;
     left: 30%;
+    width: 40%;
 }
 .columns {
     height: 100%;
@@ -125,7 +126,7 @@ img {
 }
 .center-button {
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 44%;
     padding: 10px 15px;
     width: 12%;
@@ -151,5 +152,52 @@ img {
     position: absolute;
     left: 50%;
     top: 10%;
+}
+
+@media only screen and (max-width: 970px) {
+    .center-button {
+        width: 15%;
+        left: 42.5%;
+        top: 60%;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    h1 {
+        font-size: 25px;
+    }
+    h2 {
+        font-size: 15px;
+    }
+    input[type="text"] {
+        font-size: 16px;
+    }  
+    .start-box {
+        padding-left: 35px;
+    }
+    .center-button {
+        width: 18%;
+        left: 41%;
+        font-size: 13px;
+    }
+}
+@media only screen and (max-width: 585px) {
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        font-size: 13px;
+    }
+    input[type="text"] {
+        font-size: 12px;
+    }  
+    .start-box {
+        padding-left: 30px;
+    }
+    .center-button {
+        width: 20%;
+        left: 40%;
+        font-size: 12px;
+    }
 }
 </style>

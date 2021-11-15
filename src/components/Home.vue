@@ -13,7 +13,7 @@
               <div style="margin-left:auto;">
                 Terminal
               </div>
-              <div style="margin-right:12px;margin-left:auto;">
+              <div style="margin-left:auto;">
                 <button 
                   id="opening-icon" 
                   class="button"
@@ -100,7 +100,6 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  /* height: 100%; */
 }
 .headline-component {
   background-color: #53336B;
@@ -123,7 +122,6 @@ export default {
   border-color: green;
 }
 .visualizations-wrapper {
-  /* height: 100%; */
   width: 200%;
   position: relative;
 }
@@ -145,6 +143,13 @@ export default {
   }
   .terminal-wrapper {
     margin-left: 12px;
+  }
+  .top-wrapper {
+    height: 100%;
+  }
+  #opening-icon, #closing-icon {
+    width: 15%;
+    margin: 0;
   }
 }
 </style>

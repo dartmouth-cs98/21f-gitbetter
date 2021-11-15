@@ -4,7 +4,8 @@
         <div class="table-container">
             <table class="table is-striped" style="background-color:rgba(0,0,0,0);">
                 <tbody>
-                    <th> Command </th> <th> Description </th>
+                    <th style="color: white"> Command </th> 
+                    <th style="color: white"> Description </th>
                     <tr v-for="com in recents.slice().reverse()" :key="com.id">
                         <td><code style="background-color:#272727;color:#FFFFFF">{{com.usage}}</code></td>
                         <td>{{com.command}}</td>
@@ -37,6 +38,9 @@ export default {
 }
 .options {
     margin-bottom: 2.25rem;
+}
+h2, th, tbody {
+    color: white;
 }
 
 </style>
