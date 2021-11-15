@@ -9,7 +9,13 @@
         </router-link>
 
         <div class="level-item has-text-centered">
+          <router-link 
+            class="level-item has-text-centered"
+            :to="'/home'"
+            style="color:black; font-weight:500;"
+          >
           <img src="../assets/logo.png" />
+          </router-link>
         </div>
 
         <router-link 
