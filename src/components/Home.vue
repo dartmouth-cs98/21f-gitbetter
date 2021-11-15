@@ -13,7 +13,7 @@
               <div style="margin-left:auto;">
                 Terminal
               </div>
-              <div style="margin-left:auto;">
+              <div class="visButtons">
                 <button 
                   id="opening-icon" 
                   class="button"
@@ -31,7 +31,7 @@
               <div style="margin-left:35%;">
                 Visualizations 
               </div>
-              <div style="margin-right:12px;margin-left:auto;">
+              <div class="visButtons">
                 <button 
                     id="closing-icon" 
                     class="button"
@@ -138,6 +138,11 @@ export default {
 }
 #opening-icon {
   display:none;
+}
+
+.visButtons {
+  margin-right: 12px;
+  margin-left: auto;
 }
 
 
