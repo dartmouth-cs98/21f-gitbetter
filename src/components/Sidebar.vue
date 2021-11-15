@@ -61,6 +61,6 @@ export default {
       border-width: 1px;
       border-style: solid;
       overflow: auto;
-      // overflow-y: scroll;
+      max-height: 91%;
   }
 </style>
