@@ -48,13 +48,18 @@ export default {
   border-color: black;
   border-width: 1px;
   border-style: solid;
+  background-color: #272323;
 }
 .quickstart {
-  background-color: #f3e5f5;
+  background-color: #272323;
   padding: 5%;
   display: flex;
   align-content: space-around;
   flex-direction: row;
   justify-content: center;
+}
+.subtitle {
+  background-color: #272323;
+  color: white;
 }
 </style>

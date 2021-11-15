@@ -86,7 +86,7 @@ export default {
 
 .directory{
   padding-left: 4%;
-  background-color: #f3e5f5;
+  background-color: #272727;
 }
 
 </style>
