@@ -21,11 +21,11 @@
   
     <div class="results">
       <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
-        <div class="message-header" style="background-color:#ce93d8">
+        <div class="message-header" style="background-color:#272727">
           <p>Usage: {{ this.resultCommand.usage }}</p>
           <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
         </div>
-        <div class="message-body" style="background-color:#F3E5F0">
+        <div class="message-body">
           {{ this.resultCommand.nb }}
         </div>
       </article>
@@ -743,13 +743,24 @@ export default {
 
 .select {
   margin: 12px;
+  color: #272727;
+}
+
+.select select {
+  border-color: green;
+  background-color: #272727;
+  color: white;
 }
 
 .select:not(.is-multiple):not(.is-loading)::after {
   border-color: #ab47bc;
 }
 
+button {
+  color: #ab47bc;
+}
+
 .message {
-  width: 75%;
+  width: 40vw;
 }
 </style>
