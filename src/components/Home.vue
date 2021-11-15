@@ -106,10 +106,10 @@ export default {
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  /* height: 100%; */
   width: 200%;
   background-color: black;
   position: relative;
+  border-color: green;
 }
 .visualizations-wrapper {
   /* height: 100%; */

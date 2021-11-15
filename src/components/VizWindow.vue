@@ -1,8 +1,5 @@
 <template>
   <div class="vis-box">
-    <div class="quickstart">
-      <StartOver />
-    </div>
     <div class="subtitle"> 
       {{this.getCommand()}}
       <DemoViz :command="this.command"/>
@@ -11,7 +8,6 @@
 </template>
 
 <script>
-import StartOver from './StartOver.vue'
 import DemoViz from './DemoViz.vue'
 
 export default {
@@ -22,7 +18,6 @@ export default {
     }  
   },
   components: {
-    StartOver,
     DemoViz
   },
   methods: {
@@ -46,14 +41,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   background-color: #272323;
-}
-.quickstart {
-  background-color: #272323;
-  padding: 5%;
-  display: flex;
-  align-content: space-around;
-  flex-direction: row;
-  justify-content: center;
+  border-color: green;
 }
 .subtitle {
   background-color: #272323;

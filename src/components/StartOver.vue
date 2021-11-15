@@ -1,6 +1,13 @@
 <template>
   <div>
-        <button @click="$router.push('/')" class="button is-outlined is-small" style="width:90px;margin:6px;" v-on:click="startOver">End</button>
+        <button 
+          @click="$router.push('/')" 
+          class="button is-outlined is-small" 
+          style="width:90px;margin:6px;" 
+          v-on:click="startOver"
+        >
+        End
+        </button>
   <loading />
   </div>
 </template>
