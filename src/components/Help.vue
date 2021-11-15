@@ -8,7 +8,8 @@
         <div class="column mr-4 top-container">
             <div class="container">
                 <h1 class="title">Help</h1>
-                <SearchBar />
+                <SearchBar @newCommand="newCommand" />
+                <RecentSearches v-bind="{'recents': recents}"/> 
             </div>      
         </div>
                 
@@ -21,6 +22,8 @@
 import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
 import SearchBar from './SearchBar.vue'
+import RecentSearches from './RecentSearches.vue'
+
 
 export default {
   name: 'Home',
@@ -28,14 +31,27 @@ export default {
     Navigation,
     SearchBar,
     Sidebar,
+    RecentSearches,
+  },
+  data () {
+    return {
+      recents: [],
+    }
+  },
+  mounted() {
+    this.recents = this.$store.getters.getRecentSearches;
+  },
+  methods: {
+    newCommand() {
+      this.recents = this.$store.getters.getRecentSearches;
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .columns {
-    /* height: 100%; */
+    height: 100%;
 }
 .column {
     padding-right: 0px;

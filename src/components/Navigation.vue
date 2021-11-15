@@ -2,17 +2,17 @@
     <nav class="nav level has-shadow" >
         <router-link 
             class="level-item has-text-centered"
-            :to="'/'"
+            :to="'/home'"
             style="color:black; font-weight:500;"
         >
-            Welcome
+            Visualizations
         </router-link>
 
         <div class="level-item has-text-centered">
           
           <router-link 
             class="level-item has-text-centered"
-            :to="'/home'"
+            :to="'/'"
             style="color:black; font-weight:500;"
         >
             <img src="../assets/logo.png" />
