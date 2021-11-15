@@ -73,4 +73,19 @@ export default {
 .title {
   color: white;
 }
+
+@media only screen and (max-width: 770px) {
+  .sidebar {
+    display: none;
+  }
+  .columns {
+    width: 100%;
+  }
+  .general-wrapper {
+    padding-left: 20px;
+  }
+  .top-wrapper {
+    height: 100%;
+  }
+}
 </style>
