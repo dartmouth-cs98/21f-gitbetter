@@ -1,7 +1,6 @@
 <template>
   <div class="vis-box">
     <div class="quickstart">
-      <GitStarted/>
       <StartOver />
     </div>
     <div class="subtitle"> 
@@ -12,7 +11,6 @@
 </template>
 
 <script>
-import GitStarted from './GitStarted.vue'
 import StartOver from './StartOver.vue'
 import DemoViz from './DemoViz.vue'
 
@@ -24,7 +22,6 @@ export default {
     }  
   },
   components: {
-    GitStarted,
     StartOver,
     DemoViz
   },
