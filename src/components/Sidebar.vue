@@ -60,6 +60,7 @@ export default {
       // border-color: black;
       border-width: 1px;
       border-style: solid;
-      overflow-y: scroll;
+      overflow: auto;
+      // overflow-y: scroll;
   }
 </style>
