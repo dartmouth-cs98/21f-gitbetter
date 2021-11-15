@@ -27,15 +27,18 @@
         @click="$router.push('/home')"
         class="center-button"
         >
-            Git Started
+           <GitStarted/>
         </button>
   </div>
 </template>
 
 <script>
 
+import GitStarted from './GitStarted.vue'
+
 export default {
   name: 'Welcome',
+  components: {GitStarted},
   methods: {
       closeNavigation() {
       document.getElementById("top-navigation").style.display = "none";

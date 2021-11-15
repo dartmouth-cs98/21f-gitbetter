@@ -11,8 +11,6 @@
 
 <script>
 
-//https://dmitripavlutin.com/return-await-promise-javascript/
-
 var replicate_repo = require('../../replicate_repo')
 import Loading from './Loading.vue'
 
