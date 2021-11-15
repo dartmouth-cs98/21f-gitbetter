@@ -2,34 +2,34 @@
     <nav class="nav level has-shadow" >
         <router-link 
             class="level-item has-text-centered"
-            :to="'/'"
-            style="color:black; font-weight:500;"
-        >
-            Welcome
-        </router-link>
-
-        <div class="level-item has-text-centered">
-          
-          <router-link 
-            class="level-item has-text-centered"
-            :to="'/home'"
-            style="color:black; font-weight:500;"
-        >
-            <img src="../assets/logo.png" />
-        </router-link>
-        </div>
-
-        <router-link 
-            class="level-item has-text-centered"
             :to="'/help'"
             style="color:black; font-weight:500;"
         >
             Help
         </router-link>
+
+        <div class="level-item has-text-centered">
+          <router-link 
+            class="level-item has-text-centered"
+            :to="'/home'"
+            style="color:black; font-weight:500;"
+          >
+          <img src="../assets/logo.png" />
+          </router-link>
+        </div>
+
+        <router-link 
+            class="level-item has-text-centered"
+            :to="'/'"
+            style="color:black; font-weight:500;"
+        >
+            <StartOver />
+        </router-link>
     </nav>
 </template>
 
 <script>
+import StartOver from './StartOver.vue'
 export default {
   name: 'Navigation',
   data() {
@@ -53,7 +53,10 @@ export default {
      
       ]
     }
-  }
+  },
+  components: {
+    StartOver,
+  },
 }
 </script>
 <style lang="scss" scoped>

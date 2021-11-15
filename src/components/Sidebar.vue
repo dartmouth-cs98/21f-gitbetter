@@ -53,11 +53,11 @@ export default {
 </script>
 <style lang="scss" scoped>
   .sidebar {
-      background-color: #f3e5f5;
-      // background-color: black;
+      background-color: #272727;
+      color: white;
+      border-color: green;
       padding: 5%;
       height: 100%;
-      // border-color: black;
       border-width: 1px;
       border-style: solid;
       overflow: auto;

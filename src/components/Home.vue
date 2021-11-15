@@ -82,10 +82,9 @@ export default {
     height: 100vh;
 }
 
-
 .sidebar {
   padding-right: 0;
-  /* background-color:#f3e5f5; */
+  /* background-color:#272727; */
 }
 .general-wrapper {
   display:flex;
@@ -96,8 +95,9 @@ export default {
   /* height: 100%; */
 }
 .headline-component {
-  background-color: #ce93d8;
-  border-color: black;
+  background-color: #53336B;
+  border-color: green;
+  color: white;
   border-width: 1px;
   border-style: solid;
   text-align: center;
@@ -106,10 +106,10 @@ export default {
   padding: 15px 0px;
 }
 .terminal-wrapper {
-  /* height: 100%; */
   width: 200%;
   background-color: black;
   position: relative;
+  border-color: green;
 }
 .visualizations-wrapper {
   /* height: 100%; */

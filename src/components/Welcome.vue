@@ -25,26 +25,59 @@
       <img src="../assets/logo.png" />
       <button 
         @click="$router.push('/home')"
+        v-on:click="gitStarted"
         class="center-button"
         >
-           <GitStarted/>
-        </button>
+           Git Started
+      </button>
+      <loading />
   </div>
 </template>
 
 <script>
 
-import GitStarted from './GitStarted.vue'
+import Loading from './Loading.vue'
+
+var replicate_repo = require('../../replicate_repo')
 
 export default {
   name: 'Welcome',
-  components: {GitStarted},
+  inject: ['isLoading'],
+  components: {
+      Loading,
+  },
+    // So loading boolean is mutable, do not directily change use isLoading.value to update
+  data: () => ({
+    load: {
+      value: false
+    }
+  }),
+  // does not need to provide at the moment but could be helpful later
+    provide() {
+    return {
+      isLoading: this.load
+    };
+  },
   methods: {
       closeNavigation() {
-      document.getElementById("top-navigation").style.display = "none";
-    },
+        document.getElementById("top-navigation").style.display = "none";
+      },
+      async gitStarted() {
+        this.isLoading.value = true;
+        await replicate_repo.replicate()
+        process.chdir('../21f-gitbetter.gb');
+        this.isLoading.value = false;
+      },
   }
 }
+
+// to do for this component
+// add time out to loading page with user feedback so if loading takes too long it stops
+// check directory does not already exist
+// check directory is a git repo
+// move button to home page, terminal page opens after loading is complete
+// add text to loading, ex "your temporary repo is being created..."
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
