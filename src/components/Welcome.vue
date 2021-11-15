@@ -14,11 +14,9 @@
       </div>
       <div class="vl"></div>
      
-      <div class= "top-help" style="padding-left:45px;margin-left:8%;padding-top:30px;width:450px;">
+      <div class= "top-help" style="padding-left:45px;">
               <nav class="panel" style="box-shadow:none;">
-                <p class="panel-heading" style="background-color:rgba(0,0,0,0);color:white;font-size:35px; padding:0 0.5rem 0.5rem 0.5rem;">
-                    Search for commands...
-                </p>
+                <h1 class="help-header"> Search for commands... </h1>
                 <div class="panel-block" style="border-bottom:none;">
                     <p class="control has-icons-left">
                         <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="How do I do this?">
@@ -44,7 +42,7 @@
       <button 
         @click="$router.push('/home')"
         v-on:click="gitStarted"
-        class="center-button button is-large"
+        class="center-button button"
         >
            Git Started
       </button>
@@ -183,10 +181,16 @@ img {
     left: 50%;
     top: 10%;
 }
+.panel {
+    color: white;
+}
 .panel-block {
     color: white;
     border: none;
     border-radius: 0 !important;
+}
+.help-header {
+    padding-left: 10px;
 }
 
 @media only screen and (max-width: 970px) {
