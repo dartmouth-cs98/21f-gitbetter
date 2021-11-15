@@ -85,8 +85,7 @@ function gitbetter() {
             echo "Check out gitbetter -h for a list of git commands and their descriptions, or just Git Started!"
         elif [ "$1" = "visualize" ]; then
             echo "Opening visualization..."
-            cd ..
-            cd 21f-gitbetter
+            open -a Terminal .
             npm install
             npm run electron:serve
         elif [ "$1" = "undo" ]; then

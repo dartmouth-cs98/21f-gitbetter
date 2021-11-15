@@ -6,6 +6,7 @@
       :shell_input="send_to_terminal"
       :commands="commands"
       @shell_output="prompt"
+      style="width:90%;"
     ></v-shell>
   </div>
 </template>
@@ -56,7 +57,11 @@ export default {
   
   methods: {
     prompt(value) {
-      try {
+      if(value === 'gitbetter -help') {
+        this.send_to_terminal = "Wondering how to use GitBetter? \nGitBetter works just like Git, \nbut all changes are temporary\n(unless you decide to keep them). \nCheck out the help tab to find commands..."
+      }
+      else {
+        try {
             run_command.run_script(value, null, (error, returnVal)=> {
               if (error) { 
                 //eventually a look up table for errors will go here
@@ -64,9 +69,10 @@ export default {
             this.send_to_terminal = returnVal;
             this.$root.$emit('eventing', value);
             });
-      }
-      catch(error) {
-        this.send_to_terminal = "Command not found"
+        }
+        catch(error) {
+          this.send_to_terminal = "Command not found"
+        }
       }
     },
   }

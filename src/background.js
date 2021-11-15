@@ -3,6 +3,9 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+
+var clear = require('../start_over');
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -40,6 +43,7 @@ app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    clear.start_over();
     app.quit()
   }
 })
@@ -70,11 +74,13 @@ if (isDevelopment) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {
+        clear.start_over();
         app.quit()
       }
     })
   } else {
     process.on('SIGTERM', () => {
+      clear.start_over();
       app.quit()
     })
   }

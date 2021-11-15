@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     dirRoot () {
-      return path.basename(process.cwd()).toUpperCase();
+      return path.basename(process.cwd()).toUpperCase().replace('.GB', '');
     },
     pathToString () {
       return process.cwd().toString();
