@@ -61,6 +61,6 @@ export default {
       border-width: 1px;
       border-style: solid;
       overflow: auto;
-      max-height: 91%;
+      max-height: 92%;
   }
 </style>
