@@ -13,12 +13,30 @@
           </div>
       </div>
       <div class="vl"></div>
-      <div class= "top-help">
-          <div class="start-box">
-              <h1>Search for commands...</h1>
-              <input type="text" placeholder="Help! How do I use git?">
-              <h2>21 Results found... </h2>
-          </div>
+     
+      <div class= "top-help" style="padding-left:45px;margin-left:8%;padding-top:30px;width:450px;">
+              <nav class="panel" style="box-shadow:none;">
+                <p class="panel-heading" style="background-color:rgba(0,0,0,0);color:white;font-size:35px; padding:0 0.5rem 0.5rem 0.5rem;">
+                    Search for commands...
+                </p>
+                <div class="panel-block" style="border-bottom:none;">
+                    <p class="control has-icons-left">
+                        <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="How do I do this?">
+                        <span class="icon is-small is-left">
+                            <font-awesome-icon icon="search"/> 
+                        </span>
+                    </p>
+                </div>
+                <div class="panel-block" style="font-weight:500;font-size:20px;" v-if="commandOpts.length > 1">
+                    {{ commandOpts.length }} results found...
+                </div>
+                <div class="panel-block" style="font-weight:500;font-size:20px;" v-if="commandOpts.length == 1">
+                    {{ commandOpts.length }} result found...
+                </div>
+                <div v-for="match in commandOpts" :key="match.id" class="panel-block" style="background-color:rgba(225,225,225,0.3);">
+                    {{ match.command }}: {{ match.desc }}
+                </div>
+              </nav>
       </div>
       
       </div>
@@ -26,7 +44,7 @@
       <button 
         @click="$router.push('/home')"
         v-on:click="gitStarted"
-        class="center-button"
+        class="center-button button is-large"
         >
            Git Started
       </button>
@@ -37,6 +55,7 @@
 <script>
 
 import Loading from './Loading.vue'
+import { gitCommands } from '../assets/commands.js'
 
 var replicate_repo = require('../../replicate_repo')
 
@@ -47,11 +66,13 @@ export default {
       Loading,
   },
     // So loading boolean is mutable, do not directily change use isLoading.value to update
-  data: () => ({
-    load: {
-      value: false
+  data () {
+    return {
+      load: false, 
+      commandOpts: [],
+      searchInput: "",
     }
-  }),
+  },
   // does not need to provide at the moment but could be helpful later
     provide() {
     return {
@@ -68,6 +89,19 @@ export default {
         process.chdir('../21f-gitbetter.gb');
         this.isLoading.value = false;
       },
+      searchCommands (input) {
+          let matches = [];
+          if(input.length > 2) {
+            for (var key in gitCommands) {
+                if (key.includes(input) || gitCommands[key].includes(input)) {           
+                    console.log(key, gitCommands[key]);
+                    matches.push({command: key, desc: gitCommands[key]})
+                }
+            }
+            console.log("Matches", matches);
+            this.commandOpts = matches;
+          }
+      }
   }
 }
 
@@ -125,16 +159,12 @@ img {
 }
 .center-button {
     position: absolute;
-    top: 60%;
-    left: 44%;
+    bottom: 20%;
+    left: 43%;
     padding: 10px 15px;
-    width: 12%;
-    border-radius: 20px;
     background-color: white;
     border-color: #4200FF;
-    font-size: 15px;
-    font-weight: bold;
-    font-style: italic;
+    font-weight: 650;
     cursor: pointer;
 }
 .center-button:hover {
@@ -151,5 +181,11 @@ img {
     position: absolute;
     left: 50%;
     top: 10%;
+}
+
+.panel-block {
+    color: white;
+    border: none;
+    border-radius: 0 !important;
 }
 </style>
