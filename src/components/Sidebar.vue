@@ -61,6 +61,13 @@ export default {
       border-width: 1px;
       border-style: solid;
       overflow: auto;
-      max-height: 92%;
+      max-height: 95%;
+  }
+  b, div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    overflow: hidden;
   }
 </style>

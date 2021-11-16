@@ -26,19 +26,35 @@ var run_script = function run_script(command, args, callback) {
 
     child.stderr.setEncoding('utf8');
     child.stderr.on('data', (data) => {
-        // Return some data to the renderer process with the mainprocess-response ID
         mainWindow.webContents.send('mainprocess-response', data);
-        dataResponse = data; 
-    });
+        dataResponse = data;
+     });
+    
 
     child.on('close', (code) => {
         // if the code does not execute return an error message
-        if (code !== 0) {
+
+        console.log(dataResponse)
+        if (dataResponse == undefined){
+            dataResponse = ""
+        }
+
+        if (code == 128) {
+            dataResponse = "Invalid Command"
+        }
+
+        else if (code == 127) {
             dataResponse = "Command not found"
         }
+
+        else if (code == 1) {
+            dataResponse = "Command not found"
+        }
+
         // otherwise return output from user terminal
         console.log('Done!', code, dataResponse);
-        if (typeof callback === 'function')
+
+        if (typeof callback == 'function')
             callback(null, dataResponse);
     });
 }
