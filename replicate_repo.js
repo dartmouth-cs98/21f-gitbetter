@@ -17,7 +17,8 @@ async function replicate() {
 
     // Current woring directory should now be the test repository 
     let pwd = process.cwd()
-    // Copying the repository 
+    // Copying the repository
+
     let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + pwd + '.gb');
     
     // Checking to make sure directory was copied correctly 

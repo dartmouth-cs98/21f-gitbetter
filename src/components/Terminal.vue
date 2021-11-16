@@ -69,6 +69,7 @@ export default {
         try {
             run_command.run_script(value, null, (error, returnVal)=> {
               if (error) { 
+                console.log("here")
                 //eventually a look up table for errors will go here
               } 
             this.send_to_terminal = returnVal;
@@ -76,7 +77,7 @@ export default {
             });
         }
         catch(error) {
-          this.send_to_terminal = "Command not found"
+          this.send_to_terminal = "command not found"
         }
       }
     },
