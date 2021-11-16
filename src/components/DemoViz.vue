@@ -20,10 +20,19 @@ export default {
             return require("../assets/demo/commit-dark.png");
         } else if (this.command.startsWith("git pull")) {
             return require("../assets/demo/pull-dark.png");
-        } else if (this.command)
+        } else if (this.command == "git fetch") {
+            return require("../assets/demo/fetch-dark.png")
+        } else if (this.command.startsWith("git revert")) {
+            return require("../assets/demo/revert-dark.png")
+        } else if (this.command == "git push") {
+            return require("../assets/demo/push-dark.png")
+        } else if (this.command == "git branch -u origin/master") {
+            return require("../assets/demo/origin-master-dark.png")
+        }
+        
         // } else if (this.command == "gitbetter visualize") {
         //     return require("../assets/demo/start-state-dark.png")
-        } else {
+        else {
             return;
         }
     }
