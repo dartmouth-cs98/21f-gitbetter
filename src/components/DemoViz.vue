@@ -1,10 +1,3 @@
-<template>
-  <div style="display:flex;justify-content:center;">
-      <p style="margin-top:25%;" v-if="!this.imgPath()"> Window for the git visualizations!</p>
-      <img :src="this.imgPath()" style="padding:5%;"/>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'DemoViz',
