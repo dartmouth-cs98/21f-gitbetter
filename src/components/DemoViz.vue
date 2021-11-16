@@ -28,11 +28,11 @@ export default {
         } else if (this.command == "git branch -u origin/master") {
             return require("../assets/demo/origin-master-dark.png");
         } else if (this.command == "gitbetter visualize") {
-            return require("../assets/demo/visualize-dark.png");
+            return require("../assets/demo/visualize-remote-dark.png");
         } else if (this.command.startsWith("git checkout -b")) {
-            return require("../assets/demo/checkout-dark.png");
+            return require("../assets/demo/checkout-remote-dark.png");
         } else if (this.command.startsWith("git commit")) {
-            return require("../assets/demo/commit-dark.png");
+            return require("../assets/demo/commit-remote-dark.png");
         } else if (this.command.startsWith("git pull")) {
             return require("../assets/demo/pull-dark.png");
         } else if (this.command.startsWith("git revert")) {

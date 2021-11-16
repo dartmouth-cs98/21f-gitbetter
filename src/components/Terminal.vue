@@ -56,6 +56,7 @@ export default {
   
   methods: {
     prompt(value) {
+      this.$root.$emit('eventing', value);
       if(value === 'gitbetter -help') {
         this.send_to_terminal = "Wondering how to use GitBetter? \nGitBetter works just like Git, \nbut all changes are temporary\n(unless you decide to keep them). \nCheck out the help tab to find commands..."
       }
@@ -70,7 +71,6 @@ export default {
                 //eventually a look up table for errors will go here
               } 
             this.send_to_terminal = returnVal;
-            this.$root.$emit('eventing', value);
             });
         }
         catch(error) {
