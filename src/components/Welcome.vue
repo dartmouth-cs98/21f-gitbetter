@@ -15,12 +15,12 @@
                 <div class="start-box">
                     <h1 class="section-header">Start</h1>
                     <div class="start-options">
-                    <h2>+ Create new file</h2>
-                    <h2>+ Open file</h2>
-                    <h2>+ Clone git repository</h2>
+                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Create new file</h2>
+                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Open file</h2>
+                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Clone git repository</h2>
                     </div>
                     <h1 class="section-header">Recent</h1>
-                    <h2>+ CS98 GitBetter</h2>
+                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  CS98 GitBetter</h2>
                 </div>
             </div>
         </div>
@@ -237,6 +237,11 @@ div::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
 
+.faIcon {
+    width: 0.7em;
+    cursor: pointer;
+}
+
 /* BUTTPN CSS */
 @import url('https://fonts.googleapis.com/css?family=Poppins:900i');
 
@@ -256,6 +261,7 @@ body {
   justify-content: center;
   position: relative;
   top: -25px;
+  cursor: pointer;
 }
 
 .cta {
@@ -301,6 +307,9 @@ body {
         left: 42.5%;
         top: 60%;
     }
+    .subtitle {
+        font-size: 150%;
+    }
 }
 
 @media only screen and (max-width: 770px) {
@@ -321,6 +330,11 @@ body {
         left: 41%;
         font-size: 13px;
     }
+     .subtitle {
+         top: -10%;
+        font-size: 130%;
+    }
+
 }
 @media only screen and (max-width: 585px) {
     h1 {
