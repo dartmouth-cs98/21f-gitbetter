@@ -61,7 +61,7 @@ export default {
         this.send_to_terminal = "Wondering how to use GitBetter? \nGitBetter works just like Git, \nbut all changes are temporary\n(unless you decide to keep them). \nCheck out the help tab to find commands..."
       }
       else if(value == 'gitbetter visualize') {
-        this.send_to_terminal = "Welcome to GitBetter Term 1!\nYou can run any of the following git commands\nto see visualizations of how they will\naffect the state of your repository: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git checkout -b branch\n* git commit\n* git branch -u origin/master\n* git fetch\n* git revert [commit]"
+        this.send_to_terminal = "Welcome to GitBetter Term 1!\nYou can run any of the following git commands\nto see visualizations of how they will\naffect the state of your repository: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git checkout -b branch\n* git commit\n* git branch -u origin/master\n* git fetch"
       }
       else {
         try {
