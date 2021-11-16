@@ -40,7 +40,7 @@ var run_script = function run_script(command, args, callback) {
         }
 
         if (code == 128) {
-            dataResponse = "Branch already created"
+            dataResponse = "Invalid Command"
         }
 
         else if (code == 127) {
