@@ -20,6 +20,9 @@ export default {
             return require("../assets/demo/commit-dark.png");
         } else if (this.command.startsWith("git pull")) {
             return require("../assets/demo/pull-dark.png");
+        } else if (this.command)
+        // } else if (this.command == "gitbetter visualize") {
+        //     return require("../assets/demo/start-state-dark.png")
         } else {
             return;
         }
