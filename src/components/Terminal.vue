@@ -24,7 +24,7 @@ export default {
       send_to_terminal: '',
       banner: {
         header: "GitBetter 🔥",
-        helpHeader: 'Enter "gitbetter -help" for more information. Type "visualizations" to see git commands that currently support visualizations',
+        helpHeader: 'Enter "gitbetter -help" for more information. Type "gitbetter visualize" to see git commands that currently support visualizations',
         emoji: {
             first: "",
             second: "",
@@ -45,12 +45,6 @@ export default {
           }
         },
         {
-          name: "visualizations",
-          get() {
-            return `Welcome to GitBetter Term 1!\nFeel free to test git commands on the visualization \nwindow or in your terminal. We currently have (hard-coded) \nvisualization support for the following git commands: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git checkout -b\n* git commit`;
-          }
-        },
-        {
           name: "gitstarted",
           get() {
             return replicate();
@@ -64,6 +58,9 @@ export default {
     prompt(value) {
       if(value === 'gitbetter -help') {
         this.send_to_terminal = "Wondering how to use GitBetter? \nGitBetter works just like Git, \nbut all changes are temporary\n(unless you decide to keep them). \nCheck out the help tab to find commands..."
+      }
+      else if(value == 'gitbetter visualize') {
+        this.send_to_terminal = "Welcome to GitBetter Term 1!\nYou can run any of the following git commands\nto see visualizations of how they will\naffect the state of your repository: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git checkout -b branch\n* git commit"
       }
       else {
         try {
