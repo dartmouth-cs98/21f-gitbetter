@@ -17,25 +17,23 @@ var start_over =  async function start_over() {
     let new_directory = pwd + '/GitBetterTestRepository.gb';
 
     let {stdout, stderr} = await exec('rm -r ' + new_directory);
-    
-    try {
-        if (stdout) {
-            console.log('directory has been removed')
-            console.log(stdout)
-        }
+
+    if (stdout) {
+        console.log('directory has been removed')
+        console.log(stdout)
+    } else {
         console.log(stderr)
     }
-    catch(error) {
-        console.log(error)
+
+
+    try {
+        process.chdir("./GitBetterTestRepository")
+        console.log('successfully switched into GitBetterTestRepository at the end of start_over')
+    } catch {
+        console.error("error switching into GitBetterTestRepository at the end of start_over")
     }
 
 
-    // try {
-    //     process.chdir('./GitBetterTestRepository')
-    //     console.log('directory was successfully changed back to GitBetterTestRepository folder')
-    // } catch(error) {
-    //     console.error('error while changing directory back to GitBetterTestRepository')
-    // }
 
 
 }
