@@ -1,0 +1,40 @@
+.commandopts {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+
+.results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px;
+}
+
+.select {
+  margin: 12px;
+  color: #272727;
+}
+
+.select select {
+  border-color: green;
+  background-color: #272727;
+  color: white;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: #ab47bc;
+}
+
+.delete::after, .delete::before{
+  background-color: #ab47bc;
+}
+
+.message {
+  width: 40vw;
+}
+  
+h3, p, .form-control, .simple-select {
+  color: white;
+}

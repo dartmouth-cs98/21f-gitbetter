@@ -2,25 +2,41 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Home from './Home';
 import Help from './Help';
+import Welcome from './Welcome';
+import Loading from './Loading';
+import { start_over } from './StartOver';
+import logo from './assets/logo.png';
 import './Navigation.css';
 
 class Navigation extends Component {
   render() {
       return(
         <nav className="nav level has-shadow">
-          <NavLink to="/" element={<Home />} exact>
-              Home
+          <NavLink 
+            to="/help" 
+            element={<Help />} 
+            exact
+          >
+              Help
           </NavLink>
 
           <div className="level-item has-text-centered">
-              <div className="nav-title">
-                  Git Better
-              </div>
+            <NavLink 
+              to="/home" 
+              element={<Home />} 
+            >
+              <img src={logo} alt="logo" />
+            </NavLink>
           </div>
           
-          <NavLink to="/help" element={<Help />}>
-              Help
+          <NavLink 
+            to="/" 
+            element={<Welcome />}
+            onClick={start_over}
+          >
+              End
           </NavLink>
+          <Loading />
       </nav>
     );
   }

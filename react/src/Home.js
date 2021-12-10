@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import VizWindow from './Visualization'
 import Terminal from './Terminal'
 import Sidebar from './Sidebar'
+import Navigation from './Navigation';
 import './Home.css';
 
 class Home extends Component {
@@ -15,6 +16,8 @@ class Home extends Component {
     }
     render() {
         return (
+            <>
+            <Navigation />
             <div className="columns">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                 <div className="sidebar">
@@ -49,6 +52,7 @@ class Home extends Component {
                 </div>
             </div>   
         </div>
+        </>
         );
     }
 }

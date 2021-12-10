@@ -3,36 +3,21 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
-  Outlet,
 } from "react-router-dom";
 import Home from './Home';
 import Help from './Help';
-import Navigation from './Navigation.js'
+import Welcome from './Welcome';
 import './App.css';
 
 function App() {
   return (
     <BrowserRouter>
-      <Navigation />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Welcome />} />
         <Route path="help" element={<Help />} />
-        <Route path="users/*" element={<Users />} />
+        <Route path="home" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  );
-}
-
-function Users() {
-  return (
-    <div>
-      <nav>
-        <Link to="me">My Profile</Link>
-      </nav>
-
-      <Outlet />
-    </div>
   );
 }
 

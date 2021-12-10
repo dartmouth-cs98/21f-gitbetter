@@ -6,6 +6,10 @@
     justify-content: space-around;
     line-height: 50px;
 }
+img {
+  width: 45%;
+  padding: 10px;
+}
 .nav-title {
   font-size: 20px;
   font-weight: bold;

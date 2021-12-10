@@ -15,16 +15,30 @@
   },
   "main": "background.js",
   "dependencies": {
+<<<<<<< HEAD:vue/dist_electron/package.json
+=======
+    "@electron/remote": "^2.0.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
+>>>>>>> cf6b76a2bebbd03d3c0b7d9ceb42832cb07f65a7:package.json
     "@google-cloud/firestore": "^4.15.1",
     "@vue/cli": "^4.5.13",
     "bulma": "^0.9.3",
     "core-js": "^3.6.5",
+<<<<<<< HEAD:vue/dist_electron/package.json
     "node-sass": "^4.14.1",
+=======
+>>>>>>> cf6b76a2bebbd03d3c0b7d9ceb42832cb07f65a7:package.json
     "react-speech-recognition": "^3.9.0",
     "vue": "^2.6.11",
     "vue-material": "^1.0.0-beta-15",
     "vue-router": "^3.5.2",
     "vue-shell": "^1.0.3",
+<<<<<<< HEAD:vue/dist_electron/package.json
+=======
+    "vuex": "^3.6.2",
+>>>>>>> cf6b76a2bebbd03d3c0b7d9ceb42832cb07f65a7:package.json
     "xterm": "^4.14.1",
     "xterm-addon-fit": "^0.5.0",
     "xterm-addon-unicode11": "^0.3.0",
@@ -39,7 +53,8 @@
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "sass-loader": "10.1.1",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.1",
     "vue-cli-plugin-electron-builder": "~2.1.1",
     "vue-template-compiler": "^2.6.11"
   },

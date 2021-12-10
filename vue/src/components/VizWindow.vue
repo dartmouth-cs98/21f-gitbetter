@@ -1,14 +1,31 @@
 <template>
   <div class="vis-box">
-    <h1 class="title"> Window for the git visualizations! </h1>
+    <div class="subtitle"> 
+      {{this.getCommand()}}
+      <DemoViz :command="this.command"/>
+    </div>
   </div>
 </template>
 
 <script>
+import DemoViz from './DemoViz.vue'
+
 export default {
   name: 'VizWindow',
-  props: {
-    msg: String
+  data() {
+    return {
+      command: ''
+    }  
+  },
+  components: {
+    DemoViz
+  },
+  methods: {
+    getCommand() {
+      this.$root.$on('eventing', data => {
+          this.command = data;
+      })
+    }
   }
 }
 </script>
@@ -17,11 +34,20 @@ export default {
 <style scoped>
 .vis-box {
   display: flex;
-    justify-content: center;
+    /* justify-content: center;
     align-items: center;
-    height: 100%;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
+    height: 100%; */
+  align-content: space-between;
+  flex-direction: column;
+  height: 90%;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #272323;
+  border-color: green;
+}
+.subtitle {
+  background-color: #272323;
+  color: white;
 }
 </style>
