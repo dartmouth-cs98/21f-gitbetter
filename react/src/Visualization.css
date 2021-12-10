@@ -1,9 +1,18 @@
 .vis-box {
     display: flex;
-    justify-content: center;
-    align-items: center;
+      /* justify-content: center;
+      align-items: center;
+      height: 100%; */
+    align-content: space-between;
+    flex-direction: column;
+    height: 90%;
     border-color: black;
     border-width: 1px;
     border-style: solid;
-    height: 100%;
-}
+    background-color: #272323;
+    border-color: green;
+  }
+  .subtitle {
+    background-color: #272323;
+    color: white;
+  }

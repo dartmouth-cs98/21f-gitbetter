@@ -3,7 +3,7 @@ async function replicate() {
     const util = require('util');
     // Using util.promisify to return a Promise<{ stdout, stderr }> object
     // this promisifies the child process 
-    const exec = util.promisify(require('child_process').exec);
+    const exec = util.promisify(require('child_process').spawn);
 
     try {
         let pwd = process.cwd()
