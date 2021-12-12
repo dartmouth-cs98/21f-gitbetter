@@ -10,6 +10,6 @@
   .options {
       margin-bottom: 2.25rem;
   }
-  h2, th, tbody {
+  .recent-subtitle, th, tbody {
       color: white;
   }

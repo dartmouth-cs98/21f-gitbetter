@@ -38,3 +38,7 @@
 h3, p, .form-control, .simple-select {
   color: white;
 }
+
+.MuiSelect-select.MuiSelect-outlined.MuiOutlinedInput-input.MuiInputBase-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  color: white;
+}

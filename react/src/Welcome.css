@@ -14,19 +14,22 @@ img {
 .logo {
     padding: 30px 30px 0 10px;
 }
-.subtitle {
-    padding-left: 50%;
+.subtitle {  
     position: relative;
-    top: -15%;
     font-style: italic;
     color: rgb(39, 39, 39);
     font-size: 175%;
+}
+.welcome-title {
+    padding-left: 50%;
+    top: -15%;
 }
 .columns {
     height: 100%;
 }
 .top-welcome {
     background: linear-gradient(to right, #DA91E5, #9953F1 50%, #53336B);
+    height: inherit;
 }
 .page-flex {
     width: 100%;
@@ -85,6 +88,7 @@ img {
 }
 .section-header {
     padding-bottom:0px;
+    margin-bottom:5px;
 }
 .search-comp {
     border-bottom: none !important;
@@ -106,6 +110,10 @@ div::-webkit-scrollbar {
 .faIcon {
     width: 0.7em;
     cursor: pointer;
+}
+.welcome-body {
+    margin: 1px;
+    font-weight: normal;
 }
 /* BUTTPN CSS */
 @import url('https://fonts.googleapis.com/css?family=Poppins:900i');
@@ -136,6 +144,7 @@ body {
     transition: 1s;
     box-shadow: -6px 6px 0 black;
     transform: skewX(-15deg);
+    left: 40%;
 }
 .cta:focus {
    outline: none; 
@@ -185,11 +194,11 @@ body {
         font-size: 13px;
     }
      .subtitle {
-         top: -10%;
+        /* top: -10%; */
         font-size: 130%;
     }
 }
-@media only screen and (max-width: 585px) {
+@media only screen and (max-width: 590px) {
     h1 {
         font-size: 20px;
     }
@@ -206,5 +215,8 @@ body {
         width: 20%;
         left: 40%;
         font-size: 12px;
+    }
+    .subtitle {
+        font-size: 16px;
     }
 }

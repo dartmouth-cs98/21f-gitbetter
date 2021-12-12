@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import { gitCommands } from './Commands';
 import Loading from './Loading';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaPlus } from 'react-icons/fa';
 import logo from './assets/logo.png';
 import './Welcome.css';
 
@@ -39,15 +39,16 @@ function Welcome() {
     }
 
     return(
-        <div className="main top-welcome">
+        <div className="top-welcome">
             <div className="page-flex">        
                 <div className="top-directory">
                     <div className="logo">
                         <img src={logo} alt="logo" />
-                        <p className="subtitle">Git, simplified.</p>
+                        <p className="subtitle welcome-title">Git, simplified.</p>
                         <Button 
-                            variant="outlined" 
+                            variant="contained" 
                             className="wrapper cta" 
+                            color="secondary"
                             onClick={ gitStarted }
                         >
                             Git Started
@@ -55,13 +56,13 @@ function Welcome() {
                     </div>
                     <div className="start-box">
                         <h1 className="section-header">Start</h1>
-                        {/* <div class="start-options">
-                            <h2><font-awesome-icon class="faIcon" icon="plus"/>  Create new file</h2>
-                            <h2><font-awesome-icon class="faIcon" icon="plus"/>  Open file</h2>
-                            <h2><font-awesome-icon class="faIcon" icon="plus"/>  Clone git repository</h2>
+                        <div className="start-options">
+                            <h2 className="welcome-body"><FaPlus/>  Create new file</h2>
+                            <h2 className="welcome-body"><FaPlus/>  Open file</h2>
+                            <h2 className="welcome-body"><FaPlus/>  Clone git repository</h2>
                         </div>
-                        <h1 class="section-header">Recent</h1>
-                        <h2><font-awesome-icon class="faIcon" icon="plus"/>  CS98 GitBetter</h2> */}
+                        <h1 className="section-header">Recent</h1>
+                        <h2 className="welcome-body"><FaPlus/>  CS98 GitBetter</h2>
                     </div>
                 </div>
             </div>

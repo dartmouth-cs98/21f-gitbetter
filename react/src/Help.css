@@ -1,8 +1,12 @@
+.main {
+  height: 100%;
+}
 .columns {
     height: 100vh;
 }
 .general-wrapper {
   min-width: 90%;
+  padding-left: 1vw;
 }
 .sidebar {
   padding-right: 0;
@@ -20,6 +24,7 @@
 }
 .title {
   color: white;
+  margin-top: 0;
 }
 
 @media only screen and (max-width: 770px) {

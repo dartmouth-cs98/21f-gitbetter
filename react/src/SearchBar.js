@@ -56,8 +56,8 @@ class SearchBar extends Component {
             <div className="options">
                 <h3>What do you want to do?</h3>
                 <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">First Prompt</InputLabel>
+                    <FormControl fullWidth color='secondary' focused='true'>
+                        {/* <InputLabel id="demo-simple-select-label">First Prompt</InputLabel> */}
                         <Select
                             labelId="demo-simple-select-label"
                             className="simple-select"
@@ -77,9 +77,11 @@ class SearchBar extends Component {
                 </Box>
 
                 { firstCommand && (
+                    <>
+                    <br/>
                     <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Second Prompt</InputLabel>
+                        <FormControl fullWidth color='secondary' focused='true'>
+                            {/* <InputLabel id="demo-simple-select-label">Second Prompt</InputLabel> */}
                             <Select
                                 labelId="demo-simple-select-label"
                                 className="simple-select"
@@ -97,12 +99,15 @@ class SearchBar extends Component {
                             </Select>
                         </FormControl>
                     </Box>
+                    </>
                 )}
 
                 { secondCommand && searchOptions.tertiaryOptions[secondCommand] && (
+                    <>
+                    <br/>
                     <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Third Prompt</InputLabel>
+                        <FormControl fullWidth color='secondary' focused='true'>
+                            {/* <InputLabel id="demo-simple-select-label">Third Prompt</InputLabel> */}
                             <Select
                                 labelId="demo-simple-select-label"
                                 className="simple-select"
@@ -120,6 +125,7 @@ class SearchBar extends Component {
                             </Select>
                         </FormControl>
                     </Box>
+                    </>
                 )}
             
                 { (thirdCommand || (secondCommand && !searchOptions.tertiaryOptions[secondCommand])) && (

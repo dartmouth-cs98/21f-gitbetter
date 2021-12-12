@@ -11,7 +11,7 @@ import './Navigation.css';
 class Navigation extends Component {
   render() {
       return(
-        <nav className="nav level has-shadow">
+        <nav className="nav">
           <NavLink 
             to="/help" 
             element={<Help />} 
@@ -20,7 +20,7 @@ class Navigation extends Component {
               Help
           </NavLink>
 
-          <div className="level-item has-text-centered">
+          <div className="nav-logo">
             <NavLink 
               to="/home" 
               element={<Home />} 
@@ -36,7 +36,7 @@ class Navigation extends Component {
           >
               End
           </NavLink>
-          <Loading />
+          {/* <Loading /> */}
       </nav>
     );
   }

@@ -1,18 +1,17 @@
 .vis-box {
     display: flex;
       /* justify-content: center;
-      align-items: center;
-      height: 100%; */
+      align-items: center; */
     align-content: space-between;
     flex-direction: column;
-    height: 90%;
     border-color: black;
     border-width: 1px;
     border-style: solid;
     background-color: #272323;
     border-color: green;
+    height: 80%;
   }
   .subtitle {
-    background-color: #272323;
+    /* background-color: #272323; */
     color: white;
   }

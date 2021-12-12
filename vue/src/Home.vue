@@ -50,8 +50,8 @@
 
 <script>
 import VizWindow from './VizWindow.vue'
-import Terminal from './Terminal.vue'
-import Sidebar from './Sidebar.vue'
+import Terminal from '../../src/components./../vue/src/Terminal.vue'
+import Sidebar from '../../src/components./../vue/src/Sidebar.vue'
 import Navigation from './Navigation.vue'
 
 import Vue from 'vue'

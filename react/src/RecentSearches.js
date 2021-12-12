@@ -6,7 +6,7 @@ class RecentSearches extends Component {
         const { recents } = this.props;
         return(
             <div className="options">
-                <h2 className="subtitle">Recents...</h2>
+                <h2 className="recent-subtitle">Recents...</h2>
                 <div className="table-container">
                     <table className="table is-striped">
                         <tbody>
