@@ -7,7 +7,7 @@ async function replicate() {
 
     try {
         let pwd = process.cwd()
-        console.log("currently in directory " + pwd + "trying to move into GitBetterTestRepository in replicate")
+        console.log("currently in directory " + pwd + " trying to move into GitBetterTestRepository in replicate")
         // Change the directory so that we are only copying the tester folder
         process.chdir('../GitBetterTestRepository')
         console.log("directory has successfully been changed from folder to GitBetterTestRepository folder in replicate");
@@ -27,10 +27,10 @@ async function replicate() {
             console.log('directory has been copied')
             console.log(stdout)
         }
-        console.log("unable to copy GitBetterTestRepository")
         console.log(stderr)
     }
     catch(error) {
+        console.log("unable to copy GitBetterTestRepository")
         console.log(error)
     }
 

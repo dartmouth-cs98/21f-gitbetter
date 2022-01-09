@@ -1,10 +1,12 @@
-'use strict'
-
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
+const os = require("os");
+const pty = require("node-pty");
+
 var clear = require('../start_over');
+var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -13,9 +15,11 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+let win;
+
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -26,6 +30,25 @@ async function createWindow() {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
+
+  var ptyProcess = pty.spawn(shell, [], {
+    name: "xterm-color",
+    cols: 80,
+    rows: 100,
+    cwd: process.CWD,
+    env: process.env
+  });
+
+  /* X-term integration using node-pty tutorial from VINCE on YouTube
+  * Source: https://www.youtube.com/watch?v=vhDBbbMJWoY */
+
+  ptyProcess.on("data", function(data) {
+    win.webContents.send("terminal.incData", data);
+  });
+
+  ipcMain.on("terminal.toTerm", function(event, data) {
+    ptyProcess.write(data);
+  });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -47,6 +70,8 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+app.allowRendererProcessReuse = false;
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
