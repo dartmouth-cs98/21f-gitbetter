@@ -84,7 +84,8 @@ export default {
 
       term.open(document.getElementById('terminal'));
       // fitAddon.fit();
-
+      ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
+      ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "clear\n")
 
@@ -137,10 +138,17 @@ export default {
 <style>
 @import '../../node_modules/xterm/css/xterm.css';
 
-#shell{
-  overflow: auto;
+
+
+#terminal {
+  overflow: scroll;
   height: 85%;
 }
+
+#terminal::-webkit-scrollbar {
+  display: none;
+}
+
 pre {
   background-color: black !important;
   color: white !important;
