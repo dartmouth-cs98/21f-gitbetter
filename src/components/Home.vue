@@ -17,7 +17,7 @@
                 <button 
                   id="opening-icon" 
                   class="button"
-                  @click="openVisualization()"
+                  @click="openVisualization"
                   title="Show visualization window"
                 >
                   <font-awesome-icon icon="eye"/>
@@ -35,7 +35,7 @@
                 <button 
                     id="closing-icon" 
                     class="button"
-                    @click="closeVisualization()"
+                    @click="closeVisualization"
                     title="Hide visualization window"
                   >
                     <font-awesome-icon icon="eye-slash"/>
@@ -117,6 +117,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   min-height: 72px;
 }
 #terminal-wrapper {

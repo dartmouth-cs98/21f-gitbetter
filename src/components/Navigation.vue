@@ -1,12 +1,25 @@
 <template>
     <nav class="nav level has-shadow" >
-        <router-link 
-            class="level-item has-text-centered"
-            :to="'/help'"
-            style="color:black; font-weight:500;"
-        >
-            Help
-        </router-link>
+      <div class="level-item has-text-centered">
+        <div class="nav level l-menu">
+          <router-link 
+              class="level-item has-text-centered"
+              :to="'/help'"
+              style="color:black; font-weight:500;"
+          >
+              Help
+          </router-link>
+
+          <router-link 
+              class="level-item has-text-centered"
+              :to="'/tutorials'"
+              style="color:black; font-weight:500;"
+          >
+              Tutorials
+          </router-link>
+        </div>
+      </div>
+
 
         <div class="level-item has-text-centered">
           <router-link 
@@ -55,6 +68,11 @@ export default {
           text: 'Help',
           page:'/help'
         },
+        {
+          id: 3,
+          text: 'Tutorials',
+          page:'/tutorials'
+        },
       ],
       load: false,
     }
@@ -86,6 +104,10 @@ export default {
   img {
     width: 45%;
     padding: 10px;
+  }
+
+  .l-menu {
+    width: 100%;
   }
   @media only screen and (max-width: 770px) {
     .nav {

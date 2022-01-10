@@ -6,7 +6,7 @@
                 <tbody>
                     <th style="color: white"> Command </th> 
                     <th style="color: white"> Description </th>
-                    <tr v-for="com in recents.slice().reverse()" :key="com.id">
+                    <tr v-for="com in recents.slice(-3).reverse()" :key="com.id">
                         <td><code style="background-color:#272727;color:#FFFFFF">{{com.usage}}</code></td>
                         <td>{{com.command}}</td>
                     </tr>
