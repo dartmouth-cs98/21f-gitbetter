@@ -8,8 +8,8 @@
         <div class="top-wrapper column">
           <div class="general-wrapper">
           <h1 class="title">Help</h1>
-          <SearchBar @newCommand="newCommand" />
-          <RecentSearches v-bind="{'recents': recents}"/> 
+          <SearchBar class="search-section" @newCommand="newCommand" />
+          <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
           </div>
         </div>
                 
@@ -72,6 +72,24 @@ export default {
 }
 .title {
   color: white;
+}
+.top-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.recent-searches {
+  position: absolute;
+  bottom: 5%;
+  padding-right: 18px;
+  height: 30%;
+}
+
+.search-section {
+  max-height: 45%;
+  overflow-y: scroll;
+}
+
+.search-section::-webkit-scrollbar {
+  display: none;
 }
 
 @media only screen and (max-width: 770px) {

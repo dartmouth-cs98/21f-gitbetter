@@ -2,7 +2,7 @@
   <div class="main">
     <Navigation />
     <div class="columns">
-        <div class="column is-fullheight is-one-quarter sidebar">
+        <div class="column is-fullheight is-one-fifth sidebar">
             <Workflows @changeFlow="selected = $event; steps = selected.steps; startTutorial()"/>
         </div>
         <div class="top-wrapper column">
@@ -79,7 +79,8 @@ export default {
   },
   methods: {
       startTutorial() {
-          this.finished = false
+          this.finished = false;
+          this.ind = 0;
           this.curr = this.steps[this.ind];
       },
       advanceTutorial() {
@@ -111,6 +112,9 @@ export default {
 }
 .general-wrapper {
   min-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 .sidebar {
   padding-right: 0;
@@ -123,7 +127,6 @@ export default {
   border-color: green;
   border-width: 1px;
   border-style: solid;
-  overflow-y: scroll;
   color: white;
 }
 
@@ -162,13 +165,14 @@ export default {
 }
 
 .advance { 
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
     padding: 18px;
 }
 
 .tutorial {
-    height: 58.5%;
+    flex-grow: 0.825;
 }
 
 @media only screen and (max-width: 770px) {
