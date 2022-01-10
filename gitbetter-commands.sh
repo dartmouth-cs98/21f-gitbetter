@@ -120,6 +120,12 @@ function gitbetter() {
             # might have to recopy the git file
             cp -af $CURRENT_DIR/.git $CPDIR/.git
             echo "Okay, let's start over."
+        elif [ "$1" = "pr" ]; then
+            # Command line PR code from https://tighten.co/blog/open-github-pull-request-from-terminal/
+            github_url=`git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/'`;
+            branch_name=`git symbolic-ref HEAD | cut -d"/" -f 3,4`;
+            pr_url=$github_url"/compare/main..."$branch_name
+            open $pr_url;
         elif [ "$1" = "update" ]; then
             echo "Copying GitBetter working tree into current directory..."
             CURRENT_DIR=$(pwd)
@@ -195,3 +201,4 @@ function gitbetter() {
             cd "$CURRENT_DIR"
         fi 
 }
+

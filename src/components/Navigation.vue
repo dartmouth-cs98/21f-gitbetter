@@ -8,6 +8,15 @@
             Help
         </router-link>
 
+        <router-link 
+            class="level-item has-text-centered"
+            :to="'/tutorials'"
+            style="color:black; font-weight:500;"
+        >
+            Tutorials
+        </router-link>
+
+
         <div class="level-item has-text-centered">
           <router-link 
             class="level-item has-text-centered"
@@ -54,6 +63,11 @@ export default {
           id: 2,
           text: 'Help',
           page:'/help'
+        },
+        {
+          id: 3,
+          text: 'Tutorials',
+          page:'/tutorials'
         },
       ],
       load: false,
