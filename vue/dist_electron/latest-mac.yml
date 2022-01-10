@@ -1,0 +1,11 @@
+version: 0.1.0
+files:
+  - url: 21f-gitbetter-0.1.0-mac.zip
+    sha512: pLdzmqo82BHtKn+YRFMahyZUBEbhThIeO3IyM/c+ltj5eLp7//f450gNkwjwU8AD/1RxRInoyrfiHg3J51mNjQ==
+    size: 103173637
+  - url: 21f-gitbetter-0.1.0.dmg
+    sha512: KBpdSaPu+ID4jLuJoAOc27be74N7svD4y8ROJ2vM6iQU3UWCnpu7U0yNnWjeCjqdgwgvnVmnDinAhXX7Z+LlKw==
+    size: 106965953
+path: 21f-gitbetter-0.1.0-mac.zip
+sha512: pLdzmqo82BHtKn+YRFMahyZUBEbhThIeO3IyM/c+ltj5eLp7//f450gNkwjwU8AD/1RxRInoyrfiHg3J51mNjQ==
+releaseDate: '2021-11-03T21:06:51.908Z'

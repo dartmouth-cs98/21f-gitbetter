@@ -38,5 +38,4 @@ async function replicate() {
 }
 
 // Defining module so that it can be exported 
-const _replicate = replicate;
-export { _replicate as replicate };
+export default { replicate };

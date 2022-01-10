@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     dirRoot () {
-      return path.basename(process.cwd()).toUpperCase().replace('.GB', '');
+      return path.basename(process.cwd()).toUpperCase().replace('.gb', '');
     },
     pathToString () {
       return process.cwd().toString();
@@ -50,6 +50,7 @@ export default {
     }
   }
 }
+
 </script>
 <style lang="scss" scoped>
   .sidebar {

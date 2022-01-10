@@ -5,6 +5,7 @@ import Home from '../components/Home.vue'
 import Help from '../components/Help.vue'
 import Welcome from '../components/Welcome.vue'
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +24,6 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home
-    }
+    },
   ]
 })

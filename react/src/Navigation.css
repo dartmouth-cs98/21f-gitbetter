@@ -1,0 +1,20 @@
+.nav {
+    margin-bottom: 0 !important;
+    min-height: 4.25rem;
+    background-color: #ab47bc;
+    display: flex;
+    justify-content: space-around;
+    line-height: 50px;
+    vertical-align: 'center';
+}
+.nav-logo {
+  width: 15%;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+@media only screen and (max-width: 770px) {
+  .nav {
+    display: flex;
+    padding: 0px 30px;
+  }
+}

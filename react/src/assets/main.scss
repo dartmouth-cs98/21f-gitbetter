@@ -1,0 +1,20 @@
+// Customizations Here (Optional)
+@charset 'utf-8';
+
+// Bulma Import
+@import '~bulma';
+
+html, body{
+    max-height:100%;
+    overflow: hidden;
+}
+body{height:100vh;}
+
+
+#app{min-height:100%;}
+#app{height:100vh;}
+
+
+
+.main{min-height:100%;}
+.main{height:90vh;}

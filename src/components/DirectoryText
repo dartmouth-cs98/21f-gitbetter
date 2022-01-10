@@ -1,0 +1,16 @@
+<template>
+  <VScrollin>
+    this text will scroll
+  </VScrollin>
+</template>
+
+<script>
+import VScrollin from 'vue-scrollin'
+
+export default {
+  [...]
+  components: {
+    VScrollin
+  }
+};
+</script>

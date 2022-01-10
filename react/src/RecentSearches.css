@@ -1,0 +1,15 @@
+.table-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+      background-color: rgba(0,0,0,0);
+  }
+  .options {
+      margin-bottom: 2.25rem;
+  }
+  .recent-subtitle, th, tbody {
+      color: white;
+  }
