@@ -24,6 +24,7 @@
         <div class="message-header" style="background-color:#272727">
           <p>Usage: {{ this.resultCommand.usage }}</p>
           <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
+          <button v-on:click="copyText" class="copying" aria-label="copying"></button>
         </div>
         <div class="message-body">
           {{ this.resultCommand.nb }}
@@ -692,7 +693,7 @@ export default {
         this.thirdPicked = true;
         this.resultCommand = this.thirdCommand;
     },
-    resetOpts() {
+   resetOpts() {
       /* 
         * resets the command dropdowns when the 
         * close button in the command description is used 
@@ -705,6 +706,18 @@ export default {
       this.secondPicked = false;
       this.resultCommand = "";
       this.thirdPicked = false;
+      // add new changes
+      // commit local-changes
+      // commit local-changes git commit -a
+    },
+    copyText(){
+      console.log("copying command");
+      if(this.resultCommand !== ""){
+        console.log(this.resultCommand.usage)
+        let command  = this.resultCommand.usage;
+        navigator.clipboard.writeText(command);
+      }
+      
     },
     newRecentSearch() {
     /* 
@@ -759,6 +772,7 @@ export default {
 .delete::after, .delete::before{
   background-color: #ab47bc;
 }
+
 
 .message {
   width: 40vw;
