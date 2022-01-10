@@ -67,16 +67,24 @@ export const workflows = {
         title: "Fix merge conflicts",
         steps: [
             {
-                inst: "To get the latest version of your project, the first step is to make sure you're on the base branch. This is usually named 'main', but is sometimes called other things like 'master' or 'development' depending on the project. Move to that branch with the following command.", 
-                comm: "git checkout main or git checkout <base branch name>"
+                inst: "To figure out which files are affected by the merge conflict, check the status of your local git repository.", 
+                comm: "git status"
             },  
             {
-                inst: "The next step is to pull the changes from the remote version onto your local project. This can be done by running", 
-                comm: "git pull"
-            },  
-            {
-                inst: "If there are changes from the remote version that conflict with ones in your local project, you'll have to resolve the conflicts before you can get the updated version. If you need help with this, see the tutorial on fixing merge conflicts. Otherwise, you're finished!", 
+                inst: "The next step is to open you code editor and resolve the conflict. Between <<<<<<< HEAD and ======= are the changes currently on the remote repository, and beneath the equals signs to >>>>>>> your-branch-name are your changes. Decide which ones you want to keep, and delete the merge conflict symbols from the file.", 
                 comm: ""
+            },  
+            {
+                inst: "Stage the changes you've picked.", 
+                comm: "git add ."
+            },
+            {
+                inst: "Commit the changes to finish fixing the merge conflict.", 
+                comm: "git commit -m 'Fixed the merge conflict!'"
+            },
+            {
+                inst: "Now, you can either make a pull request from your branch or merge your local branch with the updated remote version of the project.", 
+                comm: "git push or git pull"
             },
         ],
     }

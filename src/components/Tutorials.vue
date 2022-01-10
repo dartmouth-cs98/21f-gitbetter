@@ -11,12 +11,12 @@
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
                 <div class="step">
-                    {{ this.ind + 1}}. {{ this.selected.title }}
+                    {{ this.selected.title }}
                 </div>
                 <div class="instructions">
-                    {{ this.curr.inst }}
+                    {{ this.ind + 1}}. {{ this.curr.inst }}
                 </div>
-                <div class="command">
+                <div class="command" v-if="commandExists">
                     <code class="code-block">
                         {{ this.curr.comm }}
                     </code>
@@ -65,6 +65,15 @@ export default {
   computed: {
         buttonName() {
             return (this.ind < this.steps.length - 1) ? 'Next' : 'Finish';
+        },
+        commandExists() {
+            try {
+                return this.curr.comm !== ""
+            }
+            catch(error) {
+                return false;
+            }
+            
         }
 
   },
