@@ -20,13 +20,20 @@
       </div>
   
     <div class="results">
-      <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
-        <div class="message-header" style="background-color:#272727">
-          <p>Usage: {{ this.resultCommand.usage }}</p>
-          <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
+      <article class="card" v-show="(secondPicked && !this.showThird) || thirdPicked">
+        <div class="card-header">
+          <p class="card-header-title">Usage: {{ this.resultCommand.usage }}</p>
+          <span v-on:click="copyCommand" title="Copy command to clipboard" class="card-header-icon">
+            <font-awesome-icon icon="copy"/>
+          </span>
+          <span v-on:click="resetOpts" title="Close window" class="card-header-icon">
+            <font-awesome-icon icon="times"/>
+          </span>
         </div>
-        <div class="message-body">
+        <div class="card-content" v-if="this.resultCommand.nb">
+          <div class="content">
           {{ this.resultCommand.nb }}
+          </div>
         </div>
       </article>
     </div>
@@ -706,6 +713,14 @@ export default {
       this.resultCommand = "";
       this.thirdPicked = false;
     },
+    copyCommand() {
+            const el = document.createElement('textarea');
+            el.value = this.resultCommand.usage;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+      },
     newRecentSearch() {
     /* 
       * adds a command to the recent searches store after user 
@@ -760,8 +775,17 @@ export default {
   background-color: #ab47bc;
 }
 
+.card-header-icon {
+  color: #ab47bc;
+  padding-left: 0px;
+}
+
 .message {
   width: 40vw;
+}
+
+.card-header {
+  background-color:#363636;
 }
 
 h3, p {

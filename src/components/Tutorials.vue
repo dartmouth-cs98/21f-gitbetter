@@ -2,12 +2,12 @@
   <div class="main">
     <Navigation />
     <div class="columns">
-        <div class="column is-fullheight is-one-third sidebar">
+        <div class="column is-fullheight is-one-quarter sidebar">
             <Workflows @changeFlow="selected = $event; steps = selected.steps; startTutorial()"/>
         </div>
         <div class="top-wrapper column">
           <div class="general-wrapper">
-            <h1 class="title">Walkthorughs</h1>
+            <h1 class="title">Tutorials</h1>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
                 <div class="step">
@@ -20,17 +20,17 @@
                     <code class="code-block">
                         {{ this.curr.comm }}
                     </code>
+                    <div class="button copy-icon" title="Copy command to clipboard" @click="copyCommand">
+                     <font-awesome-icon icon="copy"/>
+                    </div>
                 </div>
             </div>
             <div v-show="finished" class="placeholder-step">
                 Start a workflow tutorial by selecting an option from the workflows menu.
             </div>
             <div v-if="!finished" class="advance">
-                <button v-if="this.ind < this.steps.length - 1" @click="advanceTutorial" class="button">
-                    Next step
-                </button>
-                <button v-else @click="advanceTutorial" class="button">
-                    Finish
+                <button @click="advanceTutorial" class="button">
+                    {{ this.buttonName }} 
                 </button>
             </div>
           </div>
@@ -59,7 +59,14 @@ export default {
       curr: {},
       ind: 0,
       finished: true,
+      buttonTxt: 'Next step',
     }
+  },
+  computed: {
+        buttonName() {
+            return (this.ind < this.steps.length - 1) ? 'Next' : 'Finish';
+        }
+
   },
   methods: {
       startTutorial() {
@@ -75,6 +82,14 @@ export default {
             this.finished = true;
             this.ind = 0;
           }
+      },
+      copyCommand() {
+            const el = document.createElement('textarea');
+            el.value = this.curr.comm;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
       }
   }
 
@@ -107,6 +122,7 @@ export default {
     background-color: #636363;
     color: #FFFFFF;
     font-size: 18px;
+    padding-right: 12px;
 }
 
 .instructions {
@@ -118,6 +134,9 @@ export default {
     font-size: 18px;
 }
 
+.copy-icon {
+    margin-left: 12px;
+}
 
 .placeholder-step {
     text-align: center;
@@ -129,8 +148,8 @@ export default {
 }
 
 .command {
-    text-align: center;
-    padding: 12px;
+    display: flex;
+    justify-content: center;
 }
 
 .advance { 

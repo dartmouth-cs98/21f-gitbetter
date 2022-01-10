@@ -62,6 +62,9 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.resizeTerm);
+    this.$parent.$on('openVisualization', this.resizeTerm);
+    this.$parent.$on('closeVisualization', this.resizeTerm);
+
   },
   
   methods: {

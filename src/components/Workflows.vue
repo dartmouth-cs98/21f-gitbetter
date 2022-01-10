@@ -4,9 +4,9 @@
           Workflow tutorials
         </div>
         <div class="spacer">___________________________________</div>
-      <div class="workflow-option" v-for="flow in workflows" :key="flow.id" @click="$emit('changeFlow', flow)">
+      <p class="workflow-option" v-for="flow in workflows" :key="flow.id" @click="$emit('changeFlow', flow)">
           {{ flow.title }}
-      </div>
+      </p>
     </div>
 </template>
 
@@ -57,6 +57,8 @@ export default {
   .workflow-option {
       cursor: pointer;
       padding: 1px;
+      width: 100%;
+      padding-left: 6px;
   }
   b, div {
     white-space: nowrap;

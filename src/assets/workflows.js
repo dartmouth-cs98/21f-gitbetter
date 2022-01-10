@@ -17,7 +17,7 @@ export const workflows = {
         ]
     },
     "commit": {
-        title: "Commit changes to your branch",
+        title: "Commit changes",
         steps: [
             {
                 inst: "See the changes you've made since your last commit with", 
@@ -47,7 +47,7 @@ export const workflows = {
         ],
     },
     "get-changes": {
-        title: "Get the newest version of the project",
+        title: "Get latest project version",
         steps: [
             {
                 inst: "To get the latest version of your project, the first step is to make sure you're on the base branch. This is usually named 'main', but is sometimes called other things like 'master' or 'development' depending on the project. Move to that branch with the following command.", 
