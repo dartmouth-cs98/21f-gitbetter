@@ -29,7 +29,14 @@
           <span v-on:click="resetOpts" title="Close window" class="card-header-icon">
             <font-awesome-icon icon="times"/>
           </span>
-        </div>
+      <!-- <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
+        <div class="message-header" style="background-color:#272727">
+          <p>Usage: {{ this.resultCommand.usage }}</p>
+          <div class="icons">
+            <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
+          <button v-on:click="copyText" class="copying" aria-label="copying"><font-awesome-icon class="faIcon" icon="copy"/></button>
+            </div>
+        </div> -->
         <div class="card-content" v-if="this.resultCommand.nb">
           <div class="content">
           {{ this.resultCommand.nb }}
@@ -699,7 +706,7 @@ export default {
         this.thirdPicked = true;
         this.resultCommand = this.thirdCommand;
     },
-    resetOpts() {
+   resetOpts() {
       /* 
         * resets the command dropdowns when the 
         * close button in the command description is used 
@@ -712,14 +719,16 @@ export default {
       this.secondPicked = false;
       this.resultCommand = "";
       this.thirdPicked = false;
+     
     },
+    
     copyCommand() {
-            const el = document.createElement('textarea');
-            el.value = this.resultCommand.usage;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+      console.log("copying command");
+      if(this.resultCommand !== ""){
+        console.log(this.resultCommand.usage)
+        let command  = this.resultCommand.usage;
+        navigator.clipboard.writeText(command);
+      }
       },
     newRecentSearch() {
     /* 
@@ -751,6 +760,7 @@ export default {
 
 .results {
   display: flex;
+  /* we need to edit this */
   justify-content: center;
   align-items: center;
   margin: 24px;
@@ -773,6 +783,11 @@ export default {
 
 .delete::after, .delete::before{
   background-color: #ab47bc;
+}
+
+.icons{
+  display: flex;
+  justify-content: flex-end;
 }
 
 .card-header-icon {
