@@ -68,15 +68,11 @@ export default {
           text: 'Help',
           page:'/help'
         },
-<<<<<<< HEAD
         {
           id: 3,
           text: 'Tutorials',
           page:'/tutorials'
         },
-=======
-
->>>>>>> aa60ec94e65e1719118067dc12c7eb47cc19073b
       ],
 
       load: false,

@@ -1,3 +1,5 @@
+// can probably delete this because we have xterm now!!!!
+
 //const electron = require('electron');
 const child_process = require('child_process');
 const dialog = require('@electron/remote');
