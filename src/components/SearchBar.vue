@@ -24,7 +24,7 @@
         <div class="message-header" style="background-color:#272727">
           <p>Usage: {{ this.resultCommand.usage }}</p>
           <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
-          <button v-on:click="copyText" class="copying" aria-label="copying"></button>
+          <button v-on:click="copyText" class="copying" aria-label="copying">Copy</button>
         </div>
         <div class="message-body">
           {{ this.resultCommand.nb }}
