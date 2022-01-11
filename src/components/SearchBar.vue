@@ -23,8 +23,10 @@
       <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
         <div class="message-header" style="background-color:#272727">
           <p>Usage: {{ this.resultCommand.usage }}</p>
-          <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
-          <button v-on:click="copyText" class="copying" aria-label="copying">Copy</button>
+          <div class="icons">
+            <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
+          <button v-on:click="copyText" class="copying" aria-label="copying"><font-awesome-icon class="faIcon" icon="copy"/></button>
+            </div>
         </div>
         <div class="message-body">
           {{ this.resultCommand.nb }}
@@ -749,6 +751,7 @@ export default {
 
 .results {
   display: flex;
+  /* we need to edit this */
   justify-content: center;
   align-items: center;
   margin: 24px;
@@ -772,8 +775,21 @@ export default {
 .delete::after, .delete::before{
   background-color: #ab47bc;
 }
+.copying{
+  background-color: #272727;
+  border: none;
 
+}
+.icons{
+  display: flex;
+  justify-content: flex-end;
+}
 
+.faIcon {
+    width: 2em;
+    cursor: pointer;
+    color:#ab47bc
+}
 .message {
   width: 40vw;
 }
