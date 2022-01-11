@@ -29,14 +29,6 @@
           <span v-on:click="resetOpts" title="Close window" class="card-header-icon">
             <font-awesome-icon icon="times"/>
           </span>
-      <!-- <article class="message" v-show="(secondPicked && !this.showThird) || thirdPicked">
-        <div class="message-header" style="background-color:#272727">
-          <p>Usage: {{ this.resultCommand.usage }}</p>
-          <div class="icons">
-            <button v-on:click="resetOpts" class="delete" aria-label="delete"></button>
-          <button v-on:click="copyText" class="copying" aria-label="copying"><font-awesome-icon class="faIcon" icon="copy"/></button>
-            </div>
-        </div> -->
         </div>
         <div class="card-content" v-if="this.resultCommand.nb">
           <div class="content">
@@ -724,12 +716,10 @@ export default {
     },
     
     copyCommand() {
-      console.log("copying command");
       if(this.resultCommand !== ""){
-        console.log(this.resultCommand.usage)
         let command  = this.resultCommand.usage;
         navigator.clipboard.writeText(command);
-      }
+        }
       },
     newRecentSearch() {
     /* 
