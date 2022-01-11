@@ -37,6 +37,7 @@
           <button v-on:click="copyText" class="copying" aria-label="copying"><font-awesome-icon class="faIcon" icon="copy"/></button>
             </div>
         </div> -->
+        </div>
         <div class="card-content" v-if="this.resultCommand.nb">
           <div class="content">
           {{ this.resultCommand.nb }}
