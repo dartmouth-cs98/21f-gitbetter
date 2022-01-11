@@ -19,8 +19,13 @@
                     <h2><font-awesome-icon class="faIcon" icon="plus"/>  Open file</h2>
                     <h2><font-awesome-icon class="faIcon" icon="plus"/>  Clone git repository</h2>
                     </div>
+<<<<<<< HEAD
                     <h1 class="section-header">Recent</h1> -->
                     <!-- <h2><font-awesome-icon class="faIcon" icon="plus"/>  CS98 GitBetter</h2> -->
+=======
+                    <h1 class="section-header">Recent</h1>
+                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  CS98 GitBetter</h2> -->
+>>>>>>> aa60ec94e65e1719118067dc12c7eb47cc19073b
                 </div>
             </div>
         </div>
@@ -58,6 +63,7 @@
 <script>
 
 import Loading from './Loading.vue'
+import replicate from '../../replicate_repo.js'
 import { gitCommands } from '../assets/commands.js'
 
 // var replicate_repo = require('../../replicate_repo')
@@ -88,10 +94,11 @@ export default {
       },
       async gitStarted() {
         this.isLoading.value = true;
-        // await replicate_repo.replicate()
-        // process.chdir('../GitBetterTestRepository.gb');
+        await replicate.replicate()
+        process.chdir('../GitBetterTestRepository.gb');
         this.isLoading.value = false;
       },
+
       searchCommands (input) {
           let matches = [];
           if(input.length > 2 && input !=="git") {
@@ -156,6 +163,8 @@ img {
     width: 100%;
     height: 100%;
 }
+
+
 .top-directory {
     width: 50%;
     height: 100%;
