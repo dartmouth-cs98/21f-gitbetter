@@ -18,16 +18,6 @@
           </router-link>
         </div>
 
-        <div class="level-item has-text-centered">
-          <router-link 
-            class="level-item has-text-centered"
-            :to="'/finder'"
-            style="color:black; font-weight:500;"
-          >
-
-          </router-link>
-        </div>
-
         <div
             class="level-item has-text-centered"
             style="color:black; font-weight:500;cursor:pointer;"
