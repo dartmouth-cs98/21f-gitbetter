@@ -1,28 +1,36 @@
 <template>
-  <div>
-    <vo-basic :data="chartData"></vo-basic>
-  </div>
+  <div id="app" class="wrapper">
+      <Loading :start="load.value" />
+        <div class="divider"></div>
+          <!-- <Navigation /> -->
+      <router-view />
+    </div>
 </template>
 
 <script>
-import { VoBasic } from 'vue-orgchart'
+// import Navigation from './components/Navigation.vue'
+import Loading from './components/Loading.vue'
+
 export default {
-  components: { VoBasic },
-  created () {
-    this.chartData = {
-      name: 'JavaScript',
-        children: [
-          { name: 'Angular' },
-          {
-            name: 'React',
-            children: [{ name: 'Preact' }]
-          },
-          {
-            name: 'Vue',
-            children: [{ name: 'Moon' }]
-          }
-        ]
+  name: 'App',
+  components: {
+    // Navigation,
+    Loading
+  },
+
+  data: () => ({
+    load: {
+      value: false
     }
-}
-}
+  }),
+  provide() {
+    return {
+      isLoading: this.load
+    };
+  }
+};
 </script>
+
+<style lang="sass">
+@import '../node_modules/bulma/bulma.sass'
+</style>
