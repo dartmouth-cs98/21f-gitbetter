@@ -8,7 +8,7 @@
         <div class="top-wrapper column">
           <div class="general-wrapper">
           <h1 class="title">Help</h1>
-          <button v-on:click="startOve()">Return to Terminal</button>
+          <button v-on:click="$router.push('/home')">Return to Terminal</button>
           <SearchBar class="search-section" @newCommand="newCommand" />
           <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
           </div>
@@ -46,9 +46,6 @@ export default {
     newCommand() {
       this.recents = this.$store.getters.getRecentSearches;
     },
-    startOve () {
-    console.log("Hi");
-  },
   }
 }
 </script>
