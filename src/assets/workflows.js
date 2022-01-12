@@ -87,5 +87,56 @@ export const workflows = {
                 comm: "git push or git pull"
             },
         ],
+    },
+    "rebase": {
+        title: "Rebase",
+        summary: "Rebasing allows you to combine a previous commit, or many previous commits to a new commit. In this way, all of the changes you have made during multiple commits can be combined together into one commit. Additionally, rebasing allows you to update your current branch with changes that have been made to the master branch. For instance, if you are working on a branch, and someone else pushes a lot of code that would help you with your task, then you could do a rebase so that those updates to the code are integrated into your branch where you have written new code. Below are some of the most common situations in which a rebase is necessary, along with the correct command to achieve them.",
+        steps: [
+            {
+                inst: "Rebasing commits against a branch: This allows you to rebase all of the commits that are on another branch with your current branch", 
+                comm: "git rebase --interactive "
+            },  
+            {
+                inst: "Rebasing commits against a point in time", 
+                comm: "git rebase --interactive HEAD~7"
+            },  
+            {
+                inst: "Resume a rebase that was paused due to an error or in order to update a commit", 
+                comm: "git rebase --continue"
+            },  
+            {
+                inst: "Remove a commit that is causing a merge failure", 
+                comm: "git rebase skip"
+            },  
+            {
+                inst: "Stop a rebase", 
+                comm: "git rebase --abort"
+            },  
+            {
+                inst: "Removing a commit from your rebase: When you run a rebase command, Git launches a default text editor where you can see the commits that will be rebased. To remove one of those commits, simply delete the line that has 'pick' in front of the ID for the commit you don't want to include.", 
+                comm: "pick commitID: Your commit message --> this is the line you would delete"
+            },
+            {
+                inst: "Rewording the commit message for one of your commits that you are rebasing", 
+                comm: "reword commitID Your new message for this commit"
+            },
+            {
+                inst: "Editing a commit before including it in the rebase. This allows you to remove any errors that may have been made in a previous commit.", 
+                comm: "edit commitID"
+            },
+            {
+                inst: "Combining a commit into the previous commit in the rebase. With this command you are able to update the commit message for the combined commits to describe the changes made in both.", 
+                comm: "squash commitID"
+            },
+            {
+                inst: "Combining a commit into the previous commit in the rebase when you want to keep the original commit message.", 
+                comm: "fixup commitID"
+            },
+            {
+                inst: "Running a shell command against a commit", 
+                comm: "exec [shell command]"
+            },
+        ],
     }
+
 }
