@@ -12,7 +12,7 @@ export const workflows = {
             },  
             {
                 inst: "You've made a new branch! Changes you make will now be on <branch name>. You can see which branch you're on using...", 
-                comm: "git branch"
+                comm: "git branch -d branchName"
             },  
         ]
     },
@@ -43,6 +43,10 @@ export const workflows = {
             {
                 inst: "Making a pull request is how you ask for permission to merge your changes with the version of the code that everyone uses, usually called the 'main' or 'master' branch. To do this, visit github.com/<your-repo-name>. If you've just pushed something to your branch, the option to make a pull request should be right under the name of the project on main. Click the green button to open your pull request. Using gitbetter, you can open a pull request from your terminal using the following command.", 
                 comm: "gitbetter pr"
+            },
+            {
+                inst: "If you want to get rid of changes that you have made before pulling that you want to discard instead of committing or adding.", 
+                comm: "git checkout ."
             },
         ],
     },
@@ -105,11 +109,11 @@ export const workflows = {
                 comm: "git rebase --continue"
             },  
             {
-                inst: "Remove a commit that is causing a merge failure", 
+                inst: "Remove a commit that is causing a merge failure. This is one of the ways to resolve merge conflicts after running a rebase.", 
                 comm: "git rebase skip"
             },  
             {
-                inst: "Stop a rebase", 
+                inst: "Stop a rebase. This is one of the ways to resolve merge conflicts after running a rebase.", 
                 comm: "git rebase --abort"
             },  
             {
@@ -135,6 +139,31 @@ export const workflows = {
             {
                 inst: "Running a shell command against a commit", 
                 comm: "exec [shell command]"
+            },
+        ],
+    },
+    "moving-commits": {
+        title: "Moving changes from a commit ",
+        steps: [
+            {
+                inst: "To figure out which files are affected by the merge conflict, check the status of your local git repository.", 
+                comm: "git status"
+            },  
+            {
+                inst: "The next step is to open you code editor and resolve the conflict. Between <<<<<<< HEAD and ======= are the changes currently on the remote repository, and beneath the equals signs to >>>>>>> your-branch-name are your changes. Decide which ones you want to keep, and delete the merge conflict symbols from the file.", 
+                comm: ""
+            },  
+            {
+                inst: "Stage the changes you've picked.", 
+                comm: "git add ."
+            },
+            {
+                inst: "Commit the changes to finish fixing the merge conflict.", 
+                comm: "git commit -m 'Fixed the merge conflict!'"
+            },
+            {
+                inst: "Now, you can either make a pull request from your branch or merge your local branch with the updated remote version of the project.", 
+                comm: "git push or git pull"
             },
         ],
     }
