@@ -58,10 +58,9 @@
 <script>
 
 import Loading from './Loading.vue'
-import replicate from '../../replicate_repo.js'
 import { gitCommands } from '../assets/commands.js'
 
-// var replicate_repo = require('../../replicate_repo')
+var replicate_repo = require('../../replicate_repo')
 
 export default {
   name: 'Welcome',
@@ -89,7 +88,7 @@ export default {
       },
       async gitStarted() {
         this.isLoading.value = true;
-        await replicate.replicate()
+        await replicate_repo.replicate()
         process.chdir('../GitBetterTestRepository.gb');
         this.isLoading.value = false;
       },
