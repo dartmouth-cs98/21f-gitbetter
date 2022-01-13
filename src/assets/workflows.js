@@ -16,6 +16,19 @@ export const workflows = {
             },  
         ]
     },
+    "switching-branches": {
+        title: "Switching to a New Branch",
+        steps: [
+            {
+                inst: "Switch to a different branch:", 
+                comm: "git checkout newBranchName"
+            },
+            {
+                inst: "Look at branch you are currently on, as well as all branches you can switch to:", 
+                comm: "git branch"
+            },  
+        ]
+    },
     "commit": {
         title: "Commit changes",
         steps: [
@@ -47,6 +60,10 @@ export const workflows = {
             {
                 inst: "If you want to get rid of changes that you have made before pulling that you want to discard instead of committing or adding.", 
                 comm: "git checkout ."
+            },
+            {
+                inst: "If you get an error saying 'There is no tracking information for the current branch. Please specify which branch you want to rebase against.'", 
+                comm: "git merge main"
             },
         ],
     },
@@ -96,7 +113,6 @@ export const workflows = {
             },
         ],
     },
-<<<<<<< HEAD
     "rebase": {
         title: "Rebase",
         summary: "Rebasing allows you to combine a previous commit, or many previous commits to a new commit. In this way, all of the changes you have made during multiple commits can be combined together into one commit. Additionally, rebasing allows you to update your current branch with changes that have been made to the master branch. For instance, if you are working on a branch, and someone else pushes a lot of code that would help you with your task, then you could do a rebase so that those updates to the code are integrated into your branch where you have written new code. Below are some of the most common situations in which a rebase is necessary, along with the correct command to achieve them.",
@@ -147,33 +163,6 @@ export const workflows = {
             },
         ],
     },
-    "moving-commits": {
-        title: "Moving changes from a commit ",
-        steps: [
-            {
-                inst: "To figure out which files are affected by the merge conflict, check the status of your local git repository.", 
-                comm: "git status"
-            },  
-            {
-                inst: "The next step is to open you code editor and resolve the conflict. Between <<<<<<< HEAD and ======= are the changes currently on the remote repository, and beneath the equals signs to >>>>>>> your-branch-name are your changes. Decide which ones you want to keep, and delete the merge conflict symbols from the file.", 
-                comm: ""
-            },  
-            {
-                inst: "Stage the changes you've picked.", 
-                comm: "git add ."
-            },
-            {
-                inst: "Commit the changes to finish fixing the merge conflict.", 
-                comm: "git commit -m 'Fixed the merge conflict!'"
-            },
-            {
-                inst: "Now, you can either make a pull request from your branch or merge your local branch with the updated remote version of the project.", 
-                comm: "git push or git pull"
-            },
-        ],
-    }
-
-=======
     "rename-branch": {
         title: "Rename a remote branch",
         steps: [
@@ -248,5 +237,17 @@ export const workflows = {
             }, 
         ],
     },
->>>>>>> main
+    "moving-commits": {
+        title: "Moving changes from a commit in a different branch to current branch",
+        steps: [
+            {
+                inst: "Moving the changes from the latest commit to the master branch to your branch and then creating a new commit with that change:", 
+                comm: "git cherry-pick master"
+            },  
+            {
+                inst: "Apply the changes from all commits that are on master but not after HEAD, produces new commits:", 
+                comm: "git cherry-pick ^HEAD master"
+            },  
+        ],
+    }
 }
