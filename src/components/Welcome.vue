@@ -58,9 +58,9 @@
 <script>
 
 import Loading from './Loading.vue'
-import replicate from '../../replicate_repo_test.js'
+//import replicate from '../../replicate_repo_test.js'
 import { gitCommands } from '../assets/commands.js'
-
+const ipc = require("electron").ipcRenderer
 
 export default {
   name: 'Welcome',
@@ -87,9 +87,11 @@ export default {
         document.getElementById("top-navigation").style.display = "none";
       },
       async gitStarted() {
+        
         this.isLoading.value = true;
-        await replicate.replicate()
-        process.chdir('../GitBetterTestRepository.gb');
+        ipc.send("openFinder");
+        //await replicate.replicate()
+        //process.chdir('../GitBetterTestRepository.gb');
         this.isLoading.value = false;
       },
 
