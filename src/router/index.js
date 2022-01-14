@@ -6,6 +6,8 @@ import Help from '../components/Help.vue'
 import Welcome from '../components/Welcome.vue'
 import Tutorials from '../components/Tutorials.vue'
 
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -29,6 +31,7 @@ export default new Router({
       path: '/tutorials',
       name: 'Tutorials',
       component: Tutorials
-    }
+    },
+  
   ]
 })
