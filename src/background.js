@@ -54,7 +54,7 @@ async function createWindow() {
   ipcMain.on("openFinder", function() {
   dialog.showOpenDialog({
     defaultPath:app.getPath('home'), 
-    properties:['openDirectory'],
+    properties:['openFile', 'openDirectory']
     }).then((result)=> {
     //ipc.send("terminal.toTerm", "cd " + result + ".gb")
     console.log(result)
