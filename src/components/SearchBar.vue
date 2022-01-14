@@ -699,7 +699,7 @@ export default {
         this.thirdPicked = true;
         this.resultCommand = this.thirdCommand;
     },
-    resetOpts() {
+   resetOpts() {
       /* 
         * resets the command dropdowns when the 
         * close button in the command description is used 
@@ -712,14 +712,14 @@ export default {
       this.secondPicked = false;
       this.resultCommand = "";
       this.thirdPicked = false;
+     
     },
+    
     copyCommand() {
-            const el = document.createElement('textarea');
-            el.value = this.resultCommand.usage;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+      if(this.resultCommand !== ""){
+        let command  = this.resultCommand.usage;
+        navigator.clipboard.writeText(command);
+        }
       },
     newRecentSearch() {
     /* 
@@ -751,6 +751,7 @@ export default {
 
 .results {
   display: flex;
+  /* we need to edit this */
   justify-content: center;
   align-items: center;
   margin: 24px;
@@ -773,6 +774,11 @@ export default {
 
 .delete::after, .delete::before{
   background-color: #ab47bc;
+}
+
+.icons{
+  display: flex;
+  justify-content: flex-end;
 }
 
 .card-header-icon {
