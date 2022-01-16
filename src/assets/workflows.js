@@ -12,6 +12,19 @@ export const workflows = {
             },  
             {
                 inst: "You've made a new branch! Changes you make will now be on <branch name>. You can see which branch you're on using...", 
+                comm: "git branch -d branchName"
+            },  
+        ]
+    },
+    "switching-branches": {
+        title: "Switching to a New Branch",
+        steps: [
+            {
+                inst: "Switch to a different branch:", 
+                comm: "git checkout newBranchName"
+            },
+            {
+                inst: "Look at branch you are currently on, as well as all branches you can switch to:", 
                 comm: "git branch"
             },  
         ]
@@ -43,6 +56,14 @@ export const workflows = {
             {
                 inst: "Making a pull request is how you ask for permission to merge your changes with the version of the code that everyone uses, usually called the 'main' or 'master' branch. To do this, visit github.com/<your-repo-name>. If you've just pushed something to your branch, the option to make a pull request should be right under the name of the project on main. Click the green button to open your pull request. Using gitbetter, you can open a pull request from your terminal using the following command.", 
                 comm: "gitbetter pr"
+            },
+            {
+                inst: "If you want to get rid of changes that you have made before pulling that you want to discard instead of committing or adding.", 
+                comm: "git checkout ."
+            },
+            {
+                inst: "If you get an error saying 'There is no tracking information for the current branch. Please specify which branch you want to rebase against.'", 
+                comm: "git merge main"
             },
         ],
     },
@@ -89,6 +110,56 @@ export const workflows = {
             {
                 inst: "Now, you can either make a pull request from your branch or merge your local branch with the updated remote version of the project.", 
                 comm: "git push or git pull"
+            },
+        ],
+    },
+    "rebase": {
+        title: "Rebase",
+        summary: "Rebasing allows you to combine a previous commit, or many previous commits to a new commit. In this way, all of the changes you have made during multiple commits can be combined together into one commit. Additionally, rebasing allows you to update your current branch with changes that have been made to the master branch. For instance, if you are working on a branch, and someone else pushes a lot of code that would help you with your task, then you could do a rebase so that those updates to the code are integrated into your branch where you have written new code. Below are some of the most common situations in which a rebase is necessary, along with the correct command to achieve them.",
+        steps: [
+            {
+                inst: "Rebasing commits against a branch: This allows you to rebase all of the commits that are on another branch with your current branch", 
+                comm: "git rebase --interactive "
+            },  
+            {
+                inst: "Rebasing commits against a point in time", 
+                comm: "git rebase --interactive HEAD~7"
+            },  
+            {
+                inst: "Resume a rebase that was paused due to an error or in order to update a commit", 
+                comm: "git rebase --continue"
+            },  
+            {
+                inst: "Remove a commit that is causing a merge failure. This is one of the ways to resolve merge conflicts after running a rebase.", 
+                comm: "git rebase skip"
+            },  
+            {
+                inst: "Stop a rebase. This is one of the ways to resolve merge conflicts after running a rebase.", 
+                comm: "git rebase --abort"
+            },  
+            {
+                inst: "Removing a commit from your rebase: When you run a rebase command, Git launches a default text editor where you can see the commits that will be rebased. To remove one of those commits, simply delete the line that has 'pick' in front of the ID for the commit you don't want to include.", 
+                comm: "pick commitID: Your commit message --> this is the line you would delete"
+            },
+            {
+                inst: "Rewording the commit message for one of your commits that you are rebasing", 
+                comm: "reword commitID Your new message for this commit"
+            },
+            {
+                inst: "Editing a commit before including it in the rebase. This allows you to remove any errors that may have been made in a previous commit.", 
+                comm: "edit commitID"
+            },
+            {
+                inst: "Combining a commit into the previous commit in the rebase. With this command you are able to update the commit message for the combined commits to describe the changes made in both.", 
+                comm: "squash commitID"
+            },
+            {
+                inst: "Combining a commit into the previous commit in the rebase when you want to keep the original commit message.", 
+                comm: "fixup commitID"
+            },
+            {
+                inst: "Running a shell command against a commit", 
+                comm: "exec [shell command]"
             },
         ],
     },
@@ -166,4 +237,17 @@ export const workflows = {
             }, 
         ],
     },
+    "moving-commits": {
+        title: "Moving changes from a commit in a different branch to current branch",
+        steps: [
+            {
+                inst: "Moving the changes from the latest commit to the master branch to your branch and then creating a new commit with that change:", 
+                comm: "git cherry-pick master"
+            },  
+            {
+                inst: "Apply the changes from all commits that are on master but not after HEAD, produces new commits:", 
+                comm: "git cherry-pick ^HEAD master"
+            },  
+        ],
+    }
 }
