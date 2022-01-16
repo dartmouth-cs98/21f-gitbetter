@@ -1,6 +1,7 @@
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { DialogContent } from '@material-ui/core';
 
 const os = require("os");
 const pty = require("node-pty");
@@ -50,6 +51,17 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  ipcMain.on("openFinder", function() {
+  dialog.showOpenDialog({
+    defaultPath:app.getPath('home'), 
+    properties:['openFile', 'openDirectory']
+    }).then((result)=> {
+    //ipc.send("terminal.toTerm", "cd " + result + ".gb")
+    console.log(result)
+  });
+})
+
+  // ipcMain.on("gitStarted.to")
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
