@@ -5,7 +5,6 @@ import Home from '../components/Home.vue'
 import Help from '../components/Help.vue'
 import Welcome from '../components/Welcome.vue'
 import Tutorials from '../components/Tutorials.vue'
-import Finder from '../components/Finder.vue'
 
 
 
@@ -33,10 +32,6 @@ export default new Router({
       name: 'Tutorials',
       component: Tutorials
     },
-    {
-      path: '/finder',
-      name: 'Finder',
-      component: Finder
-    }
+  
   ]
 })
