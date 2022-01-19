@@ -7,8 +7,9 @@
         </div>
         <div class="top-wrapper column">
           <div class="general-wrapper">
-          <h1 class="title">Help</h1>
-          <button v-on:click="$router.push('/home')">Return to Terminal</button>
+            <h1 class="title">Help</h1>
+         
+          <button v-on:click="$router.push('/home')"  class="button">Return to Terminal</button>
           <SearchBar class="search-section" @newCommand="newCommand" />
           <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
           </div>
@@ -73,6 +74,7 @@ export default {
 }
 .title {
   color: white;
+  text-align: center;
 }
 .top-wrapper::-webkit-scrollbar {
   display: none;
@@ -87,6 +89,7 @@ export default {
 .search-section {
   max-height: 45%;
   overflow-y: scroll;
+  padding-top: 2%;
 }
 
 .search-section::-webkit-scrollbar {
