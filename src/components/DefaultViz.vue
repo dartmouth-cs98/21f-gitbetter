@@ -28,6 +28,7 @@ export default {
         .map(item => item.name)
     },
     dirsOnly(root) {
+      // need to filter directories that start with .
       return fs.readdirSync(root, {withFileTypes: true})
         .filter(item => item.isDirectory())
         .map(item => item.name)
