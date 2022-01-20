@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vo-basic :data="chartData" v-on:click="handleClick"></vo-basic>
+    <vo-basic :data="chartData" v-on:click="handleClick" direction="l2r"></vo-basic>
   </div>
 </template>
  
@@ -13,45 +13,36 @@ const fs = require('fs-extra');
 export default {
   name: 'DirectoryTree',
   components: { VoBasic },
-  data () {
-    return {
-      dir: process.cwd(),
-      files: [],
-      directories: [],
-      file: "",
-    }
-  },
   created() {
-    this.chartData = {
-      name: path.basename(process.cwd()).replace('.GB', ''),
-      children: []
-    };
-    this.dirsOnly(this.dir)
-    this.filesOnly(this.dir)
-    this.directories.map(item => this.chartData.children.push({name: item, children: []}))
-    this.files.map(item => this.chartData.children.push({name: item, children: []}))
-
+    let rootDir = process.cwd()
+    this.chartData = this.createNode(path.basename(rootDir).replace('.GB', '').replace('.gb', ''), this.createLayer(rootDir))
+    console.log("Chart Data: ", this.chartData)
   },
   methods: {
     handleClick: e => {
       alert(e);
     },
     filesOnly(root) {
-      let fileNames = fs.readdirSync(root, {withFileTypes: true})
-      .filter(item => !item.isDirectory())
-      .map(item => item.name)
-      
-      console.log("File names", fileNames)
-      this.files = fileNames;
-
+      return fs.readdirSync(root, {withFileTypes: true})
+        .filter(item => !item.isDirectory())
+        .map(item => item.name)
     },
     dirsOnly(root) {
-      let dirNames = fs.readdirSync(root, {withFileTypes: true})
-      .filter(item => item.isDirectory())
-      .map(item => item.name)
-      
-      console.log("Dir names", dirNames)
-      this.directories = dirNames;
+      return fs.readdirSync(root, {withFileTypes: true})
+        .filter(item => item.isDirectory())
+        .map(item => item.name)
+    },
+    createNode(name, children) {
+      return {
+        name: name, 
+        children: children
+      }
+    },
+    createLayer(directory) {
+      let layer = []
+      this.filesOnly(directory).map(item => layer.push(this.createNode(item, [])))
+      this.dirsOnly(directory).map(item => layer.push(this.createNode(item, this.createLayer(directory + '/' + item))))
+      return layer
     }
   }
 };
