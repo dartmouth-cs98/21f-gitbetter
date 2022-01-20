@@ -16,7 +16,6 @@ export default {
   created() {
     let rootDir = process.cwd()
     this.chartData = this.createNode(path.basename(rootDir).replace('.GB', '').replace('.gb', ''), this.createLayer(rootDir))
-    console.log("Chart Data: ", this.chartData)
   },
   methods: {
     handleClick: e => {
@@ -29,6 +28,7 @@ export default {
     },
     dirsOnly(root) {
       // need to filter directories that start with .
+      // last line of this method: .filter(item => !item.startsWith('.'))
       return fs.readdirSync(root, {withFileTypes: true})
         .filter(item => item.isDirectory())
         .map(item => item.name)

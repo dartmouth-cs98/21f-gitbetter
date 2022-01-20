@@ -1,5 +1,5 @@
 <template>
-  <div style="justify-content:center;">
+  <div class="viz">
       <!-- 
           This will become the default so: <DirectoryTree v-else/>
           and other components will be: <SomeViz v-if="this.command==='git command'">
@@ -21,3 +21,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.viz {
+    justify-content: center;
+    display: flex;
+    overflow: auto;
+}
+</style>
