@@ -7,11 +7,11 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChevronRight, faChevronDown, faEyeSlash, faEye, faSearch, faPlus, faCopy, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faChevronDown, faEyeSlash, faEye, faSearch, faPlus, faCopy, faTimes, faHome, faFolder } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'vue-orgchart/dist/style.min.css'
 
-library.add(faChevronRight, faChevronDown, faEye, faEyeSlash, faSearch, faPlus, faCopy, faTimes);
+library.add(faChevronRight, faChevronDown, faEye, faEyeSlash, faSearch, faPlus, faCopy, faTimes, faHome, faFolder);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -2,7 +2,8 @@
   <div class="main">
     <Navigation />
     <div class="columns">
-        <div class="column is-fullheight is-one-fifth sidebar">
+      <ActivityBar/>
+        <div id="sidebar" class="column is-fullheight is-one-fifth sidebar" style="padding-left: 0px;">
             <Sidebar />
         </div>
         <div class="top-wrapper column">
@@ -23,7 +24,7 @@ import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
 import SearchBar from './SearchBar.vue'
 import RecentSearches from './RecentSearches.vue'
-
+import ActivityBar from './ActivityBar.vue'
 
 export default {
   name: 'Home',
@@ -32,6 +33,7 @@ export default {
     SearchBar,
     Sidebar,
     RecentSearches,
+    ActivityBar
   },
   data () {
     return {

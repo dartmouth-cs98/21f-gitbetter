@@ -4,7 +4,8 @@
   <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <div class="column is-fullheight is-one-fifth sidebar">
+    <ActivityBar/>
+      <div id="sidebar" class="column is-fullheight is-one-fifth sidebar" style="padding-left: 0px;">
           <Sidebar />
       </div>
       <div class="top-wrapper column">
@@ -54,6 +55,7 @@ import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
+import ActivityBar from './ActivityBar.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -68,6 +70,7 @@ export default {
     Terminal,
     Sidebar,
     Navigation,
+    ActivityBar,
   },
   methods: {
     closeVisualization() {
@@ -79,7 +82,7 @@ export default {
       document.getElementById("visualizations").style.display = "block";
       document.getElementById("terminal-wrapper").style.width = "50%";
       document.getElementById("opening-icon").style.display = "none";
-    }
+    },        
   }
 }
 
@@ -91,6 +94,19 @@ export default {
 .columns {
     height: 100vh;
 }
+/* 
+#options-column{
+  display:flex;
+  flex-direction: column;
+  color: black;
+  background-color: #ce93d8;
+  padding-top: 5%;
+}
+.faIcon {
+    width: 2em;
+    cursor: pointer;
+    color:#ab47bc
+} */
 .sidebar {
   padding-right: 0;
 }

@@ -2,7 +2,8 @@
   <div class="main">
     <Navigation />
     <div class="columns">
-        <div class="column is-fullheight is-one-fifth sidebar">
+      <ActivityBar/>
+        <div class="column is-fullheight is-one-fifth sidebar" style="padding-left: 0px;">
             <Workflows @changeFlow="selected = $event; steps = selected.steps; startTutorial()"/>
         </div>
         <div class="top-wrapper column">
@@ -44,6 +45,7 @@
 
 import Navigation from './Navigation.vue'
 import Workflows from './Workflows.vue'
+import ActivityBar from './ActivityBar.vue'
 
 
 export default {
@@ -51,6 +53,7 @@ export default {
   components: {
     Navigation,
     Workflows,
+    ActivityBar
   },
   data () {
     return {
