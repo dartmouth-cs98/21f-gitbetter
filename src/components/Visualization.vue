@@ -16,7 +16,7 @@ export default {
   props: {
     command: String  
   },
-  components:{
+  components: {
       DirectoryTree
   }
 }

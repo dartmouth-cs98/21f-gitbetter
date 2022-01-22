@@ -1,21 +1,26 @@
 <template>
   <div>
-    <vo-basic :data="chartData" v-on:click="handleClick" direction="l2r"></vo-basic>
+    DirectoryTree Content
+    <!-- <vo-basic :data="chartData" v-on:click="handleClick" direction="l2r"></vo-basic> -->
   </div>
 </template>
  
 <script>
-import { VoBasic } from "vue-orgchart";
+// import { VoBasic } from "vue-orgchart";
 import "vue-orgchart/dist/style.min.css";
 const path = require('path');
 const fs = require('fs-extra');
 
 export default {
   name: 'DirectoryTree',
-  components: { VoBasic },
+  components: {
+    // VoBasic,
+  },
   created() {
     let rootDir = process.cwd()
-    this.chartData = this.createNode(path.basename(rootDir).replace('.GB', '').replace('.gb', ''), this.createLayer(rootDir))
+    this.chartData = this.createNode(
+      path.basename(rootDir).replace('.GB', '').replace('.gb', ''), 
+      this.createLayer(rootDir))
   },
   methods: {
     handleClick: e => {

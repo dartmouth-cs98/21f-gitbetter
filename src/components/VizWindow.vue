@@ -1,14 +1,17 @@
 <template>
   <div class="vis-box">
-    <div class="subtitle"> 
+    <div class="subtitle">
       {{this.getCommand()}}
-      <Viz :command="this.command"/>
+      <Viz :command="this.command"/> 
+      ------------------------------
+      <BranchViz />
     </div>
   </div>
 </template>
 
 <script>
 import Viz from './Visualization.vue'
+import BranchViz from '../components/BranchViz'
 
 export default {
   name: 'VizWindow',
@@ -18,7 +21,8 @@ export default {
     }  
   },
   components: {
-    Viz
+    BranchViz,
+    Viz,
   },
   methods: {
     getCommand() {
