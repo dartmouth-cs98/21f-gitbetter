@@ -2,13 +2,13 @@
   <div class="vis-box">
     <div class="subtitle"> 
       {{this.getCommand()}}
-      <DemoViz :command="this.command"/>
+      <Viz :command="this.command"/>
     </div>
   </div>
 </template>
 
 <script>
-import DemoViz from './DemoViz.vue'
+import Viz from './Visualization.vue'
 
 export default {
   name: 'VizWindow',
@@ -18,7 +18,7 @@ export default {
     }  
   },
   components: {
-    DemoViz
+    Viz
   },
   methods: {
     getCommand() {
