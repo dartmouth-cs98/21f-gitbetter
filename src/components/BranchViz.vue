@@ -3,11 +3,12 @@
     <div v-for="direc in branches" :key="direc" >
         - {{ direc }}
     </div>
+    <div id="invisible" display="none" />
 </div>
 </template>
 
 <script>
-const ipc = require("electron").ipcRenderer
+const pty = require("node-pty");
 
 export default {
     name: 'Branches',
@@ -19,12 +20,22 @@ export default {
     },
 
     mounted() {
-        ipc.send("terminal.toTerm", "git branch\n")
-        ipc.on("terminal.incData", function(event, data) {
-            console.log('ginger', event, data);
-            window.irene = data;
-        })
+        var ptyProcess = pty.spawn('bash', [], {
+            name: "xterm-color",
+            cols: 80,
+            rows: 100,
+            cwd: process.CWD,
+            env: process.env
+        });
+
+        ptyProcess.on("data", (data) => {
+            if (data.startsWith('bash')) return;
+            this.branches = data.split('\n');
+        });
+        ptyProcess.write('git branch\n');
     },
+
+
 
     provide() {
         return { };
