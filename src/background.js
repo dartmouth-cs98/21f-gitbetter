@@ -1,7 +1,6 @@
-import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { DialogContent } from '@material-ui/core';
 
 const os = require("os");
 const pty = require("node-pty");
@@ -48,6 +47,7 @@ async function createWindow() {
   });
 
   ipcMain.on("terminal.toTerm", function(event, data) {
+    win.webContents.send("user_input", data);
     ptyProcess.write(data);
   });
 

@@ -1,28 +1,54 @@
 <template>
   <div class="vis-box">
-    <div class="subtitle">
-      {{this.getCommand()}}
-      <Viz :command="this.command"/> 
-      ------------------------------
-      <BranchViz />
+    <div :key="this.currCommand" class="subtitle">
+      <!-- {{this.getCommand()}} -->
+      {{ command + "hello" }}
+      <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
   </div>
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
+// const ipc2 = require("electron").ipcRenderer;
+const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
-import BranchViz from '../components/BranchViz'
 
 export default {
   name: 'VizWindow',
   data() {
     return {
-      command: ''
+      command: '',
+      currCommand: '',
     }  
   },
   components: {
-    BranchViz,
     Viz,
+  },
+  // computed: {
+  //   command() {
+  //     return this.currCommand;
+  //   }
+  // },
+  mounted() {
+    const channel = 'terminal.toTerm';
+    
+    ipcRenderer.removeAllListeners("user_input")
+    ipc.on("user_input", function(event, data) {
+      if (data.match(/^\s+/) && data !== ' ') {
+        // console.log("true", this.currCommand);
+        if (this.currCommand.includes('git')) {
+          this.command = this.currCommand;  
+          console.log("set command", this.command);
+        }    
+        this.currCommand = '';
+        return;
+      }
+      this.currCommand += data; 
+      // console.log("state", this.currCommand);    
+    });
+
+    ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
     getCommand() {
