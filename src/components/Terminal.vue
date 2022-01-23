@@ -85,7 +85,7 @@ export default {
       term.open(document.getElementById('terminal'));
       // fitAddon.fit();
       ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
-      ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
+      //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "clear\n")
 
