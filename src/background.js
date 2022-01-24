@@ -58,7 +58,12 @@ async function createWindow() {
     defaultPath:app.getPath('home'), 
     properties:['openFile', 'openDirectory']
     }).then((result)=> {
-      replicate.replicate_repo(result.filePaths[0])
+      let pwd = result.filePaths[0]
+      ptyProcess.write('cd ' + pwd);
+      ptyProcess.write('\n');
+      ptyProcess.write('clear');
+      ptyProcess.write('\n');
+      replicate.replicate_repo(pwd)
 
   }).catch((e) =>
   console.error(e));
