@@ -6,7 +6,7 @@
                     <img src="../assets/logo.png" />
                     <p class="subtitle">Git, simplified.</p>
                     
-                    <div class="wrapper" @click="$router.push('/home')" >
+                    <div class="wrapper" @click="$router.push('/home')" v-on:click="gitStarted" >
                         <div class="cta">
                             <span>Git Started</span>                            
                         </div>
@@ -58,8 +58,9 @@
 <script>
 
 import Loading from './Loading.vue'
+//import replicate from '../../replicate_repo_test.js'
 import { gitCommands } from '../assets/commands.js'
-// const ipc = require("electron").ipcRenderer
+const ipc = require("electron").ipcRenderer
 
 export default {
   name: 'Welcome',
@@ -85,12 +86,14 @@ export default {
       closeNavigation() {
         document.getElementById("top-navigation").style.display = "none";
       },
-    //   async gitStarted() {
-    //     this.isLoading.value = true;
-    //     await replicate.replicate()
-    //     process.chdir('../GitBetterTestRepository.gb');
-    //     this.isLoading.value = false;
-    //   },
+      async gitStarted() {
+        
+        this.isLoading.value = true;
+        ipc.send("openFinder");
+        //await replicate.replicate()
+        //process.chdir('../GitBetterTestRepository.gb');
+        this.isLoading.value = false;
+      },
 
       searchCommands (input) {
           let matches = [];
