@@ -4,12 +4,17 @@ var replicate_repo = async function replicate_repo(pwd) {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
+    const fs = require('fs');
     
-    console.log("currently in directory " + pwd)
-        // Change the directory so that we are only copying the tester folder
-    
+    const new_dir = pwd + ".gb"
+
+    if (fs.existsSync(new_dir)){
+        console.log(".gb directory already exists")
+        return
+    }
+
     try {
-        const new_dir = pwd + ".gb"
+        
         let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);
         if (stdout) {
             console.log('directory has been copied')
@@ -19,7 +24,6 @@ var replicate_repo = async function replicate_repo(pwd) {
         }
     } catch (err){
         throw err
-    
     }
 }
 
