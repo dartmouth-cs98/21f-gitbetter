@@ -87,12 +87,9 @@ export default {
         document.getElementById("top-navigation").style.display = "none";
       },
       async gitStarted() {
-        
-        this.isLoading.value = true;
+        //this.isLoading.value = true;
         ipc.send("openFinder");
-        //await replicate.replicate()
-        //process.chdir('../GitBetterTestRepository.gb');
-        this.isLoading.value = false;
+        //this.isLoading.value = false;
       },
 
       searchCommands (input) {

@@ -1,4 +1,4 @@
-async function replicate() {
+async function replicate(pwd) {
     // Importing Utilities module 
     const util = require('util');
     // Using util.promisify to return a Promise<{ stdout, stderr }> object

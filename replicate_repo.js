@@ -1,39 +1,36 @@
-async function replicate(pwd) {
-    // Importing Utilities module 
+import { chdir } from 'process';
+
+var replicate_repo = async function replicate_repo(pwd) {
+
     const util = require('util');
-    // Using util.promisify to return a Promise<{ stdout, stderr }> object
-    // this promisifies the child process 
     const exec = util.promisify(require('child_process').exec);
-
-    try {
-
-        console.log("currently in directory " + pwd)
-        new_dir = pwd + '.gb'
-        // Change the directory so that we are only copying the tester folder
-        process.chdir(new_dir)
-    } catch (err) {
-        console.error("error while changing directory into GitBetterTestRepository in replicate");
-    }
-
-    // Current woring directory should now be the test repository 
-    let pwd = process.cwd()
-    // Copying the repository
-
-    let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);
     
-    // Checking to make sure directory was copied correctly 
+    console.log("currently in directory " + pwd)
+        // Change the directory so that we are only copying the tester folder
+    
     try {
+        const new_dir = pwd + ".gb"
+        let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);
         if (stdout) {
             console.log('directory has been copied')
-            console.log(stdout)
         }
-        console.log(stderr)
+        else if (stderr) {
+            console.log(stderr)
+        }
+    } catch (err){
+        throw err
+    
     }
-    catch(error) {
-        console.log("unable to copy directory")
+
+    try {
+        const new_dir = pwd + ".gb"
+        process.chdir(new_dir)
+    }
+    catch (error) {
         console.log(error)
+        console.log("directory not changed to .gb directory")
     }
 }
 
-// Defining module so that it can be exported 
-export { replicate };
+const _replicate_repo = replicate_repo;
+export { _replicate_repo as replicate_repo };
