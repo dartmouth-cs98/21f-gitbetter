@@ -30,16 +30,30 @@
           <img src="../assets/logo.png" />
           </router-link>
         </div>
+        <div class="level-item has-text-centered">
+          <div class="nav level r-menu">
+            <div
+                class="level-item has-text-centered"
+                style="color:black; font-weight:500;cursor:pointer;"
+                @click="$router.push('/')"
+                v-on:click="startOver"
+                >
+                    End
+            </div>
 
-        <div
-            class="level-item has-text-centered"
-            style="color:black; font-weight:500;cursor:pointer;"
-            @click="$router.push('/')"
-            v-on:click="startOver"
-            >
-                End
+            <div
+                class="level-item has-text-centered"
+                style="color:black; font-weight:500;cursor:pointer;"
+                v-on:click="$emit('help')"
+                >
+                    <font-awesome-icon icon="question-circle"/>
+            </div>
+          </div>
         </div>
       <loading />
+      <div v-bind:class="helpClass">
+        <slot></slot>
+      </div>
     </nav>
 </template>
 
@@ -74,9 +88,11 @@ export default {
           page:'/tutorials'
         },
       ],
-
       load: false,
     }
+  },
+  props: {
+    ind: Number,
   },
   inject: ['isLoading'],
   provide() {
@@ -86,6 +102,16 @@ export default {
   },
   components: {
     Loading,
+  },
+  computed: {
+    helpClass() {
+      return {
+        helpone: this.ind == 2,
+        helptwo: this.ind == 3,
+        helpthree: this.ind == 4,
+        helpfour: this.ind == 5,
+      }
+    }
   },
   methods: {
     async startOver() {
@@ -110,6 +136,38 @@ export default {
   .l-menu {
     width: 100%;
   }
+  .r-menu {
+    width: 100%;
+  }
+  .helpone { 
+    position: absolute;
+    left: 24px;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helptwo { 
+    position: absolute;
+    left: 15%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpthree { 
+    position: absolute;
+    left: 45%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpfour { 
+    position: absolute;
+    right: 12px;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+
   @media only screen and (max-width: 770px) {
     .nav {
       display: flex;

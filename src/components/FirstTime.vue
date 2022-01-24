@@ -1,9 +1,20 @@
 <template>
-    <div class="notification is-info">
-        <font-awesome-icon icon="times"/>
-        <font-awesome-icon @click="ind --" icon="chevron-circle-left"/> <font-awesome-icon  @click="ind ++" icon="chevron-circle-right"/>
-        {{ this.messages[this.ind] }}
-        <span class="numerator">{{ this.ind + 1 }}</span><span class="slash-entity">⁄</span><span class="denominator">{{ this.messages.length }}</span> 
+    <div class="notification p-4">
+        <div class="icons">
+            <div class="clickable">
+                <font-awesome-icon @click="updateStep(-1)" icon="chevron-left"/> 
+                <font-awesome-icon  @click="updateStep(1)" class="right-arrow" icon="chevron-right"/>
+            </div>
+            <div class="clickable" @click="$emit('endTutorial')">
+                <font-awesome-icon icon="times"/>
+            </div>
+        </div>
+        <div class="message-content">
+            {{ this.messages[this.ind] }}
+        </div>
+        <div class="step-count">
+            <span class="numerator">{{ this.ind + 1 }}</span><span class="slash-entity">⁄</span><span class="denominator">{{ this.messages.length }}</span> 
+        </div>
     </div>
 </template>
 
@@ -16,20 +27,43 @@ export default {
       return {
           messages: [
               'This is the terminal, where you can run commands in the Gitbetter sandbox. The git commands that you run in here won\'t change the status of your real repository unless you run "gitbetter update".',
-              'The visualization window is where you can visualize what\'s going on in your git repository.',
+              'The visualization window is where you can visualize what\'s going on in your git repository. Use the button with the eye icon to show or hide this window as needed.',
               'The Help tab is where you can go to find a specific command by searching the dropdown menu options.',
               'The Tutorials tab is where you can go to see step by step instructions for git workflows.',
-              'Click the Gitbetter logo to return to the terminal at any time.',
+              'Click the Gitbetter logo to return to the terminal and visualization page at any time.',
               'You\'re ready to Git Started! See these instructions again by selecting the questions logo here.'
 
           ],
-          ind: 0,
       }
   },
+  props: {
+      ind: Number,
+  },
+  methods: {
+      updateStep(val) {
+          this.$emit('updateStep', val);
+      }
+  }
 };
 </script>
 <style scoped> 
-
+.icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clickable {
+     cursor: pointer;
+}
+.right-arrow {
+    margin-left: 8px;
+}
+.step-count {
+    text-align: right;
+}
+.notification {
+    background-color: #f5baff;
+}
 .numerator {
    font-size:.7em;
    line-height:.7em;

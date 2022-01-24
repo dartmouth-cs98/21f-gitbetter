@@ -10,6 +10,7 @@
 <script>
 import DemoViz from './DemoViz.vue'
 
+
 export default {
   name: 'VizWindow',
   data() {
@@ -18,7 +19,7 @@ export default {
     }  
   },
   components: {
-    DemoViz
+    DemoViz,
   },
   methods: {
     getCommand() {

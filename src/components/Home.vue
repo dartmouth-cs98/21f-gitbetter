@@ -1,7 +1,14 @@
 
 <template>
 <div class="main">
-  <Navigation />
+  <Navigation  @help="resetStep" v-bind:ind="step">
+    <FirstTime 
+      @endTutorial="onEndTutorial" 
+      @updateStep="onUpdateStep" 
+      v-bind:ind="step" 
+      v-show="step >= 2"
+    />
+  </Navigation>
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div class="column is-fullheight is-one-fifth sidebar">
@@ -24,6 +31,14 @@
                 </button>
               </div>
             </div>
+            <div class="help-window">
+                <FirstTime 
+                  @updateStep="onUpdateStep" 
+                  @endTutorial="onEndTutorial" 
+                  v-bind:ind="step" 
+                  v-show="step == 0"
+                /> 
+            </div>
               <Terminal />
           </div>
           <div id="visualizations" class="visualizations-wrapper">
@@ -42,7 +57,15 @@
                   </button>
               </div>
             </div>
-            <VizWindow /> 
+            <div class="help-window-two">
+                <FirstTime 
+                  @updateStep="onUpdateStep" 
+                  @endTutorial="onEndTutorial" 
+                  v-bind:ind="step" 
+                  v-show="step == 1"
+                /> 
+            </div>
+            <VizWindow />
           </div>
       </div>   
   </div>
@@ -54,6 +77,7 @@ import VizWindow from './VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar.vue'
 import Navigation from './Navigation.vue'
+import FirstTime from './FirstTime.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -68,6 +92,16 @@ export default {
     Terminal,
     Sidebar,
     Navigation,
+    FirstTime
+  },
+  data() {
+      return {
+          step: -1,
+      }
+  },
+  created() {
+    // this is where we'll get the result of git config user.name, and if it doesn't exist in the DB will set step to 0 and start tutorial
+    this.step = 0;
   },
   methods: {
     closeVisualization() {
@@ -79,7 +113,26 @@ export default {
       document.getElementById("visualizations").style.display = "block";
       document.getElementById("terminal-wrapper").style.width = "50%";
       document.getElementById("opening-icon").style.display = "none";
-    }
+    },
+    onUpdateStep(val) {
+      if(val == -1 && this.step == 0) {
+          this.step = 0;
+      }
+      else if(this.step == 5 && val == 1) {
+          this.step = -1;
+      }
+      else {
+          this.step = this.step + val;
+      }
+
+      console.log(this.step)
+    },
+    resetStep() {
+      this.step = 0;
+    },
+     onEndTutorial() {
+      this.step = -1;
+    },
   }
 }
 
@@ -146,6 +199,21 @@ export default {
   margin-left: auto;
 }
 
+.help-window { 
+    position: absolute;
+    right: 12px;
+    top: 3.75rem;
+    z-index: 6;
+    max-width: 60%;
+  }
+
+  .help-window-two { 
+    position: absolute;
+    left: 12px;
+    top: 3.25rem;
+    z-index: 6;
+    max-width: 50%;
+  }
 
 @media only screen and (max-width: 770px) {
   .sidebar {
