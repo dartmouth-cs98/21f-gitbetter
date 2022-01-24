@@ -21,22 +21,6 @@ var replicate_repo = async function replicate_repo(pwd) {
         throw err
     
     }
-
-
-    // try {
-    //     let {stdout1, stderr1} = await exec('cd ' + pwd);
-    //     if (stdout1){
-    //         console.log("working directory changed successfully")
-    //     }
-    //     else{
-    //         console.log(stderr1)
-    //     }
-    
-    // }
-    // catch (error) {
-    //     console.log(error)
-    //     console.log("directory not changed")
-    // }
 }
 
 const _replicate_repo = replicate_repo;
