@@ -1,14 +1,17 @@
 <template>
 <div>
-    <div v-for="direc in branches" :key="direc" >
+    <!-- <div v-for="direc in branches" :key="direc" >
         - {{ direc }}
-    </div>
-    <!-- <vo-basic :data="branchGraph" v-on:click="handleClick" direction="l2r"></vo-basic> -->
+    </div> -->
+    <!-- {{this.branchData}} -->
+    <button :click="this.onButtonClick">some ndsfdjsk</button>
+    <vo-basic :key="this.branchData.name" :data="this.branchData" direction="l2r"></vo-basic>
+    
 </div>
 </template>
 
 <script>
-// import { VoBasic } from "vue-orgchart";
+import { VoBasic } from "vue-orgchart";
 import "vue-orgchart/dist/style.min.css";
 
 const pty = require("node-pty");
@@ -17,7 +20,7 @@ const ipc = require("electron").ipcRenderer
 export default {
     name: 'BranchViz',
     components: {
-        // VoBasic,
+        VoBasic,
     },
     data () {
         return {
@@ -25,12 +28,19 @@ export default {
         }
     },
     methods: {
-        createNode(name, children) {
-            return {
-                name: name, 
-                children: children
-            }
+        createNode(name) {
+            return { name }
         },
+        onButtonClick() {
+            console.log('force render')
+            this.$set(this.branchData, 'children', this.branches.map(this.createNode))
+        }
+    },
+    created () {
+        this.branchData = {
+            name: ' ',
+            children: this.branches.map(branch => this.createNode(branch)),
+        }
     },
     mounted() {
         var ptyProcess = pty.spawn('bash', [], {
@@ -51,9 +61,13 @@ export default {
                     if (branch.startsWith('*')) return branch.substring(1);
                     return branch;
                 })
-                ;
-            // this.branchGraph = this.createNode(
-            //     this.createLayer(this.branches));
+            console.log("branch changed");
+            this.$set(this.branchData, 'children', this.branches.map(this.createNode))
+            this.$set(this.branchData, 'name', this.branches[0])
+            window.irene = this.branchData;
+            this.$nextTick(function () {
+                console.log('branch diverged')
+            })
         });
         ptyProcess.write('git branch --no-color\n');
         ipc.on("terminal.toTerm", function(event, data) {

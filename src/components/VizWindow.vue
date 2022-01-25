@@ -2,7 +2,6 @@
   <div class="vis-box">
     <div :key="this.currCommand" class="subtitle">
       <!-- {{this.getCommand()}} -->
-      {{ command + "hello" }}
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
   </div>
@@ -10,7 +9,6 @@
 
 <script>
 import { ipcRenderer } from 'electron'
-// const ipc2 = require("electron").ipcRenderer;
 const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
 
@@ -36,7 +34,6 @@ export default {
     ipcRenderer.removeAllListeners("user_input")
     ipc.on("user_input", function(event, data) {
       if (data.match(/^\s+/) && data !== ' ') {
-        // console.log("true", this.currCommand);
         if (this.currCommand.includes('git')) {
           this.command = this.currCommand;  
           console.log("set command", this.command);
@@ -45,7 +42,6 @@ export default {
         return;
       }
       this.currCommand += data; 
-      // console.log("state", this.currCommand);    
     });
 
     ipcRenderer.send(channel, 'git branch\n');
