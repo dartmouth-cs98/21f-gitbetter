@@ -1,7 +1,7 @@
 <template>
-<div>
+<div class="branch-container">
     <div v-for="direc in branches" :key="direc" >
-        <button v-on:click="switchBranch(direc)"> {{ direc }} </button>
+        <button class="branch-button" v-on:click="switchBranch(direc)"> {{ direc }} </button>
     </div>
     <!-- <vo-basic :key="this.branchData.name" :data="this.branchData" direction="l2r"></vo-basic> -->
     
@@ -49,11 +49,9 @@ export default {
                     // if (branch.startsWith('*')) return branch.substring(1);
                     return branch;
                 })
-            console.log("branch changed");
         });
         this.ptyProcess.write('git branch --no-color\n');
         ipc.on("terminal.toTerm", function(event, data) {
-             console.log("world changes");
             if (
                 data.includes('git branch')
                 || data.includes('git switch')
@@ -67,3 +65,21 @@ export default {
     },
 }
 </script>
+<style lang="scss" scoped>
+.branch-container {
+    width: 100%;
+    text-align: center;
+}
+.branch-button {
+    background-color: #272323;
+    border-radius: 10px;
+    padding: 2px 10px;
+    margin: 1px;
+    color: white;
+    border-color: #272323;
+}
+.branch-button:hover {
+    cursor: pointer;
+    background-color: #4CAF50;
+}
+</style>

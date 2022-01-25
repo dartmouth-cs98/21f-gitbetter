@@ -36,7 +36,6 @@ export default {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.includes('git')) {
           this.command = this.currCommand;  
-          console.log("set command", this.command);
         }    
         this.currCommand = '';
         return;
@@ -68,6 +67,7 @@ export default {
   border-style: solid;
   background-color: #272323;
   border-color: green;
+  overflow-y: scroll;
 }
 .subtitle {
   background-color: #272323;
