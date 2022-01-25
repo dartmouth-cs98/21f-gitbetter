@@ -13,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'Welcome',
-      component: Home
+      component: Welcome
     },
     {
       path: '/help',
@@ -24,11 +24,6 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home
-    },
-    {
-      path: '/home2',
-      name: 'Home',
-      component: Welcome
     },
     {
       path: '/tutorials',

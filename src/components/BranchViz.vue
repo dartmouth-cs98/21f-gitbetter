@@ -34,7 +34,8 @@ export default {
     },
     methods: {
         switchBranch(branch) {
-            this.ptyProcess.write(`git checkout ${branch}\n`);
+            this.ptyProcess.write(`git checkout ${branch} \n`);
+            this.ptyProcess.write('git branch --no-color\n');
         }
     },
     mounted() {
