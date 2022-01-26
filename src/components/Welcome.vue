@@ -59,7 +59,7 @@
 
 import Loading from './Loading.vue'
 //import replicate from '../../replicate_repo_test.js'
-import { gitCommands } from '../assets/commands.js'
+import { gitCommands } from '../constants/commands.js'
 const ipc = require("electron").ipcRenderer
 
 export default {

@@ -19,8 +19,8 @@
 
 <script>
 
-import Sidebar from './Sidebar.vue'
-import Navigation from './Navigation.vue'
+import Sidebar from '../Sidebar/Sidebar.vue'
+import Navigation from '../../router/Navigation.vue'
 import SearchBar from './SearchBar.vue'
 import RecentSearches from './RecentSearches.vue'
 
