@@ -1,12 +1,11 @@
-import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { DialogContent } from '@material-ui/core';
 
 const os = require("os");
 const pty = require("node-pty");
 
-var clear = require('../start_over');
+var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
