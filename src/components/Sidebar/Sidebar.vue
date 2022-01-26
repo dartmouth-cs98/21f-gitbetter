@@ -1,21 +1,25 @@
 <template>
-    <div class="sidebar">
-        <div> 
-          <b>{{this.dirRoot()}}</b>
-        </div>
-      <File v-for="file in files" :filename="file" :key="file.id" />
-      <Directory v-for="direc in directories" :key="direc.id" :dirname="direc" :pathname="pathToString()"/>
-    </div>
+  <div class="sidebar">
+      <div> 
+        <b>{{this.dirRoot()}}</b>
+      </div>
+    <File v-for="file in files" :filename="file" :key="file.id" />
+    <Directory v-for="direc in directories" :key="direc.id" :dirname="direc" :pathname="pathToString()"/>
+  </div>
 </template>
 
 <script>
-import Directory from './Directory.vue';
+
 const fs = require('fs-extra');
 const path = require('path');
+import Directory from './Directory.vue';
 import File from './File.vue'
 
 export default {
-  components: { Directory, File },
+  components: {
+    Directory,
+    File,
+  },
   name: 'Sidebar',
   data () {
     return {
@@ -37,16 +41,14 @@ export default {
       return process.cwd().toString();
     },
     filesOnly(root) {
-      let fileNames = fs.readdirSync(root, {withFileTypes: true})
-      .filter(item => !item.isDirectory())
-      .map(item => item.name)
-      this.files = fileNames;
+      this.files = fs.readdirSync(root, {withFileTypes: true})
+        .filter(item => !item.isDirectory())
+        .map(item => item.name)
     },
     dirsOnly(root) {
-      let dirNames = fs.readdirSync(root, {withFileTypes: true})
-      .filter(item => item.isDirectory())
-      .map(item => item.name)
-      this.directories = dirNames;
+      this.directories = fs.readdirSync(root, {withFileTypes: true})
+        .filter(item => item.isDirectory())
+        .map(item => item.name)
     }
   }
 }
