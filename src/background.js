@@ -5,7 +5,7 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const os = require("os");
 const pty = require("node-pty");
 
-var clear = require('../start_over');
+var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'

@@ -42,7 +42,7 @@
 
 <script>
 
-import Navigation from './Navigation.vue'
+import Navigation from '../../router/Navigation.vue'
 import Workflows from './Workflows.vue'
 
 
