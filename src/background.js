@@ -47,6 +47,7 @@ async function createWindow() {
   });
 
   ipcMain.on("terminal.toTerm", function(event, data) {
+    win.webContents.send("user_input", data);
     ptyProcess.write(data);
   });
 
