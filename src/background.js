@@ -1,6 +1,10 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+<<<<<<< HEAD
+=======
+//import { DialogContent } from '@material-ui/core';
+>>>>>>> 183/change-working-directory-zw
 
 
 const os = require("os");
@@ -8,7 +12,7 @@ const pty = require("node-pty");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-
+var replicate = require('../replicate_repo')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -56,12 +60,17 @@ async function createWindow() {
   ipcMain.on("openFinder", function() {
   dialog.showOpenDialog({
     defaultPath:app.getPath('home'), 
-    butonLabel:"Copy Directory",
     properties:['openFile', 'openDirectory']
     }).then((result)=> {
-     console.log(result.filePaths)
+      let pwd = result.filePaths[0]
+      ptyProcess.write('cd ' + pwd);
+      ptyProcess.write('\n');
+      ptyProcess.write('clear');
+      ptyProcess.write('\n');
+      replicate.replicate_repo(pwd)
 
-  });
+  }).catch((e) =>
+  console.error(e));
 })
 
   // ipcMain.on("gitStarted.to")
