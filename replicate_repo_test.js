@@ -4,7 +4,9 @@ async function replicate(pwd) {
     // Using util.promisify to return a Promise<{ stdout, stderr }> object
     // this promisifies the child process 
     const exec = util.promisify(require('child_process').exec);
+    const fs = require('fs');
 
+    
     try {
         let pwd = process.cwd()
         console.log("currently in directory " + pwd + " trying to move into GitBetterTestRepository in replicate")
@@ -33,8 +35,6 @@ async function replicate(pwd) {
         console.log("unable to copy GitBetterTestRepository")
         console.log(error)
     }
-
-   
 }
 
 // Defining module so that it can be exported 
