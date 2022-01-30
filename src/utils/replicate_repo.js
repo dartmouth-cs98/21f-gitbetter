@@ -8,7 +8,7 @@ async function replicate(pwd) {
     try {
 
         console.log("currently in directory " + pwd)
-        new_dir = pwd + '.gb'
+        let new_dir = pwd + '.gb'
         // Change the directory so that we are only copying the tester folder
         process.chdir(new_dir)
     } catch (err) {
@@ -16,7 +16,7 @@ async function replicate(pwd) {
     }
 
     // Current woring directory should now be the test repository 
-    let pwd = process.cwd()
+    pwd = process.cwd()
     // Copying the repository
 
     let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);

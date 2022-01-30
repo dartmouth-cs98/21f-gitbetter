@@ -8,7 +8,7 @@ const pty = require("node-pty");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var replicate = require('../replicate_repo')
+var replicate = require('./utils/replicate_repo')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
