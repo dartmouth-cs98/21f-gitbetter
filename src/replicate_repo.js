@@ -4,11 +4,9 @@ async function replicate(pwd) {
     // Using util.promisify to return a Promise<{ stdout, stderr }> object
     // this promisifies the child process 
     const exec = util.promisify(require('child_process').exec);
+    let new_dir = pwd + '.gb'
 
     try {
-
-        console.log("currently in directory " + pwd)
-        new_dir = pwd + '.gb'
         // Change the directory so that we are only copying the tester folder
         process.chdir(new_dir)
     } catch (err) {
@@ -16,7 +14,7 @@ async function replicate(pwd) {
     }
 
     // Current woring directory should now be the test repository 
-    let pwd = process.cwd()
+    pwd = process.cwd()
     // Copying the repository
 
     let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);

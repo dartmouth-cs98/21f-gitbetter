@@ -1,11 +1,9 @@
-async function replicate(pwd) {
+async function replicate() {
     // Importing Utilities module 
     const util = require('util');
     // Using util.promisify to return a Promise<{ stdout, stderr }> object
     // this promisifies the child process 
     const exec = util.promisify(require('child_process').exec);
-    const fs = require('fs');
-
     
     try {
         let pwd = process.cwd()

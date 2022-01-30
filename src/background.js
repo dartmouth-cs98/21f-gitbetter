@@ -8,7 +8,7 @@ const pty = require("node-pty");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var replicate = require('../replicate_repo')
+var { replicate } = require('./replicate_repo')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -54,20 +54,15 @@ async function createWindow() {
   });
 
   ipcMain.on("openFinder", function() {
-  dialog.showOpenDialog({
-    defaultPath:app.getPath('home'), 
-    properties:['openFile', 'openDirectory']
-    }).then((result)=> {
-      let pwd = result.filePaths[0]
-      ptyProcess.write('cd ' + pwd);
-      ptyProcess.write('\n');
-      ptyProcess.write('clear');
-      ptyProcess.write('\n');
-      replicate.replicate_repo(pwd)
-
-  }).catch((e) =>
-  console.error(e));
-})
+    dialog.showOpenDialog({
+      defaultPath:app.getPath('home'), 
+      properties:['openFile', 'openDirectory'],
+    }).then(({ filePaths })=> {
+      const [pwd] = filePaths;
+      ptyProcess.write(`cd "${pwd}" \n`);
+      replicate(pwd);
+    }).catch(console.error);
+  })
 
   // ipcMain.on("gitStarted.to")
   if (process.env.WEBPACK_DEV_SERVER_URL) {
