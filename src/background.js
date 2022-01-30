@@ -1,10 +1,6 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-<<<<<<< HEAD
-=======
-//import { DialogContent } from '@material-ui/core';
->>>>>>> 183/change-working-directory-zw
 
 
 const os = require("os");
