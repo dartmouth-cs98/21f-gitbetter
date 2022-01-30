@@ -1,14 +1,14 @@
 async function replicate(pwd) {
     // Importing Utilities module 
+    console.log(`Import at ${pwd}`);
     const util = require('util');
     // Using util.promisify to return a Promise<{ stdout, stderr }> object
     // this promisifies the child process 
     const exec = util.promisify(require('child_process').exec);
+    console.log("currently in directory " + pwd)
+    let new_dir = pwd + '.gb'
 
     try {
-
-        console.log("currently in directory " + pwd)
-        let new_dir = pwd + '.gb'
         // Change the directory so that we are only copying the tester folder
         process.chdir(new_dir)
     } catch (err) {
