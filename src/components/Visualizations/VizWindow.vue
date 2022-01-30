@@ -1,24 +1,49 @@
 <template>
   <div class="vis-box">
-    <div class="subtitle"> 
-      {{this.getCommand()}}
-      <Viz :command="this.command"/>
+    <div :key="this.currCommand" class="subtitle">
+      <!-- {{this.getCommand()}} -->
+      <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
   </div>
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
+const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
 
 export default {
   name: 'VizWindow',
   data() {
     return {
-      command: ''
+      command: '',
+      currCommand: '',
     }  
   },
   components: {
-    Viz
+    Viz,
+  },
+  // computed: {
+  //   command() {
+  //     return this.currCommand;
+  //   }
+  // },
+  mounted() {
+    const channel = 'terminal.toTerm';
+    
+    ipcRenderer.removeAllListeners("user_input")
+    ipc.on("user_input", function(event, data) {
+      if (data.match(/^\s+/) && data !== ' ') {
+        if (this.currCommand.includes('git')) {
+          this.command = this.currCommand;  
+        }    
+        this.currCommand = '';
+        return;
+      }
+      this.currCommand += data; 
+    });
+
+    ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
     getCommand() {
@@ -42,6 +67,7 @@ export default {
   border-style: solid;
   background-color: #272323;
   border-color: green;
+  overflow-y: scroll;
 }
 .subtitle {
   background-color: #272323;
