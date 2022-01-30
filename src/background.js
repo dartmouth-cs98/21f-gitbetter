@@ -60,9 +60,7 @@ async function createWindow() {
     }).then(({ filePaths })=> {
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
-      // ptyProcess.write('clear\n');
       replicate(pwd);
-      console.warn(`repo at ${pwd} has been cloned`);
     }).catch(console.error);
   })
 
