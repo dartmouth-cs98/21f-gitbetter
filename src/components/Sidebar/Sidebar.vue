@@ -37,11 +37,12 @@ export default {
   methods: {
     closeDirectories (){
       console.log("Closing directories");
-      if (document.getElementById("sidebar") == null){
+      if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null || document.getElementById("top-wrapper") == null){
         return
       }
       document.getElementById("sidebar").style.display = "none";
       document.getElementById("open-side-bar").style.display = "block";
+      document.getElementById("top-wrapper").style.maxWidth = "none";
     },
     dirRoot () {
       return path.basename(process.cwd()).toUpperCase().replace('.GB', '');

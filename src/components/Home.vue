@@ -10,7 +10,7 @@
       <div id="open-side-bar">
       <font-awesome-icon v-on:click="openDirectories" class="faIcon" icon="folder" style="padding-left: 5px;"/>
       </div>
-      <div class="top-wrapper column">
+      <div class="top-wrapper column" id="top-wrapper">
           <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
@@ -74,8 +74,7 @@ export default {
   },
   methods: {
     openDirectories() {
-      console.log("Opening directories");
-      if (document.getElementById("sidebar") == null){
+      if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null){
         return
       }
       document.getElementById("sidebar").style.display = "block";
