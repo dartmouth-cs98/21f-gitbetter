@@ -37,9 +37,6 @@ var start_over =  async function start_over() {
         console.error("error switching into GitBetterTestRepository at the end of start_over")
     }
 
-
-
-
 }
 
 const _start_over = start_over;

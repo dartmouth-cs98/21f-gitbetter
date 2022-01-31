@@ -56,14 +56,20 @@ async function createWindow() {
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
-      properties:['openFile', 'openDirectory'],
+      properties:['openDirectory'],
     }).then(({ filePaths })=> {
+      // add canceled before filePaths
+    //  if (canceled) {
+      // this line does not work 
+    //    window.location.assign('/')
+    //  }
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
       ptyProcess.write(`'clear' \n`);
       ptyProcess.write('git status');
       ptyProcess.write('\n');
       replicate.replicate_repo(pwd);
+
     }).catch(console.error);
   })
 
