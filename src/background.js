@@ -6,9 +6,9 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const os = require("os");
 const pty = require("node-pty");
 
-var clear = require('./utils/start_over');
+var clear = require('../start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var { replicate } = require('./replicate_repo')
+var replicate = require('../replicate_repo')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -56,11 +56,20 @@ async function createWindow() {
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
-      properties:['openFile', 'openDirectory'],
+      properties:['openDirectory'],
     }).then(({ filePaths })=> {
+      // add canceled before filePaths
+    //  if (canceled) {
+      // this line does not work 
+    //    window.location.assign('/')
+    //  }
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
-      replicate(pwd);
+      ptyProcess.write(`'clear' \n`);
+      ptyProcess.write('git status');
+      ptyProcess.write('\n');
+      replicate.replicate_repo(pwd);
+
     }).catch(console.error);
   })
 
