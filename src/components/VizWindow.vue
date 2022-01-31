@@ -1,14 +1,16 @@
 <template>
   <div class="vis-box">
     <div class="subtitle"> 
-      {{this.getCommand()}}
-      <Viz :command="this.command"/>
+      
     </div>
   </div>
 </template>
 
 <script>
-import Viz from './Visualization.vue'
+//import Viz from './Visualization.vue'
+
+//{{this.getCommand()}}
+  //    <Viz :command="this.command"/>
 
 export default {
   name: 'VizWindow',
@@ -18,7 +20,7 @@ export default {
     }  
   },
   components: {
-    Viz
+  //  Viz
   },
   methods: {
     getCommand() {

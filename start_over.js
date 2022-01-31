@@ -3,11 +3,11 @@ var start_over =  async function start_over() {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-    //const fs = require('fs');
+    const fs = require('fs');
 
     let pwd = process.cwd()
     let  new_dir = pwd + ".gb"
-    
+
     if (!fs.existsSync(new_dir)){
         console.log(".gb directory already exists")
         return
