@@ -13,10 +13,10 @@
             </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
-                <div class="step">
+                <h1 class="title">
                     {{ this.selected.title }}
-                </div>
-                <div class="instructions">
+                </h1>
+                <div class="subtitle step">
                     {{ this.ind + 1}}. {{ this.curr.inst }}
                 </div>
                 <div class="command" v-if="commandExists">
@@ -153,9 +153,9 @@ export default {
     padding: 24px;
 }
 
-.step {
+/* .step {
     font-size: 18px;
-}
+} */
 
 .copy-icon {
     margin-left: 12px;
@@ -173,6 +173,7 @@ export default {
 .command {
     display: flex;
     justify-content: center;
+    padding-top: 10%;
 }
 
 .advance { 
