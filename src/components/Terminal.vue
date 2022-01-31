@@ -89,13 +89,8 @@ export default {
       ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "clear\n")
 
-      // term.write("Enter \"gitbetter -help\" for more information. Type \"gitbetter visualize\" to see git commands that currently support visualizations!\n")
       
-      // let currCommand = ""
       term.onData((data) => {
-        // if(!data.includes("\n")){
-
-        // }
         ipc.send("terminal.toTerm", data);
       });
       ipc.on("terminal.incData", function(event, data) {
