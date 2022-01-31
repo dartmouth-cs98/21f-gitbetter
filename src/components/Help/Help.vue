@@ -7,7 +7,10 @@
         </div>
         <div class="top-wrapper column">
           <div class="general-wrapper">
-          <h1 class="title">Help</h1>
+          <div class="title-wrapper">
+            <div class="title">Help</div>           
+            <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+          </div>
           <SearchBar class="search-section" @newCommand="newCommand" />
           <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
           </div>
@@ -19,8 +22,8 @@
 
 <script>
 
-import Sidebar from './Sidebar.vue'
-import Navigation from './Navigation.vue'
+import Sidebar from '../Sidebar/Sidebar.vue'
+import Navigation from '../../router/Navigation.vue'
 import SearchBar from './SearchBar.vue'
 import RecentSearches from './RecentSearches.vue'
 
@@ -44,7 +47,7 @@ export default {
   methods: {
     newCommand() {
       this.recents = this.$store.getters.getRecentSearches;
-    }
+    },
   }
 }
 </script>
@@ -54,10 +57,17 @@ export default {
     height: 100vh;
 }
 .general-wrapper {
-  min-width: 90%;
+  width: 100%;
 }
 .sidebar {
   padding-right: 0;
+}
+.title-wrapper {
+  display:flex;
+  justify-content: space-between;
+}
+.button {
+  margin-right: 1em;
 }
 .top-wrapper {
   display:flex;

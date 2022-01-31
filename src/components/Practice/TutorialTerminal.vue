@@ -1,6 +1,6 @@
 // Adapted from: https://vuejsexamples.com/component-vuejs-to-simulate-a-terminal/
 <template>
-  <div id="terminal"></div>
+  <div id="tutorialterminal"></div>
 </template>
 
 <script>
@@ -22,43 +22,19 @@ export default {
       send_to_terminal: '',
       process: Object,
       fitObj: Object,
-      // banner: {
-      //   header: "GitBetter 🔥",
-      //   helpHeader: 'Enter "gitbetter -help" for more information. Type "gitbetter visualize" to see git commands that currently support visualizations',
-      //   emoji: {
-      //       first: "",
-      //       second: "",
-      //       time: 1000000,
-      //   },
-      //   sign: "$",
-      // },
-      // commands: [
-      //   { name: "credits",
-      //     get() {
-      //       return `With ❤️ By Salah Bentayeb @halasproject.`;
-      //   }
-      //   },
-
-      //   {
-      //     name: "gitstarted",
-      //     get() {
-      //       return replicate();
-      //     }
-      //   },
-      // ]
+      responses: ['git -checkout -b', 'git commit -m "My first commit!"', 'git push', 'git pull', 'git add'],
+      prompts: ["Ready to start learning GitHub? Get started by creating a new branch called my_branch.", "Great! You just created a new branch. Now, let's assume that you have made some changes to a file in your repository. Now, make a commit with the message, 'My first commit!'", "Success! You have just made your first commit. Now, push your commit so that it can be merged into the main repository.", "Success! You have now pushed the changes that you made into the main repository which everyone will be able to see. Now, someone else has just pushed their own code, so you need to pull the changes so that your branch is up to date. Pull from GitHub.", "Success! You have just pulled the new changes from GitHub, and your repository is up to date. Now, add a file to a commit.", "Success! You have just added a file to your commit. You are ready to begin using GitHub!"],
+      promptcounter: 0,
+      responsecounter: 0,
+      i: 0, 
+      wrong: "Close! Keep trying :)", 
     };
   },
   mounted () {
-    // const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
-    // this.process = pty.spawn(shell, [], {
-    //   name: 'xterm-color',
-    //   cols: 80,
-    //   rows: 30,
-    //   cwd: process.cwd(),
-    //   env: process.env
-    // });
     this.makeScript();
     this.makeTerm();
+    this.advanceResponse();
+    this.prompt();
   },
   created() {
     window.addEventListener("resize", this.resizeTerm);
@@ -82,13 +58,9 @@ export default {
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
 
-      term.open(document.getElementById('terminal'));
+      term.open(document.getElementById('tutorialterminal'));
       // fitAddon.fit();
-      ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
-      //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
-      ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
-      ipc.send("terminal.toTerm", "clear\n")
-
+      ipc.send("terminal.toTerm", "echo 'Welcome'")
       
       term.onData((data) => {
         ipc.send("terminal.toTerm", data);
@@ -103,6 +75,17 @@ export default {
       }
       catch(error) {
         console.log(error);
+      }
+    },
+    advanceResponse() { 
+        ipc.send("terminal.toTerm", this.prompts[this.promptcounter]);
+        },
+    prompt(value) {
+      if (value == this.responsecounter) {
+        this.promptcounter += 1 
+      }
+      else {
+          ipc.send("terminal.toTerm", this.wrong)
       }
     }
   }

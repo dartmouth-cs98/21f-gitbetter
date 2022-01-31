@@ -12,6 +12,7 @@
 //{{this.getCommand()}}
   //    <Viz :command="this.command"/>
 
+
 export default {
   name: 'VizWindow',
   data() {
