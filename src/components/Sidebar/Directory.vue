@@ -83,7 +83,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .directory{
-  padding-left: 4%;
+  padding-left: 10%;
   background-color: #272727;
 }
 

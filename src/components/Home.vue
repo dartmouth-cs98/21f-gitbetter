@@ -4,10 +4,13 @@
   <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <div class="column is-fullheight is-one-fifth sidebar">
+      <div id="sidebar" class="column is-fullheight is-one-fifth sidebar">
           <Sidebar />
       </div>
-      <div class="top-wrapper column">
+      <div id="open-side-bar">
+      <font-awesome-icon v-on:click="openDirectories" class="faIcon" icon="folder" style="padding-left: 5px;"/>
+      </div>
+      <div class="top-wrapper column" id="top-wrapper">
           <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
@@ -70,6 +73,13 @@ export default {
     Navigation,
   },
   methods: {
+    openDirectories() {
+      if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null){
+        return
+      }
+      document.getElementById("sidebar").style.display = "block";
+      document.getElementById("open-side-bar").style.display = "none";
+    },
     closeVisualization() {
       document.getElementById("visualizations").style.display = "none";
       document.getElementById("opening-icon").style.display = "block";
@@ -140,6 +150,23 @@ export default {
 #opening-icon {
   display:none;
 }
+#open-side-bar{
+  display:none;
+  background-color: #272727;
+  border-color: green;
+  border-width: 1px;
+  border-style: solid;
+  padding: 1% 0%;
+  width: 48px;
+  margin-top: 0.75rem;
+}
+
+.faIcon {
+    width: 3em;
+    cursor: pointer;
+    color:white;
+}
+
 
 .visButtons {
   margin-right: 12px;

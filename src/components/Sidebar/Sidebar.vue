@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar">
-      <div> 
+      <div class="header"> 
+        <font-awesome-icon id="closing-icon" v-on:click="closeDirectories" class="faIcon" icon="folder"/>
         <b>{{this.dirRoot()}}</b>
       </div>
     <File v-for="file in files" :filename="file" :key="file.id" />
@@ -34,6 +35,15 @@ export default {
     this.dirsOnly(this.dir);
   },
   methods: {
+    closeDirectories (){
+      console.log("Closing directories");
+      if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null || document.getElementById("top-wrapper") == null){
+        return
+      }
+      document.getElementById("sidebar").style.display = "none";
+      document.getElementById("open-side-bar").style.display = "block";
+      document.getElementById("top-wrapper").style.maxWidth = "none";
+    },
     dirRoot () {
       return path.basename(process.cwd()).toUpperCase().replace('.GB', '');
     },
@@ -54,6 +64,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .header{
+    padding-left: 0px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+  }
   .sidebar {
       background-color: #272727;
       color: white;
@@ -69,7 +85,7 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 100%;
-    display: block;
     overflow: hidden;
+    padding-left: 4%;
   }
 </style>
