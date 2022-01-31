@@ -4,17 +4,11 @@
   <Navigation />
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <div id="sidebar" class="column is-fullheight is-one-fifth sidebar">
-          <Sidebar />
-      </div>
-      <div id="open-side-bar">
-      <font-awesome-icon v-on:click="openDirectories" class="faIcon" icon="folder" style="padding-left: 5px;"/>
-      </div>
-      <div class="top-wrapper column" id="top-wrapper">
+      <div class="top-wrapper column">
           <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
-                Terminal
+                TutorialTerminal
               </div>
               <div class="visButtons">
                 <button 
@@ -27,7 +21,7 @@
                 </button>
               </div>
             </div>
-              <Terminal />
+              <TutorialTerminal />
           </div>
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
@@ -54,32 +48,27 @@
 
 <script>
 import VizWindow from './Visualizations/VizWindow.vue'
-import Terminal from './Terminal.vue'
-import Sidebar from './Sidebar/Sidebar.vue'
+import TutorialTerminal from './TutorialTerminal.vue'
 import Navigation from '../router/Navigation.vue'
+// import Walkthrough from './Walkthrough.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 Vue.use(VueMaterial)
+// Vue.use(Walkthrough)
 
 export default {
-  name: 'Home',
+  name: 'DoItYourself',
   components: {
     VizWindow,
-    Terminal,
-    Sidebar,
+    TutorialTerminal,
     Navigation,
+    // Walkthrough
   },
   methods: {
-    openDirectories() {
-      if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null){
-        return
-      }
-      document.getElementById("sidebar").style.display = "block";
-      document.getElementById("open-side-bar").style.display = "none";
-    },
+    
     closeVisualization() {
       document.getElementById("visualizations").style.display = "none";
       document.getElementById("opening-icon").style.display = "block";
@@ -89,7 +78,8 @@ export default {
       document.getElementById("visualizations").style.display = "block";
       document.getElementById("terminal-wrapper").style.width = "50%";
       document.getElementById("opening-icon").style.display = "none";
-    }
+    },
+
   }
 }
 
@@ -101,9 +91,6 @@ export default {
 .columns {
     height: 100vh;
 }
-.sidebar {
-  padding-right: 0;
-}
 .column {
   width: 83%;
 }
@@ -113,7 +100,7 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  max-width: 80%;
+  max-width: 100%;
 }
 .headline-component {
   background-color: #53336B;
@@ -150,23 +137,6 @@ export default {
 #opening-icon {
   display:none;
 }
-#open-side-bar{
-  display:none;
-  background-color: #272727;
-  border-color: green;
-  border-width: 1px;
-  border-style: solid;
-  padding: 1% 0%;
-  width: 48px;
-  margin-top: 0.75rem;
-}
-
-.faIcon {
-    width: 3em;
-    cursor: pointer;
-    color:white;
-}
-
 
 .visButtons {
   margin-right: 12px;
@@ -175,9 +145,6 @@ export default {
 
 
 @media only screen and (max-width: 770px) {
-  .sidebar {
-    display: none;
-  }
   .terminal-wrapper {
     margin-left: 12px;
   }
