@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { workflows } from '../assets/workflows.js'
+import { workflows } from '../../constants/workflows.js'
 
 export default {
   name: 'Workflows',

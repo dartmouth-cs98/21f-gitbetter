@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faChevronRight, faChevronDown, faEye, faEyeSlash, faSearch, faPlus, faCopy, faTimes, faChevronLeft, faQuestionCircle);
 
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false;

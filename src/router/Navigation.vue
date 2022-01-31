@@ -58,9 +58,8 @@
 </template>
 
 <script>
-var start_over = require('../../start_over')
-import Loading from './Loading.vue'
-
+var start_over = require('../utils/start_over')
+import Loading from '../components/Loading.vue'
 
 export default {
   name: 'Navigation',
