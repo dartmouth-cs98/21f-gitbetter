@@ -67,8 +67,11 @@ export default {
   border-style: solid;
   background-color: #272323;
   border-color: green;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
+.vis-box::-webkit-scrollbar {
+  display: none;
+} 
 .subtitle {
   background-color: #272323;
   color: white;

@@ -7,7 +7,10 @@
         </div>
         <div class="top-wrapper column">
           <div class="general-wrapper">
-            <h1 class="title">Tutorials</h1>
+            <div class="title-wrapper">
+              <div class="title">Tutorials</div>           
+              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+            </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
                 <div class="step">
@@ -111,11 +114,19 @@ export default {
     height: 100vh;
 }
 .general-wrapper {
-  min-width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
+.title-wrapper {
+  display:flex;
+  justify-content: space-between;
+}
+.button {
+  margin-right: 1em;
+}
+
 .sidebar {
   padding-right: 0;
 }

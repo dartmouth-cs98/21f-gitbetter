@@ -91,8 +91,11 @@ export default {
 
       // term.write("Enter \"gitbetter -help\" for more information. Type \"gitbetter visualize\" to see git commands that currently support visualizations!\n")
       
-      
+      // let currCommand = ""
       term.onData((data) => {
+        // if(!data.includes("\n")){
+
+        // }
         ipc.send("terminal.toTerm", data);
       });
       ipc.on("terminal.incData", function(event, data) {
@@ -107,30 +110,6 @@ export default {
         console.log(error);
       }
     }
-
-    // prompt(value) {
-    //   this.$root.$emit('eventing', value);
-    //   if(value === 'gitbetter -help') {
-    //     this.send_to_terminal = "Wondering how to use GitBetter? \nGitBetter works just like Git, \nbut all changes are temporary\n(unless you decide to keep them). \nCheck out the help tab to find commands..."
-    //   }
-    //   else if(value == 'gitbetter visualize') {
-    //     this.send_to_terminal = "Welcome to GitBetter Term 1!\nYou can run any of the following git commands\nto see visualizations of how they will\naffect the state of your repository: \n* git branch\n* git log\n* git diff\n* git status\n* git pull\n* git push\n* git checkout -b branch\n* git commit\n* git branch -u origin/master\n* git fetch\n* git revert"
-    //   }
-    //   else {
-    //     try {
-    //         run_command.run_script(value, null, (error, returnVal)=> {
-    //           if (error) { 
-    //             console.log("here")
-    //             //eventually a look up table for errors will go here
-    //           } 
-    //         this.send_to_terminal = returnVal;
-    //         });
-    //     }
-    //     catch(error) {
-    //       this.send_to_terminal = "command not found"
-    //     }
-    //   }
-    //},
   }
 };
 </script>
