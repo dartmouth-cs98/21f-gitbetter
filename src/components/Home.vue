@@ -57,6 +57,7 @@ import VizWindow from './Visualizations/VizWindow.vue'
 import Terminal from './Terminal.vue'
 import Sidebar from './Sidebar/Sidebar.vue'
 import Navigation from '../router/Navigation.vue'
+// import DoItYourself from './DoItYourself.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -71,6 +72,7 @@ export default {
     Terminal,
     Sidebar,
     Navigation,
+    // DoItYourself
   },
   methods: {
     openDirectories() {

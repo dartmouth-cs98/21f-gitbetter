@@ -30,7 +30,13 @@
           <img src="../assets/logo.png" />
           </router-link>
         </div>
-
+                <div
+            class="level-item has-text-centered"
+            style="color:black; font-weight:500;cursor:pointer;"
+            @click="$router.push('/DoItYourself')"
+            >
+                Do It Yourself
+        </div>
         <div
             class="level-item has-text-centered"
             style="color:black; font-weight:500;cursor:pointer;"
@@ -71,6 +77,11 @@ export default {
           id: 3,
           text: 'Tutorials',
           page:'/tutorials'
+        },
+        {
+          id: 4,
+          text: 'Do It Yourself',
+          page:'/DoItYourself'
         },
       ],
 
