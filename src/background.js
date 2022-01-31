@@ -61,7 +61,8 @@ async function createWindow() {
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
       ptyProcess.write(`'clear' \n`);
-      ptyProcess.write(`'git status'\n`);
+      ptyProcess.write('git status');
+      ptyProcess.write('\n');
       replicate.replicate_repo(pwd);
     }).catch(console.error);
   })
