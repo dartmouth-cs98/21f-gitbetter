@@ -1,6 +1,6 @@
 <template>
   <div class="viz">
-      <BranchViz />
+      <StatusViz />
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
   </div>
@@ -8,8 +8,8 @@
 
 <script>
 // import DirectoryTree from './DefaultViz.vue'
-import BranchViz from './BranchViz.vue'
-
+// import BranchViz from './BranchViz.vue'
+import StatusViz from './StatusViz.vue'
 export default {
   name: 'Viz',
   props: {
@@ -17,7 +17,8 @@ export default {
   },
   components: {
       // DirectoryTree,
-      BranchViz,
+      // BranchViz,
+      StatusViz,
   }
 }
 </script>
@@ -28,4 +29,7 @@ export default {
     display: flex;
     overflow: auto;
 }
+.vis::-webkit-scrollbar {
+  display: none;
+} 
 </style>

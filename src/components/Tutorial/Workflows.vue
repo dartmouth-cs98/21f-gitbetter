@@ -1,12 +1,16 @@
 <template>
     <div class="sidebar">
-        <div class="workflow-heading"> 
-          Workflow tutorials
+    <aside class="menu">
+    <div class="workflow-heading">Workflows</div>
+        <div v-for="flow in workflows" :key="flow.id" class="menu-wrapper"> 
+          <div class="menu-label"> {{ flow.title }} </div>
+       <div class="menu-list">
+          <div class="workflow-option" v-for="tutorial in flow.opts" :key="tutorial.id" @click="$emit('changeFlow', tutorial)">
+              {{ tutorial.title }}
+          </div>
         </div>
-        <div class="spacer">___________________________________</div>
-      <p class="workflow-option" v-for="flow in workflows" :key="flow.id" @click="$emit('changeFlow', flow)">
-          {{ flow.title }}
-      </p>
+         </div>
+      </aside>
     </div>
 </template>
 
@@ -41,24 +45,39 @@ export default {
       overflow: auto;
       max-height: 95%;
   }
+  .sidebar::-webkit-scrollbar {
+  display: none;
+}
+.menu::-webkit-scrollbar {
+  display: none;
+}
+.menu {
+  overflow: auto;
+}
+  .menu-wrapper {
+    margin-bottom: 1em;
+  }
   .workflow-heading {
-        font-size: 18px;
-        font-weight: 500;
-        cursor: default;
-  }
-  .spacer {
-    color: #636363;
-    line-height: 8px;
-    font-size: 8px;
+    margin-bottom: 0.5em;
+    font-size: 22px;
+    font-weight: 500;
     cursor: default;
-
-
   }
+
+  .menu-label {
+    cursor: default;
+    color: #c5c5c5;
+    font-size: 0.85em;
+  }
+ 
   .workflow-option {
       cursor: pointer;
       padding: 1px;
-      width: 100%;
+      width: 96%;
       padding-left: 6px;
+      white-space: initial; 
+      border-bottom: rgba(0,256,0,0.3) 0.5px solid;
+      font-size: 0.9em;
   }
   b, div {
     white-space: nowrap;

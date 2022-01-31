@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import VizWindow from './Visualizations/VizWindow.vue'
+import VizWindow from '../Visualizations/VizWindow.vue'
 import TutorialTerminal from './TutorialTerminal.vue'
-import Navigation from '../router/Navigation.vue'
+import Navigation from '../../router/Navigation.vue'
 // import Walkthrough from './Walkthrough.vue'
 
 import Vue from 'vue'
