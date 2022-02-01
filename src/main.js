@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
+import 'zingchart/es6';
+import zingchartVue from 'zingchart-vue';
 
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
@@ -15,6 +17,7 @@ library.add(faChevronRight, faChevronLeft, faChevronDown, faEye, faEyeSlash, faS
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('zingchart', zingchartVue)
 
 Vue.config.productionTip = false;
 require('@/assets/main.scss');

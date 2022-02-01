@@ -42,7 +42,9 @@
     "xterm": "^4.16.0",
     "xterm-addon-fit": "^0.5.0",
     "xterm-addon-unicode11": "^0.3.0",
-    "xterm-addon-web-links": "^0.5.0"
+    "xterm-addon-web-links": "^0.5.0",
+    "zingchart": "^2.9.8-1",
+    "zingchart-vue": "^2.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

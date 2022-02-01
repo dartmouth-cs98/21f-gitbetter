@@ -3,14 +3,13 @@
     <div v-for="direc in branches" :key="direc" >
         <button class="branch-button" v-on:click="switchBranch(direc)"> {{ direc }} </button>
     </div>
-    <!-- <vo-basic :key="this.branchData.name" :data="this.branchData" direction="l2r"></vo-basic> -->
-    
+    <zingchart :data="chartData"></zingchart>
 </div>
 </template>
 
 <script>
-// import { VoBasic } from "vue-orgchart";
-// import "vue-orgchart/dist/style.min.css";
+import 'zingchart/es6';
+import zingchartVue from 'zingchart-vue';
 
 const pty = require("node-pty");
 const ipc = require("electron").ipcRenderer
@@ -18,18 +17,44 @@ const ipc = require("electron").ipcRenderer
 export default {
     name: 'BranchViz',
     components: {
-        // VoBasic,
+        zingchart: zingchartVue,
     },
     data () {
+        let branches = ['firstName', 'somewhat_long_name_that_hopefully_exceeds_window_len', 'branch3'];
         return {
-            branches: ['firstName', 'somewhat_long_name_that_hopefully_exceeds_window_len', 'branch3'],
+            branches,
             ptyProcess: pty.spawn('bash', [], {
                 name: "xterm-color",
                 cols: 80,
                 rows: 100,
-                cwd: process.CWD,
+                cwd: process.CWD, // TODO: get desired working directory
                 env: process.env
-            })
+            }),
+            chartData: {
+                type: 'tree',
+                options: {
+                    aspect : 'tree-down',
+                    orgChart : true,
+                },
+                series: [
+                    {
+                        id: 'theworld',
+                        parent: '',
+                        name: 'The World',
+                    },
+                    {
+                        id: 'asia',
+                        parent: 'theworld',
+                        name: 'Asia',
+                        value: 4100000000
+                    },
+                ],
+                // series: branches.map((branch) => ({
+                //     id: branch,
+                //     parent: '',
+                //     name: branch,
+                // }))
+            }
         }
     },
     methods: {
