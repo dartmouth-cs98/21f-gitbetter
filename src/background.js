@@ -57,12 +57,14 @@ async function createWindow() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
       properties:['openDirectory'],
-    }).then(({ filePaths })=> {
+    }).then(({ canceled, filePaths })=> {
       // add canceled before filePaths
-    //  if (canceled) {
-      // this line does not work 
-    //    window.location.assign('/')
-    //  }
+     if (canceled) {
+      //this line does not work 
+      // ipc messenger to home page
+      // on home page ipc if canceled go back to welcome page
+       window.location.assign('/')
+     }
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
       ptyProcess.write(`'clear' \n`);
