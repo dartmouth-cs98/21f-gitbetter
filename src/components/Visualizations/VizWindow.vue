@@ -3,9 +3,9 @@
     <div :key="this.currCommand" class="subtitle">
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
-    <button v:on-click="this.printStack"> PRINT STACK </button>
-    <button v-if="this.index > 0"> PREVIOUS </button>
-    <button v-if="this.index < this.commandStack.length"> SUBSEQUENT </button>
+    <button @click="this.printStack"> PRINT STACK </button>
+    <button v-if="this.stackIndex > 0"> PREVIOUS </button>
+    <button v-if="this.stackIndex < this.commandStack.length"> SUBSEQUENT </button>
   </div>
 </template>
 
@@ -16,10 +16,10 @@ import Viz from './Visualization.vue'
 
 const channel = 'terminal.toTerm';
 const ACTIONS = {
-  NOOP: 'NOOP',
-  NORMAL: 'NORMAL',
-  ADVISORY: 'ADVISORY',
-  DESTRUCTIVE: 'DESTRUCTIVE',
+  NOOP: 'NOOP', // git status, log
+  NORMAL: 'NORMAL', // git add, commit, push, checkout, stash
+  ADVISORY: 'ADVISORY', // git rm, (read from note)
+  DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
 };
 
 export default {
@@ -42,17 +42,19 @@ export default {
     Viz,
   },
   mounted() {
-    ipcRenderer.removeAllListeners("user_input")
-    ipc.on("user_input", function(_, data) {
+    const userInputChannel = 'user_input';
+    ipcRenderer.removeAllListeners(userInputChannel);
+    ipc.on(userInputChannel, (_, data) => {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.includes('git')) {
           this.command = this.currCommand;
           this.updateStack();
+          this.updateStatus();
         }    
         this.currCommand = '';
         return;
       }
-      this.currCommand += data; 
+      this.currCommand += data;
     });
 
     ipcRenderer.send(channel, 'git branch\n');
@@ -61,20 +63,29 @@ export default {
     inverseCommand() {
       return this.command;
     },
+    updateStatus() {
+      // update git status for next command
+      ipcRenderer.send(channel, 'git status\n');
+    },
     updateStack() {
-      this.stackIndex++;
-      this.commandStack.push({
-        current: {
-          command: this.command,
-          action: ACTIONS.NORMAL,
-          note: '',
-        },
-        previous: {
-          command: this.inverseCommand(),
-          action: ACTIONS.NORMAL,
-          note: '',
-        },
-      });
+      if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
+        this.stackIndex++;
+        this.commandStack.push({
+          current: {
+            command: this.command,
+            action: ACTIONS.NORMAL,
+            note: '',
+          },
+          previous: {
+            command: this.inverseCommand(),
+            action: ACTIONS.NORMAL,
+            note: '',
+          },
+        });
+      } else {
+        // Operation in the middle of stack
+        console.log('not yet supported');
+      }
     },
     printStack() {
       window.irene = this.commandStack;
@@ -88,7 +99,7 @@ export default {
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          alert(operation.note)
+          console.warn(operation.note);
           return;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
@@ -106,7 +117,7 @@ export default {
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          alert(operation.note)
+          console.warn(operation.note);
           return;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
