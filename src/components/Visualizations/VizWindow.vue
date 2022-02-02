@@ -1,9 +1,11 @@
 <template>
   <div class="vis-box">
     <div :key="this.currCommand" class="subtitle">
-      <!-- {{this.getCommand()}} -->
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
+    <button v:on-click="this.printStack"> PRINT STACK </button>
+    <button v-if="this.index > 0"> PREVIOUS </button>
+    <button v-if="this.index < this.commandStack.length"> SUBSEQUENT </button>
   </div>
 </template>
 
@@ -12,30 +14,40 @@ import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
 
+const channel = 'terminal.toTerm';
+const ACTIONS = {
+  NOOP: 'NOOP',
+  NORMAL: 'NORMAL',
+  ADVISORY: 'ADVISORY',
+  DESTRUCTIVE: 'DESTRUCTIVE',
+};
+
 export default {
   name: 'VizWindow',
   data() {
     return {
       command: '',
       currCommand: '',
+
+      stackIndex: 0,
+      commandStack: [],
+      gitStatus: {
+        branch: 'main',
+        filesAdded: [],
+        filesRemoved: [],
+      },
     }  
   },
   components: {
     Viz,
   },
-  // computed: {
-  //   command() {
-  //     return this.currCommand;
-  //   }
-  // },
   mounted() {
-    const channel = 'terminal.toTerm';
-    
     ipcRenderer.removeAllListeners("user_input")
-    ipc.on("user_input", function(event, data) {
+    ipc.on("user_input", function(_, data) {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.includes('git')) {
-          this.command = this.currCommand;  
+          this.command = this.currCommand;
+          this.updateStack();
         }    
         this.currCommand = '';
         return;
@@ -46,11 +58,65 @@ export default {
     ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
-    getCommand() {
-      this.$root.$on('eventing', data => {
-          this.command = data;
-      })
-    }
+    inverseCommand() {
+      return this.command;
+    },
+    updateStack() {
+      this.stackIndex++;
+      this.commandStack.push({
+        current: {
+          command: this.command,
+          action: ACTIONS.NORMAL,
+          note: '',
+        },
+        previous: {
+          command: this.inverseCommand(),
+          action: ACTIONS.NORMAL,
+          note: '',
+        },
+      });
+    },
+    printStack() {
+      window.irene = this.commandStack;
+      console.log(this.commandStack);
+    },
+
+    nextCommand() {
+      const operation = this.commandStack[this.stackIndex].current;
+      switch (operation.action) {
+        case ACTIONS.DESTRUCTIVE: 
+          console.error('Cannot revert destructive command');
+          return;
+        case ACTIONS.ADVISORY:
+          alert(operation.note)
+          return;
+        case ACTIONS.NORMAL:
+        case ACTIONS.NOOP:
+          this.stackIndex++;
+          ipcRenderer.send(channel, operation.command + '\n');
+          break;
+        default:
+          throw new Error('Unknown forward action in commandStack of viz window')
+      } 
+    },
+    previousCommand() {
+      const operation = this.commandStack[this.stackIndex].previous;
+      switch (operation.action) {
+        case ACTIONS.DESTRUCTIVE: 
+          console.error('Cannot revert destructive command');
+          return;
+        case ACTIONS.ADVISORY:
+          alert(operation.note)
+          return;
+        case ACTIONS.NORMAL:
+        case ACTIONS.NOOP:
+          this.stackIndex--;
+          ipcRenderer.send(channel, operation.command + '\n');
+          break;
+        default:
+          throw new Error('Unknown prior action in commandStack of viz window')
+      } 
+    },
   }
 }
 </script>
