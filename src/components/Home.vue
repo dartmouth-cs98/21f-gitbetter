@@ -72,7 +72,7 @@
           </div>
       </div>   
   </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -98,12 +98,13 @@ export default {
     FirstTime
   },
   data() {
-      return {
-          step: -1,
-      }
+    return {
+      step: -1,
+    }
   },
   created() {
-    // this is where we'll get the result of git config user.name, and if it doesn't exist in the DB will set step to 0 and start tutorial
+    // this is where we'll get the result of git config user.name, 
+    // if it doesn't exist in the DB will set step to 0 and start tutorial
     this.step = 0;
   },
   methods: {
