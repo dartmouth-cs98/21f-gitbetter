@@ -29,7 +29,7 @@ export default {
   //   }
   // },
   mounted() {
-    const channel = 'terminal.toTerm';
+    //const channel = 'terminal.toTerm';
     
     ipcRenderer.removeAllListeners("user_input")
     ipc.on("user_input", function(event, data) {
@@ -43,7 +43,7 @@ export default {
       this.currCommand += data; 
     });
 
-    ipcRenderer.send(channel, 'git branch\n');
+    //ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
     getCommand() {
