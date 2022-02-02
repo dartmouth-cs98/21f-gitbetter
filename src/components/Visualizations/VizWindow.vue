@@ -4,8 +4,8 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <button @click="this.printStack"> PRINT STACK </button>
-    <button v-if="this.stackIndex > 0"> PREVIOUS </button>
-    <button v-if="this.stackIndex < this.commandStack.length"> SUBSEQUENT </button>
+    <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
+    <button v-if="this.stackIndex < this.commandStack.length" @click="this.nextCommand"> SUBSEQUENT </button>
   </div>
 </template>
 
@@ -46,10 +46,10 @@ export default {
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
       if (data.match(/^\s+/) && data !== ' ') {
-        if (this.currCommand.includes('git')) {
+        if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
           this.updateStack();
-          this.updateStatus();
+          // this.updateStatus();
         }    
         this.currCommand = '';
         return;
@@ -57,6 +57,7 @@ export default {
       this.currCommand += data;
     });
 
+    ipcRenderer.send(channel, '\n');
     ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
@@ -68,7 +69,7 @@ export default {
       ipcRenderer.send(channel, 'git status\n');
     },
     updateStack() {
-      if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
+      if (!this.commandStack.length || this.stackIndex === this.commandStack.length) {
         this.stackIndex++;
         this.commandStack.push({
           current: {
@@ -89,11 +90,12 @@ export default {
     },
     printStack() {
       window.irene = this.commandStack;
-      console.log(this.commandStack);
+      console.log(this.commandStack.map(({ current }) => current.command));
     },
 
     nextCommand() {
       const operation = this.commandStack[this.stackIndex].current;
+      console.log(`Next: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
@@ -111,7 +113,8 @@ export default {
       } 
     },
     previousCommand() {
-      const operation = this.commandStack[this.stackIndex].previous;
+      const operation = this.commandStack[this.stackIndex-1].previous;
+      console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
