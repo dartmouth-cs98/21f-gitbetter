@@ -1,5 +1,5 @@
 On branch 351/parse-git-status-zw
-Your branch is up to date with 'origin/351/parse-git-status-zw'.
+Your branch is up to date with 8 'origin/351/parse-git-status-zw'.
 
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)

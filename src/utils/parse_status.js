@@ -1,11 +1,12 @@
-// #51fada green??
-//#a3fa43 red??
-
 async function parse_status() {
-    let branchName;
-    let commits;
-    let changedLocal;
-    let tracked;
+
+    // returns the name of the branch, how many commits need to be pushed, 
+    // number of files that have unsaved or untracked files, and number of files 
+    // that are saved and need to be commited 
+    let branchName = ''
+    let commits = 0;
+    let changedLocal = []
+    let tracked = []
 
     const fs = require('fs')
 
@@ -16,42 +17,87 @@ async function parse_status() {
         }
 
         lines = data.split('\n');
+
         for (let i =0; i<lines.length; i++){
-            words = lines[i].split(' ');
-            if (words[0] == "On") {
-                branchName = words[2]
-            }
+            if (lines[i]) {
+                words = lines[i].split(' ');
 
-            else if (words[0] == "Your") {
-                for (j=0; j<lines[i].length; j++){
-                    if (!isNaN(words[j])){
-                        commits = words[j]
-                    }
-                    else {
-                        commits = 0
+                // parsing branch name
+                // updating branchName variable
+                if (words[0] == "On") {
+                    branchName = words[2]
+                }
+
+                // parsing number of commits ahead of branch
+                // updating commits variable
+                else if (words[0] == "Your") {
+                    for (k=0; k<words.length; k++){
+                        if (!isNaN(words[k])){
+                            commits = words[k]
+                        }
                     }
                 }
-            }
 
-            else if (words[3] == "committed:") {
-                tracked = []
-                for (j=2; j<data.length; j++) {
-                    line = lines[i+j].trim()
-                    
-                    if (line[0] != 'm') {
-                        break
+                // parsing number of tracked changes
+                // adding to tracked list
+                else if (words[3] == "committed:") {
+                    for (j=2; j<data.length; j++) {
+                        if (lines[i+j]) {
+                            line = lines[i+j].trim()
+                        
+                            if (line[0] != 'm') {
+                                break
+                            }
+                            tracked = tracked.concat([lines[i+j].split(':')[1].trim()])
+                        }
+                        else {
+                            break
+                        }
                     }
-                    
-                    console.log(lines[i+j])
-                    line = lines[i+j].trim()
-                    tracked = tracked.concat([lines[i+j].split(':')[1].trim()])
-
                 }
-                console.log(tracked)
+
+                // parsing new untracked filse
+                // adding to changedLocal list
+                else if (words[0] == "Untracked") {
+                    for (j=2; j<data.length; j++) {
+                        
+                        if (lines[i+j]) {
+                            line = lines[i+j].trim().split(' ')
+                            changedLocal = changedLocal.concat(line[0])
+                            
+                            if (lines.length != 1) {
+                                break
+                            }
+                        }
+                        else {
+                            break
+                        }
+                    }
+                }  
+            
+                // parsing unsaved changes to file
+                // adding to changedLocal list
+                else if (words[4] == "commit:") {
+                    for (j=3; j<data.length; j++) {
+                        if (lines[i+j]) {
+                            line = lines[i+j].split(' ')
+                            changedLocal = changedLocal.concat([lines[i+j].split(':')[1].trim()])
+                        }
+                        else {
+                            break
+                        }
+                    }
+                }
             }
         }
+        // console.log(branchName)
+        // console.log(commits)
+        // console.log(changedLocal)
+        // console.log(tracked)
+    });
 
-        });
+    // returned as promise
+    return branchName, commits, changedLocal, tracked
 }
 
 parse_status()
@@ -59,6 +105,8 @@ parse_status()
 // const _parse_status = parse_status;
 // export { _parse_status as parse_status};
 
+// could maybe use this function to sort text by color? Was super buggy 
+// but maybe same idea with a bette function would work 
 function getColor(str) {
     var hash = 0;
     for (var x = 0; x < str.length; x++) {
