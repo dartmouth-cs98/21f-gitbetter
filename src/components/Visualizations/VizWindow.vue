@@ -4,8 +4,8 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <button @click="this.printStack"> PRINT STACK </button>
-    <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
-    <button v-if="this.stackIndex < this.commandStack.length" @click="this.nextCommand"> SUBSEQUENT </button>
+    <button v-if="this.stackIndex >= 0" @click="this.previousCommand"> PREVIOUS </button>
+    <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand"> NEXT </button>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import Viz from './Visualization.vue'
 
 const channel = 'terminal.toTerm';
 const ACTIONS = {
-  NOOP: 'NOOP', // git status, log
+  NOOP: 'NOOP', // git status, log, branch
   NORMAL: 'NORMAL', // git add, commit, push, checkout, stash
   ADVISORY: 'ADVISORY', // git rm, (read from note)
   DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
@@ -29,7 +29,7 @@ export default {
       command: '',
       currCommand: '',
 
-      stackIndex: 0,
+      stackIndex: -1,
       commandStack: [],
       gitStatus: {
         branch: 'main',
@@ -49,16 +49,12 @@ export default {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
           this.updateStack();
-          // this.updateStatus();
         }    
         this.currCommand = '';
         return;
       }
       this.currCommand += data;
     });
-
-    ipcRenderer.send(channel, '\n');
-    ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
     inverseCommand() {
@@ -69,7 +65,7 @@ export default {
       ipcRenderer.send(channel, 'git status\n');
     },
     updateStack() {
-      if (!this.commandStack.length || this.stackIndex === this.commandStack.length) {
+      if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
         this.stackIndex++;
         this.commandStack.push({
           current: {
@@ -89,13 +85,13 @@ export default {
       }
     },
     printStack() {
-      window.irene = this.commandStack;
-      console.log(this.commandStack.map(({ current }) => current.command));
+      console.log(this.commandStack.map(
+        ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command));
     },
 
     nextCommand() {
       const operation = this.commandStack[this.stackIndex].current;
-      console.log(`Next: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
+      // TODO: Bug when this.stackIndex === -1 (after the pointer moves to the front of the stack)
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
@@ -106,14 +102,16 @@ export default {
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
           this.stackIndex++;
-          ipcRenderer.send(channel, operation.command + '\n');
+          var { command } = this.commandStack[this.stackIndex].current;
+          console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
+          ipcRenderer.send(channel, command + '\n');
           break;
         default:
           throw new Error('Unknown forward action in commandStack of viz window')
       } 
     },
     previousCommand() {
-      const operation = this.commandStack[this.stackIndex-1].previous;
+      const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
