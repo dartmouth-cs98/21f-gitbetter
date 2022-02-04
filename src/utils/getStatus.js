@@ -1,8 +1,8 @@
 
-// this function is much better at parsing everything but how many commits ahead of main 
 var getStatus = async function getStatus() {
-    
+
     var branchName = ''
+    var commits = 0
     var changedLocal = []
     var tracked = []
 
@@ -73,9 +73,29 @@ var getStatus = async function getStatus() {
         throw err
     }
 
+    try {
+        let {stdout, stderr} = await exec('git status');
+        if (stdout) {
+            let words = stdout.split("\n")[1].split(" ")
+            for (let i=1; i<words.length; i++) {
+                if (!isNaN(words[i])){
+                    commits = words[i]
+                }
+            }
+        }
+
+        else if (stderr) {
+            console.log(stderr)
+        }
+
+    } catch (err){
+        console.warn(`Throwing ${err} in getStatus`)
+        throw err
+    }
+
     console.log(changedLocal)
     
-    return [branchName, changedLocal.length, tracked.length]
+    return [branchName, commits, changedLocal.length, tracked.length]
 }
 
 const _getStatus = getStatus;

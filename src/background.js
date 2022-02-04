@@ -10,6 +10,7 @@ var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
 
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -57,25 +58,17 @@ async function createWindow() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
       properties:['openDirectory'],
-    }).then(({ canceled, filePaths })=> {
-      // add canceled before filePaths
-     if (canceled) {
-      //this line does not work 
-      // ipc messenger to home page
-      // on home page ipc if canceled go back to welcome page
-       window.location.assign('/')
-     }
-
+    }).then(({ filePaths })=> {
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
       //ptyProcess.write('git status > gitStatus.txt');
       //ptyProcess.write('\n');
       ptyProcess.write(`'clear' \n`);
 
-      //ptyProcess.write('git status');
-      //ptyProcess.write('\n');
+      ptyProcess.write('git status');
+      ptyProcess.write('\n');
       replicate.replicate_repo(pwd);
-
+      
     }).catch(console.error);
   })
 

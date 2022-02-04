@@ -1,4 +1,5 @@
-async function parse_status(file) {
+var parse_status = async function parse_status(file) {
+
 
     // returns the name of the branch, how many commits need to be pushed, 
     // number of files that have unsaved or untracked files, and number of files 
@@ -103,8 +104,8 @@ async function parse_status(file) {
 file = './gitStatus.txt'
 parse_status(file)
 
-// const _parse_status = parse_status;
-// export { _parse_status as parse_status};
+const _parse_status = parse_status;
+export { _parse_status as parse_status};
 
 // could maybe use this function to sort text by color? Was super buggy 
 // but maybe same idea with a bette function would work 
