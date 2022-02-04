@@ -97,14 +97,14 @@ async function parse_status(file) {
     });
 
     // returned as promise
-    return [branchName, commits, changedLocal, tracked]
+    return branchName, commits, changedLocal, tracked
 }
 
 // file = './gitStatus.txt'
-// parse_status(file)
+parse_status()
 
-const _parse_status = parse_status;
-export { _parse_status as parse_status};
+// const _parse_status = parse_status;
+// export { _parse_status as parse_status};
 
 // could maybe use this function to sort text by color? Was super buggy 
 // but maybe same idea with a bette function would work 
