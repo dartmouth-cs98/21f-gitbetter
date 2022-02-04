@@ -65,11 +65,15 @@ async function createWindow() {
       // on home page ipc if canceled go back to welcome page
        window.location.assign('/')
      }
+
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
+      //ptyProcess.write('git status > gitStatus.txt');
+      //ptyProcess.write('\n');
       ptyProcess.write(`'clear' \n`);
-      ptyProcess.write('git status');
-      ptyProcess.write('\n');
+
+      //ptyProcess.write('git status');
+      //ptyProcess.write('\n');
       replicate.replicate_repo(pwd);
 
     }).catch(console.error);

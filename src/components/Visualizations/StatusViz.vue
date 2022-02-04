@@ -44,8 +44,16 @@
 
 <script>
 const ipc = require("electron").ipcRenderer
+var parse = require('../../utils/getStatus')
+
 
 export default {
+
+  mounted() {
+    this.getStatus()
+
+  },
+  
   name: 'Status',
   data () {
     return {
@@ -56,6 +64,19 @@ export default {
     }
   },
   methods: {
+      getStatus() {
+
+
+        ipc.send("terminal.toTerm", "git status \n")
+        // // get out of git status command on terminal
+         parse.getStatus().then((result) => {
+            this.branchName = result[0];
+        //   this.commits = result[1];
+           this.changedLocal = result[1];
+           this.tracked = result[2];
+        })
+      },
+
       addAll() {
         ipc.send("terminal.toTerm", "git add .\n")
       },

@@ -7,6 +7,8 @@ var replicate_repo = async function replicate_repo(pwd) {
     const new_dir = pwd + ".gb"
 
     if (fs.existsSync(new_dir)){
+        // this could be a bug if they have updated stuff in the file, maybe should remove
+        // this other .gb file and copy it again? or add a copy before .gb?
         console.log(".gb directory already exists")
         return
     }
