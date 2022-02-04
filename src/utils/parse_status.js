@@ -100,8 +100,8 @@ async function parse_status(file) {
     return branchName, commits, changedLocal, tracked
 }
 
-// file = './gitStatus.txt'
-parse_status()
+file = './gitStatus.txt'
+parse_status(file)
 
 // const _parse_status = parse_status;
 // export { _parse_status as parse_status};
