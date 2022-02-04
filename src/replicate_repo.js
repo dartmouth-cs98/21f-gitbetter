@@ -1,4 +1,3 @@
-
 var replicate_repo = async function replicate_repo(pwd) {
 
     const util = require('util');
@@ -24,6 +23,7 @@ var replicate_repo = async function replicate_repo(pwd) {
             console.log(stderr)
         }
     } catch (err){
+        console.warn(`Throwing ${err} in replicate_repo`)
         throw err
     }
 }

@@ -6,9 +6,9 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const os = require("os");
 const pty = require("node-pty");
 
-var clear = require('../start_over');
+var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var replicate = require('../replicate_repo')
+var replicate = require('./replicate_repo')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -57,12 +57,14 @@ async function createWindow() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
       properties:['openDirectory'],
-    }).then(({ filePaths })=> {
+    }).then(({ canceled, filePaths })=> {
       // add canceled before filePaths
-    //  if (canceled) {
-      // this line does not work 
-    //    window.location.assign('/')
-    //  }
+     if (canceled) {
+      //this line does not work 
+      // ipc messenger to home page
+      // on home page ipc if canceled go back to welcome page
+       window.location.assign('/')
+     }
       const [pwd] = filePaths;
       ptyProcess.write(`cd "${pwd}" \n`);
       ptyProcess.write(`'clear' \n`);

@@ -78,8 +78,8 @@
 <script>
 import VizWindow from './Visualizations/VizWindow.vue'
 import Terminal from './Terminal.vue'
-import Sidebar from './Sidebar.vue'
-import Navigation from './Navigation.vue'
+import Sidebar from './Sidebar/Sidebar.vue'
+import Navigation from '../router/Navigation.vue'
 import FirstTime from './FirstTime.vue'
 
 import Vue from 'vue'
