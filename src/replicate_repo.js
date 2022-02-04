@@ -4,13 +4,16 @@ var replicate_repo = async function replicate_repo(pwd) {
     const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
     
+    // path to new directory, in same parent directory but has .gb extension
     const new_dir = pwd + ".gb"
 
+    // check if file already exists
     if (fs.existsSync(new_dir)){
         console.log(".gb directory already exists")
         return
     }
 
+    // copy contents of repo into .gb repo
     try {
         let {stdout, stderr} = await exec('cp -r ' + pwd + ' ' + new_dir);
         if (stdout) {

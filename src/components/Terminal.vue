@@ -14,6 +14,7 @@ import { Terminal } from 'xterm';
 // var os = require('os');
 // var pty = require('node-pty');
 const ipc = require("electron").ipcRenderer
+var parse = require('../utils/parse_status')
 //Vue.use(shell);
 
 export default {
@@ -95,6 +96,7 @@ export default {
       });
       ipc.on("terminal.incData", function(event, data) {
         term.write(data);
+        parse.parse_staus(data);
       })
     },
     resizeTerm() {
