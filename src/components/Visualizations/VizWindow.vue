@@ -4,7 +4,7 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <button @click="this.printStack"> PRINT STACK </button>
-    <button v-if="this.stackIndex >= 0" @click="this.previousCommand"> PREVIOUS </button>
+    <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
     <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand"> NEXT </button>
   </div>
 </template>
@@ -29,8 +29,18 @@ export default {
       command: '',
       currCommand: '',
 
-      stackIndex: -1,
-      commandStack: [],
+      stackIndex: 0,
+      commandStack: [{
+          current: {
+            command: 'git status',
+            action: ACTIONS.NOOP,
+            note: '',
+          },
+          previous: {
+            command: null,
+            action: ACTIONS.NOOP,
+            note: '',
+          },}],
       gitStatus: {
         branch: 'main',
         filesAdded: [],
@@ -91,7 +101,6 @@ export default {
 
     nextCommand() {
       const operation = this.commandStack[this.stackIndex].current;
-      // TODO: Bug when this.stackIndex === -1 (after the pointer moves to the front of the stack)
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
