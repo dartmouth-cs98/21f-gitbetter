@@ -9,7 +9,7 @@
           <div class="general-wrapper">
             <div class="title-wrapper">
               <div class="title">Tutorials</div>           
-              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="home"/></button>
             </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
