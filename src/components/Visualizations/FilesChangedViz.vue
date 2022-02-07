@@ -29,15 +29,59 @@
 </template>
  
 <script>
+const pty = require("node-pty");
+// const ipc = require("electron").ipcRenderer
+
 export default {
   name: 'FilesChanged',
   data() {
     return {
       command: '',
+      prevStatus: {
+        local: [],
+        staging: [],
+        commits: []
+      },
+      currStatus: {
+        local: [],
+        staging: [],
+        commits: []
+      },
+      ptyProcess: pty.spawn('bash', [], {
+                name: "xterm-color",
+                cols: 80,
+                rows: 100,
+                cwd: process.CWD,
+                env: process.env
+            })
     }  
   },
   methods: {
+    // not called yet, will be used for populating local/staging/commits
+    updateStatus() {
+      this.prevStatus = this.currStatus;
+      this.ptyProcess.write(`git status --porcelain \n`);
+      // get the output from running git status and update currStatus
+    }
+  },
+  mounted() {
+    // WIP: currently unused (and incomplete), will be used for populating local/staging/commits
+    this.ptyProcess.on("data", (data) => {
+      if (data.startsWith('bash') || data.startsWith('git')) {
+        return;
+      }  
+      // data.replaceAll('[31m', '')
+      //   .replaceAll('[m', '')
+      //   .split('\n').slice(0, -1)
+      //   .map(message => message.trim())
+      //   .map(message => {
+      //     if (message.startsWith('M ')) {
+            
+      //     } else if (message.startsWith('MM ')) {
 
+      //     }
+      //   })
+    });
   }
 };
 </script>
