@@ -96,7 +96,7 @@ export default {
       });
       ipc.on("terminal.incData", function(event, data) {
         term.write(data);
-        parse.parse_staus(data);
+        parse.parse_status(data);
       })
     },
     resizeTerm() {

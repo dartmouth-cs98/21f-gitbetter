@@ -11,6 +11,7 @@
 // var run_command = require('../../run_command');
 import { FitAddon } from 'xterm-addon-fit';
 import { Terminal } from 'xterm';
+
 // var os = require('os');
 // var pty = require('node-pty');
 const ipc = require("electron").ipcRenderer
@@ -93,7 +94,8 @@ export default {
 </script>
 
 <style>
-@import '../../node_modules/xterm/css/xterm.css';
+/* @import '../../node_modules/xterm/css/xterm.css';
+@import "../../node_modules/vue-notion/src/styles.css"; */
 
 
 
