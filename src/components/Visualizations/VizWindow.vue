@@ -50,7 +50,7 @@ export default {
       this.$root.$on('eventing', data => {
           this.command = data;
       })
-    }
+    },
   }
 }
 </script>
@@ -62,7 +62,6 @@ export default {
   align-content: space-between;
   flex-direction: column;
   height: 90%;
-  border-color: black;
   border-width: 1px;
   border-style: solid;
   background-color: #272323;
@@ -75,5 +74,6 @@ export default {
 .subtitle {
   background-color: #272323;
   color: white;
+  height: 90%;
 }
 </style>
