@@ -13,14 +13,10 @@
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
+import classification, { ACTIONS } from './GitCommandClassification'
+import inverseCommand from './GitInverseCommands'
 
 const channel = 'terminal.toTerm';
-const ACTIONS = {
-  NOOP: 'NOOP', // git status, log, branch
-  NORMAL: 'NORMAL', // git add, commit, push, checkout, stash
-  ADVISORY: 'ADVISORY', // git rm, (read from note)
-  DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
-};
 
 export default {
   name: 'VizWindow',
@@ -31,16 +27,17 @@ export default {
 
       stackIndex: 0,
       commandStack: [{
-          current: {
-            command: 'git status',
-            action: ACTIONS.NOOP,
-            note: '',
-          },
-          previous: {
-            command: null,
-            action: ACTIONS.NOOP,
-            note: '',
-          },}],
+        current: {
+          command: 'git status',
+          action: ACTIONS.NOOP,
+          note: '',
+        },
+        previous: {
+          command: null,
+          action: ACTIONS.NOOP,
+          note: '',
+        },
+      }],
       gitStatus: {
         branch: 'main',
         filesAdded: [],
@@ -67,9 +64,6 @@ export default {
     });
   },
   methods: {
-    inverseCommand() {
-      return this.command;
-    },
     updateStatus() {
       // update git status for next command
       ipcRenderer.send(channel, 'git status\n');
@@ -77,16 +71,20 @@ export default {
     updateStack() {
       if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
         this.stackIndex++;
+        const { currentAction, currentNote } = classification(this.command);
+
+        const command = inverseCommand(this.command, this.gitStatus);
+        const { action, note } = classification(command)
         this.commandStack.push({
           current: {
             command: this.command,
-            action: ACTIONS.NORMAL,
-            note: '',
+            action: currentAction,
+            note: currentNote,
           },
           previous: {
-            command: this.inverseCommand(),
-            action: ACTIONS.NORMAL,
-            note: '',
+            command,
+            action,
+            note,
           },
         });
       } else {
