@@ -65,7 +65,7 @@ export const workflows = {
                 ]
             },
             "switching-branches": {
-                title: "Switching to a New Branch",
+                title: "Switching to an Existing Branch",
                 steps: [
                     {
                         inst: "Switch to a different branch:", 
