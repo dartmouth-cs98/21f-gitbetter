@@ -4,6 +4,8 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <button @click="this.printStack"> PRINT STACK </button>
+    <button @click="this.printInverseStack"> PRINT inverse STACK </button>
+    <br>
     <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
     <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand"> NEXT </button>
   </div>
@@ -78,15 +80,15 @@ export default {
     },
     updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
-        this.stackIndex++;
         const command = inverseCommand(this.command, this.gitStatus);
         this.commandStack.push({
-          current: { command: this.command, ...classification(this.command) },
-          previous: { command, ...classification(command) },
+          current: { command: this.command, ...classification(this.command, this.gitStatus) },
+          previous: { command, ...classification(command, this.gitStatus) },
         });
+        this.stackIndex++;
       } else {
         // Operation in the middle of the stack
-        const { action } = classification(this.command);
+        const { action } = classification(this.command, this.gitStatus);
         if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
         else console.log('not yet supported');
       }
@@ -94,6 +96,10 @@ export default {
     printStack() {
       console.log(this.commandStack.map(
         ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command));
+    },
+    printInverseStack() {
+      console.log(this.commandStack.map(
+        ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
     },
 
     nextCommand() {
@@ -118,19 +124,19 @@ export default {
     },
     previousCommand() {
       const operation = this.commandStack[this.stackIndex].previous;
-      const inverse = inverseCommand(this.command, this.gitStatus);
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          console.warn(operation.note);
-          return;
+          // console.warn(operation.note);
+          // return;
+        // eslint-disable-next-line no-fallthrough
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
           this.stackIndex--;
-          ipcRenderer.send(channel, inverse + '\n');
+          ipcRenderer.send(channel, operation.command + '\n');
           break;
         default:
           throw new Error('Unknown prior action in commandStack of viz window')

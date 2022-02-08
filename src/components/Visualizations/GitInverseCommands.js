@@ -1,18 +1,21 @@
-export default function classification(gitCommand, {
-    branch, filesAdded, filesModified, filesRemoved, filesUntracked,
-}) {
+export default function classification(gitCommand, gitStatus) {
     if (!gitCommand.startsWith('git ')) return '';
-    const [, operation, parameters] = gitCommand.split(' ', 2);
+    const [, operation, ] = gitCommand.split(' ');
+    const parameters = gitCommand.split(' ').slice(2).join(' ');
+    const {
+        branch, filesAdded, filesModified, filesRemoved, filesUntracked,
+    } = gitStatus;
+    console.log(branch, filesAdded, filesModified, filesRemoved, filesUntracked);
     switch(operation) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
-        case 'add': {
-            // TODO: Include check for when the file has already been added, in which case it should be NOOP
-            const file = parameters; // process parameters: ie file name, --all
-            if (['--all', '-A'].includes(file)) return `git rm ${filesUntracked}`
-            filesAdded, filesModified, filesRemoved;
-            return 'git rm';
-        }
+        case 'add': 
+            // Regex not supported (e.g. git add file*)
+            // No change to filesAdded, filesModified that have already been added before
+            if (parameters.includes('--all') || parameters.includes('A')) return 'git reset';
+            return parameters.split(' ')
+                .filter(file => filesUntracked.includes(file) || filesRemoved.includes(file))
+                .reduce((cumulative, current) => cumulative + ' ' + current, 'git reset');
         case 'rm':
             return '';
         case 'commit':
@@ -24,6 +27,7 @@ export default function classification(gitCommand, {
         case 'reset':
             return '';
         case 'switch':
+            filesAdded, filesModified;
             return `git switch ${branch}`;
         case 'tag':
             return 'git tag -d';
