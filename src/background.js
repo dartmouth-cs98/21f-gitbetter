@@ -12,6 +12,7 @@ var replicate = require('./replicate_repo')
 
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const ipc = require('electron').ipcRenderer;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -58,21 +59,23 @@ async function createWindow() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'), 
       properties:['openDirectory'],
-    }).then(({ filePaths })=> {
-      const [pwd] = filePaths;
-      ptyProcess.write(`cd "${pwd}" \n`);
-      //ptyProcess.write('git status > gitStatus.txt');
-      //ptyProcess.write('\n');
-      ptyProcess.write(`'clear' \n`);
+    }).then((result)=> {
+      win.webContents.send("finderOpened");
+      let pwd = result.filePaths[0]
 
-      ptyProcess.write('git status');
-      ptyProcess.write('\n');
+      //ipc.send('giveFilePath', 10);
+   
+      win.webContents.send('giveFilePath', pwd);
+
+      //ptyProcess.write(`cd "${pwd}" \n`);
+      //ptyProcess.write(`'clear' \n`);
       replicate.replicate_repo(pwd);
+
+      //win.webContents.send("finderOpened");
       
     }).catch(console.error);
   })
 
-  // ipcMain.on("gitStarted.to")
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
