@@ -7,7 +7,6 @@
 import { FitAddon } from 'xterm-addon-fit';
 import { Terminal } from 'xterm';
 const ipc = require("electron").ipcRenderer
-// var parse = require('../utils/parse_status')
 
 export default {
   data() {
@@ -56,7 +55,6 @@ export default {
       });
       ipc.on("terminal.incData", function(event, data) {
         term.write(data);
-        // parse.parse_status(data);
       })
     },
     resizeTerm() {

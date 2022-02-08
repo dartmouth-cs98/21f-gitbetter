@@ -10,7 +10,9 @@ var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
 
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const ipc = require('electron').ipcRenderer;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -53,29 +55,24 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  // opens finder modal
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
-      defaultPath:app.getPath('home'), 
+      defaultPath:app.getPath('home'),
+      // only enables user to select directories
       properties:['openDirectory'],
-    }).then(({ canceled, filePaths })=> {
-      // add canceled before filePaths
-     if (canceled) {
-      //this line does not work 
-      // ipc messenger to home page
-      // on home page ipc if canceled go back to welcome page
-       window.location.assign('/')
-     }
-      const [pwd] = filePaths;
-      ptyProcess.write(`cd "${pwd}" \n`);
-      ptyProcess.write(`'clear' \n`);
-      ptyProcess.write('git status');
-      ptyProcess.write('\n');
+    }).then((result)=> {
+      win.webContents.send("finderOpened");
+      // the pwd for the file the user selected
+      let pwd = result.filePaths[0]
+      // tells status viz component the path the user selected
+      win.webContents.send('giveFilePath', pwd);
+      // replicates the directory the user selected and adds the extension .gb
       replicate.replicate_repo(pwd);
-
+      
     }).catch(console.error);
   })
 
-  // ipcMain.on("gitStarted.to")
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
