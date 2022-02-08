@@ -1,12 +1,12 @@
-export enum ACTIONS {
-    NOOP, // git status, log, branch
-    NORMAL, // git add, commit, push, checkout, stash
-    ADVISORY, // git rm, (read from note)
-    DESTRUCTIVE, // git branch -D, 
+export const ACTIONS = {
+    NOOP: 'NOOP', // git status, log, branch
+    NORMAL: 'NORMAL', // git add, commit, push, checkout, stash
+    ADVISORY: 'ADVISORY', // git rm, (read from note)
+    DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
 };
 
 interface Classification {
-    action: ACTIONS,
+    action: string,
     note?: string,
 };
 

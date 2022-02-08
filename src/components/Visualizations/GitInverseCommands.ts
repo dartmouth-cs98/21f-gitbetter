@@ -1,6 +1,12 @@
-export default function classification(gitCommand, gitStatus): String {
+interface GitStatus {
+    branch: string;
+    filesAdded: string[],
+    filesRemoved: string[],
+}
+
+export default function classification(gitCommand: string, gitStatus: GitStatus): String {
     if (!gitCommand.startsWith('git ')) return '';
-    const [, operation, parameters, state] = gitCommand.split(' ', 2);
+    const [, operation, parameters] = gitCommand.split(' ', 2);
     switch(operation) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';

@@ -13,8 +13,8 @@
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import Viz from './Visualization.vue'
-import classification, { ACTIONS } from './GitCommandClassification'
-import inverseCommand from './GitInverseCommands'
+import classification, { ACTIONS } from './GitCommandClassification.ts'
+import inverseCommand from './GitInverseCommands.ts'
 
 const channel = 'terminal.toTerm';
 
@@ -69,27 +69,18 @@ export default {
       ipcRenderer.send(channel, 'git status\n');
     },
     updateStack() {
-      if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
+      if (this.stackIndex === this.commandStack.length - 1) {
         this.stackIndex++;
-        const { currentAction, currentNote } = classification(this.command);
-
         const command = inverseCommand(this.command, this.gitStatus);
-        const { action, note } = classification(command)
         this.commandStack.push({
-          current: {
-            command: this.command,
-            action: currentAction,
-            note: currentNote,
-          },
-          previous: {
-            command,
-            action,
-            note,
-          },
+          current: { command: this.command, ...classification(this.command) },
+          previous: { command, ...classification(command) },
         });
       } else {
-        // Operation in the middle of stack
-        console.log('not yet supported');
+        // Operation in the middle of the stack
+        const { action } = classification(this.command);
+        if ([ACTIONS.NOOP].includes(action)) console.log('run command');
+        else console.log('not yet supported');
       }
     },
     printStack() {
@@ -119,6 +110,7 @@ export default {
     },
     previousCommand() {
       const operation = this.commandStack[this.stackIndex].previous;
+      const inverse = inverseCommand(this.command, this.gitStatus);
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
@@ -128,6 +120,8 @@ export default {
           console.warn(operation.note);
           return;
         case ACTIONS.NORMAL:
+          ipcRenderer.send(channel, inverse + '\n');
+          break;
         case ACTIONS.NOOP:
           this.stackIndex--;
           ipcRenderer.send(channel, operation.command + '\n');
@@ -158,7 +152,16 @@ export default {
   display: none;
 } 
 .subtitle {
-  background-color: #272323;
+  background-color: hsl(0, 5%, 15%);
   color: white;
+}
+.back-button {
+  background-color: #4D3B63;
+  position: absolute;
+  z-index: 1;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
 }
 </style>
