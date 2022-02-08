@@ -6,7 +6,7 @@
                     <img src="../assets/logo.png" />
                     <p class="subtitle">Git, simplified.</p>
                     
-                    <div class="wrapper" @click="$router.push('/home')" v-on:click="gitStarted" >
+                    <div class="wrapper" v-on:click="gitStarted" >
                         <div class="cta">
                             <span>Git Started</span>                            
                         </div>
@@ -81,6 +81,12 @@ export default {
     return {
       isLoading: this.load
     };
+  },
+  mounted() {
+      ipc.on('finderOpened', () => {
+          console.log("finder has been opened")
+          this.$router.push('/home')
+      })
   },
   methods: {
       closeNavigation() {

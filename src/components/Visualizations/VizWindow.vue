@@ -45,6 +45,15 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
+
+    // Following three lines were incoming change when resolving merge conflicts (zoe 2/7), it was giving errors when I ran it
+    // so I kept it as it was on my computer but left it commented out in case someone still working on it
+
+    //const channel = 'terminal.toTerm';
+    
+    // ipcRenderer.removeAllListeners("user_input")
+    // ipc.on("user_input", function(event, data) {
+
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
@@ -55,6 +64,8 @@ export default {
       }
       this.currCommand += data;
     });
+
+    //ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
     inverseCommand() {
