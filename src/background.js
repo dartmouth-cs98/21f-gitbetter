@@ -55,23 +55,20 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  // opens finder modal
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
-      defaultPath:app.getPath('home'), 
+      defaultPath:app.getPath('home'),
+      // only enables user to select directories
       properties:['openDirectory'],
     }).then((result)=> {
       win.webContents.send("finderOpened");
+      // the pwd for the file the user selected
       let pwd = result.filePaths[0]
-
-      //ipc.send('giveFilePath', 10);
-   
+      // tells status viz component the path the user selected
       win.webContents.send('giveFilePath', pwd);
-
-      //ptyProcess.write(`cd "${pwd}" \n`);
-      //ptyProcess.write(`'clear' \n`);
+      // replicates the directory the user selected and adds the extension .gb
       replicate.replicate_repo(pwd);
-
-      //win.webContents.send("finderOpened");
       
     }).catch(console.error);
   })

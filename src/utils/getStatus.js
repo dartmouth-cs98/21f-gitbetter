@@ -10,7 +10,6 @@ var getStatus = async function getStatus(pwd) {
     process.chdir(pwd)
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-    //const fs = require('fs');
 
     try {
         let {stdout, stderr} = await exec('git branch');

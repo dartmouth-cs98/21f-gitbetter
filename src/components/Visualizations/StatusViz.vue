@@ -45,8 +45,6 @@
 <script>
 const ipc = require("electron").ipcRenderer
 var parse = require('../../utils/getStatus')
-//var parse = require('../../utils/parse_status')
-
 
 export default {
 
@@ -65,28 +63,21 @@ export default {
       this.getStatus(pwd)
     })
 
-
-    //  ipc.on('giveFilePath', function(data) {
-    //   console.log("here2")
-    //    this.getStatus(data)
-    //    process.chdir(data)
-    //    ipc.send("terminal.toTerm", `cd "${data}" \n`)
-    //    ipc.send("terminal.toTerm", "clear")
-    //    ipc.send("terminal.toTerm", "git status")
-    //   })
-
-      //this.getStatus()
   },
 
   methods: {
       async getStatus(pwd) {
+          // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
           ipc.send("terminal.toTerm", '\n')
           ipc.send("terminal.toTerm", "clear")
           ipc.send("terminal.toTerm", '\n')
+          // calls git status initally for the user
           ipc.send("terminal.toTerm", "git status")
           ipc.send("terminal.toTerm", '\n')
 
+          // parse status takes the pwd the user selected and returns the status of
+          // their git repo to be displayed in the visulization if it is a git repo
            parse.getStatus(pwd).then((result) => {
            this.branchName = result[0];
            this.commits = result[1];
@@ -94,22 +85,6 @@ export default {
            this.tracked = result[3];
           
         })
-
-        //ipc.send("terminal.toTerm", data)
-
-        // this is calling git status before the correct repo has been selected
-        // // get out of git status command on terminal
-          // ipc.send("terminal.toTerm", `cd "${pwd}" \n`)
-          //  ipc.send("terminal.toTerm", "clear")
-          // ipc.send("terminal.toTerm", "git status")
-          // ipc.send("terminal.toTerm", "git status")
-
-          //  parse.getStatus().then((result) => {
-          //  this.branchName = result[0];
-          //  this.commits = result[1];
-          //  this.changedLocal = result[2];
-          //  this.tracked = result[3];
-        // })
       },
 
       addAll() {
