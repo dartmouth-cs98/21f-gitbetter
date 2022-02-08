@@ -5,12 +5,7 @@ export const ACTIONS = {
     DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
 };
 
-interface Classification {
-    action: string,
-    note?: string,
-};
-
-export default function classification(gitCommand: string): Classification {
+export default function classification(gitCommand) {
     if (!gitCommand.startsWith('git ')) return { action: ACTIONS.NOOP };
     const [, operation, parameters] = gitCommand.split(' ', 2);
     switch(operation) {

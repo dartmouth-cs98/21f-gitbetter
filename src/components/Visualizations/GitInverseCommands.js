@@ -1,32 +1,20 @@
-interface GitStatus {
-    branch: string;
-    filesAdded: string[],
-    filesRemoved: string[],
-}
-
-export default function classification(gitCommand: string, gitStatus: GitStatus): String {
+export default function classification(gitCommand, {
+    branch, filesAdded, filesModified, filesRemoved, filesUntracked,
+}) {
     if (!gitCommand.startsWith('git ')) return '';
     const [, operation, parameters] = gitCommand.split(' ', 2);
     switch(operation) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
-        case 'add':
+        case 'add': {
             // TODO: Include check for when the file has already been added, in which case it should be NOOP
-            return 'git reset';
-        case 'mv':
-            return 'git mv';
+            const file = parameters; // process parameters: ie file name, --all
+            if (['--all', '-A'].includes(file)) return `git rm ${filesUntracked}`
+            filesAdded, filesModified, filesRemoved;
+            return 'git rm';
+        }
         case 'rm':
             return '';
-        case 'bisect':
-            return 'git bisect';
-        case 'diff':
-            return 'git diff';
-        case 'log':
-            return 'git log';
-        case 'show':
-            return 'git show';
-        case 'status':
-            return 'git status';
         case 'commit':
             return 'git reset --soft HEAD~1';
         case 'merge':
@@ -36,7 +24,7 @@ export default function classification(gitCommand: string, gitStatus: GitStatus)
         case 'reset':
             return '';
         case 'switch':
-            return 'git switch -';
+            return `git switch ${branch}`;
         case 'tag':
             return 'git tag -d';
         case 'pull':
@@ -45,6 +33,13 @@ export default function classification(gitCommand: string, gitStatus: GitStatus)
             return '';
         case 'push':
             return '';
+        case 'mv':
+        case 'bisect':
+        case 'diff':
+        case 'log':
+        case 'show':
+        case 'status':
+            return gitCommand;
         default:
             return ''; 
     }

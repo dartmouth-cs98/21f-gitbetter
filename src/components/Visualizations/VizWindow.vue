@@ -12,9 +12,10 @@
 <script>
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
+import { getStatus } from '../../utils/getStatus'
 import Viz from './Visualization.vue'
-import classification, { ACTIONS } from './GitCommandClassification.ts'
-import inverseCommand from './GitInverseCommands.ts'
+import classification, { ACTIONS } from './GitCommandClassification'
+import inverseCommand from './GitInverseCommands'
 
 const channel = 'terminal.toTerm';
 
@@ -41,7 +42,9 @@ export default {
       gitStatus: {
         branch: 'main',
         filesAdded: [],
+        filesModified: [],
         filesRemoved: [],
+        filesUntracked: [],
       },
     }  
   },
@@ -52,32 +55,26 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
-
-    // Following three lines were incoming change when resolving merge conflicts (zoe 2/7), it was giving errors when I ran it
-    // so I kept it as it was on my computer but left it commented out in case someone still working on it
-
-    //const channel = 'terminal.toTerm';
-    
-    // ipcRenderer.removeAllListeners("user_input")
-    // ipc.on("user_input", function(event, data) {
-
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
           this.updateStack();
+          this.updateStatus();
         }    
         this.currCommand = '';
         return;
       }
       this.currCommand += data;
     });
-
-    //ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
-    updateStatus() {
-      // update git status for next command
-      ipcRenderer.send(channel, 'git status\n');
+    async updateStatus() {
+      const [branchName,,,, files] = await getStatus(process.cwd());
+      this.gitStatus.branch = branchName;
+      this.gitStatus.filesAdded = files.filesAdded;
+      this.gitStatus.filesModified = files.filesModified;
+      this.gitStatus.filesRemoved = files.filesDeleted;
+      this.gitStatus.filesUntracked = files.filesUntracked;
     },
     updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
@@ -90,7 +87,7 @@ export default {
       } else {
         // Operation in the middle of the stack
         const { action } = classification(this.command);
-        if ([ACTIONS.NOOP].includes(action)) console.log('run command');
+        if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
         else console.log('not yet supported');
       }
     },
@@ -131,11 +128,9 @@ export default {
           console.warn(operation.note);
           return;
         case ACTIONS.NORMAL:
-          ipcRenderer.send(channel, inverse + '\n');
-          break;
         case ACTIONS.NOOP:
           this.stackIndex--;
-          ipcRenderer.send(channel, operation.command + '\n');
+          ipcRenderer.send(channel, inverse + '\n');
           break;
         default:
           throw new Error('Unknown prior action in commandStack of viz window')
