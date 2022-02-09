@@ -4,7 +4,9 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <button @click="this.printStack"> PRINT STACK </button>
-    <button v-if="this.stackIndex >= 0" @click="this.previousCommand"> PREVIOUS </button>
+    <button @click="this.printInverseStack"> PRINT inverse STACK </button>
+    <br>
+    <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
     <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand"> NEXT </button>
   </div>
 </template>
@@ -12,15 +14,12 @@
 <script>
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
+import { getStatus } from '../../utils/getStatus'
 import Viz from './Visualization.vue'
+import classification, { ACTIONS } from './GitCommandClassification'
+import inverseCommand from './GitInverseCommands'
 
 const channel = 'terminal.toTerm';
-const ACTIONS = {
-  NOOP: 'NOOP', // git status, log, branch
-  NORMAL: 'NORMAL', // git add, commit, push, checkout, stash
-  ADVISORY: 'ADVISORY', // git rm, (read from note)
-  DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
-};
 
 export default {
   name: 'VizWindow',
@@ -29,12 +28,25 @@ export default {
       command: '',
       currCommand: '',
 
-      stackIndex: -1,
-      commandStack: [],
+      stackIndex: 0,
+      commandStack: [{
+        current: {
+          command: 'git status',
+          action: ACTIONS.NOOP,
+          note: '',
+        },
+        previous: {
+          command: null,
+          action: ACTIONS.NOOP,
+          note: '',
+        },
+      }],
       gitStatus: {
         branch: 'main',
         filesAdded: [],
+        filesModified: [],
         filesRemoved: [],
+        filesUntracked: [],
       },
     }  
   },
@@ -45,64 +57,53 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
-
-    // Following three lines were incoming change when resolving merge conflicts (zoe 2/7), it was giving errors when I ran it
-    // so I kept it as it was on my computer but left it commented out in case someone still working on it
-
-    //const channel = 'terminal.toTerm';
-    
-    // ipcRenderer.removeAllListeners("user_input")
-    // ipc.on("user_input", function(event, data) {
-
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
           this.updateStack();
+          this.updateStatus();
         }    
         this.currCommand = '';
         return;
       }
       this.currCommand += data;
     });
-
-    //ipcRenderer.send(channel, 'git branch\n');
   },
   methods: {
-    inverseCommand() {
-      return this.command;
-    },
-    updateStatus() {
-      // update git status for next command
-      ipcRenderer.send(channel, 'git status\n');
+    async updateStatus() {
+      const [branchName,,,, files] = await getStatus(process.cwd());
+      this.gitStatus.branch = branchName;
+      this.gitStatus.filesAdded = files.filesAdded;
+      this.gitStatus.filesModified = files.filesModified;
+      this.gitStatus.filesRemoved = files.filesDeleted;
+      this.gitStatus.filesUntracked = files.filesUntracked;
     },
     updateStack() {
-      if (!this.commandStack.length || this.stackIndex === this.commandStack.length - 1) {
-        this.stackIndex++;
+      if (this.stackIndex === this.commandStack.length - 1) {
+        const command = inverseCommand(this.command, this.gitStatus);
         this.commandStack.push({
-          current: {
-            command: this.command,
-            action: ACTIONS.NORMAL,
-            note: '',
-          },
-          previous: {
-            command: this.inverseCommand(),
-            action: ACTIONS.NORMAL,
-            note: '',
-          },
+          current: { command: this.command, ...classification(this.command, this.gitStatus) },
+          previous: { command, ...classification(command, this.gitStatus) },
         });
+        this.stackIndex++;
       } else {
-        // Operation in the middle of stack
-        console.log('not yet supported');
+        // Operation in the middle of the stack
+        const { action } = classification(this.command, this.gitStatus);
+        if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
+        else console.log('not yet supported');
       }
     },
     printStack() {
       console.log(this.commandStack.map(
         ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command));
     },
+    printInverseStack() {
+      console.log(this.commandStack.map(
+        ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
+    },
 
     nextCommand() {
       const operation = this.commandStack[this.stackIndex].current;
-      // TODO: Bug when this.stackIndex === -1 (after the pointer moves to the front of the stack)
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
@@ -129,8 +130,9 @@ export default {
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          console.warn(operation.note);
-          return;
+          // console.warn(operation.note);
+          // return;
+        // eslint-disable-next-line no-fallthrough
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
           this.stackIndex--;
@@ -162,7 +164,16 @@ export default {
   display: none;
 } 
 .subtitle {
-  background-color: #272323;
+  background-color: hsl(0, 5%, 15%);
   color: white;
+}
+.back-button {
+  background-color: #4D3B63;
+  position: absolute;
+  z-index: 1;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
 }
 </style>

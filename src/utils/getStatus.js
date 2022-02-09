@@ -1,11 +1,11 @@
-
-var getStatus = async function getStatus(pwd) {
-
-
+export async function getStatus(pwd) {
     var branchName = ''
     var commits = 0
-    var changedLocal = []
-    var tracked = []
+    var changedLocal = 0
+    const filesAdded = []
+    const filesModified = []
+    const filesDeleted = []
+    const filesUntracked = []
 
     process.chdir(pwd)
     const util = require('util');
@@ -36,15 +36,29 @@ var getStatus = async function getStatus(pwd) {
         if (stdout) {
             stdout = stdout.split("\n")
             for (let line in stdout) {
-                if (stdout[line][0] == 'A') {
-                    tracked = tracked.concat(stdout[line].split(' ')[1])
-                }
-                else if (stdout[line][0] == 'M') {
-                    tracked = tracked.concat(stdout[line].split(' ')[2])
+                const [operation, file] = stdout[line].trim().split(' ');
+                switch (operation) {
+                    case 'A':
+                        filesAdded.push(file);
+                        break;
+                    case 'M':
+                        filesModified.push(file);
+                        break;
+                    case 'D':
+                        filesDeleted.push(file);
+                        break;
+                    case '??':
+                        filesUntracked.push(file);
+                        break;
+                    case '':
+                        // Skip Empty Line
+                        break;
+                    default:
+                        console.error('Unknown operation in status ' + stdout[line]);
                 }
             }
 
-            changedLocal = stdout.length - tracked.length - 1
+            changedLocal = stdout.length - filesAdded.length - filesModified.length - filesDeleted.length - filesUntracked.length - 1
         }
 
         else if (stderr) {
@@ -55,8 +69,6 @@ var getStatus = async function getStatus(pwd) {
         console.warn(`Throwing ${err} in getStatus`)
         throw err
     }
-
-
 
     try {
         let {stdout, stderr} = await exec('git status');
@@ -78,8 +90,6 @@ var getStatus = async function getStatus(pwd) {
         throw err
     }
     
-    return [branchName, commits, changedLocal, tracked.length]
+    const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
+    return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files]
 }
-
-const _getStatus = getStatus;
-export { _getStatus as getStatus };
