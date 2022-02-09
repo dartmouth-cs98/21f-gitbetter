@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :key="this.dir">
       <div class="header"> 
         <font-awesome-icon id="closing-icon" v-on:click="closeDirectories" class="faIcon" icon="folder"/>
         <b>{{this.dirRoot()}}</b>
@@ -13,6 +13,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const ipc = require("electron").ipcRenderer
 import Directory from './Directory.vue';
 import File from './File.vue'
 
@@ -34,6 +35,13 @@ export default {
     this.filesOnly(this.dir);
     this.dirsOnly(this.dir);
   },
+  mounted() {
+    ipc.on('giveFilePath', (event, pwd) => {
+      this.dir = pwd;
+      this.filesOnly(this.dir)
+      this.dirsOnly(this.dir)  
+    })
+  },
   methods: {
     closeDirectories (){
       console.log("Closing directories");
@@ -45,10 +53,10 @@ export default {
       document.getElementById("top-wrapper").style.maxWidth = "none";
     },
     dirRoot () {
-      return path.basename(process.cwd()).toUpperCase().replace('.GB', '');
+      return path.basename(this.dir).toUpperCase().replace('.GB', '');
     },
     pathToString () {
-      return process.cwd().toString();
+      return this.dir.toString();
     },
     filesOnly(root) {
       this.files = fs.readdirSync(root, {withFileTypes: true})
