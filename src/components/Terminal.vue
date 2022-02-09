@@ -49,7 +49,7 @@ export default {
       ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
       ipc.send("terminal.toTerm", "clear\n")
 
-      
+
       term.onData((data) => {
         ipc.send("terminal.toTerm", data);
       });

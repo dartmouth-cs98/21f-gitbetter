@@ -153,7 +153,6 @@ export default {
   align-content: space-between;
   flex-direction: column;
   height: 90%;
-  border-color: black;
   border-width: 1px;
   border-style: solid;
   background-color: #272323;
@@ -166,6 +165,7 @@ export default {
 .subtitle {
   background-color: hsl(0, 5%, 15%);
   color: white;
+  height: 90%;
 }
 .back-button {
   background-color: #4D3B63;
