@@ -57,7 +57,7 @@ export default {
     }  
   },
   methods: {
-    // not called yet, will be used for populating local/staging/commits
+    // WIP: not called yet, will be used for populating local/staging/commits
     updateStatus() {
       this.prevStatus = this.currStatus;
       this.ptyProcess.write(`git status --porcelain \n`);
@@ -70,17 +70,7 @@ export default {
       if (data.startsWith('bash') || data.startsWith('git')) {
         return;
       }  
-      // data.replaceAll('[31m', '')
-      //   .replaceAll('[m', '')
-      //   .split('\n').slice(0, -1)
-      //   .map(message => message.trim())
-      //   .map(message => {
-      //     if (message.startsWith('M ')) {
-            
-      //     } else if (message.startsWith('MM ')) {
-
-      //     }
-      //   })
+      // TODO: use getStatus in utils
     });
   }
 };
