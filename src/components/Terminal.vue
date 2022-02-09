@@ -4,17 +4,9 @@
 </template>
 
 <script>
-// import Vue from "vue";
-// import shell from 'vue-shell';
-// import replicate from '../../replicate_repo.js';
-// let xterm = require('../../node_modules/xterm/lib/xterm.js')
-// var run_command = require('../../run_command');
 import { FitAddon } from 'xterm-addon-fit';
 import { Terminal } from 'xterm';
-// var os = require('os');
-// var pty = require('node-pty');
 const ipc = require("electron").ipcRenderer
-//Vue.use(shell);
 
 export default {
   data() {
@@ -22,41 +14,9 @@ export default {
       send_to_terminal: '',
       process: Object,
       fitObj: Object,
-      // banner: {
-      //   header: "GitBetter 🔥",
-      //   helpHeader: 'Enter "gitbetter -help" for more information. Type "gitbetter visualize" to see git commands that currently support visualizations',
-      //   emoji: {
-      //       first: "",
-      //       second: "",
-      //       time: 1000000,
-      //   },
-      //   sign: "$",
-      // },
-      // commands: [
-      //   { name: "credits",
-      //     get() {
-      //       return `With ❤️ By Salah Bentayeb @halasproject.`;
-      //   }
-      //   },
-
-      //   {
-      //     name: "gitstarted",
-      //     get() {
-      //       return replicate();
-      //     }
-      //   },
-      // ]
     };
   },
   mounted () {
-    // const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
-    // this.process = pty.spawn(shell, [], {
-    //   name: 'xterm-color',
-    //   cols: 80,
-    //   rows: 30,
-    //   cwd: process.cwd(),
-    //   env: process.env
-    // });
     this.makeScript();
     this.makeTerm();
   },
