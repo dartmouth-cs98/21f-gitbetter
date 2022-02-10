@@ -9,14 +9,14 @@
           <div class="general-wrapper">
             <div class="title-wrapper">
               <div class="title">Tutorials</div>           
-              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="home"/></button>
             </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
                 <h1 class="title">
                     {{ this.selected.title }}
                 </h1>
-                <div class="subtitle step">
+                <div class="subtitle step" id="content">
                     {{ this.ind + 1}}. {{ this.curr.inst }}
                 </div>
                 <div class="command" v-if="commandExists">
@@ -32,6 +32,9 @@
                 Start a workflow tutorial by selecting an option from the workflows menu.
             </div>
             <div v-if="!finished" class="advance">
+              <button v-show="this.ind > 0" @click="goBack" class="button">
+                    Back 
+                </button>
                 <button @click="advanceTutorial" class="button">
                     {{ this.buttonName }} 
                 </button>
@@ -95,6 +98,10 @@ export default {
             this.finished = true;
             this.ind = 0;
           }
+      },
+      goBack() {
+        this.ind = this.ind - 1;
+        this.curr = this.steps[this.ind];
       },
       copyCommand() {
             const el = document.createElement('textarea');
@@ -185,6 +192,12 @@ export default {
 
 .tutorial {
     flex-grow: 0.825;
+}
+.subtitle {
+  color:white;
+}
+#content{
+  padding-top: 2%;
 }
 
 @media only screen and (max-width: 770px) {
