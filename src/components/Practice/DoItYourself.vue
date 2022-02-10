@@ -8,7 +8,7 @@
           <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
-                TutorialTerminal
+                Tutorial Terminal
               </div>
               <div class="visButtons">
                 <button 
