@@ -124,7 +124,7 @@ export default {
 <style lang="scss" scoped>
   .nav {
       margin-bottom: 0 !important;
-      min-height: 4.25rem;
+      height: 5rem;
       background-color: #ab47bc;
   }
   img {

@@ -87,7 +87,6 @@ export default {
       border-width: 1px;
       border-style: solid;
       overflow: auto;
-      max-height: 95%;
   }
   b, div {
     white-space: nowrap;

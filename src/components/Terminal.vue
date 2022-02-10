@@ -76,7 +76,7 @@ export default {
 
 #terminal {
   overflow: scroll;
-  height: 85%;
+  height: calc(100% - 72px);
 }
 
 #terminal::-webkit-scrollbar {

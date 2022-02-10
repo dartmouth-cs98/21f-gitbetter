@@ -3,11 +3,14 @@
     <div :key="this.currCommand" class="subtitle">
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
-    <button @click="this.printStack"> PRINT STACK </button>
-    <button @click="this.printInverseStack"> PRINT inverse STACK </button>
-    <br>
-    <button v-if="this.stackIndex > 0" @click="this.previousCommand"> PREVIOUS </button>
-    <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand"> NEXT </button>
+    <div class="print-container">
+      <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
+      <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
+    </div>
+    <div class="back-forth-container">
+      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button"> PREVIOUS </button>
+      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button"> NEXT </button>
+    </div>
   </div>
 </template>
 
@@ -152,7 +155,7 @@ export default {
   display: flex;
   align-content: space-between;
   flex-direction: column;
-  height: 90%;
+  height: calc(100% - 72px);
   border-width: 1px;
   border-style: solid;
   background-color: #272323;
@@ -166,6 +169,24 @@ export default {
   background-color: hsl(0, 5%, 15%);
   color: white;
   height: 90%;
+}
+.print-container {
+  display: inline-grid;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+}
+.print-stack {
+  height: 20px;
+  margin-top: 20px;
+}
+.back-forth-container {
+  display: flex;
+  position: absolute;
+  bottom: 10%;
+  right: 20%;
+  justify-content: flex-end;
+  width: 100%;
 }
 .back-button {
   background-color: #4D3B63;
