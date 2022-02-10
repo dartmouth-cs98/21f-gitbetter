@@ -72,8 +72,6 @@ export default {
 <style>
 @import '../../node_modules/xterm/css/xterm.css';
 
-
-
 #terminal {
   overflow: scroll;
   height: calc(100% - 72px);
@@ -88,5 +86,9 @@ pre {
   color: white !important;
   font-size: 1em !important;
   width: inherit !important;
+}
+
+.xterm-viewport, .xterm-screen {
+  width: 100%;
 }
 </style>

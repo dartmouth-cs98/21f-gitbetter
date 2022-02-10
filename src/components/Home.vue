@@ -215,7 +215,6 @@ export default {
   border-style: solid;
   padding: 1% 0%;
   width: 48px;
-  margin-top: 0.75rem;
 }
 
 .faIcon {
