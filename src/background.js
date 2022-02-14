@@ -1,6 +1,8 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { getStatus } from './utils/getStatus';
+require('events').EventEmitter.defaultMaxListeners = 50;
 
 
 const os = require("os");
@@ -9,6 +11,7 @@ const pty = require("node-pty");
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
+
 
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -62,11 +65,14 @@ async function createWindow() {
       // only enables user to select directories
       properties:['openDirectory'],
     }).then((result)=> {
-      win.webContents.send("finderOpened");
-      // the pwd for the file the user selected
       let pwd = result.filePaths[0]
-      // tells status viz component the path the user selected
+      win.webContents.send("finderOpened");
+      getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
+      
+      
+      // tells status viz component the path the user selected
+      
       // replicates the directory the user selected and adds the extension .gb
       replicate.replicate_repo(pwd);
       
