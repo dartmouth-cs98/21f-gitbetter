@@ -32,6 +32,13 @@
         </div>
         <div class="level-item has-text-centered">
           <div class="nav level r-menu">
+            <router-link
+                class="level-item has-text-centered"
+                style="color:black; font-weight:500;cursor:pointer;"
+                :to="'/doityourself'"
+                >
+                    Do It Yourself
+            </router-link>
             <div
                 class="level-item has-text-centered"
                 style="color:black; font-weight:500;cursor:pointer;"
@@ -40,6 +47,7 @@
                 >
                     End
             </div>
+
 
             <div
                 class="level-item has-text-centered"
@@ -85,6 +93,11 @@ export default {
           id: 3,
           text: 'Tutorials',
           page:'/tutorials'
+        },
+        {
+          id: 4,
+          text: 'DoItYourself',
+          page:'/doityourself'
         },
       ],
       load: false,
