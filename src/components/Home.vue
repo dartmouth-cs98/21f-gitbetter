@@ -153,13 +153,16 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100vh;
+  height: calc(100% - 5rem);
+  margin: 0;
+  /* margin-top: 0.03rem; */
 }
 .sidebar {
   padding-right: 0;
 }
 .column {
   width: 83%;
+  padding: 0;
 }
 .general-wrapper {
   display:flex;
@@ -212,7 +215,6 @@ export default {
   border-style: solid;
   padding: 1% 0%;
   width: 48px;
-  margin-top: 0.75rem;
 }
 
 .faIcon {

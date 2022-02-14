@@ -90,7 +90,8 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100vh;
+  height: calc(100% - 5rem);
+  margin: 0;
 }
 .column {
   width: 83%;
