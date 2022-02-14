@@ -1,16 +1,16 @@
 <template>
   <div class="vis-box">
-    <div :key="this.currCommand" class="subtitle">
+    <!-- <div :key="this.currCommand" class="subtitle">
       <Viz :key="this.currCommand" :command="this.command"/> 
-    </div>
-    <!-- <div class="print-container">
+    </div> -->
+    <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
     </div>
     <div class="back-forth-container">
-      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button"> PREVIOUS </button>
-      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button"> NEXT </button>
-    </div> -->
+      <button v-if="this.stackIndex > 0" @click="this.previousCommand" > PREVIOUS </button>
+      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" > NEXT </button>
+    </div>
   </div>
 </template>
 
@@ -18,7 +18,7 @@
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import { getStatus } from '../../utils/getStatus'
-import Viz from './Visualization.vue'
+// import Viz from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
 
@@ -50,11 +50,12 @@ export default {
         filesModified: [],
         filesRemoved: [],
         filesUntracked: [],
+        workingDirectory: process.cwd(),
       },
     }  
   },
   components: {
-    Viz,
+    // Viz,
   },
   mounted() {
     const userInputChannel = 'user_input';
@@ -80,6 +81,7 @@ export default {
       this.gitStatus.filesModified = files.filesModified;
       this.gitStatus.filesRemoved = files.filesDeleted;
       this.gitStatus.filesUntracked = files.filesUntracked;
+      this.gitStatus.workingDirectory = process.cwd();
     },
     updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
