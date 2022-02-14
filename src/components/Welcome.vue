@@ -153,7 +153,8 @@ img {
 }
 
 .columns {
-    height: 100%;
+    height: calc(100% - 5rem);
+    margin: 0;
 }
 .top-welcome {
     background: linear-gradient(to right, #DA91E5, #9953F1 50%, #53336B);

@@ -43,7 +43,6 @@ export default {
       border-width: 1px;
       border-style: solid;
       overflow: auto;
-      max-height: 95%;
   }
   .sidebar::-webkit-scrollbar {
   display: none;

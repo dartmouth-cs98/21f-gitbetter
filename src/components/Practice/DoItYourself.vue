@@ -8,7 +8,7 @@
           <div id="terminal-wrapper" class="terminal-wrapper">
             <div class="headline-component">
               <div style="margin-left:auto;">
-                TutorialTerminal
+                Tutorial Terminal
               </div>
               <div class="visButtons">
                 <button 
@@ -56,6 +56,7 @@ import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+
 Vue.use(VueMaterial)
 // Vue.use(Walkthrough)
 
@@ -89,7 +90,8 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100vh;
+  height: calc(100% - 5rem);
+  margin: 0;
 }
 .column {
   width: 83%;

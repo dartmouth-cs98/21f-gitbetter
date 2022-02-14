@@ -3,23 +3,15 @@
     <div v-for="direc in branches" :key="direc" >
         <button class="branch-button" v-on:click="switchBranch(direc)"> {{ direc }} </button>
     </div>
-    <!-- <vo-basic :key="this.branchData.name" :data="this.branchData" direction="l2r"></vo-basic> -->
     
 </div>
 </template>
 
 <script>
-// import { VoBasic } from "vue-orgchart";
-// import "vue-orgchart/dist/style.min.css";
-
 const pty = require("node-pty");
-const ipc = require("electron").ipcRenderer
 
 export default {
     name: 'BranchViz',
-    components: {
-        // VoBasic,
-    },
     data () {
         return {
             branches: ['firstName', 'somewhat_long_name_that_hopefully_exceeds_window_len', 'branch3'],
@@ -44,24 +36,9 @@ export default {
             this.branches = data.replaceAll('[m', '')
                 .split('\n').slice(0, -1)
                 .map(branch => branch.trim())
-                .map(branch => {
-                    if (branch.includes('=')) return branch.split('=')[1].trim();
-                    // if (branch.startsWith('*')) return branch.substring(1);
-                    return branch;
-                })
+                .map(branch => branch.includes('=') ? branch.split('=')[1].trim() : branch)
         });
         this.ptyProcess.write('git branch --no-color\n');
-        ipc.on("terminal.toTerm", function(event, data) {
-            if (
-                data.includes('git branch')
-                || data.includes('git switch')
-                || data.includes('git checkout')
-            ) this.ptyProcess.write('git branch --no-color\n');
-        })
-    },
-
-    provide() {
-        return { };
     },
 }
 </script>
