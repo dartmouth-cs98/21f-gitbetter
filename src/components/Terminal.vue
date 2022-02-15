@@ -17,8 +17,16 @@ export default {
       curr: "",
     };
   },
-  mounted () {
-   ipc.on('branchUpdate', (event, data) => {
+  beforeDestroy() {
+    console.log("in destroy")
+    ipc.removeAllListeners("terminal.incData");
+  },
+  mounted() {
+    this.makeScript();
+    this.makeTerm();
+  },
+  created() {
+    ipc.on('branchUpdate', (event, data) => {
       this.$store.commit('setBranchName', {name: data});
     });
 
@@ -27,10 +35,9 @@ export default {
     });
 
     ipc.on('setCommand', (event, data) => {
-      console.log("Data is", data)
-      if(event.key === 'Enter') {
+      if(data === 'Enter') {
         this.$store.commit('setCurrCommand', {command: this.curr});
-        console.log("CURR COMM NEW COMMAND", this.curr)
+        this.curr = ""
       }
       else if (data == 'del') {
         this.curr = this.curr.slice(0, -1);
@@ -40,11 +47,7 @@ export default {
       }
     });
 
-    this.makeScript();
-    this.makeTerm();
-  },
-  created() {
-    window.addEventListener("resize", this.resizeTerm);
+    // window.addEventListener("resize", this.resizeTerm);
     this.$parent.$on('openVisualization', this.resizeTerm);
     this.$parent.$on('closeVisualization', this.resizeTerm);
 
@@ -57,13 +60,16 @@ export default {
 
     },
     makeTerm() {
+      let termParent = document.getElementById('terminal');
+      while (termParent.firstChild) {
+          termParent.removeChild(termParent.firstChild);
+      }
       var term = new Terminal({
         cursorBlink: "block"
       });
       const fitAddon = new FitAddon();
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
-      let termParent = document.getElementById('terminal');
       if(!termParent.firstElementChild) {
 
         term.open(document.getElementById('terminal'));
@@ -77,24 +83,16 @@ export default {
         term.onData((data) => {
           ipc.send("terminal.toTerm", data);
         });
-        ipc.on("terminal.incData", function(event, data) {
+        ipc.on("terminal.incData", (event, data)  => {
           term.write(data);
-          console.log("data is", data)
           if(data.includes("[K")) {
-            console.log('Deleeeeete')
             ipc.send('setCommand', 'del');
           }
           else if(data && data.length == 1) {
             ipc.send('setCommand', data);
           }
-          else if(data.includes("On branch")) {
-            let branch = data.split(" ");
-            const b = branch[2].split("\r")
-            ipc.send('bnUpdate', b[0])
-          }
-          else if (data.includes("Changes to be committed") || data.includes("working tree clean")){
-            let status = data.split("\r");
-            ipc.send('statusUpdate', status)
+          else if(data === 'bash-3.2$ ') {
+            ipc.send('setCommand', 'Enter');
           }
         })
       }

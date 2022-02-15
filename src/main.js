@@ -31,6 +31,7 @@ const store = new Vuex.Store({
       toPush: 0,
     },
     command: "git status",
+    firstTime: true,
   },
   mutations: {
     add (state, command) {
@@ -75,6 +76,9 @@ const store = new Vuex.Store({
       }
     
     },
+    setNewUser(state) {
+      state.firstTime = false;
+    },
   },
   getters: {
     getRecentSearches: state => {
@@ -89,6 +93,9 @@ const store = new Vuex.Store({
     },
     getCurrCommand: state => {
       return state.command;
+    },
+    getFirstTime: state => {
+      return state.firstTime;
     }
   }
 })
