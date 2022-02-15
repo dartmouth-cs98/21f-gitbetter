@@ -65,12 +65,18 @@ export default {
         this.getStatus(pwd)
         this.test();
       })
+
+      ipc.on('getStatus', (event, result) => {
+        this.branchName = result[0];
+        this.commits = result[1];
+        this.changedLocal = result[2];
+        this.tracked = result[3];
+      })
   },
 // check event listner error
 // where is visulization being mounted from 
 
   updated() {
-
     console.log(this.branchName)
   },
 
@@ -92,13 +98,7 @@ export default {
           // parse status takes the pwd the user selected and returns the status of
           // their git repo to be displayed in the visulization if it is a git repo
           parse.getStatus(pwd).then((result) => {
-            console.log(result)
-            // this.branchName = result[0];
-            // this.commits = result[1];
-            // this.changedLocal = result[2];
-            // this.tracked = result[3];
-            // this.branchName = "test"
-          
+            ipc.send("statusUpdate", result)
         })
 
         this.$forceUpdate();

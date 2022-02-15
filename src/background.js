@@ -58,6 +58,10 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  ipcMain.on("statusUpdate", function(event, data) {
+    win.webContents.send('getStatus', data);
+  });
+
   // opens finder modal
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
