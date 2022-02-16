@@ -12,8 +12,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="start-box" @click="$router.push('/finder')"> 
-                    <h1 class="section-header">Start</h1>
+                <div class="bottom-button" @click="$router.push('/beginner')"> 
+                    <h1 class="section-header">Beginner</h1>
                     <!-- <div class="start-options">
                     <h2><font-awesome-icon class="faIcon" icon="plus"/>  Create new file</h2>
                     <h2><font-awesome-icon class="faIcon" icon="plus"/>  Open file</h2>
@@ -186,7 +186,7 @@ img {
     flex-direction: column;
 }
 
-.start-box {
+.bottom-button {
     color: white;
     padding-left: 45px;
     display: flex;
@@ -331,7 +331,7 @@ body {
     input[type="text"] {
         font-size: 16px;
     }  
-    .start-box {
+    .bottom-button {
         padding-left: 35px;
     }
     .center-button {
@@ -355,7 +355,7 @@ body {
     input[type="text"] {
         font-size: 12px;
     }  
-    .start-box {
+    .bottom-button {
         padding-left: 30px;
     }
     .center-button {
