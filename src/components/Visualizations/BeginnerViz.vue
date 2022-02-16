@@ -13,6 +13,9 @@ export default {
   },
   methods: {
     imgPath() {
+        // if (this.command == "") {
+        //     return require ("../../assets/demo/openingrepo.png");
+        // } 
         if (this.command == "git branch") {
             return require("../../assets/demo/branch-dark.png");
         } else if (this.command == "git diff") {
