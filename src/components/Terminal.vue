@@ -11,22 +11,47 @@ const ipc = require("electron").ipcRenderer
 export default {
   data() {
     return {
-      send_to_terminal: '',
       process: Object,
       fitObj: Object,
+      branchN: "",
+      curr: "",
     };
   },
-  mounted () {
+  beforeDestroy() {
+    console.log("in destroy")
+    ipc.removeAllListeners("terminal.incData");
+  },
+  mounted() {
     this.makeScript();
     this.makeTerm();
   },
   created() {
-    window.addEventListener("resize", this.resizeTerm);
+    ipc.on('branchUpdate', (event, data) => {
+      this.$store.commit('setBranchName', {name: data});
+    });
+
+    ipc.on('statUpdate', (event, data) => {
+      this.$store.commit('setStatus', {status: data});
+    });
+
+    ipc.on('setCommand', (event, data) => {
+      if(data === 'Enter') {
+        this.$store.commit('setCurrCommand', {command: this.curr});
+        this.curr = ""
+      }
+      else if (data == 'del') {
+        this.curr = this.curr.slice(0, -1);
+      }
+      else {
+        this.curr += data;
+      }
+    });
+
+    // window.addEventListener("resize", this.resizeTerm);
     this.$parent.$on('openVisualization', this.resizeTerm);
     this.$parent.$on('closeVisualization', this.resizeTerm);
 
   },
-  
   methods: {
     makeScript() {
       let recaptchaScript = document.createElement('script')
@@ -35,27 +60,42 @@ export default {
 
     },
     makeTerm() {
+      let termParent = document.getElementById('terminal');
+      while (termParent.firstChild) {
+          termParent.removeChild(termParent.firstChild);
+      }
       var term = new Terminal({
         cursorBlink: "block"
       });
       const fitAddon = new FitAddon();
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
+      if(!termParent.firstElementChild) {
 
-      term.open(document.getElementById('terminal'));
-      // fitAddon.fit();
-      ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
-      //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
-      ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
-      ipc.send("terminal.toTerm", "clear\n")
+        term.open(document.getElementById('terminal'));
+        // fitAddon.fit();
+        ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
+        //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
+        ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
+        ipc.send("terminal.toTerm", "clear\n")
+        
 
-
-      term.onData((data) => {
-        ipc.send("terminal.toTerm", data);
-      });
-      ipc.on("terminal.incData", function(event, data) {
-        term.write(data);
-      })
+        term.onData((data) => {
+          ipc.send("terminal.toTerm", data);
+        });
+        ipc.on("terminal.incData", (event, data)  => {
+          term.write(data);
+          if(data.includes("[K")) {
+            ipc.send('setCommand', 'del');
+          }
+          else if(data && data.length == 1) {
+            ipc.send('setCommand', data);
+          }
+          else if(data === 'bash-3.2$ ') {
+            ipc.send('setCommand', 'Enter');
+          }
+        })
+      }
     },
     resizeTerm() {
       try {

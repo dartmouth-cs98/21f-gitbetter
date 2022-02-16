@@ -13,7 +13,7 @@
             </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
-                <h1 class="title">
+                <h1 class="title small">
                     {{ this.selected.title }}
                 </h1>
                 <div class="subtitle step" id="content">
@@ -129,12 +129,15 @@ export default {
 }
 .title-wrapper {
   display:flex;
+  align-items: center;
   justify-content: space-between;
 }
 .button {
   margin-right: 1em;
 }
-
+.tutorial {
+  margin: 12px;
+}
 .sidebar {
   padding-right: 0;
 }
@@ -175,6 +178,12 @@ export default {
 
 .title {
   color: white;
+  padding-left: 18px;
+  margin-top: 1.5rem;
+}
+
+.small { 
+  font-size: 1.75rem;
 }
 
 .command {
@@ -195,6 +204,8 @@ export default {
 }
 .subtitle {
   color:white;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
 }
 #content{
   padding-top: 2%;
