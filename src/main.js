@@ -8,10 +8,10 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-import { faChevronRight, faChevronLeft, faChevronDown, faEyeSlash, faEye, faSearch, faPlus, faCopy, faTimes, faLaptopCode, faDesktop, faCodeBranch, faArrowRight, faFolder, faQuestionCircle, faHome} from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faChevronLeft, faChevronDown, faEyeSlash, faEye, faSearch, faPlus, faCopy, faTimes, faLaptopCode, faDesktop, faCodeBranch, faArrowLeft, faArrowRight, faFolder, faQuestionCircle, faHome} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faChevronRight, faChevronLeft, faChevronDown, faEye, faEyeSlash, faSearch, faPlus, faCopy, faTimes, faLaptopCode, faDesktop, faCodeBranch, faArrowRight, faFolder, faQuestionCircle, faHome);
+library.add(faChevronRight, faChevronLeft, faChevronDown, faEye, faEyeSlash, faSearch, faPlus, faCopy, faTimes, faLaptopCode, faDesktop, faCodeBranch, faArrowLeft, faArrowRight, faFolder, faQuestionCircle, faHome);
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
