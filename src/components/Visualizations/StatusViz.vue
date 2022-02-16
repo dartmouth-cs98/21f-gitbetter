@@ -49,13 +49,25 @@ var parse = require('../../utils/getStatus')
 export default {
 
   name: 'Status',
-  data () {
-    return {
-      changedLocal: 0,
-      tracked: 0,
-      commits: 0,
-      branchName: "the-name-of-your-branch"
-    }
+//   data () {
+//     return {
+//       commits: 0,
+      
+//     }
+//  },
+  computed: {
+    branchName(){
+        return this.$store.getters.getBranchName.name
+    },
+    changedLocal() {
+        return this.$store.getters.getStatusFiles.untracked.length
+    },
+    tracked() { 
+        return this.$store.getters.getStatusFiles.tracked.length
+    },
+    commits() { 
+        return this.$store.getters.getStatusFiles.toPush
+    }  
   },
   
   mounted() {
@@ -106,9 +118,13 @@ export default {
 }
 .general-wrapper {
   width: 100%;
+  height: 100%;
+  min-height: 675px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  color: white;
+  overflow-y: auto;
 }
 .file-locations {
     display: flex;
@@ -128,7 +144,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    padding-top: 10%;
+    padding-top: 7%;
 }
 
 .status-icons {

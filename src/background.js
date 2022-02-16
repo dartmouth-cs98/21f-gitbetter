@@ -55,7 +55,18 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
-  // opens finder modal
+  ipcMain.on('bnUpdate', (event, data) => {
+    event.sender.send('branchUpdate', data);
+  })
+
+  ipcMain.on('statusUpdate', (event, data) => {
+    event.sender.send('statUpdate', data);
+  })
+
+  ipcMain.on('setCommand', (event, data) => {
+    event.sender.send('setCommand', data);
+  })
+
   ipcMain.on("openFinder", function() {
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),

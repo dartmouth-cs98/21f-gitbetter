@@ -1,8 +1,6 @@
 <template>
   <div class="vis-box">
-    <div :key="this.currCommand" class="subtitle">
-      <Viz :key="this.currCommand" :command="this.command"/> 
-    </div>
+    <Viz :key="this.currCommand" :command="this.command"/> 
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
@@ -23,16 +21,12 @@ import { getStatus } from '../../utils/getStatus'
 import Viz from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
-
 const channel = 'terminal.toTerm';
 
 export default {
   name: 'VizWindow',
   data() {
     return {
-      command: '',
-      currCommand: '',
-
       stackIndex: 0,
       commandStack: [{
         current: {

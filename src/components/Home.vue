@@ -105,7 +105,7 @@ export default {
   created() {
     // this is where we'll get the result of git config user.name, 
     // if it doesn't exist in the DB will set step to 0 and start tutorial
-    this.step = 0;
+    this.step = this.$store.getters.getNewUser ? 0 : -1;
   },
   methods: {
     openDirectories() {
@@ -135,14 +135,13 @@ export default {
       else {
           this.step = this.step + val;
       }
-
-      console.log(this.step)
     },
     resetStep() {
       this.step = 0;
     },
      onEndTutorial() {
       this.step = -1;
+      this.$store.commit('setNewUser');
     },
   }
 }
