@@ -2,7 +2,7 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { getStatus } from './utils/getStatus';
-import { isGit } from './utils/isGit'
+// import { isGit } from './utils/isGit'
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -73,7 +73,7 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-      isGit(pwd)
+     // isGit(pwd)
       getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
       replicate.replicate_repo(pwd);

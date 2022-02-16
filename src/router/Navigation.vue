@@ -48,7 +48,6 @@
                     End
             </div>
 
-
             <div
                 class="level-item has-text-centered"
                 style="color:black; font-weight:500;cursor:pointer;"
@@ -143,6 +142,7 @@ export default {
   img {
     width: 45%;
     padding: 10px;
+    margin-left:auto;
   }
 
   .l-menu {

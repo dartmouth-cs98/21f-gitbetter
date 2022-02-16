@@ -11,6 +11,7 @@
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
       <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
+    <Visualization /> 
   </div>
 </template>
 
@@ -18,7 +19,7 @@
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import { getStatus } from '../../utils/getStatus'
-import Viz from './Visualization.vue'
+import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
 const channel = 'terminal.toTerm';
@@ -52,7 +53,7 @@ export default {
     }  
   },
   components: {
-    Viz,
+    Visualization,
   },
   mounted() {
     const userInputChannel = 'user_input';

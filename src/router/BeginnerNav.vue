@@ -29,7 +29,6 @@
 
 <script>
 var start_over = require('../utils/start_over')
-import Loading from '../components/Loading.vue'
 
 export default {
   name: 'Navigation',
@@ -42,11 +41,6 @@ export default {
           page:'/'
         },
         {
-          id: 1,
-          text: 'Beginner',
-          page:'/beginner'
-        },
-        {
           id: 2,
           text: 'Help',
           page:'/help'
@@ -56,42 +50,13 @@ export default {
           text: 'Tutorials',
           page:'/tutorials'
         },
-        {
-          id: 4,
-          text: 'DoItYourself',
-          page:'/doityourself'
-        },
       ],
-      load: false,
     }
   },
-  props: {
-    ind: Number,
-  },
-  inject: ['isLoading'],
-  provide() {
-    return {
-      isLoading: this.load,
-    };
-  },
-  components: {
-    Loading,
-  },
-  computed: {
-    helpClass() {
-      return {
-        helpone: this.ind == 2,
-        helptwo: this.ind == 3,
-        helpthree: this.ind == 4,
-        helpfour: this.ind == 5,
-      }
-    }
-  },
+
   methods: {
     async startOver() {
-     this.isLoading.value = true;
       await start_over.start_over()
-      this.isLoading.value = false;
     }
   }
 }
