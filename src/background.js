@@ -74,19 +74,17 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-
-      await isGit(pwd).then(git => {
+      
+      isGit(pwd).then(async git => {
+        //maybe ask user if they want to initialize git repo here?
         console.log(git)
         if (!git) {
-          initializeGit(pwd)
-
+          await initializeGit(pwd)
         }
       }).catch((error => {
         console.log(error)
-      
+    
     }))
-      
-      //maybe ask user if they want to initialize git repo here?
       
       getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);

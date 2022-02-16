@@ -1,8 +1,4 @@
 export async function getStatus(pwd) {
-
-    const util = require('util');
-    const exec = util.promisify(require('child_process').exec);
-
     var branchName = ''
     var commits = 0
     var changedLocal = 0
@@ -12,7 +8,29 @@ export async function getStatus(pwd) {
     const filesUntracked = []
 
     process.chdir(pwd)
-    
+    const util = require('util');
+    const exec = util.promisify(require('child_process').exec);
+
+    // try {
+    //     let {stdout, stderr} = await exec('git branch');
+    //     if (stdout) {
+    //         stdout = stdout.split("\n")
+    //         for (let line in stdout) {
+    //             if (stdout[line][0] == '*') {
+    //                 branchName = stdout[line].split(' ')[1]
+    //             }
+    //         }
+    //     }
+
+    //     else if (stderr) {
+    //         console.log(stderr)
+    //     }
+    // } catch (err){
+    //     console.warn(`Throwing ${err} in getStatus`)
+    //     throw err
+    // }
+
+
     try {
         let {stdout, stderr} = await exec('git status --porcelain');
         if (stdout) {
@@ -53,30 +71,11 @@ export async function getStatus(pwd) {
     }
 
     try {
-        let {stdout, stderr} = await exec('git branch');
-        if (stdout) {
-            stdout = stdout.split("\n")
-            for (let line in stdout) {
-                if (stdout[line][0] == '*') {
-                    branchName = stdout[line].split(' ')[1]
-                }
-            }
-        }
-
-        else if (stderr) {
-            console.log(stderr)
-        }
-    } catch (err){
-        console.warn(`Throwing ${err} in getStatus`)
-        throw err
-    }
-
-
-
-
-    try {
         let {stdout, stderr} = await exec('git status');
         if (stdout) {
+            let firstLine = stdout.split("\n")[0].split(" ")
+            branchName = firstLine.pop()
+            
             let words = stdout.split("\n")[1].split(" ")
             for (let i=1; i<words.length; i++) {
                 if (!isNaN(words[i])){
