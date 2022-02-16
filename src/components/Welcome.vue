@@ -150,6 +150,7 @@ img {
     font-style: italic;
     color: rgb(39, 39, 39);
     font-size: 175%;
+    margin-bottom: 0 !important;
 }
 
 .columns {

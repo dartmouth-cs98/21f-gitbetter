@@ -6,11 +6,13 @@
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div>
-    <div class="back-forth-container">
-      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button"> PREVIOUS </button>
-      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button"> NEXT </button>
     </div> -->
+    <div class="back-forth-container">
+      <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
+      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
+      <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
+      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
+    </div>
   </div>
 </template>
 
@@ -169,6 +171,7 @@ export default {
   background-color: hsl(0, 5%, 15%);
   color: white;
   height: 90%;
+  margin-bottom: 0 !important;
 }
 .print-container {
   display: inline-grid;
@@ -182,19 +185,21 @@ export default {
 }
 .back-forth-container {
   display: flex;
-  position: absolute;
-  bottom: 10%;
-  right: 20%;
   justify-content: flex-end;
   width: 100%;
+  height: 100%;
 }
 .back-button {
-  background-color: #4D3B63;
-  position: absolute;
-  z-index: 1;
-  height: 25px;
-  width: 25px;
+  background-color: #b7aac7;
   border-radius: 50%;
-  display: inline-block;
+  height: 5vw;
+  width: 5vw;
+  cursor: pointer;
+  margin: auto 10px;
 }
+.back-button-previous-grayed, .back-button-next-grayed {
+  background-color: #4D3B63;
+  cursor: not-allowed;
+}
+
 </style>
