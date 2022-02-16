@@ -215,41 +215,34 @@ export default {
   padding: 1% 0%;
   width: 48px;
 }
-
 .faIcon {
-    width: 3em;
-    cursor: pointer;
-    color:white;
+  width: 3em;
+  cursor: pointer;
+  color:white;
 }
-
-
 .visButtons {
   margin-right: 12px;
   margin-left: auto;
 }
-
 .help-window { 
-    position: absolute;
-    right: 12px;
-    top: 3.75rem;
-    z-index: 6;
-    max-width: 60%;
-  }
+  position: absolute;
+  right: 12px;
+  top: 3.75rem;
+  z-index: 6;
+  max-width: 60%;
+}
 
-  .help-window-two { 
-    position: absolute;
-    left: 12px;
-    top: 3.25rem;
-    z-index: 6;
-    max-width: 50%;
-  }
+.help-window-two { 
+  position: absolute;
+  left: 12px;
+  top: 3.25rem;
+  z-index: 6;
+  max-width: 50%;
+}
 
 @media only screen and (max-width: 770px) {
   .sidebar {
     display: none;
-  }
-  .terminal-wrapper {
-    margin-left: 12px;
   }
   .top-wrapper {
     height: 100%;
