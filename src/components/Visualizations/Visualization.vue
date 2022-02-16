@@ -1,18 +1,33 @@
 <template>
   <div class="viz">
-      <StatusViz />
+      <!-- <FilesChanged :command="this.command"/> -->
+      <div v-if="test">
+        <StatusViz />
+      </div>
+      <div v-else>
+        <InitViz /> 
+      </div>
+      <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
+      <DirectoryTree v-else /> -->
   </div>
 </template>
 
 <script>
 // import BranchViz from './BranchViz.vue'
 import StatusViz from './StatusViz.vue'
+import InitViz from './StatusViz.vue'
+
 // import FilesChanged from './FilesChangedViz.vue'
 
 export default {
-  name: 'Viz',
+  name: 'Visualization',
   props: {
     command: String
+  },
+  data() {
+    return {
+      test: false,
+    }
   },
   computed: {
     getCurrCommand(){
@@ -22,6 +37,7 @@ export default {
   components: {
       // BranchViz,
       StatusViz,
+      InitViz,
       // FilesChanged
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="vis-box">
-      <Viz :key="this.currCommand" :command="this.command"/> 
+      <Visualization /> 
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
 import { getStatus } from '../../utils/getStatus'
-import Viz from './Visualization.vue'
+import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
 const channel = 'terminal.toTerm';
@@ -17,6 +17,7 @@ export default {
   name: 'VizWindow',
   data() {
     return {
+      currCommand: "",
       stackIndex: 0,
       commandStack: [{
         current: {
@@ -40,7 +41,7 @@ export default {
     }  
   },
   components: {
-    Viz,
+    Visualization,
   },
   mounted() {
     const userInputChannel = 'user_input';
