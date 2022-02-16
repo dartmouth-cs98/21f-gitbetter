@@ -74,10 +74,11 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-      let git = isGit(pwd).then(git => {
+
+      await isGit(pwd).then(git => {
         console.log(git)
         if (!git) {
-          await initializeGit(pwd)
+          initializeGit(pwd)
 
         }
       }).catch((error => {
@@ -87,7 +88,7 @@ async function createWindow() {
       
       //maybe ask user if they want to initialize git repo here?
       
-      await getStatus(pwd)
+      getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
       replicate.replicate_repo(pwd);  
    
