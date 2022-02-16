@@ -1,23 +1,20 @@
 export async function isGit(pwd) {
 
-    const util = require('util');
-    const exec = util.promisify(require('child_process').exec);
+    // note for error handling, this does not yet consider the 
+    // case where the pwd is invalid, may need to handle this case
+    const fs = require("fs");
+    var git = null;
+    process.chdir(pwd);
+    const path = './.git';
 
-    var git = True
-    process.chdir(pwd)
-
-    try {
-        let {stdout, stderr} = await exec('git status');
-        if (stdout) {
-            
-        }
-
-        else if (stderr) {
-            console.log(stderr)
-        }
-    } catch (err){
-        console.warn(`Throwing ${err} in getStatus`)
-        throw err
+    if (fs.existsSync(path)) {
+        git = true
     }
 
+    else {
+        git = false
+    }
+
+    return git
 }
+

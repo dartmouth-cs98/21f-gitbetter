@@ -6,7 +6,6 @@ export async function getStatus(pwd) {
     var branchName = ''
     var commits = 0
     var changedLocal = 0
-   // var isGit = True
     const filesAdded = []
     const filesModified = []
     const filesDeleted = []
@@ -96,8 +95,6 @@ export async function getStatus(pwd) {
         throw err
     }
     
-    const files = { isGit, filesAdded, filesModified, filesDeleted, filesUntracked };
+    const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
     return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files]
 }
-
-getStatus('/Users/zoewortzman/Documents')

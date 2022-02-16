@@ -2,6 +2,7 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { getStatus } from './utils/getStatus';
+import { isGit } from './utils/isGit';
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -71,15 +72,19 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-      getStatus(pwd)
-      win.webContents.send('giveFilePath', pwd);
-      
-      
-      // tells status viz component the path the user selected
-      
-      // replicates the directory the user selected and adds the extension .gb
-      replicate.replicate_repo(pwd);
-      
+      let git = isGit(pwd)
+      if (git) {
+        getStatus(pwd)
+        win.webContents.send('giveFilePath', pwd);
+        replicate.replicate_repo(pwd);  
+
+      }
+
+      // else {
+        // initalize git repo here
+
+      // }
+   
     }).catch(console.error);
   })
 
