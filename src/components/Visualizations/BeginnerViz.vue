@@ -14,29 +14,29 @@ export default {
   methods: {
     imgPath() {
         if (this.command == "git branch") {
-            return require("../assets/demo/branch-dark.png");
+            return require("../../assets/demo/branch-dark.png");
         } else if (this.command == "git diff") {
-            return require("../assets/demo/diff-dark.png");
+            return require("../../assets/demo/diff-dark.png");
         } else if (this.command == "git status") {
-            return require("../assets/demo/status-dark.png");
+            return require("../../assets/demo/status-dark.png");
         } else if (this.command == "git log") {
-            return require("../assets/demo/log-dark.png");
+            return require("../../assets/demo/log-dark.png");
         } else if (this.command == "git fetch") {
-            return require("../assets/demo/fetch-dark.png");
+            return require("../../assets/demo/fetch-dark.png");
         } else if (this.command == "git push") {
-            return require("../assets/demo/push-remote-dark.png");
+            return require("../../assets/demo/push-remote-dark.png");
         } else if (this.command == "git branch -u origin/master") {
-            return require("../assets/demo/origin-master-dark.png");
+            return require("../../assets/demo/origin-master-dark.png");
         } else if (this.command == "gitbetter visualize") {
-            return require("../assets/demo/visualize-remote-dark.png");
+            return require("../../assets/demo/visualize-remote-dark.png");
         } else if (this.command.startsWith("git checkout -b")) {
-            return require("../assets/demo/checkout-remote-dark.png");
+            return require("../../assets/demo/checkout-remote-dark.png");
         } else if (this.command.startsWith("git commit")) {
-            return require("../assets/demo/commit-remote-dark.png");
+            return require("../../assets/demo/commit-remote-dark.png");
         } else if (this.command.startsWith("git pull")) {
-            return require("../assets/demo/pull-dark.png");
+            return require("../../assets/demo/pull-dark.png");
         } else if (this.command.startsWith("git revert")) {
-            return require("../assets/demo/revert-remote-dark.png");
+            return require("../../assets/demo/revert-remote-dark.png");
         } else {
             return;
         }
