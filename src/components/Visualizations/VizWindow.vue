@@ -27,6 +27,8 @@ export default {
   name: 'VizWindow',
   data() {
     return {
+      command: '',
+      currCommand: '',
       stackIndex: 0,
       commandStack: [{
         current: {
@@ -181,7 +183,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  height: 100%;
 }
 .back-button {
   background-color: #b7aac7;
