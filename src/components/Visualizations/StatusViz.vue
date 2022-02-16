@@ -60,10 +60,7 @@ export default {
   
   mounted() {
       ipc.on('giveFilePath', (event, pwd) => {
-        console.log('this is running right?')
-        this.branchName = "test"
         this.getStatus(pwd)
-        this.test();
       })
 
       ipc.on('getStatus', (event, result) => {
@@ -81,10 +78,6 @@ export default {
   },
 
   methods: {
-      test : function() {
-        this.branchName = "test"
-      },
-
       getStatus: function(pwd) {
           // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
@@ -100,8 +93,6 @@ export default {
           parse.getStatus(pwd).then((result) => {
             ipc.send("statusUpdate", result)
         })
-
-        this.$forceUpdate();
       },
 
       addAll() {
