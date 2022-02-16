@@ -6,7 +6,8 @@ export async function initializeGit(pwd) {
     process.chdir(pwd)
 
     try {
-        let {stdout, stderr} = await exec('git innit');
+        let {stdout, stderr} = await exec('git init');
+        console.log("here")
         if (stdout) {
             console.log(stdout)
         }
@@ -20,19 +21,19 @@ export async function initializeGit(pwd) {
         throw err
     }
     
-    try {
-        let {stdout, stderr} = await exec('git add .gitignore');
-        if (stdout) {
-            console.log(stdout)
+    // try {
+    //     let {stdout, stderr} = await exec('git add .gitignore');
+    //     if (stdout) {
+    //         console.log(stdout)
     
-        }
+    //     }
 
-        else if (stderr) {
-            console.log(stderr)
-        }
+    //     else if (stderr) {
+    //         console.log(stderr)
+    //     }
 
-    } catch (err){
-        console.warn(`Throwing ${err} in getStatus`)
-        throw err
-    }
+    // } catch (err){
+    //     console.warn(`Throwing ${err} in getStatus`)
+    //     throw err
+    // }
 }

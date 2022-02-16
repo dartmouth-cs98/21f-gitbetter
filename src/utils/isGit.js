@@ -3,7 +3,7 @@ export async function isGit(pwd) {
     // note for error handling, this does not yet consider the 
     // case where the pwd is invalid, may need to handle this case
     const fs = require("fs");
-    var git = null;
+    let git = false;
     process.chdir(pwd);
     const path = './.git';
 
@@ -11,10 +11,5 @@ export async function isGit(pwd) {
         git = true
     }
 
-    else {
-        git = false
-    }
-
     return git
 }
-
