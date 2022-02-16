@@ -42,10 +42,10 @@ export default {
 .viz {
     justify-content: center;
     display: flex;
-    overflow: auto;
+    overflow-y: scroll;
     height: 100%;
 }
-.vis::-webkit-scrollbar {
+.viz::-webkit-scrollbar {
   display: none;
 } 
 </style>

@@ -4,6 +4,7 @@
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div> -->
     <InitViz />
+      <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
   </div>
 </template>
 
@@ -14,16 +15,12 @@ import { getStatus } from '../../utils/getStatus'
 import InitViz from './InitViz.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
-
 const channel = 'terminal.toTerm';
 
 export default {
   name: 'VizWindow',
   data() {
     return {
-      command: '',
-      currCommand: '',
-
       stackIndex: 0,
       commandStack: [{
         current: {
