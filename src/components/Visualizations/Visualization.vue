@@ -20,7 +20,7 @@ import InitViz from './StatusViz.vue'
 // import FilesChanged from './FilesChangedViz.vue'
 
 export default {
-  name: 'Viz',
+  name: 'Visualization',
   props: {
     command: String
   },
