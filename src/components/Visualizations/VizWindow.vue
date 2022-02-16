@@ -1,6 +1,5 @@
 <template>
   <div class="vis-box">
-    <div :key="this.currCommand" class="subtitle">
       <Viz :key="this.currCommand" :command="this.command"/> 
     </div>
     <!-- <div class="print-container">
@@ -13,6 +12,7 @@
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
       <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
+
   </div>
 </template>
 
@@ -23,16 +23,12 @@ import { getStatus } from '../../utils/getStatus'
 import Viz from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
-
 const channel = 'terminal.toTerm';
 
 export default {
   name: 'VizWindow',
   data() {
     return {
-      command: '',
-      currCommand: '',
-
       stackIndex: 0,
       commandStack: [{
         current: {
