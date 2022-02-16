@@ -16,7 +16,6 @@ export async function getStatus(pwd) {
     try {
         let {stdout, stderr} = await exec('git status --porcelain');
         if (stdout) {
-            console.log(stdout)
             stdout = stdout.split("\n")
             for (let line in stdout) {
                 const [operation, file] = stdout[line].trim().split(' ');
