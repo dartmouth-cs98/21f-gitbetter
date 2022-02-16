@@ -10,21 +10,21 @@
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
         <div class="catushange-location">
             <font-awesome-icon class="status-icons" icon="code-branch"/>
-            <div>on {{ branchName }}</div>
+            <div>on {{ this.branchName }}</div>
         </div>
      </div>
      <div class="file-locations">
         <div class="status unstaged">
         <div class="small numbers">1</div>
-            {{ changedLocal }} files have unsaved changes.
+            {{ this.changedLocal }} files have unsaved changes.
         </div>
         <div class="status tracked">
         <div class="small numbers">2</div>
-            {{ tracked }} files have changes which are ready to be committed.
+            {{ this.tracked }} files have changes which are ready to be committed.
         </div>
         <div class="status ready">
         <div class="small numbers">3</div>
-            {{ commits }} commits are ready to be pushed from your branch.
+            {{ this.commits }} commits are ready to be pushed from your branch.
         </div>
      </div>
      <div class="suggestions">
@@ -51,19 +51,15 @@ export default {
   name: 'Status',
   data () {
     return {
+      branchName: "",
+      commits: 0,
       changedLocal: 0,
       tracked: 0,
-      commits: 0,
-      branchName: "the-name-of-your-branch"
     }
-  },
-  
+ },
   mounted() {
       ipc.on('giveFilePath', (event, pwd) => {
-        console.log('this is running right?')
-        this.branchName = "test"
         this.getStatus(pwd)
-        this.test();
       })
 
       ipc.on('getStatus', (event, result) => {
@@ -81,10 +77,6 @@ export default {
   },
 
   methods: {
-      test : function() {
-        this.branchName = "test"
-      },
-
       getStatus: function(pwd) {
           // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
@@ -100,8 +92,6 @@ export default {
           parse.getStatus(pwd).then((result) => {
             ipc.send("statusUpdate", result)
         })
-
-        this.$forceUpdate();
       },
 
       addAll() {
@@ -123,9 +113,13 @@ export default {
 }
 .general-wrapper {
   width: 100%;
+  height: 100%;
+  min-height: 675px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  color: white;
+  overflow-y: auto;
 }
 .file-locations {
     display: flex;
@@ -145,7 +139,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    padding-top: 10%;
+    padding-top: 7%;
 }
 
 .status-icons {
