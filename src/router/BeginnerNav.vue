@@ -1,67 +1,29 @@
 <template>
     <nav class="nav level has-shadow" >
-      <div class="level-item has-text-centered">
-        <div class="nav level l-menu">
-          <router-link 
-              class="level-item has-text-centered"
-              :to="'/help'"
-              style="color:black; font-weight:500;"
-          >
-              Help
-          </router-link>
-
-          <router-link 
-              class="level-item has-text-centered"
-              :to="'/tutorials'"
-              style="color:black; font-weight:500;"
-          >
-              Tutorials
-          </router-link>
-        </div>
+      <div 
+        class="level-item has-text-centered"
+        style="color:black; font-weight:500;cursor:pointer;"
+        @click="$router.push('/help')"
+      >
+        Help
       </div>
 
 
-        <div class="level-item has-text-centered">
-          <router-link 
+        <div 
             class="level-item has-text-centered"
-            :to="'/beginner'"
-            style="color:black; font-weight:500;"
-          >
-          <img src="../assets/logo.png" />
-          </router-link>
+            @click="$router.push('/help')"
+            style="color:black; font-weight:300;cursor:pointer;max-width:45%;"
+        >
+          <img src="../assets/beginnerlogo.png" />
         </div>
-        <div class="level-item has-text-centered">
-          <div class="nav level r-menu">
-            <router-link
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                :to="'/doityourself'"
-                >
-                    Do It Yourself
-            </router-link>
-            <div
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                @click="$router.push('/')"
-                v-on:click="startOver"
-                >
-                    End
-            </div>
-
-
-            <div
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                v-on:click="$emit('help')"
-                >
-                    <font-awesome-icon icon="question-circle"/>
-            </div>
-          </div>
+        <div
+            class="level-item has-text-centered"
+            style="color:black; font-weight:500;cursor:pointer;"
+            @click="$router.push('/')"
+            v-on:click="startOver"
+            >
+                End
         </div>
-      <loading />
-      <div v-bind:class="helpClass">
-        <slot></slot>
-      </div>
     </nav>
 </template>
 
@@ -141,43 +103,8 @@ export default {
       background-color: #ab47bc;
   }
   img {
-    width: 45%;
+    width: 50%;
     padding: 10px;
-  }
-
-  .l-menu {
-    width: 100%;
-  }
-  .r-menu {
-    width: 100%;
-  }
-  .helpone { 
-    position: absolute;
-    left: 24px;
-    top: 4.6rem;
-    z-index: 6;
-    max-width: 25%;
-  }
-  .helptwo { 
-    position: absolute;
-    left: 15%;
-    top: 4.6rem;
-    z-index: 6;
-    max-width: 25%;
-  }
-  .helpthree { 
-    position: absolute;
-    left: 45%;
-    top: 4.6rem;
-    z-index: 6;
-    max-width: 25%;
-  }
-  .helpfour { 
-    position: absolute;
-    right: 12px;
-    top: 4.6rem;
-    z-index: 6;
-    max-width: 25%;
   }
 
   @media only screen and (max-width: 770px) {

@@ -1,71 +1,23 @@
 
 <template>
 <div class="main">
-  <BeginnerNav  @help="resetStep" v-bind:ind="step">
-    <FirstTime 
-      @endTutorial="onEndTutorial" 
-      @updateStep="onUpdateStep" 
-      v-bind:ind="step" 
-      v-show="step >= 2"
-    />
-  </BeginnerNav>
+  <BeginnerNav />
   <div class="columns">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <div class="top-wrapper column" id="top-wrapper">
-          <div id="terminal-wrapper" class="terminal-wrapper">
+    <div class="terminal-wrapper column is-half">
+        <div class="headline-component">
+            Tutorial Home
+        </div>
+        <div class="help-window">
+        </div>
+            <TutorialHome />
+        </div>
+        <div class="visualizations-wrapper column is-half">
             <div class="headline-component">
-              <div style="margin-left:auto;">
-                Tutorial Home
-              </div>
-              <div class="visButtons">
-                <button 
-                  id="opening-icon" 
-                  class="button"
-                  @click="openVisualization"
-                  title="Show visualization window"
-                >
-                  <font-awesome-icon icon="eye"/>
-                </button>
-              </div>
-            </div>
-            <div class="help-window">
-                <FirstTime 
-                  @updateStep="onUpdateStep" 
-                  @endTutorial="onEndTutorial" 
-                  v-bind:ind="step" 
-                  v-show="step == 0"
-                /> 
-            </div>
-              <TutorialHome />
-          </div>
-          <div id="visualizations" class="visualizations-wrapper">
-            <div class="headline-component">
-              <div style="margin-left:35%;">
                 Visualizations 
-              </div>
-              <div class="visButtons">
-                <button 
-                    id="closing-icon" 
-                    class="button"
-                    @click="closeVisualization"
-                    title="Hide visualization window"
-                  >
-                    <font-awesome-icon icon="eye-slash"/>
-                  </button>
-              </div>
-            </div>
-            <div class="help-window-two">
-                <FirstTime 
-                  @updateStep="onUpdateStep" 
-                  @endTutorial="onEndTutorial" 
-                  v-bind:ind="step" 
-                  v-show="step == 1"
-                /> 
             </div>
             <VizWindow />
-          </div>
-      </div>   
-  </div>
+        </div>
+    </div>   
 </div>
 </template>
 
@@ -149,7 +101,6 @@ export default {
 .top-wrapper {
   display:flex;
   padding-left: 0;
-  max-width: 80%;
 }
 .headline-component {
   background-color: #53336B;
@@ -166,36 +117,17 @@ export default {
   align-items: center;
   min-height: 72px;
 }
-#terminal-wrapper {
-  width: 50%;
+.terminal-wrapper {
   background-color: black;
-  position: relative;
   border-color: green;
+  padding-right: 0;
+  padding-top: 0;
+  margin-top: 12px;
 }
 .visualizations-wrapper {
-  width: 50%;
-  position: relative;
-}
-.closing-icon {
-  background-color: #ce93d8;
-  border-radius: 15px;
-  position: absolute;
-  right: 0;
-  top: 5px;
-}
-#opening-icon {
-  display:none;
-}
-#open-side-bar{
-  display:none;
-  background-color: #272727;
-  border-color: green;
-  border-width: 1px;
-  border-style: solid;
-  padding: 1% 0%;
-  width: 48px;
-  margin-top: 0.75rem;
-}
+  padding-left: 0;
+} 
+
 
 .faIcon {
     width: 3em;
@@ -214,30 +146,6 @@ export default {
     right: 12px;
     top: 3.75rem;
     z-index: 6;
-    max-width: 60%;
+    /* max-width: 60%; */
   }
-
-  .help-window-two { 
-    position: absolute;
-    left: 12px;
-    top: 3.25rem;
-    z-index: 6;
-    max-width: 50%;
-  }
-
-@media only screen and (max-width: 770px) {
-  .terminal-wrapper {
-    margin-left: 12px;
-  }
-  .top-wrapper {
-    height: 100%;
-  }
-  #opening-icon, #closing-icon {
-    width: 15%;
-    margin: 0;
-  }
-  .top-wrapper {
-    min-width: 100%;
-  }
-}
 </style>
