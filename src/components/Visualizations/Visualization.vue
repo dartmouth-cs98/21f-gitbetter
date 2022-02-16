@@ -29,6 +29,11 @@ export default {
       test: false,
     }
   },
+  computed: {
+    getCurrCommand(){
+        return this.$store.getters.getCurrCommand.name
+    },
+  },
   components: {
       // BranchViz,
       StatusViz,
