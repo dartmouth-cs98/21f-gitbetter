@@ -1,9 +1,6 @@
 <template>
   <div class="viz">
-      <!-- <FilesChanged :command="this.command"/> -->
       <StatusViz />
-      <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
-      <DirectoryTree v-else /> -->
   </div>
 </template>
 
@@ -17,6 +14,11 @@ export default {
   props: {
     command: String
   },
+  computed: {
+    getCurrCommand(){
+        return this.$store.getters.getCurrCommand.name
+    },
+  },
   components: {
       // BranchViz,
       StatusViz,
@@ -29,10 +31,10 @@ export default {
 .viz {
     justify-content: center;
     display: flex;
-    overflow: auto;
+    overflow-y: scroll;
     height: 100%;
 }
-.vis::-webkit-scrollbar {
+.viz::-webkit-scrollbar {
   display: none;
 } 
 </style>

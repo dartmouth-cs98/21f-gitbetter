@@ -96,6 +96,7 @@ export default {
         //this.isLoading.value = true;
         ipc.send("openFinder");
         //this.isLoading.value = false;
+
       },
 
       searchCommands (input) {
@@ -103,11 +104,9 @@ export default {
           if(input.length > 2 && input !=="git") {
             for (var key in gitCommands) {
                 if (key.includes(input) || gitCommands[key].includes(input)) {           
-                    console.log(key, gitCommands[key]);
                     matches.push({command: key, desc: gitCommands[key]})
                 }
             }
-            console.log("Matches", matches);
             this.commandOpts = matches;
           }
       }
