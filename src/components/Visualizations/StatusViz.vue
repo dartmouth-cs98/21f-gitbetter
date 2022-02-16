@@ -10,21 +10,21 @@
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
         <div class="catushange-location">
             <font-awesome-icon class="status-icons" icon="code-branch"/>
-            <div>on {{ branchName }}</div>
+            <div>on {{ this.branchName }}</div>
         </div>
      </div>
      <div class="file-locations">
         <div class="status unstaged">
         <div class="small numbers">1</div>
-            {{ changedLocal }} files have unsaved changes.
+            {{ this.changedLocal }} files have unsaved changes.
         </div>
         <div class="status tracked">
         <div class="small numbers">2</div>
-            {{ tracked }} files have changes which are ready to be committed.
+            {{ this.tracked }} files have changes which are ready to be committed.
         </div>
         <div class="status ready">
         <div class="small numbers">3</div>
-            {{ commits }} commits are ready to be pushed from your branch.
+            {{ this.commits }} commits are ready to be pushed from your branch.
         </div>
      </div>
      <div class="suggestions">
@@ -57,21 +57,6 @@ export default {
       tracked: 0,
     }
  },
-  computed: {
-    branchName(){
-        return this.$store.getters.getBranchName.name
-    },
-    changedLocal() {
-        return this.$store.getters.getStatusFiles.untracked.length
-    },
-    tracked() { 
-        return this.$store.getters.getStatusFiles.tracked.length
-    },
-    commits() { 
-        return this.$store.getters.getStatusFiles.toPush
-    }  
-  },
-  
   mounted() {
       ipc.on('giveFilePath', (event, pwd) => {
         this.getStatus(pwd)
