@@ -15,7 +15,7 @@
             <div class="headline-component">
                 Visualizations 
             </div>
-            <VizWindow />
+            <BeginnerViz />
         </div>
     </div>   
 </div>
@@ -25,7 +25,6 @@
 import BeginnerViz from './Visualizations/BeginnerViz.vue'
 import TutorialHome from './Practice/TutorialHome.vue'
 import BeginnerNav from '../router/BeginnerNav.vue'
-import FirstTime from './FirstTime.vue'
 
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
@@ -39,7 +38,6 @@ export default {
     BeginnerViz,
     TutorialHome,
     BeginnerNav,
-    FirstTime
   },
   data() {
     return {

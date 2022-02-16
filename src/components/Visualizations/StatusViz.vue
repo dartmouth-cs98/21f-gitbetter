@@ -49,12 +49,14 @@ var parse = require('../../utils/getStatus')
 export default {
 
   name: 'Status',
-//   data () {
-//     return {
-//       commits: 0,
-      
-//     }
-//  },
+  data () {
+    return {
+      branchName: "",
+      commits: 0,
+      changedLocal: 0,
+      tracked: 0,
+    }
+ },
   computed: {
     branchName(){
         return this.$store.getters.getBranchName.name

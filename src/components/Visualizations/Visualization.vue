@@ -1,10 +1,10 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <!-- <div v-show="!test">
+      <div v-if="test">
         <StatusViz />
-      </div> -->
-      <div v-show="test">
+      </div>
+      <div v-else>
         <InitViz /> 
       </div>
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
@@ -14,7 +14,7 @@
 
 <script>
 // import BranchViz from './BranchViz.vue'
-// import StatusViz from './StatusViz.vue'
+import StatusViz from './StatusViz.vue'
 import InitViz from './StatusViz.vue'
 
 // import FilesChanged from './FilesChangedViz.vue'
@@ -26,12 +26,12 @@ export default {
   },
   data() {
     return {
-      test: true,
+      test: false,
     }
   },
   components: {
       // BranchViz,
-      // StatusViz,
+      StatusViz,
       InitViz,
       // FilesChanged
   }
