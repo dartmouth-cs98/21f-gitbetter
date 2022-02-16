@@ -3,7 +3,7 @@
     <div class="beginner-tutorial">
         <div class="subtitle">{{this.prompts[this.i]}}</div>
         <div >{{this.responses[this.i]}}</div>
-        <input class="input is-large" type="text" placeholder="Your command here!"> </input>
+        <input class="input is-large" type="text" placeholder="Your command here!"> /input>
     </div>
 </template>
 
