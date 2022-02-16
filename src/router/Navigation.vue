@@ -19,8 +19,6 @@
           </router-link>
         </div>
       </div>
-
-
         <div class="level-item has-text-centered">
           <router-link 
             class="level-item has-text-centered"
@@ -142,9 +140,11 @@ export default {
   img {
     width: 45%;
     padding: 10px;
-    margin-left:auto;
+    margin:auto;
   }
-
+  .level-item {
+    margin: auto;
+  }
   .l-menu {
     width: 100%;
   }
@@ -184,6 +184,7 @@ export default {
     .nav {
       display: flex;
       padding: 0px 30px;
+      justify-content: center;
     }
   }
 </style>

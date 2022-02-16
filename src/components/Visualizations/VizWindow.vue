@@ -1,6 +1,7 @@
 <template>
   <div class="vis-box">
-    <Viz :key="this.currCommand" :command="this.command"/> 
+    <Visualization /> 
+    <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
@@ -11,7 +12,6 @@
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
       <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
-    <Visualization /> 
   </div>
 </template>
 
@@ -191,7 +191,7 @@ export default {
   height: 5vw;
   width: 5vw;
   cursor: pointer;
-  margin: auto 10px;
+  margin: 5px 10px;
 }
 .back-button-previous-grayed, .back-button-next-grayed {
   background-color: #4D3B63;
