@@ -105,7 +105,7 @@ export default {
   created() {
     // this is where we'll get the result of git config user.name, 
     // if it doesn't exist in the DB will set step to 0 and start tutorial
-    this.step = 0;
+    this.step = this.$store.getters.getNewUser ? 0 : -1;
   },
   methods: {
     openDirectories() {
@@ -135,14 +135,13 @@ export default {
       else {
           this.step = this.step + val;
       }
-
-      console.log(this.step)
     },
     resetStep() {
       this.step = 0;
     },
      onEndTutorial() {
       this.step = -1;
+      this.$store.commit('setNewUser');
     },
   }
 }
@@ -216,41 +215,34 @@ export default {
   padding: 1% 0%;
   width: 48px;
 }
-
 .faIcon {
-    width: 3em;
-    cursor: pointer;
-    color:white;
+  width: 3em;
+  cursor: pointer;
+  color:white;
 }
-
-
 .visButtons {
   margin-right: 12px;
   margin-left: auto;
 }
-
 .help-window { 
-    position: absolute;
-    right: 12px;
-    top: 3.75rem;
-    z-index: 6;
-    max-width: 60%;
-  }
+  position: absolute;
+  right: 12px;
+  top: 3.75rem;
+  z-index: 6;
+  max-width: 60%;
+}
 
-  .help-window-two { 
-    position: absolute;
-    left: 12px;
-    top: 3.25rem;
-    z-index: 6;
-    max-width: 50%;
-  }
+.help-window-two { 
+  position: absolute;
+  left: 12px;
+  top: 3.25rem;
+  z-index: 6;
+  max-width: 50%;
+}
 
 @media only screen and (max-width: 770px) {
   .sidebar {
     display: none;
-  }
-  .terminal-wrapper {
-    margin-left: 12px;
   }
   .top-wrapper {
     height: 100%;

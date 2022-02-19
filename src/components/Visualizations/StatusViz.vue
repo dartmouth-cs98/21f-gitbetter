@@ -8,7 +8,7 @@
             <div>local machine</div>
         </div>
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
-        <div class="change-location">
+        <div class="catushange-location">
             <font-awesome-icon class="status-icons" icon="code-branch"/>
             <div>on {{ this.branchName }}</div>
         </div>
@@ -16,15 +16,15 @@
      <div class="file-locations">
         <div class="status unstaged">
         <div class="small numbers">1</div>
-            {{this.changedLocal}} files have unsaved changes.
+            {{ this.changedLocal }} files have unsaved changes.
         </div>
         <div class="status tracked">
         <div class="small numbers">2</div>
-            {{this.tracked}} files have changes which are ready to be committed.
+            {{ this.tracked }} files have changes which are ready to be committed.
         </div>
         <div class="status ready">
         <div class="small numbers">3</div>
-            {{this.commits}} commits are ready to be pushed from your branch.
+            {{ this.commits }} commits are ready to be pushed from your branch.
         </div>
      </div>
      <div class="suggestions">
@@ -51,22 +51,33 @@ export default {
   name: 'Status',
   data () {
     return {
+      branchName: "",
+      commits: 0,
       changedLocal: 0,
       tracked: 0,
-      commits: 0,
-      branchName: "the-name-of-your-branch"
     }
-  },
-  
+ },
   mounted() {
-    ipc.on('giveFilePath', (event, pwd) => {
-      this.getStatus(pwd)
-    })
+      ipc.on('giveFilePath', (event, pwd) => {
+        this.getStatus(pwd)
+      })
 
+      ipc.on('getStatus', (event, result) => {
+        this.branchName = result[0];
+        this.commits = result[1];
+        this.changedLocal = result[2];
+        this.tracked = result[3];
+      })
+  },
+// check event listner error
+// where is visulization being mounted from 
+
+  updated() {
+    console.log(this.branchName)
   },
 
   methods: {
-      async getStatus(pwd) {
+      getStatus: function(pwd) {
           // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
           ipc.send("terminal.toTerm", '\n')
@@ -78,12 +89,8 @@ export default {
 
           // parse status takes the pwd the user selected and returns the status of
           // their git repo to be displayed in the visulization if it is a git repo
-           parse.getStatus(pwd).then((result) => {
-           this.branchName = result[0];
-           this.commits = result[1];
-           this.changedLocal = result[2];
-           this.tracked = result[3];
-          
+          parse.getStatus(pwd).then((result) => {
+            ipc.send("statusUpdate", result)
         })
       },
 
@@ -106,9 +113,13 @@ export default {
 }
 .general-wrapper {
   width: 100%;
+  height: 100%;
+  min-height: 675px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  color: white;
+  overflow-y: auto;
 }
 .file-locations {
     display: flex;
@@ -128,7 +139,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    padding-top: 10%;
+    padding-top: 7%;
 }
 
 .status-icons {
