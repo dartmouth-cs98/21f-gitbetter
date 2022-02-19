@@ -42,7 +42,7 @@
                   v-show="step == 0"
                 /> 
             </div>
-              <Terminal />
+              <Terminal @newCommand="sendNewCommand"/>
           </div>
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
@@ -68,7 +68,7 @@
                   v-show="step == 1"
                 /> 
             </div>
-            <VizWindow />
+            <VizWindow ref="vizParent"/>
           </div>
       </div>   
   </div>
@@ -143,6 +143,9 @@ export default {
       this.step = -1;
       this.$store.commit('setNewUser');
     },
+    sendNewCommand(val) {
+      this.$refs.vizParent.sendCommand(val);
+    }
   }
 }
 

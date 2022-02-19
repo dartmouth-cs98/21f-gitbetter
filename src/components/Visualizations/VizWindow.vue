@@ -1,6 +1,6 @@
 <template>
   <div class="vis-box">
-      <Visualization /> 
+      <Visualization ref="vizChild"/> 
   </div>
 </template>
 
@@ -132,6 +132,9 @@ export default {
           throw new Error('Unknown prior action in commandStack of viz window')
       } 
     },
+    sendCommand(val) {
+      this.$refs.vizChild.newCommand(val)
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { getStatus } from './utils/getStatus';
-// import { isGit } from './utils/isGit'
+import { isGit } from './utils/isGit'
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -59,6 +59,10 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  ipcMain.on('setCommand', (event, data) => {
+    event.sender.send('setCommand', data);
+  })
+
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
@@ -73,10 +77,22 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-     // isGit(pwd)
-      getStatus(pwd)
+      isGit(pwd).then(async git => {
+        //maybe ask user if they want to initialize git repo here?
+        console.log(git)
+        if (git) {
+          getStatus(pwd)
+          replicate.replicate_repo(pwd);
+        }
+        else {
+          win.webContents.send('notGit');
+        }
+      }).catch((error => {
+        console.log(error)
+
+    }));
       win.webContents.send('giveFilePath', pwd);
-      replicate.replicate_repo(pwd);
+      // replicate.replicate_repo(pwd);
       
     }).catch(console.error);
   })
