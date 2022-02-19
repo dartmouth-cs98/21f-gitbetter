@@ -2,7 +2,10 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { getStatus } from './utils/getStatus';
-// import { isGit } from './utils/isGit'
+
+import { isGit } from './utils/isGit';
+import { initializeGit } from './utils/initializeGit'
+
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -62,7 +65,10 @@ async function createWindow() {
 
   // opens finder modal
 
+
+
   ipcMain.on("openFinder", function() {
+
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),
       // only enables user to select directories
@@ -70,11 +76,24 @@ async function createWindow() {
     }).then((result)=> {
       let pwd = result.filePaths[0]
       win.webContents.send("finderOpened");
-     // isGit(pwd)
+
+      
+      isGit(pwd).then(async git => {
+        //maybe ask user if they want to initialize git repo here?
+        console.log(git)
+        if (!git) {
+          await initializeGit(pwd)
+        }
+      }).catch((error => {
+        console.log(error)
+    
+    }))
+
+      
       getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
-      replicate.replicate_repo(pwd);
-      
+      replicate.replicate_repo(pwd);  
+   
     }).catch(console.error);
   })
 
