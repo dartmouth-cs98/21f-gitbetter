@@ -1,66 +1,53 @@
 <template>
     <nav class="nav level has-shadow" >
-      <div class="level-item has-text-centered">
-        <div class="nav level l-menu">
-          <router-link 
-              class="level-item has-text-centered"
-              :to="'/help'"
-              style="color:black; font-weight:500;"
-          >
-              Help
-          </router-link>
-
-          <router-link 
-              class="level-item has-text-centered"
-              :to="'/tutorials'"
-              style="color:black; font-weight:500;"
-          >
-              Tutorials
-          </router-link>
-        </div>
-      </div>
-
-
-        <div class="level-item has-text-centered">
-          <router-link 
+      <div class="level-item has-text-centered nav level l-menu">
+        <router-link 
             class="level-item has-text-centered"
-            :to="'/home'"
+            :to="'/help'"
             style="color:black; font-weight:500;"
-          >
+        >
+          Help
+        </router-link>
+        <router-link 
+            class="level-item has-text-centered"
+            :to="'/tutorials'"
+            style="color:black; font-weight:500;"
+        >
+          Tutorials
+        </router-link>
+        <router-link 
+          :to="'/home'"
+          style="color:black; font-weight:500;"
+        >
           <img src="../assets/logo.png" />
-          </router-link>
+        </router-link>
+        <router-link
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
+          :to="'/doityourself'"
+          >
+          Do It Yourself
+        </router-link>
+        <div
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
+          @click="$router.push('/')"
+          v-on:click="startOver"
+          >
+          End
         </div>
-        <div class="level-item has-text-centered">
-          <div class="nav level r-menu">
-            <router-link
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                :to="'/doityourself'"
-                >
-                    Do It Yourself
-            </router-link>
-            <div
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                @click="$router.push('/')"
-                v-on:click="startOver"
-                >
-                    End
-            </div>
-
-            <div
-                class="level-item has-text-centered"
-                style="color:black; font-weight:500;cursor:pointer;"
-                v-on:click="$emit('help')"
-                >
-                    <font-awesome-icon icon="question-circle"/>
-            </div>
-          </div>
+        <div
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
+          v-on:click="$emit('help')"
+          >
+            <font-awesome-icon icon="question-circle"/>
         </div>
-      <loading />
-      <div v-bind:class="helpClass">
-        <slot></slot>
+        <div v-bind:class="helpClass">
+          <slot></slot>
+        </div>
       </div>
+      <loading />
     </nav>
 </template>
 
@@ -142,9 +129,11 @@ export default {
   img {
     width: 45%;
     padding: 10px;
-    margin-left:auto;
+    margin:auto;
   }
-
+  .level-item {
+    margin: auto;
+  }
   .l-menu {
     width: 100%;
   }
@@ -184,6 +173,10 @@ export default {
     .nav {
       display: flex;
       padding: 0px 30px;
+      justify-content: center;
+    }
+    .level-item:not(:last-child) {
+      margin: auto 10px;
     }
   }
 </style>
