@@ -31,12 +31,6 @@ export default function classification(gitCommand, gitStatus) {
             return `git switch ${branch}`;
         case 'tag':
             return 'git tag -d';
-        case 'pull':
-            return '';
-        case 'fetch':
-            return '';
-        case 'push':
-            return '';
         case 'mv': {
             const moveArgs = restParameters.filter(param => !param.startsWith('-'));
             if (moveArgs.length != 2) return ''; // NOOP
@@ -64,6 +58,11 @@ export default function classification(gitCommand, gitStatus) {
         case 'show':
         case 'status':
             return gitCommand;
+
+        // Unsupported - do not want to break remote server
+        case 'pull':
+        case 'fetch':
+        case 'push':
         default:
             return ''; 
     }

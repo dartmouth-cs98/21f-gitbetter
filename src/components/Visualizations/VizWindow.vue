@@ -64,14 +64,16 @@ export default {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
-          this.updateStack();
-          this.updateStatus();
-        }    
+          this.updateStack();          
+        }
+        this.updateStatus();
         this.currCommand = '';
         return;
       }
       this.currCommand += data;
     });
+
+    ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
   },
   methods: {
     async updateStatus() {
@@ -81,7 +83,6 @@ export default {
       this.gitStatus.filesModified = files.filesModified;
       this.gitStatus.filesRemoved = files.filesDeleted;
       this.gitStatus.filesUntracked = files.filesUntracked;
-      this.gitStatus.workingDirectory = process.cwd();
     },
     updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
@@ -95,7 +96,7 @@ export default {
         // Operation in the middle of the stack
         const { action } = classification(this.command, this.gitStatus);
         if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
-        else console.log('not yet supported');
+        else console.log('no support for interstack git operations');
       }
     },
     printStack() {
