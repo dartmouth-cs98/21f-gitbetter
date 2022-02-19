@@ -51,6 +51,7 @@ export default {
         filesRemoved: [],
         filesUntracked: [],
         output: '',
+        workingDirectory: process.cwd(),
       },
     }  
   },
@@ -64,9 +65,9 @@ export default {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
           this.command = this.currCommand;
-          this.updateStack();
-          this.updateStatus();
-        }    
+          this.updateStack();          
+        }
+        this.updateStatus();
         this.currCommand = '';
         return;
       }
@@ -80,6 +81,8 @@ export default {
       this.gitStatus.output = data;
       console.log(`Setting output as ${data}`);
     });
+
+    ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
   },
   methods: {
     async updateStatus() {
@@ -102,7 +105,7 @@ export default {
         // Operation in the middle of the stack
         const { action } = classification(this.command, this.gitStatus);
         if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
-        else console.log('not yet supported');
+        else console.log('no support for interstack git operations');
       }
     },
     printStack() {
