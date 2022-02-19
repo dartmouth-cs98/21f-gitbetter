@@ -11,11 +11,19 @@ export default {
   props: {
     command: String  
   },
+  data() {
+      return {
+          source: require("../../assets/demo/clonerepo.png"),
+      }
+  },
   methods: {
     imgPath() {
         // if (this.command == "") {
         //     return require ("../../assets/demo/openingrepo.png");
         // } 
+        if (this.command == "") {
+            return require("../../assets/demo/clonerepo.png")
+        }
         if (this.command == "git branch") {
             return require("../../assets/demo/branch-dark.png");
         } else if (this.command == "git diff") {
