@@ -21,10 +21,13 @@ export default {
         // if (this.command == "") {
         //     return require ("../../assets/demo/openingrepo.png");
         // } 
-        if (this.command == "") {
-            return require("../../assets/demo/clonerepo.png")
+        // if (this.command == "") {
+        //     return require("../../assets/demo/clonerepo.png")
+        // }
+        if (this.command == "git clone https://github.com/dartmouth-cs98/GitBetterTestRepository.git") {
+            return require("../../assets/demo/postclone.png")
         }
-        if (this.command == "git branch") {
+        else if (this.command == "git branch") {
             return require("../../assets/demo/branch-dark.png");
         } else if (this.command == "git diff") {
             return require("../../assets/demo/diff-dark.png");

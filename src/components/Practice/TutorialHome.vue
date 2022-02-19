@@ -6,6 +6,7 @@
         <form>
           <input class="input is-large" type="text" placeholder="Your command here!" v-model="source" />
           <button @click="$emit('updateSrc', source)"> Run the command </button>
+          <!-- <div style = "position: relative; left: 80px"> -->
         </form>
     </div>
 </template>
@@ -54,11 +55,11 @@ export default {
     color: white;
 }
 
-.button {
+/* .button {
     margin: 12px; 
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);
-}
+} */
 
 </style>
  
