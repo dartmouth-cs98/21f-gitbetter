@@ -1,9 +1,9 @@
 export default function classification(gitCommand, gitStatus) {
     if (!gitCommand.startsWith('git ')) return '';
-    const [, operation, ] = gitCommand.split(' ');
+    const [, operation, ...restParameters] = gitCommand.split(' ');
     const parameters = gitCommand.split(' ').slice(2).join(' ');
     const {
-        branch, filesAdded, filesModified, filesRemoved, filesUntracked,
+        branch, filesAdded, filesModified, filesRemoved, filesUntracked, output,
     } = gitStatus;
     console.log(branch, filesAdded, filesModified, filesRemoved, filesUntracked);
     switch(operation) {
@@ -29,8 +29,22 @@ export default function classification(gitCommand, gitStatus) {
         case 'switch':
             filesAdded, filesModified;
             return `git switch ${branch}`;
-        case 'tag':
-            return 'git tag -d';
+        case 'tag': {
+            // Only supports -d
+            const hasFlag = restParameters.some(param => param.startsWith('-') && param.length === 2);
+            const commitPosition = hasFlag ? 2 : 1;
+            if (restParameters.length < commitPosition) return '';
+            if (output.startsWith('error: tag')) return ''; // Tag not found
+            console.log('parsing out put as', output);
+            const backupCommit = output.startsWith('Deleted tag') // Parse `Deleted tag '$TAG' (was $COMMIT)`
+                ? output.split(' ').slice(-1)[0].slice(0, -1) : '';
+            const commit = restParameters.length === commitPosition + 1
+                ? restParameters[commitPosition] : backupCommit;
+
+            const tag = restParameters[commitPosition - 1];
+            const invertDeleteFlag = restParameters.includes('-d') ? '' : '-d';
+            return `git tag ${[invertDeleteFlag, tag, commit].filter(op => op).join(' ')}`;
+        }
         case 'pull':
             return '';
         case 'fetch':

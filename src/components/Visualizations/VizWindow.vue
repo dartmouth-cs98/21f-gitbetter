@@ -2,10 +2,10 @@
   <div class="vis-box">
     <Visualization /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
-    <!-- <div class="print-container">
+    <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div> -->
+    </div>
     <div class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
@@ -50,6 +50,7 @@ export default {
         filesModified: [],
         filesRemoved: [],
         filesUntracked: [],
+        output: '',
       },
     }  
   },
@@ -69,7 +70,15 @@ export default {
         this.currCommand = '';
         return;
       }
-      this.currCommand += data;
+      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -1);
+      else this.currCommand += data;
+    });
+
+    ipc.on("terminal.incData", (_, data) => {
+      // console.log('getting data', data)
+      // if (!this.gitStatus) return;  // life cycleof mounted initiates before component loads
+      this.gitStatus.output = data;
+      console.log(`Setting output as ${data}`);
     });
   },
   methods: {
