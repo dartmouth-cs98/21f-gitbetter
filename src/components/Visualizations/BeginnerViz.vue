@@ -36,6 +36,8 @@ export default {
             this.source = require("../../assets/demo/begnewbranch.png")
         } else if (this.command == "git commit -m 'My first commit!'") {
             this.source = require("../../assets/demo/begcommit.png")
+        } else if (this.command == "git push") {
+            this.source = require("../../assets/demo/begpush.png")
         }
         // } else if (this.command == "git branch") {
         //     this.source = require("../../assets/demo/branch-dark.png");
