@@ -1,55 +1,27 @@
 <template>
   <div class="main top-welcome">
       <div class="page-flex">        
-            <div class="top-directory">
                 <div class="logo">
-                    <img src="../assets/logo.png" />
-                    <p class="subtitle">Git, simplified.</p>
-                    
+                    <div>
+                        <img src="../assets/logo.png" />
+                        <p class="subtitle learning">Git, simplified.</p>
+                    </div>
                     <div class="wrapper" v-on:click="gitStarted" >
                         <div class="cta">
                             <span>Git Started</span>                            
                         </div>
                     </div>
                 </div>
-                <div class="bottom-button" @click="$router.push('/beginner')"> 
-                    <h1 class="section-header">Beginner</h1>
-                    <!-- <div class="start-options">
-                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Create new file</h2>
-                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Open file</h2>
-                    <h2><font-awesome-icon class="faIcon" icon="plus"/>  Clone git repository</h2>
+                <hr />
+            <div class="learning-logo">
+                <img class="gitlearn" src="../assets/beginnerlogo.png" />
+                <p class="subtitle learning-2">Gitbetter, for beginners.</p>
+                <div class="wrapper" style="padding-top: 18px;" @click="$router.push('/beginner')">
+                    <div class="cta">
+                        <span>Git Learning</span>                            
                     </div>
-                    <h1 class="section-header">Recent</h1> -->
-                    <!-- <h2><font-awesome-icon class="faIcon" icon="plus"/>  CS98 GitBetter</h2> -->
                 </div>
             </div>
-        </div>
-
-        <div class="vl"></div>
-
-        <div class= "top-help">
-            <nav class="panel">
-                <h1 class="section-header help-header"> Search for commands...</h1>
-                <div class="panel-block search-comp">
-                    <p class="control has-icons-left">
-                        <input class="input" type="command" v-model="searchInput" @input="searchCommands(searchInput)" placeholder="How do I do this?">
-                        <span class="icon is-small is-left">
-                            <font-awesome-icon icon="search"/> 
-                        </span>
-                    </p>
-                </div>
-                <div class="panel-block results-parent">
-                    <div class="panel-block results" v-if="commandOpts.length > 1">
-                        {{ commandOpts.length }} results found...
-                    </div>
-                    <div class="panel-block results" v-if="commandOpts.length == 1">
-                        {{ commandOpts.length }} result found...
-                    </div>
-                    <div v-for="match in commandOpts" :key="match.id" class="panel-block command-blocks">
-                        {{ match.command }}: {{ match.desc }}
-                    </div>
-                </div>
-            </nav>
         </div>
       <loading />
   </div>
@@ -136,54 +108,49 @@ h2 {
 
 img {
     height: auto;
-    width: 100%
+    width: 60%;
+    margin: 0 22%;
 }
 .logo {
-    padding: 30px 30px 0 10px;
+    padding: 60px 30px 0 10px;
+    min-height: 60%;
+
 }
 
-.subtitle {
-    padding-left: 50%;
+.learning-logo {
+    padding: 20px 12px 0 10px;
+    min-height: 50%;
+
+}
+.gitlearn {
+    width: 50%;
+}
+.learning {
+    padding-left: 51%;
     position: relative;
-    top: -15%;
+    top: -3rem;
     font-style: italic;
     color: rgb(39, 39, 39);
-    font-size: 175%;
+    font-size: 165%;
+    margin-bottom: 7%;
+}
+
+.learning-2 {
+    padding-left: 43%;
+    position: relative;
+    top: -30px;
+    font-style: italic;
+    color: rgb(39, 39, 39);
+    font-size: 145%;
     margin-bottom: 0 !important;
 }
 
-.columns {
-    height: calc(100% - 5rem);
-    margin: 0;
-}
 .top-welcome {
     background: linear-gradient(to right, #DA91E5, #9953F1 50%, #53336B);
 }
 .page-flex {
     width: 100%;
     height: 100%;
-}
-
-
-.top-directory {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.top-help {
-    width: 50%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-left: 45px;
-}
-
-.start-options {
-    display: flex;
-    flex-direction: column;
 }
 
 .bottom-button {
@@ -193,53 +160,9 @@ img {
     flex-direction: column;
     padding-bottom: 45px;
 }
-.vl {
-    border-left: 1.5px solid black;
-    height: 80%;
-    position: absolute;
-    left: 50%;
-    top: 10%;
-}
-.panel {
-    color: white;
-    box-shadow: none;
-    width: 90%
-}
-.panel-block {
-    color: white;
-    border: none;
-    border-radius: 0 !important;
-}
-
-.command-blocks {
-    background-color:rgba(225,225,225,0.3);
-    width: 100%;
-}
-
-.help-header {
-    padding-top: 45px;
-    padding-left: 10px;
-}
-
-.section-header {
-    padding-bottom:0px;
-}
-
-.search-comp {
-    border-bottom: none !important;
-}
-
-.results {
-    font-weight:500;
-    font-size:20px;
-}
-
-.results-parent {
-    padding-bottom: 45px;
-    max-height: 75vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+hr {
+    background-color: black;
+    margin: 8px 36px;
 }
 
 div::-webkit-scrollbar {
@@ -340,7 +263,7 @@ body {
         font-size: 13px;
     }
      .subtitle {
-         top: -10%;
+         top: -1.5rem;
         font-size: 130%;
     }
 
