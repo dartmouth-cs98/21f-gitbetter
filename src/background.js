@@ -16,10 +16,7 @@ var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
 
-
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
-const ipc = require('electron').ipcRenderer;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
