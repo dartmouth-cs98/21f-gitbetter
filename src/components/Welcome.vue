@@ -263,7 +263,7 @@ body {
         font-size: 13px;
     }
      .subtitle {
-         top: -10%;
+         top: -1.5rem;
         font-size: 130%;
     }
 
