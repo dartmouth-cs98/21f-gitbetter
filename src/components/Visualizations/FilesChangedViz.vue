@@ -6,11 +6,21 @@
       </div>
       Staging: what you want pushed to GitHub
       <div class='file-box'>
-          <!-- Files -->
+          <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
       </div>
       Local: your current copy
       <div class='file-box'>
-          <!-- Files -->
+          <p v-for="file in this.files.filesLocal.filesModified" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesLocal.filesAdded" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesLocal.filesUntracked" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesLocal.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p v-for="file in this.files.filesLocal.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p class="file-deleted" v-for="file in this.files.filesLocal.filesDeleted" :key="file">{{file}}</p>
       </div>
       <div class='commit-flow'>
           <div v-bind:class="this.command.startsWith('git add') ? 'highlight-text' : 'commit-flow-text'">
@@ -29,50 +39,48 @@
 </template>
  
 <script>
-const pty = require("node-pty");
-// const ipc = require("electron").ipcRenderer
+const ipc = require("electron").ipcRenderer
+var parse = require('../../utils/getStatus')
 
 export default {
   name: 'FilesChanged',
   data() {
     return {
       command: '',
-      prevStatus: {
-        local: [],
-        staging: [],
-        commits: []
-      },
-      currStatus: {
-        local: [],
-        staging: [],
-        commits: []
-      },
-      ptyProcess: pty.spawn('bash', [], {
-                name: "xterm-color",
-                cols: 80,
-                rows: 100,
-                cwd: process.CWD,
-                env: process.env
-            })
+      files: []
     }  
   },
-  methods: {
-    // WIP: not called yet, will be used for populating local/staging/commits
-    updateStatus() {
-      this.prevStatus = this.currStatus;
-      this.ptyProcess.write(`git status --porcelain \n`);
-      // get the output from running git status and update currStatus
-    }
-  },
   mounted() {
-    // WIP: currently unused (and incomplete), will be used for populating local/staging/commits
-    this.ptyProcess.on("data", (data) => {
-      if (data.startsWith('bash') || data.startsWith('git')) {
-        return;
-      }  
-      // TODO: use getStatus in utils
-    });
-  }
+    ipc.on('giveFilePath', (event, pwd) => {
+      this.getStatus(pwd)
+    })
+
+    ipc.on('getStatus', (event, result) => {
+      this.files = result[5];
+      console.log(this.files)
+    })
+  },
+  updated() {
+    console.log("UPDATED:", this.files)
+  },
+  methods: {
+    getStatus: function(pwd) {
+        // changes working directory in terminal to file users selected
+        ipc.send("terminal.toTerm", `cd "${pwd}"`)
+        ipc.send("terminal.toTerm", '\n')
+        ipc.send("terminal.toTerm", "clear")
+        ipc.send("terminal.toTerm", '\n')
+        // calls git status initally for the user
+        ipc.send("terminal.toTerm", "git status")
+        ipc.send("terminal.toTerm", '\n')
+
+        // parse status takes the pwd the user selected and returns the status of
+        // their git repo to be displayed in the visulization if it is a git repo
+        parse.getStatus(pwd).then((result) => {
+          ipc.send("statusUpdate", result)
+      })
+    },
+  },
 };
 </script>
 
@@ -112,5 +120,8 @@ export default {
   margin-left: 5%;
   color:yellow;
   font-weight: bold;
+}
+.file-deleted {
+  text-decoration: line-through
 }
 </style>
