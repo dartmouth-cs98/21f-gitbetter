@@ -1,27 +1,47 @@
 <template>
   <div class="viz">
-      <!-- <StatusViz /> -->
+      <!-- <FilesChanged :command="this.command"/> -->
       <MergeCon/>
+      <!-- <div v-if="test">
+        <StatusViz />
+      </div>
+      <div v-else>
+        <InitViz /> 
+      </div> -->
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
   </div>
 </template>
 
 <script>
-// import DirectoryTree from './DefaultViz.vue'
 // import BranchViz from './BranchViz.vue'
 // import StatusViz from './StatusViz.vue'
+// import InitViz from './StatusViz.vue'
 import MergeCon from './MergeCon.vue'
+
+// import FilesChanged from './FilesChangedViz.vue'
+
 export default {
-  name: 'Viz',
+  name: 'Visualization',
   props: {
-    command: String  
+    command: String
+  },
+  data() {
+    return {
+      test: false,
+    }
+  },
+  computed: {
+    getCurrCommand(){
+        return this.$store.getters.getCurrCommand.name
+    },
   },
   components: {
-      // DirectoryTree,
       // BranchViz,
       // StatusViz,
+      // InitViz,
       MergeCon,
+      // FilesChanged
   }
 }
 </script>
@@ -30,9 +50,10 @@ export default {
 .viz {
     justify-content: center;
     display: flex;
-    overflow: auto;
+    overflow-y: scroll;
+    height: 100%;
 }
-.vis::-webkit-scrollbar {
+.viz::-webkit-scrollbar {
   display: none;
 } 
 </style>

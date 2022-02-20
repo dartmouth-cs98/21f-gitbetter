@@ -1,6 +1,12 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { getStatus } from './utils/getStatus';
+
+import { isGit } from './utils/isGit';
+import { initializeGit } from './utils/initializeGit'
+
+require('events').EventEmitter.defaultMaxListeners = 50;
 
 
 const os = require("os");
@@ -10,7 +16,7 @@ var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -53,27 +59,44 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
-  ipcMain.on("openFinder", function() {
-    dialog.showOpenDialog({
-      defaultPath:app.getPath('home'), 
-      properties:['openDirectory'],
-    }).then(({ filePaths })=> {
-      // add canceled before filePaths
-    //  if (canceled) {
-      // this line does not work 
-    //    window.location.assign('/')
-    //  }
-      const [pwd] = filePaths;
-      ptyProcess.write(`cd "${pwd}" \n`);
-      ptyProcess.write(`'clear' \n`);
-      ptyProcess.write('git status');
-      ptyProcess.write('\n');
-      replicate.replicate_repo(pwd);
+  ipcMain.on("statusUpdate", function(event, data) {
+    win.webContents.send('getStatus', data);
+  });
 
+  // opens finder modal
+
+
+
+  ipcMain.on("openFinder", function() {
+
+    dialog.showOpenDialog({
+      defaultPath:app.getPath('home'),
+      // only enables user to select directories
+      properties:['openDirectory'],
+    }).then((result)=> {
+      let pwd = result.filePaths[0]
+      win.webContents.send("finderOpened");
+
+      
+      isGit(pwd).then(async git => {
+        //maybe ask user if they want to initialize git repo here?
+        console.log(git)
+        if (!git) {
+          await initializeGit(pwd)
+        }
+      }).catch((error => {
+        console.log(error)
+    
+    }))
+
+      
+      getStatus(pwd)
+      win.webContents.send('giveFilePath', pwd);
+      replicate.replicate_repo(pwd);  
+   
     }).catch(console.error);
   })
 
-  // ipcMain.on("gitStarted.to")
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)

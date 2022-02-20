@@ -9,14 +9,14 @@
           <div class="general-wrapper">
             <div class="title-wrapper">
               <div class="title">Tutorials</div>           
-              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+              <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="home"/></button>
             </div>
             <h2 class="subtitle">Need help figuring out what to do? Pick a workflow from the side for step by step instructions.</h2>
             <div class="tutorial" v-show="!finished">
-                <h1 class="title">
+                <h1 class="title small">
                     {{ this.selected.title }}
                 </h1>
-                <div class="subtitle step">
+                <div class="subtitle step" id="content">
                     {{ this.ind + 1}}. {{ this.curr.inst }}
                 </div>
                 <div class="command" v-if="commandExists">
@@ -32,6 +32,9 @@
                 Start a workflow tutorial by selecting an option from the workflows menu.
             </div>
             <div v-if="!finished" class="advance">
+              <button v-show="this.ind > 0" @click="goBack" class="button">
+                    Back 
+                </button>
                 <button @click="advanceTutorial" class="button">
                     {{ this.buttonName }} 
                 </button>
@@ -96,6 +99,10 @@ export default {
             this.ind = 0;
           }
       },
+      goBack() {
+        this.ind = this.ind - 1;
+        this.curr = this.steps[this.ind];
+      },
       copyCommand() {
             const el = document.createElement('textarea');
             el.value = this.curr.comm;
@@ -111,7 +118,8 @@ export default {
 
 <style scoped>
 .columns {
-    height: 100vh;
+  height: calc(100% - 5rem);
+  margin: 0;
 }
 .general-wrapper {
   width: 100%;
@@ -121,12 +129,15 @@ export default {
 }
 .title-wrapper {
   display:flex;
+  align-items: center;
   justify-content: space-between;
 }
 .button {
   margin-right: 1em;
 }
-
+.tutorial {
+  margin: 12px;
+}
 .sidebar {
   padding-right: 0;
 }
@@ -134,7 +145,6 @@ export default {
   display:flex;
   background-color: #272323;
   flex-grow: 1;
-  margin-top: 0.75rem;
   border-color: green;
   border-width: 1px;
   border-style: solid;
@@ -168,6 +178,12 @@ export default {
 
 .title {
   color: white;
+  padding-left: 18px;
+  margin-top: 1.5rem;
+}
+
+.small { 
+  font-size: 1.75rem;
 }
 
 .command {
@@ -185,6 +201,17 @@ export default {
 
 .tutorial {
     flex-grow: 0.825;
+}
+.subtitle {
+  color:white;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+#content{
+  padding-top: 2%;
+}
+.column {
+  padding: 0;
 }
 
 @media only screen and (max-width: 770px) {

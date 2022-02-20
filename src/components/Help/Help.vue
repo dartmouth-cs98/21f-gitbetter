@@ -9,7 +9,7 @@
           <div class="general-wrapper">
           <div class="title-wrapper">
             <div class="title">Help</div>           
-            <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+            <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="home"/></button>
           </div>
           <SearchBar class="search-section" @newCommand="newCommand" />
           <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
@@ -54,10 +54,12 @@ export default {
 
 <style scoped>
 .columns {
-    height: 100vh;
+    height: calc(100% - 5rem);
+    margin: 0;
 }
 .general-wrapper {
   width: 100%;
+  padding: 15px;
 }
 .sidebar {
   padding-right: 0;
@@ -73,7 +75,6 @@ export default {
   display:flex;
   background-color: #272323;
   flex-grow: 1;
-  margin-top: 0.75rem;
   border-color: green;
   border-width: 1px;
   border-style: solid;
@@ -100,6 +101,10 @@ export default {
 
 .search-section::-webkit-scrollbar {
   display: none;
+}
+
+.column {
+  padding: 0;
 }
 
 @media only screen and (max-width: 770px) {

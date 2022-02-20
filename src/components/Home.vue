@@ -72,7 +72,7 @@
           </div>
       </div>   
   </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -98,13 +98,14 @@ export default {
     FirstTime
   },
   data() {
-      return {
-          step: -1,
-      }
+    return {
+      step: -1,
+    }
   },
   created() {
-    // this is where we'll get the result of git config user.name, and if it doesn't exist in the DB will set step to 0 and start tutorial
-    this.step = 0;
+    // this is where we'll get the result of git config user.name, 
+    // if it doesn't exist in the DB will set step to 0 and start tutorial
+    this.step = this.$store.getters.getNewUser ? 0 : -1;
   },
   methods: {
     openDirectories() {
@@ -134,14 +135,13 @@ export default {
       else {
           this.step = this.step + val;
       }
-
-      console.log(this.step)
     },
     resetStep() {
       this.step = 0;
     },
      onEndTutorial() {
       this.step = -1;
+      this.$store.commit('setNewUser');
     },
   }
 }
@@ -152,13 +152,16 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .columns {
-    height: 100vh;
+  height: calc(100% - 5rem);
+  margin: 0;
+  /* margin-top: 0.03rem; */
 }
 .sidebar {
   padding-right: 0;
 }
 .column {
   width: 83%;
+  padding: 0;
 }
 .general-wrapper {
   display:flex;
@@ -211,43 +214,38 @@ export default {
   border-style: solid;
   padding: 1% 0%;
   width: 48px;
-  margin-top: 0.75rem;
 }
-
 .faIcon {
-    width: 3em;
-    cursor: pointer;
-    color:white;
+  width: 3em;
+  cursor: pointer;
+  color:white;
 }
-
-
 .visButtons {
   margin-right: 12px;
   margin-left: auto;
 }
-
 .help-window { 
-    position: absolute;
-    right: 12px;
-    top: 3.75rem;
-    z-index: 6;
-    max-width: 60%;
-  }
+  position: absolute;
+  right: 12px;
+  top: 3.75rem;
+  z-index: 6;
+  max-width: 60%;
+}
 
-  .help-window-two { 
-    position: absolute;
-    left: 12px;
-    top: 3.25rem;
-    z-index: 6;
-    max-width: 50%;
-  }
+.help-window-two { 
+  position: absolute;
+  left: 12px;
+  top: 3.25rem;
+  z-index: 6;
+  max-width: 50%;
+}
 
 @media only screen and (max-width: 770px) {
   .sidebar {
     display: none;
   }
-  .terminal-wrapper {
-    margin-left: 12px;
+  #open-side-bar{
+    display: none !important;
   }
   .top-wrapper {
     height: 100%;
