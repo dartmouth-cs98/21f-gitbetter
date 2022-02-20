@@ -30,19 +30,21 @@ export default function classification(gitCommand, gitStatus) {
         case 'switch':
             return `git switch ${branch}`;
         case 'tag': {
-            // Only supports -d
             const hasFlag = restParameters.some(param => param.startsWith('-') && param.length === 2);
             const commitPosition = hasFlag ? 2 : 1;
             if (restParameters.length < commitPosition) return '';
-            if (output.startsWith('error: tag')) return ''; // Tag not found
-            console.log('parsing out put as', output);
-            const backupCommit = output.startsWith('Deleted tag') // Parse `Deleted tag '$TAG' (was $COMMIT)`
-                ? output.split(' ').slice(-1)[0].slice(0, -1) : '';
-            const commit = restParameters.length === commitPosition + 1
-                ? restParameters[commitPosition] : backupCommit;
+            if (output.startsWith('error: tag') || output.startsWith('fatal: tag')) return ''; // Tag not found
+
+             // Parse `Deleted/Updated tag '$TAG' (was $COMMIT)`
+            const backupCommit = output.startsWith('Deleted tag') || output.startsWith('Updated tag')
+                ? output.trim().split(' ').slice(-1)[0].replace(')', '') : '';
+
+            const commit = backupCommit || restParameters[commitPosition];
+            if (commit && commit.length < 4) return ''; // if commit is less than 5 chars, git does not recongize it
 
             const tag = restParameters[commitPosition - 1];
-            const invertDeleteFlag = restParameters.includes('-d') ? '' : '-d';
+            const invertDeleteFlag = restParameters.includes('-d') || (restParameters.includes('-f') && !!output.trim())
+                ? '-f' : '-d';
             return `git tag ${[invertDeleteFlag, tag, commit].filter(op => op).join(' ')}`;
         }
         case 'mv': {
@@ -66,6 +68,7 @@ export default function classification(gitCommand, gitStatus) {
             mvFormat = mvFormat.map(param => param.startsWith('/') ? param : `${workingDirectory}/${param}`);
             return `git mv ${mvFormat.join(' ')}`;
         }
+        // NOOP commands - return as is
         case 'bisect':
         case 'diff':
         case 'log':
