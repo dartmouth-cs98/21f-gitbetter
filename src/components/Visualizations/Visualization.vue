@@ -16,7 +16,6 @@
 // import BranchViz from './BranchViz.vue'
 import StatusViz from './StatusViz.vue'
 import InitViz from './StatusViz.vue'
-
 // import FilesChanged from './FilesChangedViz.vue'
 
 export default {
