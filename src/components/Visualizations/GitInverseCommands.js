@@ -12,6 +12,7 @@ export default function classification(gitCommand, gitStatus) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
         case 'add': 
+            // git add file [<pathspec>...] [--all|-A]
             // No change to filesAdded, filesModified that have already been added before
             if (parameters.includes('--all') || parameters.includes('-A')) return 'git reset';
             return parameters.split(' ')
@@ -30,6 +31,7 @@ export default function classification(gitCommand, gitStatus) {
         case 'switch':
             return `git switch ${branch}`;
         case 'tag': {
+            // git tag [-d|-f] tag_name [commit]
             const hasFlag = restParameters.some(param => param.startsWith('-') && param.length === 2);
             const commitPosition = hasFlag ? 2 : 1;
             if (restParameters.length < commitPosition) return '';
@@ -48,6 +50,7 @@ export default function classification(gitCommand, gitStatus) {
             return `git tag ${[invertDeleteFlag, tag, commit].filter(op => op).join(' ')}`;
         }
         case 'mv': {
+            // git mv file <pathspec>
             const moveArgs = restParameters.filter(param => !param.startsWith('-'));
             if (moveArgs.length != 2) return ''; // NOOP
             const destinationDirectory = moveArgs[1];

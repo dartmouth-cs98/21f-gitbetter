@@ -2,10 +2,10 @@
   <div class="vis-box">
     <Visualization /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
-    <div class="print-container">
+    <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div>
+    </div> -->
     <div class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
