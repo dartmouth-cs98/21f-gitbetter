@@ -56,12 +56,8 @@ export default {
     })
 
     ipc.on('getStatus', (event, result) => {
-      this.files = result[5];
-      console.log(this.files)
+      this.files = result[5]
     })
-  },
-  updated() {
-    console.log("UPDATED:", this.files)
   },
   methods: {
     getStatus: function(pwd) {
