@@ -22,10 +22,6 @@ export default function classification(gitCommand, gitStatus) {
             return '';
         case 'commit':
             return 'git reset --soft HEAD~1';
-        case 'merge':
-            return '';
-        case 'rebase':
-            return '';
         case 'reset':
             return '';
         case 'switch':
@@ -83,6 +79,8 @@ export default function classification(gitCommand, gitStatus) {
         case 'pull':
         case 'fetch':
         case 'push':
+        case 'merge':
+        case 'rebase':
         default:
             return ''; 
     }
