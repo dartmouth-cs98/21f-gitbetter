@@ -244,6 +244,9 @@ export default {
   .sidebar {
     display: none;
   }
+  #open-side-bar{
+    display: none !important;
+  }
   .top-wrapper {
     height: 100%;
   }
