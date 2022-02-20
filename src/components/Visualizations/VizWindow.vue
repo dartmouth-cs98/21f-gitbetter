@@ -50,6 +50,7 @@ export default {
         filesModified: [],
         filesRemoved: [],
         filesUntracked: [],
+        output: '',
         workingDirectory: process.cwd(),
       },
     }  
@@ -63,6 +64,7 @@ export default {
     ipc.on(userInputChannel, (_, data) => {
       if (data.match(/^\s+/) && data !== ' ') {
         if (this.currCommand.trim().startsWith('git')) {
+          this.gitStatus.output = '';
           this.command = this.currCommand;
           this.updateStack();          
         }
@@ -70,7 +72,12 @@ export default {
         this.currCommand = '';
         return;
       }
-      this.currCommand += data;
+      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -1);
+      else this.currCommand += data;
+    });
+
+    ipc.on("terminal.incData", (_, data) => {  
+      if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
     });
 
     ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
@@ -84,8 +91,11 @@ export default {
       this.gitStatus.filesRemoved = files.filesDeleted;
       this.gitStatus.filesUntracked = files.filesUntracked;
     },
-    updateStack() {
+    async updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
+        // Operations that depend on output
+        if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+
         const command = inverseCommand(this.command, this.gitStatus);
         this.commandStack.push({
           current: { command: this.command, ...classification(this.command, this.gitStatus) },
