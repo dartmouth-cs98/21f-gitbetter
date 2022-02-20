@@ -1,18 +1,20 @@
+const fs = require('fs-extra');
+
+// Regex not supported (e.g. git add file*)
 export default function classification(gitCommand, gitStatus) {
     if (!gitCommand.startsWith('git ')) return '';
-    const [, operation, ] = gitCommand.split(' ');
+    const [, operation, ...restParameters] = gitCommand.split(' ');
     const parameters = gitCommand.split(' ').slice(2).join(' ');
     const {
-        branch, filesAdded, filesModified, filesRemoved, filesUntracked,
+        branch, filesRemoved, filesUntracked, output, workingDirectory, //filesAdded, filesModified, 
     } = gitStatus;
-    console.log(branch, filesAdded, filesModified, filesRemoved, filesUntracked);
     switch(operation) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
         case 'add': 
-            // Regex not supported (e.g. git add file*)
+            // git add file [<pathspec>...] [--all|-A]
             // No change to filesAdded, filesModified that have already been added before
-            if (parameters.includes('--all') || parameters.includes('A')) return 'git reset';
+            if (parameters.includes('--all') || parameters.includes('-A')) return 'git reset';
             return parameters.split(' ')
                 .filter(file => filesUntracked.includes(file) || filesRemoved.includes(file))
                 .reduce((cumulative, current) => cumulative + ' ' + current, 'git reset');
@@ -27,23 +29,60 @@ export default function classification(gitCommand, gitStatus) {
         case 'reset':
             return '';
         case 'switch':
-            filesAdded, filesModified;
             return `git switch ${branch}`;
-        case 'tag':
-            return 'git tag -d';
-        case 'pull':
-            return '';
-        case 'fetch':
-            return '';
-        case 'push':
-            return '';
-        case 'mv':
+        case 'tag': {
+            // git tag [-d|-f] tag_name [commit]
+            const hasFlag = restParameters.some(param => param.startsWith('-') && param.length === 2);
+            const commitPosition = hasFlag ? 2 : 1;
+            if (restParameters.length < commitPosition) return '';
+            if (output.startsWith('error: tag') || output.startsWith('fatal: tag')) return ''; // Tag not found
+
+             // Parse `Deleted/Updated tag '$TAG' (was $COMMIT)`
+            const backupCommit = output.startsWith('Deleted tag') || output.startsWith('Updated tag')
+                ? output.trim().split(' ').slice(-1)[0].replace(')', '') : '';
+
+            const commit = backupCommit || restParameters[commitPosition];
+            if (commit && commit.length < 4) return ''; // if commit is less than 5 chars, git does not recongize it
+
+            const tag = restParameters[commitPosition - 1];
+            const invertDeleteFlag = restParameters.includes('-d') || (restParameters.includes('-f') && !!output.trim())
+                ? '-f' : '-d';
+            return `git tag ${[invertDeleteFlag, tag, commit].filter(op => op).join(' ')}`;
+        }
+        case 'mv': {
+            // git mv file <pathspec>
+            const moveArgs = restParameters.filter(param => !param.startsWith('-'));
+            if (moveArgs.length != 2) return ''; // NOOP
+            const destinationDirectory = moveArgs[1];
+            let isDestinationDirectory = false;
+            try {
+                isDestinationDirectory = fs.statSync(destinationDirectory).isDirectory();
+            } catch (err) {
+                isDestinationDirectory = false;
+            }
+
+            let mvFormat;
+            if (isDestinationDirectory) {
+                // git move into folder
+                const sourceDirectory = moveArgs[0].split('/').slice(0, -1).join('/');
+                const file = moveArgs[0].split('/').slice(-1);
+                mvFormat = [`${destinationDirectory}/${file}`, sourceDirectory];
+            } else mvFormat = moveArgs.reverse(); // git rename file
+            mvFormat = mvFormat.map(param => param.startsWith('/') ? param : `${workingDirectory}/${param}`);
+            return `git mv ${mvFormat.join(' ')}`;
+        }
+        // NOOP commands - return as is
         case 'bisect':
         case 'diff':
         case 'log':
         case 'show':
         case 'status':
             return gitCommand;
+
+        // Unsupported - do not want to break remote server
+        case 'pull':
+        case 'fetch':
+        case 'push':
         default:
             return ''; 
     }
