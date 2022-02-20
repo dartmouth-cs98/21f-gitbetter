@@ -10,7 +10,7 @@ export default function classification(gitCommand) {
     const [, operation, parameters] = gitCommand.split(' ', 2);
     switch(operation) {
         case 'checkout':
-            return { action: parameters.startsWith('-b') ? ACTIONS.NORMAL : ACTIONS.NOOP };
+            return { action: parameters?.startsWith('-b') ? ACTIONS.NORMAL : ACTIONS.NOOP };
         case 'add':
             // TODO: Include check for when the file has already been added, in which case it should be NOOP
             return {action: ACTIONS.NORMAL};

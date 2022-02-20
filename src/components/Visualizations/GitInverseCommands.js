@@ -6,12 +6,13 @@ export default function classification(gitCommand, gitStatus) {
     const [, operation, ...restParameters] = gitCommand.split(' ');
     const parameters = gitCommand.split(' ').slice(2).join(' ');
     const {
-        branch, filesRemoved, filesUntracked, workingDirectory,
+        branch, filesRemoved, filesUntracked, output, workingDirectory, //filesAdded, filesModified, 
     } = gitStatus;
     switch(operation) {
         case 'checkout':
             return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
         case 'add': 
+            // git add file [<pathspec>...] [--all|-A]
             // No change to filesAdded, filesModified that have already been added before
             if (parameters.includes('--all') || parameters.includes('-A')) return 'git reset';
             return parameters.split(' ')
@@ -29,9 +30,27 @@ export default function classification(gitCommand, gitStatus) {
             return '';
         case 'switch':
             return `git switch ${branch}`;
-        case 'tag':
-            return 'git tag -d';
+        case 'tag': {
+            // git tag [-d|-f] tag_name [commit]
+            const hasFlag = restParameters.some(param => param.startsWith('-') && param.length === 2);
+            const commitPosition = hasFlag ? 2 : 1;
+            if (restParameters.length < commitPosition) return '';
+            if (output.startsWith('error: tag') || output.startsWith('fatal: tag')) return ''; // Tag not found
+
+             // Parse `Deleted/Updated tag '$TAG' (was $COMMIT)`
+            const backupCommit = output.startsWith('Deleted tag') || output.startsWith('Updated tag')
+                ? output.trim().split(' ').slice(-1)[0].replace(')', '') : '';
+
+            const commit = backupCommit || restParameters[commitPosition];
+            if (commit && commit.length < 4) return ''; // if commit is less than 5 chars, git does not recongize it
+
+            const tag = restParameters[commitPosition - 1];
+            const invertDeleteFlag = restParameters.includes('-d') || (restParameters.includes('-f') && !!output.trim())
+                ? '-f' : '-d';
+            return `git tag ${[invertDeleteFlag, tag, commit].filter(op => op).join(' ')}`;
+        }
         case 'mv': {
+            // git mv file <pathspec>
             const moveArgs = restParameters.filter(param => !param.startsWith('-'));
             if (moveArgs.length != 2) return ''; // NOOP
             const destinationDirectory = moveArgs[1];
@@ -52,6 +71,7 @@ export default function classification(gitCommand, gitStatus) {
             mvFormat = mvFormat.map(param => param.startsWith('/') ? param : `${workingDirectory}/${param}`);
             return `git mv ${mvFormat.join(' ')}`;
         }
+        // NOOP commands - return as is
         case 'bisect':
         case 'diff':
         case 'log':
