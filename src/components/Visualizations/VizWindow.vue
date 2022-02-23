@@ -2,10 +2,10 @@
   <div class="vis-box">
     <Visualization /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
-    <div class="print-container">
+    <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div>
+    </div> -->
     <div v-if="this.advisoryModalOpened" class="advisory-modal">
       <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
       <button @click="this.actionCallback" class="advisory-modal-yes">Continue</button>
