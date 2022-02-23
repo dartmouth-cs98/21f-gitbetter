@@ -1,6 +1,7 @@
 <template>
     <div class="top-layer">
         <div class="title-area">{{this.mergeSteps.title}}</div>
+        <div>Testing {{command}}</div>
         <div class="content"> {{this.mergeSteps.steps[this.index].step}}</div>
         <div class="command">
             <div class="mark-down">
@@ -19,6 +20,7 @@ import { marked } from 'marked';
 
 export default {
     name: 'MergeCon',
+    props: ['command'],
     data () {
         return {
             mergeSteps: mergeInterface,
@@ -59,6 +61,7 @@ export default {
 }
 .content{
     height:80%;
+    color: white;
 }
 .mark-down {
     background-color: #636363;

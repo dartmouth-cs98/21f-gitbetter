@@ -1,7 +1,7 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon/>
+      <MergeCon v-if="mergeConflict"/>
       <!-- <div v-if="test">
         <StatusViz />
       </div>
@@ -24,7 +24,8 @@ import MergeCon from './MergeCon.vue'
 export default {
   name: 'Visualization',
   props: {
-    command: String
+    command: String,
+    mergeConflict: Boolean,
   },
   data() {
     return {
@@ -33,6 +34,7 @@ export default {
   },
   computed: {
     getCurrCommand(){
+      
         return this.$store.getters.getCurrCommand.name
     },
   },

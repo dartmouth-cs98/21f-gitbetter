@@ -1,6 +1,6 @@
 <template>
   <div class="vis-box">
-    <Visualization /> 
+    <Visualization :mergeConflict="this.mergeConflictExists" /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
@@ -24,11 +24,16 @@ import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
 const channel = 'terminal.toTerm';
-
+// so we can check if the user did a git pull, if they did we should check the output
+// if the output contains a merge conflict then it should trigger something or change a variable,
+// so that the merge conflict interface will appear and we should be able to pass it to the merge conflict window
 export default {
   name: 'VizWindow',
   data() {
     return {
+      gitPulled: false,
+      mergeConflictExists: false,
+      mergeConflictData: '',
       command: '',
       currCommand: '',
       stackIndex: 0,
@@ -62,22 +67,50 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
+      console.log(data);
+      // checks for user input by checking if the input is not all whitespace
       if (data.match(/^\s+/) && data !== ' ') {
+        console.log(this.currCommand);
         if (this.currCommand.trim().startsWith('git')) {
           this.gitStatus.output = '';
           this.command = this.currCommand;
+          this.checkForPull();
+          console.log(this.command + " so this is what is saved then and we need to use this.command...");
           this.updateStack();          
         }
         this.updateStatus();
         this.currCommand = '';
         return;
       }
-      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -1);
+      if (data.includes('[K')){
+        console.log(data + " does this check for backspaces?");
+        this.currCommand = this.currCommand.slice(0, -1);
+      }
       else this.currCommand += data;
     });
 
     ipc.on("terminal.incData", (_, data) => {  
+      // console.log(data);
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
+      // if the user did a git pull, we should check if the output contains any merge conflicts
+      if (this.gitPulled){
+        this.gitPulled = false;
+        console.log("Trimmed data" + data.trim());
+        if (data.length !== 1 && !data.trim().startsWith('bash')){
+          // let arrayOfLines = data.trim().split('\n');
+          // console.log(arrayOfLines);
+          // for(let i = 0; i < arrayOfLines.length; i++){
+          //     console.log(arrayOfLines[i]);
+          //     if 
+          //     }
+          this.mergeConflictData = data;
+          console.log("merge conflict " + this.mergeConflictData)
+          // we have to split up the output somehow...by newline? and then go through each element and 
+          // check if there is a ("CONFLICT")
+          // then we should split that element even further by whitespace and take the last element (should be filename)
+          this.mergeConflictExists = true;
+        }
+      }
     });
 
     ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
@@ -108,6 +141,11 @@ export default {
         if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
         else console.log('no support for interstack git operations');
       }
+    },
+    async checkForPull(){
+      if (['pull'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+      this.gitPulled = true;
+
     },
     printStack() {
       console.log(this.commandStack.map(
