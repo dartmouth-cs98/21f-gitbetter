@@ -1,8 +1,8 @@
 <template>
     <div class="top-layer">
         <div class="title-area">{{this.mergeSteps.title}}</div>
-        <div>Testing {{command}}</div>
         <div class="content"> {{this.mergeSteps.steps[this.index].step}}</div>
+        <div>{{mergeData.toString()}} </div>
         <div class="command">
             <div class="mark-down">
                 {{ this.mergeSteps.steps[index].mark }}</div>
@@ -20,7 +20,9 @@ import { marked } from 'marked';
 
 export default {
     name: 'MergeCon',
-    props: ['command'],
+    props: {
+        mergeData: Array,
+    },
     data () {
         return {
             mergeSteps: mergeInterface,

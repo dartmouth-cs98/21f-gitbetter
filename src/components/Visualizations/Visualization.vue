@@ -1,7 +1,7 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon v-if="mergeConflict"/>
+      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
       <!-- <div v-if="test">
         <StatusViz />
       </div>
@@ -26,6 +26,7 @@ export default {
   props: {
     command: String,
     mergeConflict: Boolean,
+    mergeConflictData: Array,
   },
   data() {
     return {

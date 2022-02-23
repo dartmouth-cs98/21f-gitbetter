@@ -1,6 +1,6 @@
 <template>
   <div class="vis-box">
-    <Visualization :mergeConflict="this.mergeConflictExists" /> 
+    <Visualization :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
@@ -33,7 +33,7 @@ export default {
     return {
       gitPulled: false,
       mergeConflictExists: false,
-      mergeConflictData: '',
+      mergeConflictData: [],
       command: '',
       currCommand: '',
       stackIndex: 0,
@@ -90,25 +90,35 @@ export default {
     });
 
     ipc.on("terminal.incData", (_, data) => {  
-      // console.log(data);
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
       // if the user did a git pull, we should check if the output contains any merge conflicts
+      // this.mergeConflictExists = true;
+
       if (this.gitPulled){
-        this.gitPulled = false;
-        console.log("Trimmed data" + data.trim());
         if (data.length !== 1 && !data.trim().startsWith('bash')){
-          // let arrayOfLines = data.trim().split('\n');
-          // console.log(arrayOfLines);
-          // for(let i = 0; i < arrayOfLines.length; i++){
-          //     console.log(arrayOfLines[i]);
-          //     if 
-          //     }
-          this.mergeConflictData = data;
-          console.log("merge conflict " + this.mergeConflictData)
+          let arrayOfLines = data.trim().split('\n');
+          console.log(arrayOfLines);
+          for(let i = 0; i < arrayOfLines.length; i++){
+              console.log(arrayOfLines[i]);
+              if(arrayOfLines[i].includes("CONFLICT")){
+                console.log(arrayOfLines[i]);
+                while(i < arrayOfLines.length) {
+                  let arrayOfWords = arrayOfLines[i].split(" ");
+                  console.log("arrayOfWords: " + arrayOfWords);
+                  if (arrayOfWords[0] === 'CONFLICT'){
+                    this.mergeConflictExists = true;
+                    this.mergeConflictData.push(arrayOfWords[arrayOfWords.length - 1]);
+                    console.log(this.mergeConflictData);
+                    }
+                    i++;
+                    }
+              }
+              }
+          // this.mergeConflictData = data;
+          // console.log("merge conflict " + this.mergeConflictData)
           // we have to split up the output somehow...by newline? and then go through each element and 
           // check if there is a ("CONFLICT")
           // then we should split that element even further by whitespace and take the last element (should be filename)
-          this.mergeConflictExists = true;
         }
       }
     });
@@ -143,8 +153,12 @@ export default {
       }
     },
     async checkForPull(){
-      if (['pull'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
-      this.gitPulled = true;
+      if (['pull'].includes(this.command.split(' ', 3)[1])){
+        await new Promise(r => setTimeout(r, 100));
+        this.gitPulled = true;
+      }else{
+        this.gitPulled = false;
+      }
 
     },
     printStack() {
