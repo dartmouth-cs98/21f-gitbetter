@@ -9,7 +9,7 @@
           <div class="general-wrapper">
           <div class="title-wrapper">
             <div class="title">Help</div>           
-            <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="laptop-code"/></button>
+            <button class="button" title="Return to terminal" v-on:click="$router.push('/home')"><font-awesome-icon icon="home"/></button>
           </div>
           <SearchBar class="search-section" @newCommand="newCommand" />
           <RecentSearches class="recent-searches" v-bind="{'recents': recents}"/> 
