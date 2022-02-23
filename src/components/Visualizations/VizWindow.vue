@@ -2,15 +2,20 @@
   <div class="vis-box">
     <Visualization /> 
     <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
-    <!-- <div class="print-container">
+    <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div> -->
+    </div>
+    <div v-if="this.advisoryModalOpened" class="advisory-modal">
+      <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
+      <button @click="this.actionCallback" class="advisory-modal-yes">Continue</button>
+      <button @click="this.closeModal" class="advisory-modal-yes">Reject</button>
+    </div>
     <div class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
-      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
+      <button v-if="this.stackIndex > 0 && !this.advisoryModalOpened" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
-      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
+      <button v-if="this.stackIndex < this.commandStack.length - 1  && !this.advisoryModalOpened" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
 
   </div>
@@ -32,6 +37,9 @@ export default {
       command: '',
       currCommand: '',
       stackIndex: 0,
+      advisoryModalOpened: false,
+      advisoryModalMessage: '',
+      advisoryModalForward: true,
       commandStack: [{
         current: {
           command: 'git status',
@@ -118,27 +126,47 @@ export default {
         ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
     },
 
+    actionCallback() {
+      let command;
+      if (this.advisoryModalForward) {
+        this.stackIndex++;
+        command = this.commandStack[this.stackIndex].current;
+        console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
+      } else {
+        command = this.commandStack[this.stackIndex].previous;
+        this.stackIndex--;
+      }
+      ipcRenderer.send(channel, command.command + '\n');
+      this.closeModal();
+    },
+
+    closeModal() {
+      this.advisoryModalOpened = false;
+      this.advisoryModalMessage = '';
+    },
+
     nextCommand() {
+      this.advisoryModalForward = true;
       const operation = this.commandStack[this.stackIndex].current;
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          console.warn(operation.note);
-          return;
+          this.advisoryModalOpened = true;
+          this.advisoryModalMessage = operation.note;
+          console.warn("ADVISORY" + operation);
+          break;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
-          this.stackIndex++;
-          var { command } = this.commandStack[this.stackIndex].current;
-          console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
-          ipcRenderer.send(channel, command + '\n');
+          this.actionCallback();
           break;
         default:
           throw new Error('Unknown forward action in commandStack of viz window')
       } 
     },
     previousCommand() {
+      this.advisoryModalForward = false;
       const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
@@ -146,13 +174,13 @@ export default {
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          // console.warn(operation.note);
-          // return;
-        // eslint-disable-next-line no-fallthrough
+          console.warn("ADVISORY" + operation);
+          this.advisoryModalOpened = true;
+          this.advisoryModalMessage = operation.note;
+          break;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
-          this.stackIndex--;
-          ipcRenderer.send(channel, operation.command + '\n');
+          this.actionCallback();
           break;
         default:
           throw new Error('Unknown prior action in commandStack of viz window')
