@@ -9,8 +9,14 @@ export default function classification(gitCommand, gitStatus) {
         branch, filesRemoved, filesUntracked, output, workingDirectory, //filesAdded, filesModified, 
     } = gitStatus;
     switch(operation) {
-        case 'checkout':
-            return parameters.startsWith('-b') ? 'git branch -d' : 'git checkout';
+        case 'checkout': {
+            // git checkout [-b] <branchname>
+            if (restParameters.length === 0) return '';
+            const newBranch = restParameters[restParameters.length-1];
+            if (newBranch === '-') return `git checkout ${branch}`;
+            if (newBranch.startsWith('-')) return '';
+            return parameters.startsWith('-b') ? `git checkout ${branch} && git branch -D ${newBranch}` : `git checkout ${branch}`;
+        }
         case 'add': 
             // git add file [<pathspec>...] [--all|-A]
             // No change to filesAdded, filesModified that have already been added before
@@ -22,10 +28,6 @@ export default function classification(gitCommand, gitStatus) {
             return '';
         case 'commit':
             return 'git reset --soft HEAD~1';
-        case 'merge':
-            return '';
-        case 'rebase':
-            return '';
         case 'reset':
             return '';
         case 'switch':
@@ -77,12 +79,15 @@ export default function classification(gitCommand, gitStatus) {
         case 'log':
         case 'show':
         case 'status':
+        case 'branch':
             return gitCommand;
 
         // Unsupported - do not want to break remote server
         case 'pull':
         case 'fetch':
         case 'push':
+        case 'merge':
+        case 'rebase':
         default:
             return ''; 
     }
