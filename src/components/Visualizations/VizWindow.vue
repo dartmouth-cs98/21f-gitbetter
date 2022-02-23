@@ -8,14 +8,16 @@
     </div> -->
     <div v-if="this.advisoryModalOpened" class="advisory-modal">
       <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
-      <button @click="this.actionCallback" class="advisory-modal-yes">Continue</button>
-      <button @click="this.closeModal" class="advisory-modal-yes">Reject</button>
+      <div class="advisory-modal-button-container">
+        <button @click="this.actionCallback" class="advisory-modal-button advisory-modal-button-yes">Continue</button>
+        <button @click="this.closeModal" class="advisory-modal-button advisory-modal-button-no">Cancel</button>
+      </div>
     </div>
-    <div class="back-forth-container">
+    <div v-if="!this.advisoryModalOpened" class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
-      <button v-if="this.stackIndex > 0 && !this.advisoryModalOpened" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
+      <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
-      <button v-if="this.stackIndex < this.commandStack.length - 1  && !this.advisoryModalOpened" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
+      <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
 
   </div>
@@ -239,5 +241,43 @@ export default {
   background-color: #4D3B63;
   cursor: not-allowed;
 }
+.advisory-modal {
+  padding: 5px;
+}
+.advisory-modal-note {
+  color: red;
+  font-weight: 600;
+  font-size: 18px;
+}
+.advisory-modal-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.advisory-modal-button {
+  border: none;
+  border-radius: 20px;
+  padding: 5px 20px;
+  font-size: 15px;
+  margin: 3px 10px;
+}
 
+button.advisory-modal-button-yes {
+  background-color: #d1e6c8;
+}
+button.advisory-modal-button-yes:hover {
+  background-color: #81de7c;
+  border-color: #5dcf57;
+  border-width: 2px;
+  border-style: solid;
+}
+button.advisory-modal-button-no {
+  background-color: #827e7e;
+}
+button.advisory-modal-button-no:hover {
+  color: #ffffff;
+  background-color: #3d3b3b;
+  border-color: #101210;
+  border-width: 2px;
+  border-style: solid;
+}
 </style>
