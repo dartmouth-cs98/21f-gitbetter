@@ -32,6 +32,7 @@ function classification(gitCommand) {
         case 'mv':
             return {action: ACTIONS.NORMAL};
         case 'rm':
+            if (parameters.includes('--cached')) return {action: ACTIONS.ADVISORY, note: 'WARNING: This file will no longer be tracked by git.'};
             return {action: ACTIONS.DESTRUCTIVE};
         case 'bisect':
             return {action: ACTIONS.NOOP};
