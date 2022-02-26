@@ -24,12 +24,8 @@ export default function classification(gitCommand, gitStatus) {
             return parameters.split(' ')
                 .filter(file => filesUntracked.includes(file) || filesRemoved.includes(file))
                 .reduce((cumulative, current) => cumulative + ' ' + current, 'git reset');
-        case 'rm':
-            return '';
         case 'commit':
             return 'git reset --soft HEAD~1';
-        case 'reset':
-            return '';
         case 'switch':
             return `git switch ${branch}`;
         case 'tag': {
@@ -88,6 +84,8 @@ export default function classification(gitCommand, gitStatus) {
         case 'push':
         case 'merge':
         case 'rebase':
+        case 'rm':
+        case 'reset':
         default:
             return ''; 
     }

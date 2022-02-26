@@ -82,12 +82,14 @@ export default {
         this.currCommand = '';
         return;
       }
-      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -1);
-      else this.currCommand += data;
+      this.currCommand += data;
     });
 
     ipc.on("terminal.incData", (_, data) => {  
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
+      if (data.includes('[K')) {
+        this.currCommand = this.currCommand.slice(0, -2);
+        }
     });
 
     ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
