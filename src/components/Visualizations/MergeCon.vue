@@ -2,11 +2,14 @@
     <div class="top-layer">
         <div class="title-area">{{this.mergeSteps.title}}</div>
         <div class="content"> {{this.mergeSteps.steps[this.index].step}}</div>
-        <div>{{mergeData.toString()}} </div>
         <div class="command">
             <div class="mark-down">
-                {{ this.mergeSteps.steps[index].mark }}</div>
+                <p v-for="(sentence, i) in this.mergeSteps.steps[index].mark" v-bind:key="i">{{sentence}}</p>
+                <div v-if="this.index == 3"> 
+                    <p v-for="(file, i) in this.mergeData" v-bind:key="i">git add {{file}}</p>
+                </div> 
             </div>
+        </div>
         <div id="button-area">
             <button v-if="this.index > 0" @click="backStep"  class="button">Back</button>
             <button v-if="this.index + 1< this.content.length" @click="nextStep"  class="button">Next</button>

@@ -24,15 +24,13 @@ import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
 const channel = 'terminal.toTerm';
-// so we can check if the user did a git pull, if they did we should check the output
-// if the output contains a merge conflict then it should trigger something or change a variable,
-// so that the merge conflict interface will appear and we should be able to pass it to the merge conflict window
+
 export default {
   name: 'VizWindow',
   data() {
     return {
       gitPulled: false,
-      mergeConflictExists: false,
+      mergeConflictExists: true,
       mergeConflictData: [],
       command: '',
       currCommand: '',
@@ -92,8 +90,6 @@ export default {
     ipc.on("terminal.incData", (_, data) => {  
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
       // if the user did a git pull, we should check if the output contains any merge conflicts
-      // this.mergeConflictExists = true;
-
       if (this.gitPulled){
         if (data.length !== 1 && !data.trim().startsWith('bash')){
           let arrayOfLines = data.trim().split('\n');
@@ -114,11 +110,7 @@ export default {
                     }
               }
               }
-          // this.mergeConflictData = data;
-          // console.log("merge conflict " + this.mergeConflictData)
-          // we have to split up the output somehow...by newline? and then go through each element and 
-          // check if there is a ("CONFLICT")
-          // then we should split that element even further by whitespace and take the last element (should be filename)
+
         }
       }
     });
