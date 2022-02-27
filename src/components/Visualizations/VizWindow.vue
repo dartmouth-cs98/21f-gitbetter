@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       gitPulled: false,
-      mergeConflictExists: false,
+      mergeConflictExists: true,
       mergeConflictData: [],
       command: '',
       currCommand: '',

@@ -58,6 +58,7 @@ export default {
     display:flex;
     flex-direction: column;
     align-items: center;
+    
 }
 .title-area{
     font-size: 2rem;
@@ -65,8 +66,10 @@ export default {
     padding: 2%;
 }
 .content{
-    height:80%;
+    height:35%;
+    font-size: 1.1rem;
     color: white;
+    padding: 10px 20px;
 }
 .mark-down {
     background-color: #636363;
@@ -78,19 +81,14 @@ export default {
 .command {
     display: flex;
     justify-content: center;
-    padding-top: 10%;
+    /* padding-top: 10%; */
 }
 
-.button-area{
-    width:100%;
-    /* display:flex;
-    flex-direction: row;
-    align-content:space-between;
-    justify-content: space-between; */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center
+#button-area{    
+    position: absolute;
+    bottom: 10%;
+    padding: 18px;
+   
 }
 
 </style>
