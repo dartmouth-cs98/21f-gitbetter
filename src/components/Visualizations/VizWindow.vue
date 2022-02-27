@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       gitPulled: false,
-      mergeConflictExists: true,
+      mergeConflictExists: false,
       mergeConflictData: [],
       command: '',
       currCommand: '',
@@ -73,7 +73,6 @@ export default {
           this.gitStatus.output = '';
           this.command = this.currCommand;
           this.checkForPull();
-          console.log(this.command + " so this is what is saved then and we need to use this.command...");
           this.updateStack();          
         }
         this.updateStatus();
@@ -91,27 +90,7 @@ export default {
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
       // if the user did a git pull, we should check if the output contains any merge conflicts
       if (this.gitPulled){
-        if (data.length !== 1 && !data.trim().startsWith('bash')){
-          let arrayOfLines = data.trim().split('\n');
-          console.log(arrayOfLines);
-          for(let i = 0; i < arrayOfLines.length; i++){
-              console.log(arrayOfLines[i]);
-              if(arrayOfLines[i].includes("CONFLICT")){
-                console.log(arrayOfLines[i]);
-                while(i < arrayOfLines.length) {
-                  let arrayOfWords = arrayOfLines[i].split(" ");
-                  console.log("arrayOfWords: " + arrayOfWords);
-                  if (arrayOfWords[0] === 'CONFLICT'){
-                    this.mergeConflictExists = true;
-                    this.mergeConflictData.push(arrayOfWords[arrayOfWords.length - 1]);
-                    console.log(this.mergeConflictData);
-                    }
-                    i++;
-                    }
-              }
-              }
-
-        }
+        this.retrieveOutput(data);
       }
     });
 
@@ -152,6 +131,28 @@ export default {
         this.gitPulled = false;
       }
 
+    },
+    retrieveOutput(data){
+      if (data.length !== 1 && !data.trim().startsWith('bash')){
+          // separate the output by new lines
+          let arrayOfLines = data.trim().split('\n');
+          // check if one of the lines contains "CONFLICT" and thus, there is a merge conflict
+          for(let i = 0; i < arrayOfLines.length; i++){
+            if(arrayOfLines[i].includes("CONFLICT")){
+              // retrive the file that contains the merge conflict
+              while(i < arrayOfLines.length) {
+                let arrayOfWords = arrayOfLines[i].split(" ");
+
+                // signal that there is a merge conflict and save that file for MergeCon.vue
+                if (arrayOfWords[0] === 'CONFLICT'){
+                  this.mergeConflictExists = true;
+                  this.mergeConflictData.push(arrayOfWords[arrayOfWords.length - 1]);
+                  }
+                  i++;
+                  }
+                }
+              }
+        }
     },
     printStack() {
       console.log(this.commandStack.map(
