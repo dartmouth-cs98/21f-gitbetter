@@ -2,12 +2,12 @@
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
       <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
-      <!-- <div v-if="test">
+      <div v-if="test">
         <StatusViz />
       </div>
       <div v-else>
         <InitViz /> 
-      </div> -->
+      </div>
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
   </div>
@@ -15,10 +15,9 @@
 
 <script>
 // import BranchViz from './BranchViz.vue'
-// import StatusViz from './StatusViz.vue'
-// import InitViz from './StatusViz.vue'
 import MergeCon from './MergeCon.vue'
-
+import StatusViz from './StatusViz.vue'
+import InitViz from './StatusViz.vue'
 // import FilesChanged from './FilesChangedViz.vue'
 
 export default {
@@ -41,8 +40,8 @@ export default {
   },
   components: {
       // BranchViz,
-      // StatusViz,
-      // InitViz,
+      StatusViz,
+      InitViz,
       MergeCon,
       // FilesChanged
   }

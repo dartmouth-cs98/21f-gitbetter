@@ -5,12 +5,27 @@ export const ACTIONS = {
     DESTRUCTIVE: 'DESTRUCTIVE', // git branch -D, 
 };
 
-export default function classification(gitCommand) {
+export default function parseGit(gitCommand) {
+    const ACTIONS_WEIGHT = {
+        [ACTIONS.NOOP]: 0,
+        [ACTIONS.NORMAL]: 1,
+        [ACTIONS.ADVISORY]: 2,
+        [ACTIONS.DESTRUCTIVE]: 3,
+    };
+
+    return gitCommand.split(/&&|\n|\|\||;/).map(cmd => classification(cmd.trim())).reduce((cumm, curr) => (
+        ACTIONS_WEIGHT[curr.action] < ACTIONS_WEIGHT[cumm.action] ? cumm : curr
+    ), { action: ACTIONS.NOOP});
+}
+
+function classification(gitCommand) {
     if (!gitCommand.startsWith('git ')) return { action: ACTIONS.NOOP };
-    const [, operation, parameters] = gitCommand.split(' ', 2);
+    const [, operation, ...parameters] = gitCommand.split(' ');
     switch(operation) {
         case 'checkout':
-            return { action: parameters?.startsWith('-b') ? ACTIONS.NORMAL : ACTIONS.NOOP };
+            return { action: ACTIONS.NORMAL };
+        case 'branch':
+            return {action: parameters.includes('-D') ? ACTIONS.ADVISORY : ACTIONS.NORMAL, note: 'WARNING: This will delete all changes on your new branch.'}
         case 'add':
             // TODO: Include check for when the file has already been added, in which case it should be NOOP
             return {action: ACTIONS.NORMAL};

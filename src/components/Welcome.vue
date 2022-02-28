@@ -6,22 +6,40 @@
                         <img src="../assets/logo.png" />
                         <p class="subtitle learning">Git, simplified.</p>
                     </div>
-                    <div class="wrapper" v-on:click="gitStarted" >
-                        <div class="cta">
-                            <span>Git Started</span>                            
+                </div>
+
+                    <div class="buttons-flex">
+                        <div class="blurb">
+                            <div class="tool-desc">
+                            Gitbetter is a tool for people who know how to use git, but who sometimes struggle with remembering commands
+                            or remebering the specifics of how git works. The Gitbetter terminal is a sandbox which allows you to test out 
+                            git commands and resolve merge conflicts before applying changes to the git repository that you're working in. 
+                            Ready to Git Started? Click the button below.
+                            </div>
+                        <div class="wrapper" v-on:click="gitStarted" >
+                            <div class="cta">
+                                <span>Git Started</span>                            
+                            </div>
                         </div>
-                    </div>
+                        </div>
+                        
+
+
+                      <div class="vl"></div>
+                        <div class="blurb">
+                            <div class="tool-desc">
+                            Gitlearning is a tool for people who haven't used Github before. Gitlearning has walkthroughs for the common 
+                            workflows you'll see while using Github as a developer, and can get you up to speed with the tools you need 
+                            to figure it out. 
+                            </div>
+                            <div class="wrapper" @click="$router.push('/beginner')">
+                            <div class="cta">
+                                <span>Git Learning</span>                            
+                            </div>
+                        </div>
+                        </div>
+                        
                 </div>
-                <hr />
-            <div class="learning-logo">
-                <img class="gitlearn" src="../assets/beginnerlogo.png" />
-                <p class="subtitle learning-2">Gitbetter, for beginners.</p>
-                <div class="wrapper" style="padding-top: 18px;" @click="$router.push('/beginner')">
-                    <div class="cta">
-                        <span>Git Learning</span>                            
-                    </div>
-                </div>
-            </div>
         </div>
       <loading />
   </div>
@@ -113,17 +131,14 @@ img {
 }
 .logo {
     padding: 60px 30px 0 10px;
-    min-height: 60%;
+    min-height: 52%;
 
 }
 
-.learning-logo {
-    padding: 20px 12px 0 10px;
-    min-height: 50%;
-
-}
-.gitlearn {
-    width: 50%;
+.tool-desc {
+    color: white;
+    padding: 3%;
+    height: 60%;
 }
 .learning {
     padding-left: 51%;
@@ -135,15 +150,29 @@ img {
     margin-bottom: 7%;
 }
 
-.learning-2 {
-    padding-left: 43%;
-    position: relative;
-    top: -30px;
-    font-style: italic;
-    color: rgb(39, 39, 39);
-    font-size: 145%;
-    margin-bottom: 0 !important;
+.blurb { 
+    width: 45%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.buttons-flex {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    height: 55%;
+
+}
+
+.vl {
+    border-left: 1.5px solid black;
+    height: 40%;
+    position: absolute;
+    top: 50%;
+}
+
 
 .top-welcome {
     background: linear-gradient(to right, #DA91E5, #9953F1 50%, #53336B);
@@ -192,7 +221,6 @@ body {
   display: flex;
   justify-content: center;
   position: relative;
-  top: -25px;
   cursor: pointer;
 }
 
