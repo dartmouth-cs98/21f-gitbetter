@@ -24,9 +24,9 @@
         <router-link
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
-          :to="'/doityourself'"
+          :to="'/'"
           >
-          Do It Yourself
+          Save
         </router-link>
         <div
           class="level-item has-text-centered"
