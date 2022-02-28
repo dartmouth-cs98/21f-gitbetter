@@ -21,20 +21,13 @@
         >
           <img src="../assets/logo.png" />
         </router-link>
-        <router-link
-          class="level-item has-text-centered"
-          style="color:black; font-weight:500;cursor:pointer;"
-          :to="'/doityourself'"
-          >
-          Do It Yourself
-        </router-link>
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
           @click="$router.push('/')"
           v-on:click="startOver"
           >
-          End
+          End Session
         </div>
         <div
           class="level-item has-text-centered"
@@ -125,6 +118,7 @@ export default {
       margin-bottom: 0 !important;
       height: 5rem;
       background-color: #ab47bc;
+      font-size: 20px;
   }
   img {
     width: 45%;
