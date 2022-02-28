@@ -1,12 +1,18 @@
 <template>
   <div class="vis-box">
-    <Visualization ref="vizChild"/> 
-    <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
+    <Visualization ref="vizChild" :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
     </div> -->
-    <div class="back-forth-container">
+    <div v-if="this.advisoryModalOpened" class="advisory-modal">
+      <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
+      <div class="advisory-modal-button-container">
+        <button @click="this.actionCallback" class="advisory-modal-button advisory-modal-button-yes">Continue</button>
+        <button @click="this.closeModal" class="advisory-modal-button advisory-modal-button-no">Cancel</button>
+      </div>
+    </div>
+    <div v-if="!this.advisoryModalOpened" class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
@@ -29,9 +35,15 @@ export default {
   name: 'VizWindow',
   data() {
     return {
+      gitPulled: false,
+      mergeConflictExists: false,
+      mergeConflictData: [],
       command: '',
       currCommand: '',
       stackIndex: 0,
+      advisoryModalOpened: false,
+      advisoryModalMessage: '',
+      advisoryModalForward: true,
       commandStack: [{
         current: {
           command: 'git status',
@@ -50,6 +62,8 @@ export default {
         filesModified: [],
         filesRemoved: [],
         filesUntracked: [],
+        output: '',
+        workingDirectory: process.cwd(),
       },
     }  
   },
@@ -60,17 +74,38 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
+      console.log(data);
+      // checks for user input by checking if the input is not all whitespace
       if (data.match(/^\s+/) && data !== ' ') {
+        console.log(this.currCommand);
         if (this.currCommand.trim().startsWith('git')) {
+          this.gitStatus.output = '';
           this.command = this.currCommand;
-          this.updateStack();
-          this.updateStatus();
-        }    
+          this.checkForPull();
+          this.updateStack();          
+        }
+        this.updateStatus();
         this.currCommand = '';
         return;
       }
+
       this.currCommand += data;
+
     });
+
+    ipc.on("terminal.incData", (_, data) => {  
+      if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
+      // if the user did a git pull, we should check if the output contains any merge conflicts
+      if (this.gitPulled){
+        this.retrieveOutput(data);
+      }
+
+      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
+      if (data.includes('\n')) this.currCommand = '';
+
+    });
+
+    ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
   },
   methods: {
     async updateStatus() {
@@ -81,8 +116,11 @@ export default {
       this.gitStatus.filesRemoved = files.filesDeleted;
       this.gitStatus.filesUntracked = files.filesUntracked;
     },
-    updateStack() {
+    async updateStack() {
       if (this.stackIndex === this.commandStack.length - 1) {
+        // Operations that depend on output
+        if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+
         const command = inverseCommand(this.command, this.gitStatus);
         this.commandStack.push({
           current: { command: this.command, ...classification(this.command, this.gitStatus) },
@@ -93,8 +131,32 @@ export default {
         // Operation in the middle of the stack
         const { action } = classification(this.command, this.gitStatus);
         if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
-        else console.log('not yet supported');
+        else console.log('no support for interstack git operations');
       }
+    },
+    async checkForPull(){
+      if (['pull'].includes(this.command.split(' ', 3)[1])){
+        await new Promise(r => setTimeout(r, 100));
+        this.gitPulled = true;
+      }else{
+        this.gitPulled = false;
+      }
+
+    },
+    retrieveOutput(data){
+      if (data.length !== 1 && !data.trim().startsWith('bash')){
+          // separate the output by new lines
+          let arrayOfLines = data.trim().split('\n');
+          // check if one of the lines contains "CONFLICT" and thus, there is a merge conflict
+          for(let i = 0; i < arrayOfLines.length; i++){
+            if(arrayOfLines[i].includes("CONFLICT") || arrayOfLines[i].includes("Automatic")){
+              // retrive the file that contains the merge conflict
+              this.mergeConflictExists = true;
+              this.mergeConflictData.push(arrayOfLines[i]);
+
+                }
+              }
+        }
     },
     printStack() {
       console.log(this.commandStack.map(
@@ -105,27 +167,47 @@ export default {
         ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
     },
 
+    actionCallback() {
+      let command;
+      if (this.advisoryModalForward) {
+        this.stackIndex++;
+        command = this.commandStack[this.stackIndex].current;
+        console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
+      } else {
+        command = this.commandStack[this.stackIndex].previous;
+        this.stackIndex--;
+      }
+      ipcRenderer.send(channel, command.command + '\n');
+      this.closeModal();
+    },
+
+    closeModal() {
+      this.advisoryModalOpened = false;
+      this.advisoryModalMessage = '';
+    },
+
     nextCommand() {
+      this.advisoryModalForward = true;
       const operation = this.commandStack[this.stackIndex].current;
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: 
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          console.warn(operation.note);
-          return;
+          this.advisoryModalOpened = true;
+          this.advisoryModalMessage = operation.note;
+          console.warn("ADVISORY" + operation);
+          break;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
-          this.stackIndex++;
-          var { command } = this.commandStack[this.stackIndex].current;
-          console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
-          ipcRenderer.send(channel, command + '\n');
+          this.actionCallback();
           break;
         default:
           throw new Error('Unknown forward action in commandStack of viz window')
       } 
     },
     previousCommand() {
+      this.advisoryModalForward = false;
       const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
@@ -133,13 +215,13 @@ export default {
           console.error('Cannot revert destructive command');
           return;
         case ACTIONS.ADVISORY:
-          // console.warn(operation.note);
-          // return;
-        // eslint-disable-next-line no-fallthrough
+          console.warn("ADVISORY" + operation);
+          this.advisoryModalOpened = true;
+          this.advisoryModalMessage = operation.note;
+          break;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
-          this.stackIndex--;
-          ipcRenderer.send(channel, operation.command + '\n');
+          this.actionCallback();
           break;
         default:
           throw new Error('Unknown prior action in commandStack of viz window')
@@ -201,5 +283,43 @@ export default {
   background-color: #4D3B63;
   cursor: not-allowed;
 }
+.advisory-modal {
+  padding: 5px;
+}
+.advisory-modal-note {
+  color: red;
+  font-weight: 600;
+  font-size: 18px;
+}
+.advisory-modal-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.advisory-modal-button {
+  border: none;
+  border-radius: 20px;
+  padding: 5px 20px;
+  font-size: 15px;
+  margin: 3px 10px;
+}
 
+button.advisory-modal-button-yes {
+  background-color: #d1e6c8;
+}
+button.advisory-modal-button-yes:hover {
+  background-color: #81de7c;
+  border-color: #5dcf57;
+  border-width: 2px;
+  border-style: solid;
+}
+button.advisory-modal-button-no {
+  background-color: #827e7e;
+}
+button.advisory-modal-button-no:hover {
+  color: #ffffff;
+  background-color: #3d3b3b;
+  border-color: #101210;
+  border-width: 2px;
+  border-style: solid;
+}
 </style>

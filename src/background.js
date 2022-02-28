@@ -2,14 +2,10 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { getStatus } from './utils/getStatus';
-<<<<<<< HEAD
-import { isGit } from './utils/isGit'
-=======
 
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
->>>>>>> main
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -20,10 +16,7 @@ var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo')
 
-
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
-const ipc = require('electron').ipcRenderer;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([

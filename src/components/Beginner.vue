@@ -9,13 +9,13 @@
         </div>
         <div class="help-window">
         </div>
-            <TutorialHome />
+            <TutorialHome @updateSrc="sendSrc"/>
         </div>
         <div class="visualizations-wrapper column is-half">
             <div class="headline-component">
                 Visualizations 
             </div>
-            <BeginnerViz />
+            <BeginnerViz :command="command"/>
         </div>
     </div>   
 </div>
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       step: -1,
+      command: "",
     }
   },
   created() {
@@ -59,6 +60,9 @@ export default {
       document.getElementById("visualizations").style.display = "block";
       document.getElementById("terminal-wrapper").style.width = "50%";
       document.getElementById("opening-icon").style.display = "none";
+    },
+    sendSrc(source) {
+      this.command = source;
     },
     onUpdateStep(val) {
       if(val == -1 && this.step == 0) {

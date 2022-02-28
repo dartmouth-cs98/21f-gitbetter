@@ -1,8 +1,9 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <div v-if="!isGit">
-         <InitViz /> 
+      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
+      <div v-if="test">
+        <StatusViz />
       </div>
       <div v-else>
         <StatusViz ref="statusChild"/> /> 
@@ -14,6 +15,7 @@
 
 <script>
 // import BranchViz from './BranchViz.vue'
+import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
 import InitViz from './StatusViz.vue'
 const ipc = require("electron").ipcRenderer
@@ -23,7 +25,9 @@ const ipc = require("electron").ipcRenderer
 export default {
   name: 'Visualization',
   props: {
-    command: String
+    command: String,
+    mergeConflict: Boolean,
+    mergeConflictData: Array,
   },
   data() {
     return {
@@ -32,6 +36,7 @@ export default {
   },
   computed: {
     getCurrCommand(){
+      
         return this.$store.getters.getCurrCommand.name
     },
     isGit() {
@@ -42,6 +47,7 @@ export default {
       // BranchViz,
       StatusViz,
       InitViz,
+      MergeCon,
       // FilesChanged
   },
   created() {

@@ -27,6 +27,7 @@
     "bulma": "^0.9.3",
     "core-js": "^3.20.2",
     "electron-rebuild": "^3.2.5",
+    "marked": "^4.0.12",
     "node-loader": "^1.0.3",
     "node-pty": "^0.10.1",
     "os": "^0.1.2",
