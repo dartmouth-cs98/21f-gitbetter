@@ -6,7 +6,7 @@
         <StatusViz />
       </div>
       <div v-else>
-        <InitViz /> 
+        <StatusViz ref="statusChild"/> /> 
       </div>
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
@@ -18,6 +18,8 @@
 import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
 import InitViz from './StatusViz.vue'
+const ipc = require("electron").ipcRenderer
+
 // import FilesChanged from './FilesChangedViz.vue'
 
 export default {
@@ -29,7 +31,7 @@ export default {
   },
   data() {
     return {
-      test: false,
+      test: true,
     }
   },
   computed: {
@@ -37,6 +39,9 @@ export default {
       
         return this.$store.getters.getCurrCommand.name
     },
+    isGit() {
+      return this.$store.getters.gitRepo
+    }
   },
   components: {
       // BranchViz,
@@ -44,6 +49,18 @@ export default {
       InitViz,
       MergeCon,
       // FilesChanged
+  },
+  created() {
+    ipc.on('notGit', () => {
+      this.$store.commit('setGitRepo', false);
+    });
+  },
+  methods: {
+    newCommand(val) {
+      if(val === 'git status') {
+        this.$refs.statusChild.getStatus(process.cwd());
+      }
+    }
   }
 }
 </script>

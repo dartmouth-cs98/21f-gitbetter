@@ -21,13 +21,6 @@
         >
           <img src="../assets/logo.png" />
         </router-link>
-        <router-link
-          class="level-item has-text-centered"
-          style="color:black; font-weight:500;cursor:pointer;"
-          :to="'/doityourself'"
-          >
-          Do It Yourself
-        </router-link>
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
@@ -39,7 +32,7 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
-          v-on:click="$emit('help')"
+          v-on:click="helpIconPressed"
           >
             <font-awesome-icon icon="question-circle"/>
         </div>
@@ -116,7 +109,12 @@ export default {
      this.isLoading.value = true;
       await start_over.start_over()
       this.isLoading.value = false;
+    },
+    helpIconPressed() {
+      this.$emit('help');
+      this.$router.push('/home');
     }
+    
   }
 }
 </script>

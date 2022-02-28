@@ -59,6 +59,10 @@ async function createWindow() {
     ptyProcess.write(data);
   });
 
+  ipcMain.on('setCommand', (event, data) => {
+    event.sender.send('setCommand', data);
+  })
+
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
