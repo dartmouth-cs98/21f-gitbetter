@@ -15,7 +15,6 @@
 // import Vue from "vue";
 // import shell from 'vue-shell';
 // import replicate from '../../replicate_repo.js';
-// let xterm = require('../../node_modules/xterm/lib/xterm.js')
 // var run_command = require('../../run_command');
 
 
