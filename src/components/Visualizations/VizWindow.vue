@@ -75,10 +75,9 @@ export default {
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
-      console.log(data);
       // checks for user input by checking if the input is not all whitespace
       if (data.match(/^\s+/) && data !== ' ') {
-        console.log(this.currCommand);
+        
         if (this.currCommand.trim().startsWith('git')) {
           this.gitStatus.output = '';
           this.command = this.currCommand;
