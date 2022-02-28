@@ -17,7 +17,7 @@
 // import BranchViz from './BranchViz.vue'
 import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
-import InitViz from './StatusViz.vue'
+// import InitViz from './StatusViz.vue'
 const ipc = require("electron").ipcRenderer
 
 // import FilesChanged from './FilesChangedViz.vue'
@@ -46,7 +46,7 @@ export default {
   components: {
       // BranchViz,
       StatusViz,
-      InitViz,
+      // InitViz,
       MergeCon,
       // FilesChanged
   },
