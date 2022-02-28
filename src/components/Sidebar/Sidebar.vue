@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     closeDirectories (){
-      console.log("Closing directories");
+      // console.log("Closing directories");
       if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null || document.getElementById("top-wrapper") == null){
         return
       }
