@@ -2,10 +2,10 @@
   <div class="vis-box">
 
     <Visualization :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
-    <!-- <div class="print-container">
+    <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div> -->
+    </div>
     <div v-if="this.advisoryModalOpened" class="advisory-modal">
       <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
       <div class="advisory-modal-button-container">
@@ -13,7 +13,7 @@
         <button @click="this.closeModal" class="advisory-modal-button advisory-modal-button-no">Cancel</button>
       </div>
     </div>
-    <div v-if="this.stackIndex < this.commandStack.length - 1" class="middle-modal">
+    <div v-if="(this.stackIndex < this.commandStack.length - 1) && !this.advisoryModalOpened " class="middle-modal">
       <div class="middle-modal-note">WARNING: You're in the middle of the stack! Any commands you type will override your next commands</div>
     </div>
     <div v-if="!this.advisoryModalOpened" class="back-forth-container">
@@ -129,11 +129,22 @@ export default {
           previous: { command, ...classification(command, this.gitStatus) },
         });
         this.stackIndex++;
-      } else {
+      } 
+      else {
         // Operation in the middle of the stack
-        const { action } = classification(this.command, this.gitStatus);
-        if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
-        else console.log('no support for interstack git operations');
+        // const { action } = classification(this.command, this.gitStatus);
+        // if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
+        // else console.log('no support for interstack git operations');
+        
+        if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+        this.commandStack = this.commandStack.slice(0, this.stackIndex+2);
+        const command = inverseCommand(this.command, this.gitStatus);
+
+        this.commandStack.push({
+          current: { command: this.command, ...classification(this.command, this.gitStatus) },
+          previous: { command, ...classification(command, this.gitStatus) },
+        });
+        this.stackIndex++;
       }
     },
     async checkForPull(){
