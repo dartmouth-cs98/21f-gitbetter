@@ -1,6 +1,7 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
+      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
       <div v-if="test">
         <StatusViz />
       </div>
@@ -14,6 +15,7 @@
 
 <script>
 // import BranchViz from './BranchViz.vue'
+import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
 import InitViz from './StatusViz.vue'
 // import FilesChanged from './FilesChangedViz.vue'
@@ -21,7 +23,9 @@ import InitViz from './StatusViz.vue'
 export default {
   name: 'Visualization',
   props: {
-    command: String
+    command: String,
+    mergeConflict: Boolean,
+    mergeConflictData: Array,
   },
   data() {
     return {
@@ -30,6 +34,7 @@ export default {
   },
   computed: {
     getCurrCommand(){
+      
         return this.$store.getters.getCurrCommand.name
     },
   },
@@ -37,6 +42,7 @@ export default {
       // BranchViz,
       StatusViz,
       InitViz,
+      MergeCon,
       // FilesChanged
   }
 }
