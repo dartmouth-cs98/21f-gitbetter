@@ -13,6 +13,9 @@
         <button @click="this.closeModal" class="advisory-modal-button advisory-modal-button-no">Cancel</button>
       </div>
     </div>
+    <div v-if="this.stackIndex < this.commandStack.length - 1" class="middle-modal">
+      <div class="middle-modal-note">WARNING: You're in the middle of the stack! Any commands you type will override your next commands</div>
+    </div>
     <div v-if="!this.advisoryModalOpened" class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
@@ -279,10 +282,10 @@ export default {
   background-color: #4D3B63;
   cursor: not-allowed;
 }
-.advisory-modal {
+.advisory-modal, .middle-modal {
   padding: 5px;
 }
-.advisory-modal-note {
+.advisory-modal-note, .middle-modal-note {
   color: red;
   font-weight: 600;
   font-size: 18px;
