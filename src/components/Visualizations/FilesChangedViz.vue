@@ -72,9 +72,7 @@ export default {
 
         // parse status takes the pwd the user selected and returns the status of
         // their git repo to be displayed in the visulization if it is a git repo
-        parse.getStatus(pwd).then((result) => {
-          ipc.send("statusUpdate", result)
-      })
+        parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
     },
   },
 };

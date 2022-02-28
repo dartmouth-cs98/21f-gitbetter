@@ -1,7 +1,6 @@
 <template>
   <div class="vis-box">
     <Visualization /> 
-    <!-- <Viz :key="this.currCommand" :command="this.command"/>  -->
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
@@ -82,12 +81,13 @@ export default {
         this.currCommand = '';
         return;
       }
-      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -1);
-      else this.currCommand += data;
+      this.currCommand += data;
     });
 
     ipc.on("terminal.incData", (_, data) => {  
       if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
+      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
+      if (data.includes('\n')) this.currCommand = '';
     });
 
     ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
