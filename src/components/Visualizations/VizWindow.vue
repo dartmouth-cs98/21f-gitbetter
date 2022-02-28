@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       gitPulled: false,
-      mergeConflictExists: true,
+      mergeConflictExists: false,
       mergeConflictData: [],
       command: '',
       currCommand: '',
@@ -138,18 +138,11 @@ export default {
           let arrayOfLines = data.trim().split('\n');
           // check if one of the lines contains "CONFLICT" and thus, there is a merge conflict
           for(let i = 0; i < arrayOfLines.length; i++){
-            if(arrayOfLines[i].includes("CONFLICT")){
+            if(arrayOfLines[i].includes("CONFLICT") || arrayOfLines[i].includes("Automatic")){
               // retrive the file that contains the merge conflict
-              while(i < arrayOfLines.length) {
-                let arrayOfWords = arrayOfLines[i].split(" ");
+              this.mergeConflictExists = true;
+              this.mergeConflictData.push(arrayOfLines[i]);
 
-                // signal that there is a merge conflict and save that file for MergeCon.vue
-                if (arrayOfWords[0] === 'CONFLICT'){
-                  this.mergeConflictExists = true;
-                  this.mergeConflictData.push(arrayOfWords[arrayOfWords.length - 1]);
-                  }
-                  i++;
-                  }
                 }
               }
         }

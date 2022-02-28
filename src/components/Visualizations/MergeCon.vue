@@ -6,7 +6,7 @@
             <div class="mark-down">
                 <p v-for="(sentence, i) in this.mergeSteps.steps[index].mark" v-bind:key="i">{{sentence}}</p>
                 <div v-if="this.index == 3"> 
-                    <p v-for="(file, i) in this.mergeData" v-bind:key="i">git add {{file}}</p>
+                    <p v-for="(file, i) in this.conflictingFiles" v-bind:key="i">git add {{file}}</p>
                 </div> 
             </div>
         </div>
@@ -19,7 +19,6 @@
 </template>
 <script>
 import { mergeInterface } from '../../constants/mergeConflict.js'
-import { marked } from 'marked';
 
 export default {
     name: 'MergeCon',
@@ -31,23 +30,38 @@ export default {
             mergeSteps: mergeInterface,
             content: mergeInterface.steps,
             index: 0,
-            markdown:  " `Hello World`",
+            conflictingFiles: [],
             }
     },
-    computed: {
-        
+    mounted(){
+       this.modifiedData(); 
+       this.getConflictingFiles();
     },
     methods: {
+        modifiedData(){
+            this.mergeSteps.steps[0].mark = this.mergeData;
+        },
+        getConflictingFiles(){
+            for(let i = 0; i < this.mergeData.length; i++){
+            
+            let arrayOfWords = this.mergeData[i].split(" ");
+
+                // signal that there is a merge conflict and save that file for MergeCon.vue
+                if (arrayOfWords[0] === 'CONFLICT'){
+                  
+                  this.conflictingFiles.push(arrayOfWords[arrayOfWords.length - 1]);
+                  }
+              console.log("Testing what gets saved" + this.conflictingFiles);
+                
+              }
+        },
         nextStep() {
             this.index = this.index + 1
         },
         backStep() {
             this.index = this.index - 1
         },
-        markdownToHtml(text){
-            console.log(text);
-            return marked(text);
-        },
+        
     }
 }
 
