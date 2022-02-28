@@ -95,7 +95,6 @@ export default {
 .command {
     display: flex;
     justify-content: center;
-    /* padding-top: 10%; */
 }
 
 #button-area{    

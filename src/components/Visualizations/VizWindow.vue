@@ -1,11 +1,10 @@
 <template>
   <div class="vis-box">
-
-    <Visualization :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
-    <div class="print-container">
+    <Visualization ref="vizChild" :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
+    <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
-    </div>
+    </div> -->
     <div v-if="this.advisoryModalOpened" class="advisory-modal">
       <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
       <div class="advisory-modal-button-container">
@@ -226,6 +225,9 @@ export default {
           throw new Error('Unknown prior action in commandStack of viz window')
       } 
     },
+    sendCommand(val) {
+      this.$refs.vizChild.newCommand(val)
+    }
   }
 }
 </script>

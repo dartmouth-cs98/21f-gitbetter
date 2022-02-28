@@ -36,8 +36,12 @@ export default {
 
     ipc.on('setCommand', (event, data) => {
       if(data === 'Enter') {
-        this.$store.commit('setCurrCommand', {command: this.curr});
-        this.curr = ""
+        if (this.curr != "") {
+          this.$store.commit('setCurrCommand', {command: this.curr});
+          console.log('sending new curr', this.curr)
+          this.$emit('newCommand', this.curr);
+          this.curr = ""
+        }
       }
       else if (data == 'del') {
         this.curr = this.curr.slice(0, -1);
