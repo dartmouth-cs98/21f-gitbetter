@@ -12,6 +12,9 @@
         <button @click="this.closeModal" class="advisory-modal-button advisory-modal-button-no">Cancel</button>
       </div>
     </div>
+    <div v-if="(this.stackIndex < this.commandStack.length - 1) && !this.advisoryModalOpened " class="middle-modal">
+      <div class="middle-modal-note">WARNING: You're in the middle of the stack! Any commands you type will override your next commands</div>
+    </div>
     <div v-if="!this.advisoryModalOpened" class="back-forth-container">
       <button v-if="this.stackIndex <= 0" class="back-button back-button-previous-grayed"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
@@ -76,7 +79,6 @@ export default {
     ipc.on(userInputChannel, (_, data) => {
       // checks for user input by checking if the input is not all whitespace
       if (data.match(/^\s+/) && data !== ' ') {
-        
         if (this.currCommand.trim().startsWith('git')) {
           this.gitStatus.output = '';
           this.command = this.currCommand;
@@ -116,22 +118,19 @@ export default {
       this.gitStatus.filesUntracked = files.filesUntracked;
     },
     async updateStack() {
-      if (this.stackIndex === this.commandStack.length - 1) {
-        // Operations that depend on output
-        if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
-
-        const command = inverseCommand(this.command, this.gitStatus);
-        this.commandStack.push({
-          current: { command: this.command, ...classification(this.command, this.gitStatus) },
-          previous: { command, ...classification(command, this.gitStatus) },
-        });
-        this.stackIndex++;
-      } else {
-        // Operation in the middle of the stack
-        const { action } = classification(this.command, this.gitStatus);
-        if ([ACTIONS.NOOP].includes(action)) console.log('run command ' + this.command);
-        else console.log('no support for interstack git operations');
+      // Operation in the middle of the stack
+      if (this.stackIndex < this.commandStack.length - 1) {
+        this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
       }
+      // Operations that depend on output
+      if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+
+      const command = inverseCommand(this.command, this.gitStatus);
+      this.commandStack.push({
+        current: { command: this.command, ...classification(this.command, this.gitStatus) },
+        previous: { command, ...classification(command, this.gitStatus) },
+      });
+      this.stackIndex++;
     },
     async checkForPull(){
       if (['pull'].includes(this.command.split(' ', 3)[1])){
@@ -282,10 +281,10 @@ export default {
   background-color: #4D3B63;
   cursor: not-allowed;
 }
-.advisory-modal {
+.advisory-modal, .middle-modal {
   padding: 5px;
 }
-.advisory-modal-note {
+.advisory-modal-note, .middle-modal-note {
   color: red;
   font-weight: 600;
   font-size: 18px;
