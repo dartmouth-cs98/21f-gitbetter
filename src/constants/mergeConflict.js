@@ -3,7 +3,6 @@ export const mergeInterface = {
     steps: [
         {
             step: "You appear to have run into a merge conflict (look below). The cause for merge conflicts is that you edited the exact same line(s) as someone else and git doesn't know how to automatically resolve that. This happens and it's normal, don't worry. Continue to see how to fix the merge conflict.",
-            // we need this to be dynamic
             mark: ["CONFLICT (content): Merge conflict in somefile", "Automatic merge failed; fix conflicts and then commit the result."]
         },  
         {
@@ -25,8 +24,4 @@ export const mergeInterface = {
     ],
 
 }
-
-/*
-have the mark be an array and then have a v for and have a span between each
-*/
 
