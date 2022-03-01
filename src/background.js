@@ -67,40 +67,31 @@ async function createWindow() {
     win.webContents.send('getStatus', data);
   });
 
+  function replicateRepoWrapper(directory, version) {
+    win.webContents.send("finderOpened");
+    isGit(directory).then(async git => {
+      if (!git) await initializeGit(directory);
+    }).catch(console.log);
+    getStatus(directory);
+    win.webContents.send('giveFilePath', directory);
+    replicate.replicate_repo(directory, version);  
+  }
+
   // opens finder modal
-
-
-
   ipcMain.on("openFinder", function() {
-
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),
       // only enables user to select directories
       properties:['openDirectory'],
-    }).then((result)=> {
-      let pwd = result.filePaths[0]
-      win.webContents.send("finderOpened");
-
-      
-      isGit(pwd).then(async git => {
-        //maybe ask user if they want to initialize git repo here?
-        console.log(git)
-        if (!git) {
-          await initializeGit(pwd)
-        }
-      }).catch((error => {
-        console.log(error)
-    
-    }))
-
-      
-      getStatus(pwd)
-      win.webContents.send('giveFilePath', pwd);
-      replicate.replicate_repo(pwd);  
-   
-    }).catch(console.error);
+    }).then(({ filePaths }) => replicateRepoWrapper(filePaths[0], 0)).catch(console.error);
   })
 
+  ipcMain.on("destructiveCommandClone",
+    (_, { directory, version }) => replicateRepoWrapper(directory, version)
+    // TODO: ipcSend giveFilePath
+    );
+
+  
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)

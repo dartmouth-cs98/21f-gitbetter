@@ -66,6 +66,7 @@ export default {
         filesRemoved: [],
         filesUntracked: [],
         output: '',
+        gbVersion: 0,
         workingDirectory: process.cwd(),
       },
     }  
@@ -103,10 +104,21 @@ export default {
 
       if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
       if (data.includes('\n')) this.currCommand = '';
-
     });
 
-    ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
+    ipc.on('giveFilePath', (_, pwd) => {
+    // TODO: await new Promise(r => setTimeout(r, 500));
+    // switch directory and make everything synced (sidebar, visualizations)
+    // call update status
+      const [base, gb, gbVersion] = pwd.split('.').slice(-3);
+      if (gbVersion === 'gb') {
+        this.gitStatus.gbVersion = 0;
+        this.gitStatus.workingDirectory = `${pwd}.gb`;
+      } else if (gb === 'gb') {
+        this.gitStatus.gbVersion = parseInt(gbVersion);
+        this.gitStatus.workingDirectory = `${base}.gb.${this.gitStatus.gbVersion}`;
+      } else console.warn('??? unknown directory format: ' + pwd);
+    });
   },
   methods: {
     async updateStatus() {
@@ -118,10 +130,15 @@ export default {
       this.gitStatus.filesUntracked = files.filesUntracked;
     },
     async updateStack() {
-      // Operation in the middle of the stack
-      if (this.stackIndex < this.commandStack.length - 1) {
-        this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
-      }
+      const { action } = classification(this.command, this.gitStatus);
+      if (
+        ![ACTIONS.NOOP].includes(action)
+        && this.stackIndex < this.commandStack.length - 1
+        // Operation in the middle of the stack
+      ) this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
+      // TODO: Version-1 if exists
+      // TODO: Everything that has process.cwd needs to sync
+
       // Operations that depend on output
       if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
 
@@ -188,9 +205,12 @@ export default {
       this.advisoryModalForward = true;
       const operation = this.commandStack[this.stackIndex].current;
       switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: 
+        case ACTIONS.DESTRUCTIVE: {
           console.error('Cannot revert destructive command');
+          const { workingDirectory: directory, gbVersion } = this.gitStatus;
+          ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
           return;
+        }
         case ACTIONS.ADVISORY:
           this.advisoryModalOpened = true;
           this.advisoryModalMessage = operation.note;
@@ -209,9 +229,12 @@ export default {
       const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: 
+        case ACTIONS.DESTRUCTIVE: {
           console.error('Cannot revert destructive command');
+          const { workingDirectory: directory, gbVersion } = this.gitStatus;
+          ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
           return;
+        }
         case ACTIONS.ADVISORY:
           console.warn("ADVISORY" + operation);
           this.advisoryModalOpened = true;

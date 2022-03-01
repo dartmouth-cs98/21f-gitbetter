@@ -1,11 +1,14 @@
-var replicate_repo = async function replicate_repo(pwd) {
+var replicate_repo = async function replicate_repo(pwd, version = 0) {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
     
     // path to new directory, in same parent directory but has .gb extension
-    const new_dir = pwd + ".gb"
+    let new_dir;    // discard the version number if one exists
+    const [base, gb, gbVersion] = pwd.split('.').slice(-3);
+    if (gbVersion === 'gb') new_dir = `${pwd}.gb${version ? '.' + version : ''}`;
+    if (gb === 'gb') new_dir = `${base}.gb${version ? '.' + version : ''}`;
 
     // check if file already exists
     if (fs.existsSync(new_dir)){
