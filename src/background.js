@@ -5,6 +5,7 @@ import { getStatus } from './utils/getStatus';
 
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
+import VueSimpleAlert from "vue-simple-alert"
 
 require('events').EventEmitter.defaultMaxListeners = 50;
 
@@ -82,11 +83,18 @@ async function createWindow() {
       win.webContents.send("finderOpened");
 
       
+      VueSimpleAlert.alert("This is not a git repo, would you like to make it one?")
       isGit(pwd).then(async git => {
-        //maybe ask user if they want to initialize git repo here?
+        
         console.log(git)
         if (!git) {
-          await initializeGit(pwd)
+          // VueSimpleAlert.confirm("This is not a git repo, would you like to make it one?").then(() => {
+          //   initializeGit(pwd)
+          // });
+
+       
+
+          
         }
       }).catch((error => {
         console.log(error)
