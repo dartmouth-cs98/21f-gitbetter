@@ -24,7 +24,7 @@
         <router-link
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
-          :to="'/'"
+          :to="'/home'"
           >
           Save
         </router-link>
