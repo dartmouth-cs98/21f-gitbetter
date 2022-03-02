@@ -55,13 +55,14 @@ export default {
       commits: 0,
       changedLocal: 0,
       tracked: 0,
+      workingDir: "",
     }
  },
   mounted() {
       ipc.on('giveFilePath', (event, pwd) => {
-        this.getStatus(pwd)
+        this.workingDir = pwd;
+        this.getStatus(this.workingDir)
       })
-
       ipc.on('getStatus', (event, result) => {
         this.branchName = result[0];
         this.commits = result[1];
@@ -77,7 +78,7 @@ export default {
   },
 
   methods: {
-      getStatus: function(pwd) {
+      getStatus(pwd) {
           // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
           ipc.send("terminal.toTerm", '\n')
