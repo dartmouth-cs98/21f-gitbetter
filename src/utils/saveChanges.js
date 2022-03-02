@@ -2,10 +2,8 @@ export async function saveChanges() {
 
     let pwd = process.cwd()
     let srcDir = pwd + '.gb'
-    let dstDir = pwd 
+    let dstDir = pwd
 
-    console.log(srcDir)
-    console.log(dstDir)
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
