@@ -1,52 +1,40 @@
 # Git Better
-
-![Team Selfie](https://i.imgur.com/HZ7Heww.jpg)
-
 Ever felt clueless trying to find which `git` command is appropriate for your use case? Ever ran through a series of commands to see what would work, only to delete and reclone the entire repository?
 
 GitBetter is a platform where users can hook up their project repository and test various git commands to see the effects that the commands would have on their project's status. Through GitBetter, you will be able to walk through various commands and visualize the effects the command has on your code. In doing so, we hope to alleviate your stress about possibly messing up your project's repository as there will be no permanent repercussions.
 
 TODO: some sample screenshots or mockups
 
+To download Gitbetter, visit our [project site, linked here](https://gitbetter.surge.sh).
+
 ## Architecture
 
-We will be creating our own terminal to run git better commands in which we will use Java Script to control the users terminal to run commands they type in our terminal and interpret their results. 
+This project was build using Vue 2 and an Electron framework. It uses Xterm.js to run the embedded terminal.
 
 
 ## Setup
+This project was tested and developed using Node 14. If your code is failing to build or compile locally using a different version of node, we recommend using Node 14.
 
-TODO: how to get the project dev environment up and running, npm install etc
-
-Tested with node v14. If your code is failing and you have a different version of node, we recommend trying v14.
-
-Run
+To run the project locally...
 
 ```
 npm install
+npm run dev
 ```
 
 ## Deployment
-
-TODO: how to deploy the project
-Deployment for hot reload
+Deploying a production build
 
 ```
-npm run electron:serve
-```
-
-Local development environment with electron
-
-```
-npm run electron:build
-npm run electron:serve
-```
-
-Before deployment, run
-
-```
+npm install
 npm run lint
 npm run build
+npm run electron:build
+
 ```
+
+The build of the app can be found in the .dmg file, or under applications after running the build.
+
 
 ## Using the CLI
 GitBetter uses a command line interface. If it's your first time, use the set up instructions below. 
@@ -62,11 +50,11 @@ source ~/.gitbetter-commands.sh
 First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on how to use the tool, or information about the tool. For developers: If you make changes to the script, you'll need to rerun
 `cp gitbetter-commands.sh ~/.gitbetter-commands.sh` and then `source ~/.gitbetter-commands.sh `.
 
-**Note to Windows Users: The `source` command might not work in your Powershell or regular command prompt terminal. One workaround is to use Git Bash as your terminal. Instructions on how to install Git Bash can be found [here](https://www.makeuseof.com/install-git-git-bash-windows/)
+*Note to Windows Users: The `source` command might not work in your Powershell or regular command prompt terminal. One workaround is to use Git Bash as your terminal. Instructions on how to install Git Bash can be found [here](https://www.makeuseof.com/install-git-git-bash-windows/)*
 
 
-## Our Team
-
+## The Gitbetter Team
+![Team Selfie](https://i.imgur.com/HZ7Heww.jpg)
 - Kimberley Rangel Campos
 - Hailey Fox
 - Irene Lam
@@ -75,5 +63,4 @@ First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on h
 - Zoe Wortzman
 
 ## Acknowledgments
-
-We would like to acknowledge Professor Tregubov for his guidance on how to build our app.
+We would like to acknowledge Professor Tregubov and the teaching assistants of CS98 for the guidance and support they've provided us while building our app.
