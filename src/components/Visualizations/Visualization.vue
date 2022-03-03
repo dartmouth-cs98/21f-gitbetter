@@ -58,12 +58,7 @@ export default {
   methods: {
     newCommand(val) {
       if(val === 'git status') {
-        const dir = process.cwd()
-        const _this = this.$refs.statusChild
-        setTimeout(function(p, _this) {
-          _this.getStatus(p)
-          //p == param1
-          },3000,dir, _this);
+        this.$refs.statusChild.getStatus(process.cwd());
       }
     }
   }
