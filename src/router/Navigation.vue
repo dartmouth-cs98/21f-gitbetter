@@ -73,11 +73,6 @@ export default {
           text: 'Tutorials',
           page:'/tutorials'
         },
-        {
-          id: 4,
-          text: 'DoItYourself',
-          page:'/doityourself'
-        },
       ],
       load: false,
     }
@@ -101,6 +96,7 @@ export default {
         helptwo: this.ind == 3,
         helpthree: this.ind == 4,
         helpfour: this.ind == 5,
+        helpfive: this.ind > 5,
       }
     }
   },
@@ -111,8 +107,12 @@ export default {
       this.isLoading.value = false;
     },
     helpIconPressed() {
-      this.$emit('help');
-      this.$router.push('/home');
+      try {
+        this.$router.push('/home');
+      }
+      finally {
+        this.$emit('help');
+      }
     }
     
   }
@@ -160,6 +160,13 @@ export default {
     max-width: 25%;
   }
   .helpfour { 
+    position: absolute;
+    left: 65%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpfive { 
     position: absolute;
     right: 12px;
     top: 4.6rem;

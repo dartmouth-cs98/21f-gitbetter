@@ -102,10 +102,10 @@ export default {
       step: -1,
     }
   },
-  created() {
+  mounted() {
     // this is where we'll get the result of git config user.name, 
     // if it doesn't exist in the DB will set step to 0 and start tutorial
-    this.step = this.$store.getters.getNewUser ? 0 : -1;
+    this.step = this.$store.getters.getFirstTime ? 0 : -1;
   },
   methods: {
     openDirectories() {
@@ -129,7 +129,7 @@ export default {
       if(val == -1 && this.step == 0) {
           this.step = 0;
       }
-      else if(this.step == 5 && val == 1) {
+      else if(this.step == 7 && val == 1) {
           this.step = -1;
       }
       else {
