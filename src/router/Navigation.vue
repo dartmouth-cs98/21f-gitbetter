@@ -24,6 +24,14 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
+          :to="'/home'"
+          v-on:click="saveChanges"
+          >
+          Save
+          </div>
+        <div
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
           @click="$router.push('/')"
           v-on:click="startOver"
           >
@@ -47,6 +55,7 @@
 <script>
 var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
+import { saveChanges } from '../utils/saveChanges'
 
 export default {
   name: 'Navigation',
@@ -105,8 +114,11 @@ export default {
     }
   },
   methods: {
+    async saveChanges() {
+      await saveChanges()
+    },
     async startOver() {
-     this.isLoading.value = true;
+      this.isLoading.value = true;
       await start_over.start_over()
       this.isLoading.value = false;
     },

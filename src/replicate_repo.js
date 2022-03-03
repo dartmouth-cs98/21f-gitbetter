@@ -28,6 +28,8 @@ var replicate_repo = async function replicate_repo(pwd) {
         console.warn(`Throwing ${err} in replicate_repo`)
         throw err
     }
+
+    process.chdir(new_dir)
 }
 
 const _replicate_repo = replicate_repo;
