@@ -107,12 +107,11 @@ export default {
       this.isLoading.value = false;
     },
     helpIconPressed() {
-      try {
+      if(this.$router.currentRoute.path !== '/home') {
         this.$router.push('/home');
       }
-      finally {
-        this.$emit('help');
-      }
+      this.$emit('help');
+      
     }
     
   }
