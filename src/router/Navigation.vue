@@ -92,11 +92,11 @@ export default {
   computed: {
     helpClass() {
       return {
-        helpone: this.ind == 2,
-        helptwo: this.ind == 3,
-        helpthree: this.ind == 4,
-        helpfour: this.ind == 5,
-        helpfive: this.ind > 5,
+        helpone: this.ind == 3,
+        helptwo: this.ind == 4,
+        helpthree: this.ind == 5,
+        helpfour: this.ind == 6,
+        helpfive: this.ind > 6,
       }
     }
   },

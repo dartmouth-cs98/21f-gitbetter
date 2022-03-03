@@ -6,7 +6,7 @@
       @endTutorial="onEndTutorial" 
       @updateStep="onUpdateStep" 
       v-bind:ind="step" 
-      v-show="step >= 2"
+      v-show="step >= 3"
     />
   </Navigation>
   <div class="columns">
@@ -60,12 +60,12 @@
                   </button>
               </div>
             </div>
-            <div class="help-window-two">
+            <div v-bind:class="helpClass">
                 <FirstTime 
                   @updateStep="onUpdateStep" 
                   @endTutorial="onEndTutorial" 
                   v-bind:ind="step" 
-                  v-show="step == 1"
+                  v-show="step == 1 || step == 2"
                 /> 
             </div>
             <VizWindow ref="vizParent"/>
@@ -107,6 +107,14 @@ export default {
     // if it doesn't exist in the DB will set step to 0 and start tutorial
     this.step = this.$store.getters.getFirstTime ? 0 : -1;
   },
+  computed: {
+    helpClass() {
+      return {
+        'help-window-two': this.step == 1,
+        'help-window-three': this.step == 2,
+      }
+    }
+  },
   methods: {
     openDirectories() {
       if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null){
@@ -129,7 +137,7 @@ export default {
       if(val == -1 && this.step == 0) {
           this.step = 0;
       }
-      else if(this.step == 7 && val == 1) {
+      else if(this.step == 8 && val == 1) {
           this.step = -1;
       }
       else {
@@ -241,6 +249,14 @@ export default {
   top: 3.25rem;
   z-index: 6;
   max-width: 50%;
+}
+
+.help-window-three { 
+    position: absolute;
+    left: 24px;
+    top: 69%;
+    z-index: 6;
+    max-width: 57%;
 }
 
 @media only screen and (max-width: 770px) {
