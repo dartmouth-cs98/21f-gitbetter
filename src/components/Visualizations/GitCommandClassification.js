@@ -51,7 +51,7 @@ function classification(gitCommand) {
         case 'rebase':
             return {action: ACTIONS.ADVISORY};
         case 'reset':
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.ADVISORY, note: 'WARNING: Your changes will no longer be tracked by git.'};
         case 'switch':
             return {action: ACTIONS.NORMAL};
         case 'tag':

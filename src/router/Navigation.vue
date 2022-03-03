@@ -123,6 +123,7 @@ export default {
       margin-bottom: 0 !important;
       height: 5rem;
       background-color: #ab47bc;
+      font-size: 20px;
   }
   img {
     width: 45%;

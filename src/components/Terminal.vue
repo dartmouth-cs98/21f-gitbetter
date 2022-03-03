@@ -134,6 +134,6 @@ pre {
 }
 
 .xterm-viewport, .xterm-screen {
-  width: 100%;
+  /* max-width: 100%; */
 }
 </style>
