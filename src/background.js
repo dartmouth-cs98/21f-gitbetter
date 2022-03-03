@@ -8,13 +8,17 @@ import { initializeGit } from './utils/initializeGit'
 
 require('events').EventEmitter.defaultMaxListeners = 50;
 
-
 const os = require("os");
 const pty = require("node-pty");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var replicate = require('./replicate_repo')
+var replicate = require('./replicate_repo');
+let trapReady = {};
+
+const isTrapReady = () => [
+  'FilesChangedViz', 'VizWindow', 'StatusViz',
+].every(flag => flag in trapReady);
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -31,7 +35,6 @@ async function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -49,14 +52,25 @@ async function createWindow() {
 
   /* X-term integration using node-pty tutorial from VINCE on YouTube
   * Source: https://www.youtube.com/watch?v=vhDBbbMJWoY */
-
   ptyProcess.on("data", function(data) {
     win.webContents.send("terminal.incData", data);
   });
 
   ipcMain.on("terminal.toTerm", function(event, data) {
     win.webContents.send("user_input", data);
-    ptyProcess.write(data);
+    // Holds request until front end is ready (Traps newline)
+    const isNewLine = data.match(/^\s+/) && data !== ' ';
+    if (isTrapReady() || !isNewLine) ptyProcess.write(data);
+  });
+
+  ipcMain.on("terminal.toTerm.force", (_, data) => ptyProcess.write(data));
+  ipcMain.on("runTerminalCommand", (_, data) => {
+    // Indicates the repo front end is in sync
+    trapReady[data] = true;
+
+    // runs command from trap
+    console.warn('loading trap', data);
+    ptyProcess.write('\n');
   });
 
   ipcMain.on('setCommand', (event, data) => {
@@ -68,13 +82,16 @@ async function createWindow() {
   });
 
   function replicateRepoWrapper(directory, version) {
+    console.log(`HIT REPLICATE_REPO_WRAPPER ${directory} - ${version}`)
+    ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
     win.webContents.send("finderOpened");
     isGit(directory).then(async git => {
       if (!git) await initializeGit(directory);
     }).catch(console.log);
     getStatus(directory);
-    win.webContents.send('giveFilePath', directory);
-    replicate.replicate_repo(directory, version);  
+    replicate.replicate_repo(directory, version)
+      .then(new_dir => win.webContents.send('giveFilePath', new_dir))
+      .catch(console.error); 
   }
 
   // opens finder modal
@@ -87,10 +104,7 @@ async function createWindow() {
   })
 
   ipcMain.on("destructiveCommandClone",
-    (_, { directory, version }) => replicateRepoWrapper(directory, version)
-    // TODO: ipcSend giveFilePath
-    );
-
+    (_, { directory, version }) => replicateRepoWrapper(directory, version));
   
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

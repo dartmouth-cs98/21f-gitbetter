@@ -81,12 +81,13 @@ export default {
       getStatus(pwd) {
           // changes working directory in terminal to file users selected
           ipc.send("terminal.toTerm", `cd "${pwd}"`)
-          ipc.send("terminal.toTerm", '\n')
-          ipc.send("terminal.toTerm", "clear")
-          ipc.send("terminal.toTerm", '\n')
-          // calls git status initally for the user
-          ipc.send("terminal.toTerm", "git status")
-          ipc.send("terminal.toTerm", '\n')
+          // ipc.send("terminal.toTerm", '\n')
+          // ipc.send("terminal.toTerm", "clear")
+          // ipc.send("terminal.toTerm", '\n')
+          // // calls git status initally for the user
+          // ipc.send("terminal.toTerm", "git status")
+          // ipc.send("terminal.toTerm", '\n')
+          ipc.send('runTerminalCommand', 'StatusViz');
 
           // parse status takes the pwd the user selected and returns the status of
           // their git repo to be displayed in the visulization if it is a git repo
