@@ -1,26 +1,30 @@
 <template>
   <div class="viz">
-      <!-- <FilesChanged :command="this.command"/> -->
+    {{this.printCommand()}}
       <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
-      <div v-if="test">
-        <StatusViz />
-      </div>
-      <div v-else>
-        <StatusViz ref="statusChild"/> /> 
-      </div>
-      <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
-      <DirectoryTree v-else /> -->
+      <StatusViz v-else-if="this.command.startsWith('git status') && !this.runStatusInFilesChanged"/> 
+      <BranchViz v-else-if="this.command.startsWith('git branch')
+                          || this.command.startsWith('git switch') 
+                          || this.command.startsWith('git checkout')"/>
+      <FilesChanged v-else-if="this.command.startsWith('git add') 
+                        || this.command.startsWith('git restore')
+                        || this.command.startsWith('git rm')
+                        || this.command.startsWith('git commit')
+                        || this.command.startsWith('git push')
+                        || this.runStatusInFilesChanged"
+                    @runStatus="onRunStatus"    
+                    :command="this.command"/>       
+      <StatusViz v-else ref="statusChild"/>
   </div>
 </template>
 
 <script>
-// import BranchViz from './BranchViz.vue'
+import BranchViz from './BranchViz.vue'
 import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
-import InitViz from './StatusViz.vue'
+import FilesChanged from './FilesChangedViz.vue'
+// import InitViz from './StatusViz.vue'
 const ipc = require("electron").ipcRenderer
-
-// import FilesChanged from './FilesChangedViz.vue'
 
 export default {
   name: 'Visualization',
@@ -32,6 +36,7 @@ export default {
   data() {
     return {
       test: true,
+      runStatusInFilesChanged: false
     }
   },
   computed: {
@@ -44,11 +49,11 @@ export default {
     }
   },
   components: {
-      // BranchViz,
+      BranchViz,
       StatusViz,
-      InitViz,
+      // InitViz,
       MergeCon,
-      // FilesChanged
+      FilesChanged
   },
   created() {
     ipc.on('notGit', () => {
@@ -60,6 +65,19 @@ export default {
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(process.cwd());
       }
+    },
+    printCommand() {
+      if (this.command.startsWith('git')
+        && !this.command.startsWith('git add') 
+        && !this.command.startsWith('git restore')
+        && !this.command.startsWith('git rm')
+        && !this.command.startsWith('git commit')
+        && !this.command.startsWith('git push')) {
+          this.runStatusInFilesChanged = false
+      }
+    },
+    onRunStatus (value) {
+      this.runStatusInFilesChanged = value
     }
   }
 }

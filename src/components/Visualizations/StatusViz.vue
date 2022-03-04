@@ -55,13 +55,17 @@ export default {
       commits: 0,
       changedLocal: 0,
       tracked: 0,
-      workingDir: "",
+      // workingDir: "",
     }
  },
   mounted() {
+      if (localStorage.workingDir) {
+        this.getStatus(localStorage.workingDir)
+      }
       ipc.on('giveFilePath', (event, pwd) => {
-        this.workingDir = pwd;
-        this.getStatus(this.workingDir)
+        localStorage.workingDir = pwd
+        // this.workingDir = pwd;
+        this.getStatus(localStorage.workingDir)
       })
       ipc.on('getStatus', (event, result) => {
         this.branchName = result[0];

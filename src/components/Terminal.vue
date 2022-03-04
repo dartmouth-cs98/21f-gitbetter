@@ -37,6 +37,12 @@ export default {
     ipc.on('setCommand', (event, data) => {
       if(data === 'Enter') {
         if (this.curr != "") {
+          // quick fix
+          if (this.curr == "git branc") {
+            this.curr += 'h'
+          } else if (this.curr == "git pu") {
+            this.curr += 'sh'
+          }
           this.$store.commit('setCurrCommand', {command: this.curr});
           console.log('sending new curr', this.curr)
           this.$emit('newCommand', this.curr);
