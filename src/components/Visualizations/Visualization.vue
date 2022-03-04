@@ -1,6 +1,6 @@
 <template>
   <div class="viz">
-    {{this.printCommand()}}
+    {{this.toggleStatus()}}
       <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
       <StatusViz v-else-if="this.command.startsWith('git status') && !this.runStatusInFilesChanged"/> 
       <BranchViz v-else-if="this.command.startsWith('git branch')
@@ -66,7 +66,7 @@ export default {
         this.$refs.statusChild.getStatus(process.cwd());
       }
     },
-    printCommand() {
+    toggleStatus() {
       if (this.command.startsWith('git')
         && !this.command.startsWith('git add') 
         && !this.command.startsWith('git restore')

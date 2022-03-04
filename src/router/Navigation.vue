@@ -24,6 +24,14 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
+          :to="'/home'"
+          v-on:click="saveChanges"
+          >
+          Save
+          </div>
+        <div
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
           @click="$router.push('/')"
           v-on:click="startOver"
           >
@@ -32,7 +40,7 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
-          v-on:click="$emit('help')"
+          v-on:click="helpIconPressed"
           >
             <font-awesome-icon icon="question-circle"/>
         </div>
@@ -47,6 +55,7 @@
 <script>
 var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
+import { saveChanges } from '../utils/saveChanges'
 
 export default {
   name: 'Navigation',
@@ -105,11 +114,19 @@ export default {
     }
   },
   methods: {
+    async saveChanges() {
+      await saveChanges()
+    },
     async startOver() {
-     this.isLoading.value = true;
+      this.isLoading.value = true;
       await start_over.start_over()
       this.isLoading.value = false;
+    },
+    helpIconPressed() {
+      this.$emit('help');
+      this.$router.push('/home');
     }
+    
   }
 }
 </script>
@@ -118,6 +135,7 @@ export default {
       margin-bottom: 0 !important;
       height: 5rem;
       background-color: #ab47bc;
+      font-size: 20px;
   }
   img {
     width: 45%;
