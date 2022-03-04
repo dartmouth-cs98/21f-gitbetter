@@ -102,7 +102,6 @@ export default {
         this.prevCommand = this.command
         if (localStorage.workingDir) {
           this.getStatus(localStorage.workingDir)
-          console.log('PWD:', localStorage.workingDir)
         }
       }
     },
