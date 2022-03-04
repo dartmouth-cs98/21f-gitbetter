@@ -66,8 +66,8 @@ export default {
   },
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
-      this.getStatus(pwd)
       localStorage.workingDir = pwd
+      this.getStatus(localStorage.workingDir)
     })
 
     ipc.on('getStatus', (event, result) => {
@@ -102,6 +102,7 @@ export default {
         this.prevCommand = this.command
         if (localStorage.workingDir) {
           this.getStatus(localStorage.workingDir)
+          console.log('PWD:', localStorage.workingDir)
         }
       }
     },
