@@ -105,16 +105,15 @@ export default {
     });
 
     ipc.on('giveFilePath', (_, pwd) => {
+      console.log('REACHED GIVE FILE PATH');
       console.log(pwd);
       this.syncReplicate(pwd);
-      const [base, gb, gbVersion] = pwd.split('.').slice(-3);
+      this.gitStatus.workingDirectory = pwd;
+      const [gb, gbVersion] = pwd.split('.').slice(-2);
       if (gbVersion === 'gb') {
         this.gitStatus.gbVersion = 0;
-        this.gitStatus.workingDirectory = `${pwd}.gb`;
       } else if (gb === 'gb') {
         this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
-        const extension = this.gitStatus.gbVersion ? `.${this.gitStatus.gbVersion}` : ''
-        this.gitStatus.workingDirectory = `${base}.gb${extension}`;
       } else console.warn('??? unknown directory format: ' + pwd);
 
       // Prior command was destroyed, postpone until we have repo prepared
@@ -154,9 +153,8 @@ export default {
         this.commandStack[this.stackIndex].current.action,
         this.commandStack[this.stackIndex].previous.action,
       ].includes(ACTIONS.DESTRUCTIVE)) {
-        // Clone repo
+        // Clone Repo Request
         const { workingDirectory: directory, gbVersion } = this.gitStatus;
-        console.log(`update stack version: ${gbVersion}`)
         ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
       // Non destructive Command - so we can accept as is
       } else ipc.send('runTerminalCommand', 'VizWindow');
@@ -164,7 +162,6 @@ export default {
     syncReplicate(pwd) {
       process.chdir(pwd);
       this.updateStatus();
-      this.workingDirectory = pwd;
     },
     async checkForPull(){
       if (['pull'].includes(this.command.split(' ', 3)[1])){
