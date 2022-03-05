@@ -112,7 +112,10 @@ export default {
     },
     helpIconPressed() {
       this.$emit('help');
-      this.$router.push('/home');
+      console.log('current route', this.$router.currentRoute.path)
+      if (this.$router.currentRoute.path != '/home') {
+        this.$router.push('/home');
+      }
     }
     
   }

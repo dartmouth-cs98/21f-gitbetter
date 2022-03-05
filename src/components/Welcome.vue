@@ -49,7 +49,7 @@
 
 import Loading from './Loading.vue'
 //import replicate from '../../replicate_repo_test.js'
-import { gitCommands } from '../constants/commands.js'
+// import { gitCommands } from '../constants/commands.js'
 const ipc = require("electron").ipcRenderer
 
 export default {
@@ -74,8 +74,10 @@ export default {
   },
   mounted() {
       ipc.on('finderOpened', () => {
-          console.log("finder has been opened")
-          this.$router.push('/home')
+        console.log("finder has been opened")
+        if (this.$router.currentRoute.path != '/home') {
+            this.$router.push('/home');
+        }
       })
   },
   methods: {
@@ -89,17 +91,17 @@ export default {
 
       },
 
-      searchCommands (input) {
-          let matches = [];
-          if(input.length > 2 && input !=="git") {
-            for (var key in gitCommands) {
-                if (key.includes(input) || gitCommands[key].includes(input)) {           
-                    matches.push({command: key, desc: gitCommands[key]})
-                }
-            }
-            this.commandOpts = matches;
-          }
-      }
+    //   searchCommands (input) {
+    //       let matches = [];
+    //       if(input.length > 2 && input !=="git") {
+    //         for (var key in gitCommands) {
+    //             if (key.includes(input) || gitCommands[key].includes(input)) {           
+    //                 matches.push({command: key, desc: gitCommands[key]})
+    //             }
+    //         }
+    //         this.commandOpts = matches;
+    //       }
+    //   }
   }
 }
 

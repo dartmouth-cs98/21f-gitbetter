@@ -29,6 +29,7 @@ export default {
       files: [],
       directories: [],
       file: "",
+      status: [],
     }
   },
   created(){
@@ -42,6 +43,11 @@ export default {
       this.dirsOnly(this.dir)  
     })
   },
+  // watch: {
+  //   '$store.state.status': function() {
+  //     console.log('status store in sidebar', this.$store.state.status.status)
+  //   }
+  // },
   methods: {
     closeDirectories (){
       if (document.getElementById("sidebar") == null || document.getElementById("open-side-bar") == null || document.getElementById("top-wrapper") == null){
@@ -66,6 +72,12 @@ export default {
       this.directories = fs.readdirSync(root, {withFileTypes: true})
         .filter(item => item.isDirectory())
         .map(item => item.name)
+    },
+    refresh() {
+      this.status = this.$store.getters.getStatus;
+      console.log('status in sidebar', this.status);
+      this.filesOnly(this.dir)
+      // this.dirsOnly(this.dir)
     }
   }
 }
