@@ -24,6 +24,14 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
+          :to="'/home'"
+          v-on:click="saveChanges"
+          >
+          Save
+          </div>
+        <div
+          class="level-item has-text-centered"
+          style="color:black; font-weight:500;cursor:pointer;"
           @click="$router.push('/')"
           v-on:click="startOver"
           >
@@ -47,6 +55,7 @@
 <script>
 var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
+import { saveChanges } from '../utils/saveChanges'
 
 export default {
   name: 'Navigation',
@@ -73,11 +82,6 @@ export default {
           text: 'Tutorials',
           page:'/tutorials'
         },
-        {
-          id: 4,
-          text: 'DoItYourself',
-          page:'/doityourself'
-        },
       ],
       load: false,
     }
@@ -97,22 +101,28 @@ export default {
   computed: {
     helpClass() {
       return {
-        helpone: this.ind == 2,
-        helptwo: this.ind == 3,
-        helpthree: this.ind == 4,
-        helpfour: this.ind == 5,
+        helpone: this.ind == 3,
+        helptwo: this.ind == 4,
+        helpthree: this.ind == 5,
+        helpfour: this.ind == 6,
+        helpfive: this.ind > 6,
       }
     }
   },
   methods: {
+    async saveChanges() {
+      await saveChanges()
+    },
     async startOver() {
-     this.isLoading.value = true;
+      this.isLoading.value = true;
       await start_over.start_over()
       this.isLoading.value = false;
     },
     helpIconPressed() {
+      if(this.$router.currentRoute.path !== '/home') {
+        this.$router.push('/home');
+      }
       this.$emit('help');
-      console.log('current route', this.$router.currentRoute.path)
       if (this.$router.currentRoute.path != '/home') {
         this.$router.push('/home');
       }
@@ -164,6 +174,13 @@ export default {
     max-width: 25%;
   }
   .helpfour { 
+    position: absolute;
+    left: 65%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpfive { 
     position: absolute;
     right: 12px;
     top: 4.6rem;
