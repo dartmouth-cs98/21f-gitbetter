@@ -80,7 +80,7 @@ export default {
   methods: {
       getStatus(pwd) {
           // changes working directory in terminal to file users selected
-          ipc.send("terminal.toTerm", `cd "${pwd}"`)
+          ipc.send("terminal.toTerm", `cd "${pwd}".gb `)
           ipc.send("terminal.toTerm", '\n')
           ipc.send("terminal.toTerm", "clear")
           ipc.send("terminal.toTerm", '\n')
