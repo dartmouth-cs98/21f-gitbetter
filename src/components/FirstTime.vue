@@ -66,6 +66,7 @@ export default {
 }
 .notification {
     background-color: #f5baff;
+    font-size: 16px;
 }
 .numerator {
    font-size:.7em;
@@ -83,7 +84,6 @@ export default {
 }
 .message-content {
     color: #4a4a4a;
-    font-size: 1em;
     font-weight: 400;
     line-height: 1.5;
     text-align: left !important;

@@ -1,26 +1,31 @@
 <template>
     <nav class="nav level has-shadow" >
-      <div class="level-item has-text-centered nav level l-menu">
+      <div style="width: 25%;" class="level-item has-text-centered nav level">
         <router-link 
             class="level-item has-text-centered"
             :to="'/help'"
-            style="color:black; font-weight:500;"
+            style="color:black; font-weight:500;text-decoration: none;"
         >
           Help
         </router-link>
         <router-link 
             class="level-item has-text-centered"
             :to="'/tutorials'"
-            style="color:black; font-weight:500;"
+            style="color:black; font-weight:500;text-decoration: none;"
         >
           Tutorials
         </router-link>
+      </div>
+       <div class="level-item has-text-centered">
         <router-link 
           :to="'/home'"
           style="color:black; font-weight:500;"
         >
           <img src="../assets/logo.png" />
         </router-link>
+       </div>
+        <div  style="width: 20%;" class="level-item has-text-centered">
+          <div class="level r-menu">
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
@@ -47,6 +52,8 @@
         <div v-bind:class="helpClass">
           <slot></slot>
         </div>
+      </div>
+        
       </div>
       <loading />
     </nav>
@@ -138,6 +145,7 @@ export default {
       background-color: #ab47bc;
       font-size: 20px;
   }
+ 
   img {
     width: 45%;
     padding: 10px;
