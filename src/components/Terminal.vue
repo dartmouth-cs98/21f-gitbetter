@@ -30,7 +30,8 @@ export default {
       this.$store.commit('setBranchName', {name: data});
     });
 
-    ipc.on('statUpdate', (event, data) => {
+    ipc.on('getStatus', (event, data) => {
+      console.log('sending status to store in term', data)
       this.$store.commit('setStatus', {status: data});
     });
 

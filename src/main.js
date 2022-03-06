@@ -25,11 +25,7 @@ const store = new Vuex.Store({
   state: {
     recentSearches: [],
     branchName: "",
-    status: {
-      tracked: [], 
-      untracked: [],
-      toPush: 0,
-    },
+    status: [],
     command: "git status",
     firstTime: true,
     isGit: true,
@@ -47,35 +43,8 @@ const store = new Vuex.Store({
     setBranchName (state, name) {
       state.branchName = name;
     },
-    setStatus (state, output) {
-      let toAdd = [];
-      let toCommit = []; 
-
-      console.log("Status in store", output.status)
-      if(output.status[0] === "Changes to be committed:") {
-        console.log("Tracked files")
-        let i = 2;
-        while(i < output.status.length && (!output.status[i].includes("Changes not staged for commit:")) && !output.status[i].includes("Untracked files:")) {
-          console.log("Adding to toAdd", output.status[i])
-          if(output.status[i].includes("[32")) {
-            toAdd.push(output.status[i])
-          }
-          i++;
-        }
-        while(i < output.status.length) {
-          console.log("Adding to toCommit", output.status[i])
-          if(output.status[i].includes("[31")) {
-            toCommit.push(output.status[i])
-          }
-          i++;
-        }
-        state.status = {tracked: toAdd, untracked: toCommit};
-      }
-      else if(output.status[0].includes("working tree clean")) {
-        // let push = state.status.toPush + 1
-        state.status = {tracked: [], untracked: [], toPush: 1};
-      }
-    
+    setStatus (state, status) {
+      state.status = status;
     },
     setNewUser(state) {
       state.firstTime = false;
@@ -88,7 +57,7 @@ const store = new Vuex.Store({
     getRecentSearches: state => {
       return state.recentSearches;
     },
-    getStatusFiles: state => {
+    getStatus: state => {
       console.log("status getter", state.status);
       return state.status;
     },

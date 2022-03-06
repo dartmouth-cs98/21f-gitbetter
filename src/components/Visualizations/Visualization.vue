@@ -3,7 +3,7 @@
       <!-- <FilesChanged :command="this.command"/> -->
       <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
       <div v-if="test">
-        <StatusViz />
+        <StatusViz ref="statusChild" />
       </div>
       <div v-else>
         <StatusViz ref="statusChild"/> /> 
@@ -32,12 +32,12 @@ export default {
   data() {
     return {
       test: true,
+      dir: process.cwd(),
     }
   },
   computed: {
     getCurrCommand(){
-      
-        return this.$store.getters.getCurrCommand.name
+      return this.$store.getters.getCurrCommand.name
     },
     isGit() {
       return this.$store.getters.gitRepo
@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     newCommand(val) {
+      console.log('dir is', this.dir)
       if(val === 'git status') {
-        this.$refs.statusChild.getStatus(process.cwd());
+        this.$refs.statusChild.getStatus(this.dir);
       }
     }
   }
