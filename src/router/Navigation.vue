@@ -1,26 +1,31 @@
 <template>
     <nav class="nav level has-shadow" >
-      <div class="level-item has-text-centered nav level l-menu">
+      <div style="width: 25%;" class="level-item has-text-centered nav level">
         <router-link 
             class="level-item has-text-centered"
             :to="'/help'"
-            style="color:black; font-weight:500;"
+            style="color:black; font-weight:500;text-decoration: none;"
         >
           Help
         </router-link>
         <router-link 
             class="level-item has-text-centered"
             :to="'/tutorials'"
-            style="color:black; font-weight:500;"
+            style="color:black; font-weight:500;text-decoration: none;"
         >
           Tutorials
         </router-link>
+      </div>
+       <div class="level-item has-text-centered">
         <router-link 
           :to="'/home'"
           style="color:black; font-weight:500;"
         >
           <img src="../assets/logo.png" />
         </router-link>
+       </div>
+        <div  style="width: 20%;" class="level-item has-text-centered">
+          <div class="level r-menu">
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
@@ -47,6 +52,8 @@
         <div v-bind:class="helpClass">
           <slot></slot>
         </div>
+      </div>
+        
       </div>
       <loading />
     </nav>
@@ -82,11 +89,6 @@ export default {
           text: 'Tutorials',
           page:'/tutorials'
         },
-        {
-          id: 4,
-          text: 'DoItYourself',
-          page:'/doityourself'
-        },
       ],
       load: false,
     }
@@ -106,10 +108,11 @@ export default {
   computed: {
     helpClass() {
       return {
-        helpone: this.ind == 2,
-        helptwo: this.ind == 3,
-        helpthree: this.ind == 4,
-        helpfour: this.ind == 5,
+        helpone: this.ind == 3,
+        helptwo: this.ind == 4,
+        helpthree: this.ind == 5,
+        helpfour: this.ind == 6,
+        helpfive: this.ind > 6,
       }
     }
   },
@@ -123,8 +126,13 @@ export default {
       this.isLoading.value = false;
     },
     helpIconPressed() {
+      if(this.$router.currentRoute.path !== '/home') {
+        this.$router.push('/home');
+      }
       this.$emit('help');
-      this.$router.push('/home');
+      if (this.$router.currentRoute.path != '/home') {
+        this.$router.push('/home');
+      }
     }
     
   }
@@ -137,6 +145,7 @@ export default {
       background-color: #ab47bc;
       font-size: 20px;
   }
+ 
   img {
     width: 45%;
     padding: 10px;
@@ -173,6 +182,13 @@ export default {
     max-width: 25%;
   }
   .helpfour { 
+    position: absolute;
+    left: 65%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpfive { 
     position: absolute;
     right: 12px;
     top: 4.6rem;

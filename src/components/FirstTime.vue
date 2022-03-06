@@ -28,9 +28,12 @@ export default {
           messages: [
               'This is the terminal, where you can run commands in the Gitbetter sandbox. The git commands that you run in here won\'t change the status of your real repository unless you run "gitbetter update".',
               'The visualization window is where you can visualize what\'s going on in your git repository. Use the button with the eye icon to show or hide this window as needed.',
+              'The purple arrow buttons in the bottom right let you step back and forth between git commands you\'ve previously typed.',
               'The Help tab is where you can go to find a specific command by searching the dropdown menu options.',
               'The Tutorials tab is where you can go to see step by step instructions for git workflows.',
               'Click the Gitbetter logo to return to the terminal and visualization page at any time.',
+              'When you click save, it ends the Gitbetter sandbox session, and transfers all changes you\'ve made to your repo.',
+              "By clicking End, your Gitbetter sandbox session ends without saving any changes and exits the program.",
               'You\'re ready to Git Started! See these instructions again by selecting the questions logo here.'
 
           ],
@@ -63,6 +66,7 @@ export default {
 }
 .notification {
     background-color: #f5baff;
+    font-size: 16px;
 }
 .numerator {
    font-size:.7em;
@@ -77,5 +81,11 @@ export default {
 .slash-entity {
    font-size:.8em;
    line-height:.8em;
+}
+.message-content {
+    color: #4a4a4a;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left !important;
 }
 </style>

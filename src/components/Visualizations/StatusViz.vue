@@ -8,37 +8,82 @@
             <div>local machine</div>
         </div>
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
-        <div class="catushange-location">
+        <div class="change-location">
             <font-awesome-icon class="status-icons" icon="code-branch"/>
             <div>on {{ this.branchName }}</div>
         </div>
      </div>
      <div class="file-locations">
         <div class="status unstaged">
-        <div class="small numbers">1</div>
+        <div style="background:orange;" class="small numbers"> </div>
             {{ this.changedLocal }} files have unsaved changes.
         </div>
         <div class="status tracked">
-        <div class="small numbers">2</div>
+        <div  style="background:blue;" class="small numbers"> </div>
             {{ this.tracked }} files have changes which are ready to be committed.
         </div>
         <div class="status ready">
-        <div class="small numbers">3</div>
+        <div style="background:purple;" class="small numbers"> </div>
             {{ this.commits }} commits are ready to be pushed from your branch.
         </div>
      </div>
      <div class="suggestions">
-        <div class="numbers" @click="addAll">1</div>
+        <div class="numbers" style="background:orange;" @click="openAddModal">1</div>
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
-        <div class="numbers">2</div>
+        <div class="numbers" style="background:blue;" @click="openModal">2</div>
         <font-awesome-icon class="status-icons" icon="arrow-right"/>
-        <div class="numbers" @click="pushToRemote">3</div>
+        <div style="background:purple;" class="numbers" @click="pushToRemote">3</div>
      </div>
      <div class="suggestions-text">
-        <div class="sug-desc">To save changes, enter 'git add filename(s)'. To add all changes, click the first circle.</div>
-        <div class="sug-desc">To commit your changes, enter 'git commit -m "your commit message"'</div>
-        <div class="sug-desc">To show your changes in the remote branch, type "git push", or click the third circle.</div>
+        <div class="sug-desc">To save changes, enter 'git add filename(s)'. To select files to add, click the blue circle.</div>
+        <div class="sug-desc">To commit your changes, enter 'git commit -m "your commit message"' in the terminal, or click the blue circle.</div>
+        <div class="sug-desc">To show your changes in the remote branch, type "git push", or click the purple circle.</div>
      </div>
+
+    <div ref="modal" class="modal">
+      <div class="modal-background" @click="closeModal"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Committing your changes...</p>
+          <button class="delete" @click="closeModal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p>Write a message for your commit!</p>
+          <input class="input" type="text" placeholder="Your commit message here..." v-model="commitMessage">
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button commit-changes is-success" @click="makeCommit">Make your commit</button>
+          <button class="button" @click="closeModal">Cancel</button>
+        </footer>
+      </div>
+    </div>
+
+    <div ref="addModal" class="modal">
+      <div class="modal-background" @click="closeModal2"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Select files to add...</p>
+          <button class="delete" @click="closeModal2" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p v-if="filesToAdd.length > 0">The files you select here will be tracked for your next commit.</p>
+          <p v-else>Looks like you don't have any changes to add. Try editing, adding, or deleting a file, then running git status to update your files.</p>
+
+          <div class="checkbox-wrapper" v-for="file in filesToAdd" :key="file.id">
+            <label  class="checkbox">
+              <input v-model="selectedFiles" :value="file" type="checkbox">
+              {{file}}
+            </label>
+          </div>
+        </section>
+        <footer v-if="filesToAdd.length > 0" class="modal-card-foot">
+          <button class="button commit-changes is-success" @click="addAll">Select all and add</button>
+          <button class="button commit-changes is-success" @click="addSome">Add selected files</button>
+          <button class="button" @click="closeModal2">Cancel</button>
+        </footer>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -55,31 +100,57 @@ export default {
       commits: 0,
       changedLocal: 0,
       tracked: 0,
-      // workingDir: "",
+      workingDir: "",
+      commitMessage: "",
+      filesStaging: [],
+      filesLocal: [],
+      filesToAdd: [],
+      filesToCommit: [],
+      selectedFiles: [],
     }
  },
-  mounted() {
-      if (localStorage.workingDir) {
-        this.getStatus(localStorage.workingDir)
-      }
+  created() {
       ipc.on('giveFilePath', (event, pwd) => {
-        localStorage.workingDir = pwd
-        // this.workingDir = pwd;
-        this.getStatus(localStorage.workingDir)
+        this.workingDir = pwd;
+        this.getStatus(this.workingDir)
       })
       ipc.on('getStatus', (event, result) => {
+        console.log('result in get status',result)
         this.branchName = result[0];
         this.commits = result[1];
-        this.changedLocal = result[2];
-        this.tracked = result[3];
+        // this.changedLocal = result[2];
+        // this.tracked = result[3];
+
+      // get the files in the local and staging areas 
+        this.filesStaging = result[5].filesStaging;
+        this.filesLocal = result[5].filesLocal;
+
+        // get list of all of the files in the staging area
+        this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
+        this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
+
+        // gets files in local 
+        this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
+        this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
+        console.log('files to add ', this.filesToAdd)
+        this.changedLocal = this.filesToAdd.length;
+        this.tracked = this.filesToCommit.length;
       })
+  },
+  // watch: {
+  //   '$store.state.status': function() {
+  //     console.log(this.$store.state.status.status[5]);
+  //     // console.log('status store in file comp', this.filename, this.$store.state.status.status)
+
+  //   }
+  // },
+  beforeDestroy() {
+    ipc.removeAllListeners("getStatus");
+    ipc.removeAllListeners("giveFilePath");
+
   },
 // check event listner error
 // where is visulization being mounted from 
-
-  updated() {
-    console.log(this.branchName)
-  },
 
   methods: {
       getStatus(pwd) {
@@ -95,16 +166,70 @@ export default {
           // parse status takes the pwd the user selected and returns the status of
           // their git repo to be displayed in the visulization if it is a git repo
           parse.getStatus(pwd).then((result) => {
+            console.log('status result', result)
             ipc.send("statusUpdate", result)
         })
       },
 
       addAll() {
         ipc.send("terminal.toTerm", "git add .\n")
+        this.$refs.addModal.classList.remove('is-active');
       },
+
+      addSome() {
+        let f = "git add"
+
+        for (const element of this.selectedFiles) {
+          f = f + " " + element;
+        }
+        if(this.selectedFiles.length > 0) {
+          ipc.send("terminal.toTerm", `${f}\n`)
+        }
+        this.$refs.addModal.classList.remove('is-active');
+      },
+
        pushToRemote() {
         ipc.send("terminal.toTerm", "git push\n")
-      }
+      },
+
+      // opens the commit modal
+      openModal() {
+        this.$refs.modal.classList.add('is-active');
+      },
+      // closes the git commit modal
+      closeModal() {
+        this.$refs.modal.classList.remove('is-active');
+        console.log(this.commitMessage)
+        this.commitMessage = ""
+      },
+      // opens the add modal
+      openAddModal() {
+        if(this.filesToAdd) {
+          // this.filesToAdd = this.files.filesAdded.concat(this.files.filesDeleted, this.files.filesModified, this.files.filesUntracked);
+          
+          // this.filesToAdd = this.filesToAdd.filter(word => word.length != 0);
+          console.log('files to add', this.filesToAdd)
+        }
+        else {
+          this.filesToAdd = []
+        }
+        this.$refs.addModal.classList.add('is-active');
+      },
+      // closes the git add modal
+      closeModal2() {
+        console.log('selected files', this.selectedFiles)
+        this.$refs.addModal.classList.remove('is-active');
+        this.selectedFiles = []
+      },
+
+      makeCommit() {
+        let message = 'git commit -m "' + this.commitMessage + '"';
+        
+        ipc.send("terminal.toTerm", `${message}\n`);
+        this.$refs.modal.classList.remove('is-active');
+
+        this.commitMessage = ""
+      },
       
   }
 
@@ -130,6 +255,11 @@ export default {
     display: flex;
     flex-direction: row;
     padding: 4%;
+    justify-content: center;
+}
+
+.checkbox-wrapper {
+  padding: 8px 24px;
 }
 
 .status-summary {
@@ -144,7 +274,8 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    padding-top: 7%;
+    padding-bottom: 12px !important;
+    padding: 7% 18px;
 }
 
 .status-icons {
@@ -212,6 +343,36 @@ export default {
 .status {
     width: 30%;
     text-align: center;
+}
+
+.modal-card-head {
+  background-color: #53336B;
+}
+
+.modal-card-body {
+  background-color: #363636;
+}
+.modal-card-title {
+  color: white;
+}
+.modal-card-foot {
+  color: white;
+  background-color: #53336B;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.commit-changes {
+  background-color: #ab47bc !important;
+}
+
+.modal-card {
+  width: 50%;
+}
+
+.checkbox {
+  color: white !important;
 }
 
 @media only screen and (max-width: 770px) {

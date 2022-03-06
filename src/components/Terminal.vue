@@ -30,7 +30,8 @@ export default {
       this.$store.commit('setBranchName', {name: data});
     });
 
-    ipc.on('statUpdate', (event, data) => {
+    ipc.on('getStatus', (event, data) => {
+      console.log('sending status to store in term', data)
       this.$store.commit('setStatus', {status: data});
     });
 
@@ -80,6 +81,7 @@ export default {
       const fitAddon = new FitAddon();
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
+      fitAddon.fit();
       if(!termParent.firstElementChild) {
 
         term.open(document.getElementById('terminal'));
