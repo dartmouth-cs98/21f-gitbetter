@@ -87,13 +87,9 @@ async function createWindow() {
         
         console.log(git)
         if (!git) {
-          // VueSimpleAlert.confirm("This is not a git repo, would you like to make it one?").then(() => {
-          //   initializeGit(pwd)
-          // });
+          // ask use if they want to initialize git
+          initializeGit(pwd)
 
-       
-
-          
         }
       }).catch((error => {
         console.log(error)
