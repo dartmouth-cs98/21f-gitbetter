@@ -3,15 +3,16 @@ var start_over =  async function start_over() {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-    const fs = require('fs');
+    // const fs = require('fs');
 
     let pwd = process.cwd()
-    let  new_dir = pwd + ".gb"
+    // let  new_dir = pwd + ".gb"
+    let base_pwd = pwd.substring(0, pwd.indexOf('.gb'));
 
-    if (!fs.existsSync(new_dir)){
-        console.log(".gb directory already exists")
-        return
-    }
+    // if (!fs.existsSync(new_dir)){
+    //     console.log(".gb directory already exists")
+    //     return
+    // }
     try {
         process.chdir("..")
         console.log('directory has successfully been changed in start_over to move into general folder')
@@ -19,16 +20,15 @@ var start_over =  async function start_over() {
         console.error("error while changing directory")
     }
 
-
-    let {stdout, stderr} = await exec('rm -r ' + new_dir);
+    let {stdout, stderr} = await exec('rm -r ' + base_pwd + '.gb*');
 
     if (stdout) {
-        console.log('directory has been removed')
+        console.log(`${base_pwd} directories have been removed\n`)
         console.log(stdout)
     } else {
         console.log(stderr)
     }
-
+    
 
     try {
         process.chdir("./GitBetterTestRepository")

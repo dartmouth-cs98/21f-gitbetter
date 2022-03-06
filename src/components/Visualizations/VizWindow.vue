@@ -105,8 +105,6 @@ export default {
     });
 
     ipc.on('giveFilePath', (_, pwd) => {
-      console.log('REACHED GIVE FILE PATH');
-      console.log(pwd);
       this.syncReplicate(pwd);
       this.gitStatus.workingDirectory = pwd;
       const [gb, gbVersion] = pwd.split('.').slice(-2);
@@ -250,7 +248,7 @@ export default {
           if (gbVersion <= 0) throw Error('This case should never occur');
           console.log(`destructiveCommand version: ${gbVersion}`)
           ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
-          this.stackIndex--;
+          // this.stackIndex--;
           return;
         }
         case ACTIONS.ADVISORY:
