@@ -116,9 +116,9 @@ export default {
         this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
       } else console.warn('??? unknown directory format: ' + pwd);
 
-      // Prior command was destroyed, postpone until we have repo prepared
-      ipc.send('terminal.toTerm.force', this.commandStack[this.stackIndex].current.command);
       if (this.stackIndex === this.commandStack.length -1) {
+        // Prior command was destroyed, postpone until we have repo prepared
+        ipc.send('terminal.toTerm.force', this.commandStack[this.stackIndex].current.command);
         ipc.send('runTerminalCommand', 'VizWindow');
       } else this.actionCallback();
     });
@@ -223,6 +223,7 @@ export default {
           const { workingDirectory: directory, gbVersion } = this.gitStatus;
           console.log(`nextCommand version: ${gbVersion}`)
           ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
+          this.stackIndex++;
           return;
         }
         case ACTIONS.ADVISORY:
@@ -249,6 +250,7 @@ export default {
           if (gbVersion <= 0) throw Error('This case should never occur');
           console.log(`destructiveCommand version: ${gbVersion}`)
           ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
+          this.stackIndex--;
           return;
         }
         case ACTIONS.ADVISORY:
