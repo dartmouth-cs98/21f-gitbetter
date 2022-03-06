@@ -82,11 +82,6 @@ export default {
           text: 'Tutorials',
           page:'/tutorials'
         },
-        {
-          id: 4,
-          text: 'DoItYourself',
-          page:'/doityourself'
-        },
       ],
       load: false,
     }
@@ -106,10 +101,11 @@ export default {
   computed: {
     helpClass() {
       return {
-        helpone: this.ind == 2,
-        helptwo: this.ind == 3,
-        helpthree: this.ind == 4,
-        helpfour: this.ind == 5,
+        helpone: this.ind == 3,
+        helptwo: this.ind == 4,
+        helpthree: this.ind == 5,
+        helpfour: this.ind == 6,
+        helpfive: this.ind > 6,
       }
     }
   },
@@ -123,8 +119,11 @@ export default {
       this.isLoading.value = false;
     },
     helpIconPressed() {
+      if(this.$router.currentRoute.path !== '/home') {
+        this.$router.push('/home');
+      }
       this.$emit('help');
-      this.$router.push('/home');
+      
     }
     
   }
@@ -173,6 +172,13 @@ export default {
     max-width: 25%;
   }
   .helpfour { 
+    position: absolute;
+    left: 65%;
+    top: 4.6rem;
+    z-index: 6;
+    max-width: 25%;
+  }
+  .helpfive { 
     position: absolute;
     right: 12px;
     top: 4.6rem;
