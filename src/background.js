@@ -71,7 +71,6 @@ async function createWindow() {
   // opens finder modal
 
 
-
   ipcMain.on("openFinder", function() {
 
     dialog.showOpenDialog({
