@@ -12,7 +12,7 @@
   <div class="columns">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <div id="sidebar" class="column is-fullheight is-one-fifth sidebar">
-          <Sidebar />
+          <Sidebar ref="sidebar"/>
       </div>
       <div id="open-side-bar">
       <font-awesome-icon v-on:click="openDirectories" class="faIcon" icon="folder" style="padding-left: 5px;"/>
@@ -153,6 +153,7 @@ export default {
     },
     sendNewCommand(val) {
       this.$refs.vizParent.sendCommand(val);
+      this.$refs.sidebar.refresh();
     }
   }
 }
