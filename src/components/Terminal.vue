@@ -74,6 +74,7 @@ export default {
       const fitAddon = new FitAddon();
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
+      fitAddon.fit();
       if(!termParent.firstElementChild) {
 
         term.open(document.getElementById('terminal'));
