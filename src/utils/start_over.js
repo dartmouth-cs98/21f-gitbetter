@@ -1,15 +1,18 @@
 
-var start_over =  async function start_over() {
+var start_over =  async function start_over(pwd) {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
-
-    let pwd = process.cwd()
+    
+    if (pwd == undefined) {
+        return
+    }
     let  new_dir = pwd + ".gb"
+    console.log(new_dir)
 
     if (!fs.existsSync(new_dir)){
-        console.log(".gb directory already exists")
+        console.log("repo does not exist")
         return
     }
     try {
@@ -19,7 +22,6 @@ var start_over =  async function start_over() {
         console.error("error while changing directory")
     }
 
-
     let {stdout, stderr} = await exec('rm -r ' + new_dir);
 
     if (stdout) {
@@ -27,14 +29,6 @@ var start_over =  async function start_over() {
         console.log(stdout)
     } else {
         console.log(stderr)
-    }
-
-
-    try {
-        process.chdir("./GitBetterTestRepository")
-        console.log('successfully switched into GitBetterTestRepository at the end of start_over')
-    } catch {
-        console.error("error switching into GitBetterTestRepository at the end of start_over")
     }
 
 }

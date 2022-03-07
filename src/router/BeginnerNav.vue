@@ -7,7 +7,13 @@
       >
         Search
       </div>
-
+      <div 
+        class="level-item has-text-centered"
+        style="color:black; font-weight:500;cursor:pointer;"
+        @click="$router.push('/test')"
+      >
+          Test Yourself
+        </div>
         <div 
             class="level-item has-text-centered"
             @click="$router.push('/beginner')"
@@ -15,8 +21,7 @@
         >
           <img src="../assets/beginnerlogo.png" />
         </div>
-        <div class="level-item">
-  <div class="level" style="width: 100%;">
+        
         <div 
         class="level-item has-text-centered"
         style="color:black; font-weight:500;cursor:pointer;"
@@ -31,9 +36,6 @@
             >
                 End
         </div>
-  </div>
-</div>
-
     </nav>
 </template>
 
@@ -57,6 +59,11 @@ export default {
           id: 3,
           text: 'Tutorials',
           page:'/tutorials'
+        },
+        {
+          id: 4,
+          text: 'Test',
+          page:'/test'
         },
       ],
     }

@@ -1,7 +1,7 @@
 <template>
   <div>
         <button 
-          @click="$router.push('/')" 
+   
           class="button end-button" 
           v-on:click="startOver"
         >

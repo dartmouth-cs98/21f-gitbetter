@@ -19,16 +19,6 @@
 </template>
 
 <script>
-// import Vue from "vue";
-// import shell from 'vue-shell';
-// import replicate from '../../replicate_repo.js';
-// let xterm = require('../../node_modules/xterm/lib/xterm.js')
-// var run_command = require('../../run_command');
-
-
-// var os = require('os');
-// var pty = require('node-pty');
-//Vue.use(shell);
 
 export default {
   data() {
@@ -58,6 +48,7 @@ export default {
       if(src == res) {
           this.wrongStatus = false;
           this.$emit('updateSrc', src);
+          this.source = "";
           this.i += 1;
       }
       else {
@@ -76,8 +67,6 @@ export default {
 </script>
 
 <style>
-/* @import '../../node_modules/xterm/css/xterm.css';
-@import "../../node_modules/vue-notion/src/styles.css"; */
 
 .beginner-tutorial {
     color: white;
