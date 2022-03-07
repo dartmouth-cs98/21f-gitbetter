@@ -9,7 +9,7 @@ var start_over =  async function start_over(pwd) {
         return
     }
     let  new_dir = pwd + ".gb"
-    console.log(new_dir)
+    if (!fs.existsSync())
 
     if (!fs.existsSync(new_dir)){
         console.log("repo does not exist")

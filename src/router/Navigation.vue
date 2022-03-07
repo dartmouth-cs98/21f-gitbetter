@@ -124,14 +124,12 @@ export default {
 
     ipc.on("giveFilePath", (event, pwd) => {
       this.pwd = pwd
-      console.log("Naviagation: ")
-      console.log(pwd)
     })
   },
 
   methods: {
     async saveChanges() {
-      await saveChanges()
+      await saveChanges(this.pwd)
     },
     async startOver() {
         VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{

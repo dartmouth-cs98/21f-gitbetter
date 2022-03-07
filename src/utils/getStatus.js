@@ -1,5 +1,9 @@
 export async function getStatus(pwd) {
-    var branchName = ''
+        
+    const fs = require("fs");
+    const path = './.git';
+
+    var branchName = 'main'
     var commits = 0
     var changedLocal = 0
     const filesAdded = []
@@ -26,6 +30,32 @@ export async function getStatus(pwd) {
     process.chdir(pwd + '.gb')
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
+    
+    
+
+
+    if (!fs.existsSync(path)) {
+
+        try {
+            let {stdout, stderr} = await exec('ls | wc -l');
+            if (stdout) {
+                changedLocal = stdout
+            }
+
+            else if (stderr) {
+                console.log(stderr)
+            }
+
+    } catch (err){
+        console.warn(`Throwing ${err} in getStatus`)
+        throw err
+    }
+
+        const filesChanged = {filesLocal, filesStaging}
+        const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
+        return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+    }
+
 
     try {
         let {stdout, stderr} = await exec('git status --porcelain');
