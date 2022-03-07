@@ -70,7 +70,6 @@ async function createWindow() {
   // opens finder modal
 
 
-
   ipcMain.on("openFinder", async function() {
 
     dialog.showOpenDialog({
@@ -90,10 +89,9 @@ async function createWindow() {
         console.log(error)
     
     }))
-      
-      // getStatus(pwd)
+     
+      getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
-        
    
     }).catch(console.error);
   })

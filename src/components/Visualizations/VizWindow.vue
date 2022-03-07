@@ -28,7 +28,7 @@
 <script>
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
-import { getStatus } from '../../utils/getStatus'
+//import { getStatus } from '../../utils/getStatus'
 import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
@@ -85,7 +85,7 @@ export default {
           this.checkForPull();
           this.updateStack();          
         }
-        this.updateStatus();
+        //this.updateStatus();
         this.currCommand = '';
         return;
       }
@@ -109,14 +109,14 @@ export default {
     ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
   },
   methods: {
-    async updateStatus() {
-      const [branchName,,,, files] = await getStatus(process.cwd());
-      this.gitStatus.branch = branchName;
-      this.gitStatus.filesAdded = files.filesAdded;
-      this.gitStatus.filesModified = files.filesModified;
-      this.gitStatus.filesRemoved = files.filesDeleted;
-      this.gitStatus.filesUntracked = files.filesUntracked;
-    },
+    // async updateStatus() {
+    //   const [branchName,,,, files] = await getStatus(process.cwd());
+    //   this.gitStatus.branch = branchName;
+    //   this.gitStatus.filesAdded = files.filesAdded;
+    //   this.gitStatus.filesModified = files.filesModified;
+    //   this.gitStatus.filesRemoved = files.filesDeleted;
+    //   this.gitStatus.filesUntracked = files.filesUntracked;
+    // },
     async updateStack() {
       // Operation in the middle of the stack
       if (this.stackIndex < this.commandStack.length - 1) {

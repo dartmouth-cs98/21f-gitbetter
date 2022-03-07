@@ -3,7 +3,6 @@ export async function initializeGit(pwd) {
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
-    process.chdir(pwd + '.gb')
 
     try {
         let {stdout, stderr} = await exec('git init');

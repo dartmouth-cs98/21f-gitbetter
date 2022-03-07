@@ -63,6 +63,7 @@
 var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
 import { saveChanges } from '../utils/saveChanges'
+const ipc = require("electron").ipcRenderer
 
 export default {
   name: 'Navigation',
@@ -91,6 +92,7 @@ export default {
         },
       ],
       load: false,
+      pwd: ""
     }
   },
   props: {
@@ -102,6 +104,7 @@ export default {
       isLoading: this.load,
     };
   },
+
   components: {
     Loading,
   },
@@ -116,13 +119,23 @@ export default {
       }
     }
   },
+
+  mounted() {
+
+    ipc.on("giveFilePath", (event, pwd) => {
+      this.pwd = pwd
+      console.log("Naviagation: ")
+      console.log(pwd)
+    })
+  },
+
   methods: {
     async saveChanges() {
       await saveChanges()
     },
     async startOver() {
       this.isLoading.value = true;
-      await start_over.start_over()
+      await start_over.start_over(this.pwd)
       this.isLoading.value = false;
     },
     helpIconPressed() {
