@@ -2,7 +2,7 @@
     <div class="top-layer">
         <div class="title-area">{{this.mergeSteps.title}}</div>
         <div class="content"> {{this.mergeSteps.steps[this.index].step}}</div>
-        <div class="command">
+        <div class="sentence">
             <div class="mark-down">
                 <p v-for="(sentence, i) in this.mergeSteps.steps[index].mark" v-bind:key="i">{{sentence}}</p>
                 <div v-if="this.index == 3"> 
@@ -13,6 +13,7 @@
         <div id="button-area">
             <button v-if="this.index > 0" @click="backStep"  class="button">Back</button>
             <button v-if="this.index + 1< this.content.length" @click="nextStep"  class="button">Next</button>
+            <button v-if="this.index + 1 == this.content.length" @click="finishStep" class="button">Done</button>
         </div>  
     </div>
 
@@ -40,6 +41,10 @@ export default {
     methods: {
         modifiedData(){
             this.mergeSteps.steps[0].mark = this.mergeData;
+        },
+        finishStep(){
+            console.log("Asserting this works");
+            this.$emit('done');
         },
         getConflictingFiles(){
             for(let i = 0; i < this.mergeData.length; i++){
@@ -89,12 +94,12 @@ export default {
     background-color: #636363;
     color: #FFFFFF;
     font-size: 18px;
-    padding-right: 12px;
+    padding: 0px 12px;
 }
 
-.command {
-    display: flex;
-    justify-content: center;
+.sentence {
+    text-align: left;
+    padding: 2% 2%;
 }
 
 #button-area{    
