@@ -67,6 +67,7 @@ export default {
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
       localStorage.workingDir = pwd + '.gb'
+
       this.getStatus(localStorage.workingDir)
     })
 
@@ -77,15 +78,6 @@ export default {
   },
   methods: {
     getStatus: function(pwd) {
-        // changes working directory in terminal to file users selected
-        ipc.send("terminal.toTerm", `cd "${pwd}"`)
-        ipc.send("terminal.toTerm", '\n')
-        ipc.send("terminal.toTerm", "clear")
-        ipc.send("terminal.toTerm", '\n')
-        // calls git status initally for the user
-        ipc.send("terminal.toTerm", "git status")
-        ipc.send("terminal.toTerm", '\n')
-
         this.runStatus = true
         this.$emit('runStatus', this.runStatus)
 
