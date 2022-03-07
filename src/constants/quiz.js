@@ -182,9 +182,43 @@ export const questions = {
   },
   "21": {
     number: 21,
-    title: "It is good practice to code on the main branch",
+    title: "When you make a commit, the code that is included in your commit will be added to the main branch",
      options: [
         "True", "False"
+     ],
+     res: "False"       
+  },
+  "22": {
+    number: 22,
+    title: "Where is the new code coming from when you run 'git pull'?",
+     options: [
+        "The branch you are currently on", "The main branch",
+        "Your coworker's branch", "Another one of your branches", 
+     ],
+     res: "The main branch"       
+  },
+  "23": {
+    number: 23,
+    title: "Any files that you git add will be included in the next commit that you make",
+     options: [
+        "True", "False"
+     ],
+     res: "True"       
+  },
+  "24": {
+    number: 24,
+    title: "Who will be able to see your new code when you run 'git push'",
+     options: [
+        "Only people who are using my branch", "My boss", 
+        "Everyone who cloned the repository and has a main branch", "Just me"
+     ],
+     res: "Everyone who cloned the repository and has a main branch"       
+  },
+  "25": {
+    number: 25,
+    title: "Not all repositories have a main branch",
+     options: [
+        "True", "False", 
      ],
      res: "False"       
   },
