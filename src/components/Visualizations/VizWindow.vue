@@ -32,6 +32,7 @@ import { getStatus } from '../../utils/getStatus'
 import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
+import cleanMidOperation from '../../utils/cleanMidOperation'
 const channel = 'terminal.toTerm';
 
 export default {
@@ -140,10 +141,13 @@ export default {
     async updateStack() {
       const { action } = classification(this.command, this.gitStatus);
       if (
-        ![ACTIONS.NOOP].includes(action)
+        [ACTIONS.NOOP].includes(action)
         && this.stackIndex < this.commandStack.length - 1
-        // Operation in the middle of the stack
-      ) this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
+      ) return;
+      if (this.stackIndex < this.commandStack.length - 1) {
+        await cleanMidOperation(this.gitStatus.gbVersion+1);
+        this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
+      }
       console.log('&&&&&&&&&&&&&&&&&& reset stack index &&&&&&&&&&&&&&&&&&');
       this.isInMiddleOfStack = false;
 

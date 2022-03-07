@@ -3,16 +3,10 @@ var start_over =  async function start_over() {
 
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-    // const fs = require('fs');
 
     let pwd = process.cwd()
-    // let  new_dir = pwd + ".gb"
     let base_pwd = pwd.substring(0, pwd.indexOf('.gb'));
 
-    // if (!fs.existsSync(new_dir)){
-    //     console.log(".gb directory already exists")
-    //     return
-    // }
     try {
         process.chdir("..")
         console.log('directory has successfully been changed in start_over to move into general folder')
@@ -30,6 +24,7 @@ var start_over =  async function start_over() {
     } catch { console.log('no such files found -- which is fine'); }
 
     try {
+        // FIXME: Find original repo
         process.chdir("./GitBetterTestRepository")
         console.log('successfully switched into GitBetterTestRepository at the end of start_over')
     } catch {
