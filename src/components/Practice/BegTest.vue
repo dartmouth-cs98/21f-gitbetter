@@ -1,34 +1,34 @@
 
 <template>
     <div class="quiz">
-      <div v-if="!started">
-        <div class="subtitle">Welcome to the Quiz!</div>
-          <div class="paragraph">This quiz will test your knowledge of some of the commands that we covered during our walkthroughs. Good luck!</div>
-          <div class="button" @click="startQuiz">Start</div> 
+      <div class="quiz-wrapper" v-if="!started">
+        <div class="title">Welcome to the quiz!</div>
+          <div class="paragraph">
+            This quiz will test your knowledge of some of the 
+            commands that we covered during our walkthroughs. Good luck!
+          </div>
+          <div class="button" @click="startQuiz" style="padding:12px;">Start</div> 
+          <div class="button" @click="$router.push('/beginner')" style="position:absolute; bottom:12px; right:12px;">Back to GitLearning</div>
       </div>
-      <div v-else>
-        <div v-for="q in questions" :key="q.id">
-          <Quiz v-bind:question="q" v-bind:submitted="quizSubmitted"/>
+      <div v-else class="quiz-wrapper">
+        <div class="title" style="width: 90%;text-align: left;">Quiz <span v-if="quizSubmitted" style="float:right;">Your score: <span class="numerator">{{this.correct}}</span><span class="slash-entity">⁄</span><span class="denominator">{{this.total}}</span></span></div>
+        <div class="quiz-background">
+          <div v-for="q in questions" :key="q.id" class="questions">
+            <Quiz 
+              v-bind:question="q" 
+              v-bind:submitted="quizSubmitted"
+              @sendResults="getScore"
+            />
+          </div>
         </div>
-        <button class="button" @click="submit">
+        <button v-if="!quizSubmitted" class="button submit" @click="submit">
           Submit
         </button>
+        <button v-else class="button submit" @click="reset">
+          Exit Quiz
+        </button>
       </div>
-        <!-- <div v-if="questions"> 
-          <question
-              :question="questions[currentQuestion]"
-              v-on:answer="handleAnswer"
-              :question-number="currentQuestion+1"
-          ></question> 
-        </div> -->
-
-        <!-- <div v-if="results">
-          You got {{correct}} right out of {{questions.length}} questions. Your percentage is {{perc}}%.
-        </div>
-    </div> -->
     </div>
-    
-    
 </template>
 
 <script>
@@ -38,20 +38,20 @@ export default {
   data() {
     return {
       started: false,
-      introStage:false,
-      questionStage:false,
-      resultsStage:false,
       title:'',
-      
-      currentQuestion:0,
       correct:0,
-
+      total: 0,
       questions: {},
       quizSubmitted: false,
     }
   },
   components: {
     Quiz,
+  },
+  computed: {
+    score() {
+      return this.correct / this.total;
+    }
   },
   methods: {
     startQuiz() {
@@ -62,61 +62,76 @@ export default {
     },
     submit() {
       this.quizSubmitted = true;
+      this.total = Object.keys(this.questions).length;
+    },
+    getScore(val) {
+      this.correct += val
+    },
+    reset() {
+      this.correct = 0
+      this.started = false
+      this.quizSubmitted = false
     }
-    // handleAnswer(e) {
-    //   console.log('answer event ftw', e);
-    //   this.answers[this.currentQuestion]=e.answer;
-    //   if((this.currentQuestion+1) == this.questions.length) {
-    //     this.handleResults();
-    //     this.questionStage = false;
-    //   } else {
-    //     this.currentQuestion++;
-    //   }
-    // },
-    // handleResults() {
-    //   console.log('handle results');
-    //   this.questions.forEach((a, index) => {
-    //     if(this.answers[index] == a.answer) this.correct++;
-    //   });
-    //   this.perc = ((this.correct / this.questions.length)*100).toFixed(2);
-    //   console.log(this.correct+' '+this.perc);
-    // }
   }
 
 };
 
 </script>
 
-<style>
-/* @import '../../node_modules/xterm/css/xterm.css';
-@import "../../node_modules/vue-notion/src/styles.css"; */
-
+<style scoped>
 .quiz {
-    color: rgb(45, 22, 170);
-    margin: 200px;
-    margin-left: 200px;
+    height: 100%;
+    background-color: #272727;
+}
+
+.title {
+  color: white !important;
+}
+.quiz-background {
+    background-color: white;
+    width: 90%;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.quiz-background::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.questions {
+  padding: 5% 2%;
+  width: 95%;
+}
+
+.quiz-wrapper {
+  padding: 3% 3% 12px 3%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .subtitle {
-    color: rgb(16, 29, 206);
     margin: 20px;
 }
 
 .paragraph {
-    color: rgb(201, 31, 172);
+    color: #dbdbdb;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    width: 70%;
 }
 
 .button {
-    color: rgb(16, 29, 206);
-    font-weight:800;
+    
     text-decoration: none;
+    width: 18%;
 }
-
-/* .button {
-    margin: 12px; 
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
-} */
-
+.submit {
+  margin-top: 12px;
+  margin-right: 0px;
+  margin-left: auto;
+}
 </style>
  

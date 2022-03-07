@@ -48,6 +48,7 @@ export default {
       if(src == res) {
           this.wrongStatus = false;
           this.$emit('updateSrc', src);
+          this.source = "";
           this.i += 1;
       }
       else {

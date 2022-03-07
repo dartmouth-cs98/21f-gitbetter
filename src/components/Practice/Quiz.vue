@@ -1,13 +1,24 @@
 
 <template>
-    <div strong>Question {{ question.number }} 
-        <div class="subtitle">{{ question.title }}</div>
+    <div>
+        <div class="question-subtitle">
+            {{ question.number }}. {{ question.title }}
+            <span v-if="submitted && correct" style="color: green;" class="res">
+                <font-awesome-icon icon="check"/>
+            </span>
+            <span v-if="submitted && !correct" style="color: red;" class="res">
+                <font-awesome-icon icon="times"/>
+            </span>
+        </div>
         <div class="options">
-            <label v-for="opt in question.options" class="radio" :key="opt.id" :value="opt">
+            <label v-for="opt in question.options" :key="opt.id" :value="opt" class="radio-buttons">
                 <input @change="changeResponse($event)" type="radio" :name="question.title" :value="opt">
                 {{ opt }}
             </label>
         </div>
+    <div  v-if="submitted && !correct" class="answer">
+       The correct answer was: {{ this.question.res }}
+    </div>
     </div>
 </template>
 
@@ -21,13 +32,19 @@ export default {
   data() {
       return {
           response: "",
+          correct: true,
       }
   },
   watch: {
       submitted: function() {
         console.log('submitted', this.response, this.question.res)
         if(this.question.res == this.response) {
-            console.log('correct')
+            this.$emit('sendResults', 1);
+            this.correct = true;
+        }
+        else {
+            this.$emit('sendResults', 0);
+            this.correct = false;
         }
       }
   },
@@ -41,27 +58,34 @@ export default {
 </script>
 
 <style>
-/* @import '../../node_modules/xterm/css/xterm.css';
-@import "../../node_modules/vue-notion/src/styles.css"; */
-
-.beginner-tutorial {
-    color: white;
-    margin: 12px;
-}
-
-.subtitle {
-    color: white;
-}
 .options { 
     display: flex;
     flex-direction: column;
+    padding-left: 10%;
 }
 
-/* .button {
-    margin: 12px; 
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
-} */
+.question-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
 
+.questions {
+    padding: 5%;
+    background-color: #dbdbdb;
+    color: black;
+    margin: 2% 2.5%;
+}
+
+.res {
+    float: right;
+    font-size: 2rem;
+    top: -2rem;
+    position: relative;
+}
+
+.answer {
+    position: relative;
+    top: 1rem;
+}
 </style>
  
