@@ -66,7 +66,7 @@ export default {
   },
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
-      localStorage.workingDir = pwd
+      localStorage.workingDir = pwd + '.gb'
       this.getStatus(localStorage.workingDir)
     })
 

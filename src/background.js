@@ -94,8 +94,8 @@ async function createWindow() {
     }))
 
       
-      getStatus(pwd + '.gb')
-      win.webContents.send('giveFilePath', pwd + '.gb');
+      getStatus(pwd)
+      win.webContents.send('giveFilePath', pwd);
       replicate.replicate_repo(pwd);  
    
     }).catch(console.error);
