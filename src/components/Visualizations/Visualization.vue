@@ -1,12 +1,12 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
+      <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
       <div v-if="test">
         <StatusViz ref="statusChild" />
       </div>
       <div v-else>
-        <StatusViz ref="statusChild"/> /> 
+        <!-- <StatusViz ref="statusChild"/> />  -->
       </div>
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
@@ -33,6 +33,7 @@ export default {
     return {
       test: true,
       dir: process.cwd(),
+      mergeConExists: this.mergeConflict
     }
   },
   computed: {
@@ -61,7 +62,10 @@ export default {
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);
       }
-    }
+    },
+    finished(){
+      this.mergeConExists = false;
+    },
   }
 }
 </script>
