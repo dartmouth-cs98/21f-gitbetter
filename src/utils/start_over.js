@@ -1,8 +1,8 @@
 
 var start_over =  async function start_over(pwd) {
 
-   const util = require('util');
-    const exec = util.promisify(require('child_process').exec);
+    // const util = require('util');
+    // const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
 
     let  new_dir = pwd + ".gb"
@@ -19,14 +19,14 @@ var start_over =  async function start_over(pwd) {
         console.error("error while changing directory")
     }
 
-    let {stdout, stderr} = await exec('rm -r ' + new_dir);
+    // let {stdout, stderr} = await exec('rm -r ' + new_dir);
 
-    if (stdout) {
-        console.log('directory has been removed')
-        console.log(stdout)
-    } else {
-        console.log(stderr)
-    }
+    // if (stdout) {
+    //     console.log('directory has been removed')
+    //     console.log(stdout)
+    // } else {
+    //     console.log(stderr)
+    // }
 
 }
 
