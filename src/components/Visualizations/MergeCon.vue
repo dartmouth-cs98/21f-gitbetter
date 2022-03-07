@@ -113,7 +113,7 @@ export default {
 }
 
 .separator{
-     width: 6px;
+     width: 10px;
 
 }
 
