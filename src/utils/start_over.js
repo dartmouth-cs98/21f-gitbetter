@@ -20,15 +20,14 @@ var start_over =  async function start_over() {
         console.error("error while changing directory")
     }
 
-    let {stdout, stderr} = await exec('rm -r ' + base_pwd + '.gb*');
+    try {
+        let { stdout } = await exec('rm -r ' + base_pwd + '.gb*');
 
-    if (stdout) {
-        console.log(`${base_pwd} directories have been removed\n`)
-        console.log(stdout)
-    } else {
-        console.log(stderr)
-    }
-    
+        if (stdout) {
+            console.log(`${base_pwd} directories have been removed\n`)
+            console.log(stdout)
+        } 
+    } catch { console.log('no such files found -- which is fine'); }
 
     try {
         process.chdir("./GitBetterTestRepository")

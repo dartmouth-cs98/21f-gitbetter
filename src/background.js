@@ -32,7 +32,7 @@ let win;
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
+    width: 1000,
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -45,7 +45,7 @@ async function createWindow() {
   var ptyProcess = pty.spawn(shell, [], {
     name: "xterm-color",
     cols: 80,
-    rows: 100,
+    rows: 120,
     cwd: process.CWD,
     env: process.env
   });
@@ -63,7 +63,19 @@ async function createWindow() {
     if (isTrapReady() || !isNewLine) ptyProcess.write(data);
   });
 
-  ipcMain.on("terminal.toTerm.force", (_, data) => ptyProcess.write(data));
+  ipcMain.on("terminal.toTerm.force", (_, { pwd, command }) => {
+    // There is a race condition after replicate repo and before terminal force write
+    const removeLock = [
+      `if [ -f "${pwd}/.git/index.lock" ]`,
+      `then rm "${pwd}/.git/index.lock"`,
+      'fi',
+      'clear',
+      '',
+    ].join('\n');
+    ptyProcess.write(removeLock);
+    ptyProcess.write(command);
+  });
+
   ipcMain.on("runTerminalCommand", (_, data) => {
     // Indicates the repo front end is in sync
     trapReady[data] = true;
@@ -80,18 +92,15 @@ async function createWindow() {
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
-
-  function replicateRepoWrapper(directory, version) {
-    console.log(`HIT REPLICATE_REPO_WRAPPER ${directory} - ${version}`)
+ 
+  async function replicateRepoWrapper(directory, version) {
     ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
     win.webContents.send("finderOpened");
-    isGit(directory).then(async git => {
-      if (!git) await initializeGit(directory);
-    }).catch(console.log);
+    const git = await isGit(directory)
+    if (!git) await initializeGit(directory); 
     getStatus(directory);
-    replicate.replicate_repo(directory, version)
-      .then(new_dir => win.webContents.send('giveFilePath', new_dir))
-      .catch(console.error); 
+    const new_dir = await replicate.replicate_repo(directory, version)
+    win.webContents.send('giveFilePath', new_dir)
   }
 
   // opens finder modal

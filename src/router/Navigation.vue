@@ -56,6 +56,7 @@
 var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
 import { saveChanges } from '../utils/saveChanges'
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'Navigation',
@@ -115,6 +116,7 @@ export default {
     },
     async startOver() {
       this.isLoading.value = true;
+      ipcRenderer.eventNames().forEach(channel => ipcRenderer.removeAllListeners(channel));
       await start_over.start_over()
       this.isLoading.value = false;
     },

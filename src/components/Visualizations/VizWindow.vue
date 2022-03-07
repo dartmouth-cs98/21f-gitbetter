@@ -44,6 +44,7 @@ export default {
       command: '',
       currCommand: '',
       stackIndex: 0,
+      isInMiddleOfStack: false,
       advisoryModalOpened: false,
       advisoryModalMessage: '',
       advisoryModalForward: true,
@@ -104,7 +105,7 @@ export default {
       if (data.includes('\n')) this.currCommand = '';
     });
 
-    ipc.on('giveFilePath', (_, pwd) => {
+    ipc.on('giveFilePath', async(_, pwd) => {
       this.syncReplicate(pwd);
       this.gitStatus.workingDirectory = pwd;
       const [gb, gbVersion] = pwd.split('.').slice(-2);
@@ -114,11 +115,17 @@ export default {
         this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
       } else console.warn('??? unknown directory format: ' + pwd);
 
-      if (this.stackIndex === this.commandStack.length -1) {
+      if (!this.isInMiddleOfStack) {
         // Prior command was destroyed, postpone until we have repo prepared
-        ipc.send('terminal.toTerm.force', this.commandStack[this.stackIndex].current.command);
+        await new Promise(r => setTimeout(r, 500));
+        ipc.send('terminal.toTerm.force', {
+          pwd: this.gitStatus.workingDirectory,
+          command: this.commandStack[this.stackIndex].current.command,
+        });
+        await new Promise(r => setTimeout(r, 500));
         ipc.send('runTerminalCommand', 'VizWindow');
-      } else this.actionCallback();
+      } 
+      // else this.actionCallback();
     });
   },
   methods: {
@@ -137,6 +144,9 @@ export default {
         && this.stackIndex < this.commandStack.length - 1
         // Operation in the middle of the stack
       ) this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
+      console.log('&&&&&&&&&&&&&&&&&& reset stack index &&&&&&&&&&&&&&&&&&');
+      this.isInMiddleOfStack = false;
+
       // Operations that depend on output
       if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
 
@@ -185,6 +195,7 @@ export default {
         }
     },
     printStack() {
+      console.log(this.isInMiddleOfStack, 'mid stack');
       console.log(this.commandStack.map(
         ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command + '..' + current.action));
     },
@@ -196,13 +207,12 @@ export default {
     actionCallback() {
       let command;
       if (this.advisoryModalForward) {
-        this.stackIndex++;
         command = this.commandStack[this.stackIndex].current;
-        console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
       } else {
         command = this.commandStack[this.stackIndex].previous;
         this.stackIndex--;
       }
+      console.log(`callback: Currently at pos ${this.stackIndex} -- ${command.command}`);
       ipcRenderer.send(channel, command.command + '\n');
       this.closeModal();
     },
@@ -214,14 +224,15 @@ export default {
 
     nextCommand() {
       this.advisoryModalForward = true;
+      this.isInMiddleOfStack = true;
+      this.stackIndex++;
       const operation = this.commandStack[this.stackIndex].current;
+      console.log('^^^^^^^^^^^^ reset stack index ^^^^^^^', operation.action, operation.command);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: {
-          console.error('Cannot revert destructive command');
           const { workingDirectory: directory, gbVersion } = this.gitStatus;
           console.log(`nextCommand version: ${gbVersion}`)
           ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
-          this.stackIndex++;
           return;
         }
         case ACTIONS.ADVISORY:
@@ -239,16 +250,16 @@ export default {
     },
     previousCommand() {
       this.advisoryModalForward = false;
+      this.isInMiddleOfStack = true;
       const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
         case ACTIONS.DESTRUCTIVE: {
-          console.error('Cannot revert destructive command');
+          this.stackIndex--;  // Does not run command, just changes directory
           const { workingDirectory: directory, gbVersion } = this.gitStatus;
           if (gbVersion <= 0) throw Error('This case should never occur');
           console.log(`destructiveCommand version: ${gbVersion}`)
           ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
-          // this.stackIndex--;
           return;
         }
         case ACTIONS.ADVISORY:
