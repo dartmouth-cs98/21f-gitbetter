@@ -5,6 +5,7 @@ import { getStatus } from './utils/getStatus';
 
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
+import { windowCount } from 'rxjs';
 
 
 require('events').EventEmitter.defaultMaxListeners = 50;
@@ -84,6 +85,7 @@ async function createWindow() {
       await isGit(pwd).then(async git => {
         console.log(git)
         if (!git) {
+          win.webContents.send("notGit")
           await initializeGit(pwd)
         }
       }).catch((error => {
