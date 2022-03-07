@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      test: false,
+      test: true,
       dir: process.cwd(),
       mergeConExists: this.mergeConflict
     }
