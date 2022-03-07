@@ -6,6 +6,7 @@ import { getStatus } from './utils/getStatus';
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
+
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
@@ -70,20 +71,17 @@ async function createWindow() {
   // opens finder modal
 
 
-
-  ipcMain.on("openFinder", function() {
+  ipcMain.on("openFinder", async function() {
 
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),
       // only enables user to select directories
       properties:['openDirectory'],
-    }).then((result)=> {
+    }).then(async (result)=> {
       let pwd = result.filePaths[0]
+      await replicate.replicate_repo(pwd);
       win.webContents.send("finderOpened");
-
-      
-      isGit(pwd).then(async git => {
-        //maybe ask user if they want to initialize git repo here?
+      await isGit(pwd).then(async git => {
         console.log(git)
         if (!git) {
           await initializeGit(pwd)
@@ -92,11 +90,9 @@ async function createWindow() {
         console.log(error)
     
     }))
-
-      
+     
       getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
-      replicate.replicate_repo(pwd);  
    
     }).catch(console.error);
   })
