@@ -137,7 +137,7 @@ export default {
         VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
         if (res) {
           this.isLoading.value = true;
-          await start_over.start_over()
+          await start_over.start_over(this.pwd)
           this.isLoading.value = false;
           this.$router.push('/')
         }
