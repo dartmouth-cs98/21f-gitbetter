@@ -22,7 +22,8 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    process.chdir(pwd)
+    console.log(pwd)
+    process.chdir(pwd + '.gb')
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
@@ -167,7 +168,7 @@ export async function getStatus(pwd) {
     } catch (err){
         console.warn(`Throwing ${err} in getStatus`)
         throw err
-    }
+    } 
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually

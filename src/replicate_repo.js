@@ -29,7 +29,7 @@ var replicate_repo = async function replicate_repo(pwd) {
         throw err
     }
 
-    process.chdir(new_dir)
+    process.chdir(pwd)
 }
 
 const _replicate_repo = replicate_repo;

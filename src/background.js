@@ -71,19 +71,17 @@ async function createWindow() {
 
 
 
-  ipcMain.on("openFinder", function() {
+  ipcMain.on("openFinder", async function() {
 
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),
       // only enables user to select directories
       properties:['openDirectory'],
-    }).then((result)=> {
+    }).then(async (result)=> {
       let pwd = result.filePaths[0]
+      await replicate.replicate_repo(pwd);
       win.webContents.send("finderOpened");
-
-      
-      isGit(pwd).then(async git => {
-        //maybe ask user if they want to initialize git repo here?
+      await isGit(pwd).then(async git => {
         console.log(git)
         if (!git) {
           await initializeGit(pwd)
@@ -92,11 +90,10 @@ async function createWindow() {
         console.log(error)
     
     }))
-
       
-      getStatus(pwd)
+      // getStatus(pwd)
       win.webContents.send('giveFilePath', pwd);
-      replicate.replicate_repo(pwd);  
+        
    
     }).catch(console.error);
   })

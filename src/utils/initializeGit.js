@@ -3,7 +3,7 @@ export async function initializeGit(pwd) {
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
-    process.chdir(pwd)
+    process.chdir(pwd + '.gb')
 
     try {
         let {stdout, stderr} = await exec('git init');
@@ -20,6 +20,8 @@ export async function initializeGit(pwd) {
         console.warn(`Throwing ${err} in initalizeGit`)
         throw err
     }
+
+    process.chdir(pwd)
     
     // try {
     //     let {stdout, stderr} = await exec('git add .gitignore');
