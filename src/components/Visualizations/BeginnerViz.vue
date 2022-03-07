@@ -31,7 +31,7 @@ export default {
         //     return require("../../assets/demo/clonerepo.png")
         // }
         if (this.command == "git clone https://github.com/dartmouth-cs98/GitBetterTestRepository.git") {
-            this.source = require("../../assets/demo/postclone.png")
+            this.source = require("../../assets/demo/begclone.png")
         } else if (this.command == "git checkout -b my_branch") {
             this.source = require("../../assets/demo/begnewbranch.png")
         } else if (this.command == "git commit -m 'My first commit!'") {
