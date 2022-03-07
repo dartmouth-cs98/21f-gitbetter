@@ -22,29 +22,10 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    process.chdir(pwd)
+    console.log(pwd)
+    process.chdir(pwd + '.gb')
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-
-    // try {
-    //     let {stdout, stderr} = await exec('git branch');
-    //     if (stdout) {
-    //         stdout = stdout.split("\n")
-    //         for (let line in stdout) {
-    //             if (stdout[line][0] == '*') {
-    //                 branchName = stdout[line].split(' ')[1]
-    //             }
-    //         }
-    //     }
-
-    //     else if (stderr) {
-    //         console.log(stderr)
-    //     }
-    // } catch (err){
-    //     console.warn(`Throwing ${err} in getStatus`)
-    //     throw err
-    // }
-
 
     try {
         let {stdout, stderr} = await exec('git status --porcelain');
@@ -167,7 +148,7 @@ export async function getStatus(pwd) {
     } catch (err){
         console.warn(`Throwing ${err} in getStatus`)
         throw err
-    }
+    } 
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually
