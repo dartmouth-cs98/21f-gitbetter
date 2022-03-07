@@ -37,7 +37,6 @@
         <div
           class="level-item has-text-centered"
           style="color:black; font-weight:500;cursor:pointer;"
-          @click="$router.push('/')"
           v-on:click="startOver"
           >
           End
@@ -64,6 +63,7 @@ var start_over = require('../utils/start_over')
 import Loading from '../components/Loading.vue'
 import { saveChanges } from '../utils/saveChanges'
 const ipc = require("electron").ipcRenderer
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: 'Navigation',
@@ -134,9 +134,16 @@ export default {
       await saveChanges()
     },
     async startOver() {
-      this.isLoading.value = true;
-      await start_over.start_over(this.pwd)
-      this.isLoading.value = false;
+        VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
+        if (res) {
+          this.isLoading.value = true;
+          await start_over.start_over()
+          this.isLoading.value = false;
+          this.$router.push('/')
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     helpIconPressed() {
       if(this.$router.currentRoute.path !== '/home') {

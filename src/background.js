@@ -6,6 +6,7 @@ import { getStatus } from './utils/getStatus';
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
+
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 
