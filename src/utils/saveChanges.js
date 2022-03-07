@@ -1,6 +1,5 @@
-export async function saveChanges() {
+export async function saveChanges(pwd) {
 
-    let pwd = process.cwd()
     let srcDir = pwd + '.gb'
     let dstDir = pwd
 
