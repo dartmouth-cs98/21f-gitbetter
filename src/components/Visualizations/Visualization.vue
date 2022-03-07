@@ -38,11 +38,8 @@ export default {
   data() {
     return {
       test: true,
-<<<<<<< HEAD
-      runStatusInFilesChanged: false
-=======
+      runStatusInFilesChanged: false,
       dir: process.cwd(),
->>>>>>> main
     }
   },
   computed: {
