@@ -1,8 +1,8 @@
 
 var start_over =  async function start_over(pwd) {
 
-    // const util = require('util');
-    // const exec = util.promisify(require('child_process').exec);
+    const util = require('util');
+    const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
     
     if (pwd == undefined) {
