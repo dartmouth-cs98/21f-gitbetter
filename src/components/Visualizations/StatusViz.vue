@@ -90,6 +90,7 @@
 <script>
 const ipc = require("electron").ipcRenderer
 var parse = require('../../utils/getStatus')
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
 
@@ -113,6 +114,10 @@ export default {
       ipc.on('giveFilePath', (event, pwd) => {
         this.workingDir = pwd;
         this.getStatus(this.workingDir)
+      })
+
+      ipc.on('notGit', () => {
+        VueSimpleAlert.alert("The directory you chose was not a git repository, saving changes will make it one.")
       })
       ipc.on('getStatus', (event, result) => {
         console.log('result in get status',result)
