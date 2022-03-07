@@ -3,39 +3,41 @@
       <div 
         class="level-item has-text-centered"
         style="color:black; font-weight:500;cursor:pointer;"
-        @click="$router.push('/help')"
+        @click="$router.push('/search')"
       >
-        Help
+        Search
       </div>
-      <router-link 
-            class="level-item has-text-centered"
-            :to="'/test'"
-            style="color:black; font-weight:500;"
-        >
-          Test Yourself
-        </router-link>
 
         <div 
             class="level-item has-text-centered"
-            @click="$router.push('/help')"
+            @click="$router.push('/beginner')"
             style="color:black; font-weight:300;cursor:pointer;max-width:45%;"
         >
           <img src="../assets/beginnerlogo.png" />
         </div>
+        <div class="level-item">
+  <div class="level" style="width: 100%;">
+        <div 
+        class="level-item has-text-centered"
+        style="color:black; font-weight:500;cursor:pointer;"
+        @click="$router.push('/info')"
+      >
+        About Git
+      </div>
         <div
             class="level-item has-text-centered"
             style="color:black; font-weight:500;cursor:pointer;"
             @click="$router.push('/')"
-            v-on:click="startOver"
             >
                 End
         </div>
+  </div>
+</div>
+
     </nav>
 </template>
 
 <script>
-var start_over = require('../utils/start_over')
-
 export default {
   name: 'Navigation',
   data() {
@@ -64,12 +66,6 @@ export default {
       ],
     }
   },
-
-  methods: {
-    async startOver() {
-      await start_over.start_over()
-    }
-  }
 }
 </script>
 <style lang="scss" scoped>

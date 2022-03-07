@@ -6,9 +6,11 @@ import Help from '../components/Help/Help.vue'
 import Welcome from '../components/Welcome.vue'
 import Tutorials from '../components/Tutorial/Tutorials.vue'
 import DoItYourself from '../components/Practice/DoItYourself.vue'
+import Search from '../components/Practice/Search.vue'
 import Beginner from '../components/Beginner.vue'
 import Test from '../components/Practice/BegTest.vue'
 import Quiz from '../components/Practice/Quiz.vue'
+import Info from '../components/Practice/Info.vue'
 
 Vue.use(Router)
 
@@ -53,6 +55,16 @@ export default new Router({
       path: '/startquiz',
       name: "Quiz",
       component: Quiz
-    }
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },
+    {
+      path: '/info',
+      name: 'Info',
+      component: Info
+    },
   ]
 })
