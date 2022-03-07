@@ -43,7 +43,6 @@ export default {
             this.mergeSteps.steps[0].mark = this.mergeData;
         },
         finishStep(){
-            console.log("Asserting this works");
             this.$emit('done');
         },
         getConflictingFiles(){
