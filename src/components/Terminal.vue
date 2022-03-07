@@ -134,7 +134,4 @@ pre {
   width: inherit !important;
 }
 
-.xterm-viewport, .xterm-screen {
-  /* max-width: 100%; */
-}
 </style>

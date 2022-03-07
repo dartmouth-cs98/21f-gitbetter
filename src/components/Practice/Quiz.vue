@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .options { 
     display: flex;
     flex-direction: column;
