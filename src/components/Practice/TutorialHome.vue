@@ -12,15 +12,6 @@
 </template>
 
 <script>
-// import Vue from "vue";
-// import shell from 'vue-shell';
-// import replicate from '../../replicate_repo.js';
-// var run_command = require('../../run_command');
-
-
-// var os = require('os');
-// var pty = require('node-pty');
-//Vue.use(shell);
 
 export default {
   data() {
@@ -40,21 +31,13 @@ export default {
       "Great! You have just added a file to your commit. You are ready to begin using GitHub!"],
       i: 0, 
       wrong: "Close! Keep trying :)", 
+      source: "",
     };
   },
-  mounted () {
-    this.makeScript();
-  },
-  methods: {
-
-
-  }
 };
 </script>
 
 <style>
-/* @import '../../node_modules/xterm/css/xterm.css';
-@import "../../node_modules/vue-notion/src/styles.css"; */
 
 .beginner-tutorial {
     color: white;
