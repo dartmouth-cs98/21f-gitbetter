@@ -6,7 +6,7 @@ var start_over =  async function start_over(pwd) {
     const fs = require('fs');
 
     let  new_dir = pwd + ".gb"
-    console.log(new_dir)
+    if (!fs.existsSync())
 
     if (!fs.existsSync(new_dir)){
         console.log(".gb directory already exists")
