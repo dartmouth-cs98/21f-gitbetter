@@ -46,13 +46,13 @@ export default {
   },
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
-      this.dir = pwd;
+      this.dir = pwd + '.gb';
       this.filesOnly(this.dir)
       this.dirsOnly(this.dir)  
     });
-    if(this.$store.getters.getPWD !== "") {
-      this.dir = this.$store.getters.getPWD;
-    }
+    // if(this.$store.getters.getPWD !== "") {
+    //   this.dir = this.$store.getters.getPWD;
+    // }
   },
   // watch: {
   //   '$store.state.status': function() {

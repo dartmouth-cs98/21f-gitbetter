@@ -89,15 +89,25 @@ export default {
   methods: {
     startQuiz() {
       const _this = this
+      const difs = []
+      if(this.qdifficulty.value == 'hard') {
+        difs.push('easy', 'medium', 'hard');
+      }
+      else if(this.qdifficulty.value == 'medium') {
+        difs.push('easy', 'medium');
+      }
+      else {
+        difs.push('easy')
+      }
       let qs = questions.filter(function(item){
         if(_this.type.value == 'general' && _this.qdifficulty.value !== 'random') {
-          return item.label == _this.qdifficulty.value
+          return difs.includes(item.difficulty)
         }
         else if (_this.type.value !== 'general' && _this.qdifficulty.value !== 'random') {
-          return item.label == _this.qdifficulty.value && item.type == _this.type.value; 
+          return difs.includes(item.difficulty) && item.label == _this.type.value; 
         }  
         else if(_this.type.value !== 'general' && _this.qdifficulty.value == 'random') {
-          return item.type == _this.type.value
+          return item.label == _this.type.value
         }    
         else {
           return item

@@ -62,8 +62,8 @@ export default {
   methods: {
     getStatus: function(pwd) {
         // changes working directory in terminal to file users selected
-        ipc.send("terminal.toTerm", `cd "${pwd}"`)
-        ipc.send("terminal.toTerm", '\n')
+        // ipc.send("terminal.toTerm", `cd "${pwd}"`)
+        // ipc.send("terminal.toTerm", '\n')
         // ipc.send("terminal.toTerm", "clear")
         // ipc.send("terminal.toTerm", '\n')
         // // calls git status initally for the user

@@ -5,7 +5,7 @@
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
     </div> -->
-    <div v-if="this.advisoryModalOpened" class="advisory-modal">
+    <!-- <div v-if="this.advisoryModalOpened" class="advisory-modal">
       <div class="advisory-modal-note">{{this.advisoryModalMessage}}</div>
       <div class="advisory-modal-button-container">
         <button @click="this.actionCallback" class="advisory-modal-button advisory-modal-button-yes">Continue</button>
@@ -20,20 +20,20 @@
       <button v-if="this.stackIndex > 0" @click="this.previousCommand" class="back-button back-button-previous"> <font-awesome-icon icon="arrow-left"/> </button>
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
       <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
-    </div>
+    </div> -->
 
   </div>
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
-const ipc = require("electron").ipcRenderer
-import { getStatus } from '../../utils/getStatus'
+// import { ipcRenderer } from 'electron'
+// const ipc = require("electron").ipcRenderer
+// import { getStatus } from '../../utils/getStatus'
 import Visualization from './Visualization.vue'
-import classification, { ACTIONS } from './GitCommandClassification'
-import inverseCommand from './GitInverseCommands'
-import cleanMidOperation from '../../utils/cleanMidOperation'
-const channel = 'terminal.toTerm';
+// import classification, { ACTIONS } from './GitCommandClassification'
+// import inverseCommand from './GitInverseCommands'
+// import cleanMidOperation from '../../utils/cleanMidOperation'
+// const channel = 'terminal.toTerm';
 
 export default {
   name: 'VizWindow',
@@ -49,18 +49,18 @@ export default {
       advisoryModalOpened: false,
       advisoryModalMessage: '',
       advisoryModalForward: true,
-      commandStack: [{
-        current: {
-          command: 'git status',
-          action: ACTIONS.NOOP,
-          note: '',
-        },
-        previous: {
-          command: null,
-          action: ACTIONS.NOOP,
-          note: '',
-        },
-      }],
+      // commandStack: [{
+      //   current: {
+      //     command: 'git status',
+      //     action: ACTIONS.NOOP,
+      //     note: '',
+      //   },
+      //   previous: {
+      //     command: null,
+      //     action: ACTIONS.NOOP,
+      //     note: '',
+      //   },
+      // }],
       gitStatus: {
         branch: 'main',
         filesAdded: [],
@@ -84,202 +84,203 @@ export default {
   mounted() {
     this.workingDirectory = this.$store.getters.getPWD;
     console.log('working dir in viz window', this.workingDirectory)
-    const userInputChannel = 'user_input';
-    ipcRenderer.removeAllListeners(userInputChannel);
-    ipc.on(userInputChannel, (_, data) => {
-      // checks for user input by checking if the input is not all whitespace
-      if (data.match(/^\s+/) && data !== ' ') {
-        if (this.currCommand.trim().startsWith('git')) {
-          this.gitStatus.output = '';
-          this.command = this.currCommand;
-          this.checkForPull();
-          this.updateStack();
-        } else ipc.send('runTerminalCommand', 'VizWindow');
-        this.updateStatus();
-        this.currCommand = '';
-        return;
-      }
-      this.currCommand += data;
-    });
+    // const userInputChannel = 'user_input';
+    // ipcRenderer.removeAllListeners(userInputChannel);
+    // ipc.on(userInputChannel, (_, data) => {
+    //   // checks for user input by checking if the input is not all whitespace
+    //   if (data.match(/^\s+/) && data !== ' ') {
+    //     if (this.currCommand.trim().startsWith('git')) {
+    //       this.gitStatus.output = '';
+    //       this.command = this.currCommand;
+    //       this.checkForPull();
+    //       this.updateStack();
+    //     } else ipc.send('runTerminalCommand', 'VizWindow');
+    //     // this.updateStatus();
+    //     this.currCommand = '';
+    //     return;
+    //   }
+    //   this.currCommand += data;
+    // });
 
-    ipc.on("terminal.incData", (_, data) => {  
-      if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
-      // if the user did a git pull, we should check if the output contains any merge conflicts
-      if (this.gitPulled){
-        this.retrieveOutput(data);
-      }
+    // ipc.on("terminal.incData", (_, data) => {  
+    //   if (data.length !== 1 && !data.trim().startsWith('bash')) this.gitStatus.output = data;
+    //   // if the user did a git pull, we should check if the output contains any merge conflicts
+    //   if (this.gitPulled){
+    //     this.retrieveOutput(data);
+    //   }
 
-      if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
-      if (data.includes('\n')) this.currCommand = '';
-    });
+    //   if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
+    //   if (data.includes('\n')) this.currCommand = '';
+    // });
 
-    ipc.on('giveFilePath', async(_, pwd) => {
-      this.syncReplicate(pwd);
-      this.gitStatus.workingDirectory = pwd;
-      const [gb, gbVersion] = pwd.split('.').slice(-2);
-      if (gbVersion === 'gb') {
-        this.gitStatus.gbVersion = 0;
-      } else if (gb === 'gb') {
-        this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
-      } else console.warn('??? unknown directory format: ' + pwd);
+  //   ipc.on('giveFilePath', async(_, pwd) => {
+  //     this.syncReplicate(pwd);
+  //     this.gitStatus.workingDirectory = pwd;
+  //     const [gb, gbVersion] = pwd.split('.').slice(-2);
+  //     if (gbVersion === 'gb') {
+  //       this.gitStatus.gbVersion = 0;
+  //     } else if (gb === 'gb') {
+  //       this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
+  //     } else console.warn('??? unknown directory format: ' + pwd);
 
-      if (!this.isInMiddleOfStack) {
-        // Prior command was destroyed, postpone until we have repo prepared
-        await new Promise(r => setTimeout(r, 500));
-        ipc.send('terminal.toTerm.force', {
-          pwd: this.gitStatus.workingDirectory,
-          command: this.commandStack[this.stackIndex].current.command,
-        });
-        await new Promise(r => setTimeout(r, 500));
-        ipc.send('runTerminalCommand', 'VizWindow');
-      } 
-    });
+  //     if (!this.isInMiddleOfStack) {
+  //       // Prior command was destroyed, postpone until we have repo prepared
+  //       await new Promise(r => setTimeout(r, 500));
+  //       ipc.send('terminal.toTerm.force', {
+  //         pwd: this.gitStatus.workingDirectory,
+  //         command: this.commandStack[this.stackIndex].current.command,
+  //       });
+  //       await new Promise(r => setTimeout(r, 500));
+  //       ipc.send('runTerminalCommand', 'VizWindow');
+  //     } 
+  //   });
+  // },
   },
   methods: {
-    async updateStatus() {
-      const [branchName,,,, files] = await getStatus(process.cwd());
-      this.gitStatus.branch = branchName;
-      this.gitStatus.filesAdded = files.filesAdded;
-      this.gitStatus.filesModified = files.filesModified;
-      this.gitStatus.filesRemoved = files.filesDeleted;
-      this.gitStatus.filesUntracked = files.filesUntracked;
-    },
-    async updateStack() {
-      const { action } = classification(this.command, this.gitStatus);
-      if (
-        [ACTIONS.NOOP].includes(action)
-        && this.stackIndex < this.commandStack.length - 1
-      ) return;
-      if (this.stackIndex < this.commandStack.length - 1) {
-        await cleanMidOperation(this.gitStatus.gbVersion+1);
-        this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
-      }
+    // async updateStatus() {
+    //   const [branchName,,,, files] = await getStatus(process.cwd());
+    //   this.gitStatus.branch = branchName;
+    //   this.gitStatus.filesAdded = files.filesAdded;
+    //   this.gitStatus.filesModified = files.filesModified;
+    //   this.gitStatus.filesRemoved = files.filesDeleted;
+    //   this.gitStatus.filesUntracked = files.filesUntracked;
+    // },
+    // async updateStack() {
+    //   const { action } = classification(this.command, this.gitStatus);
+    //   if (
+    //     [ACTIONS.NOOP].includes(action)
+    //     && this.stackIndex < this.commandStack.length - 1
+    //   ) return;
+    //   if (this.stackIndex < this.commandStack.length - 1) {
+    //     await cleanMidOperation(this.gitStatus.gbVersion+1);
+    //     this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
+    //   }
 
-      this.isInMiddleOfStack = false;
+    //   this.isInMiddleOfStack = false;
 
-      // Operations that depend on output
-      if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
+    //   // Operations that depend on output
+    //   if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
 
-      const command = inverseCommand(this.command, this.gitStatus);
-      this.commandStack.push({
-        current: { command: this.command, ...classification(this.command, this.gitStatus) },
-        previous: { command, ...classification(command, this.gitStatus) },
-      });
-      this.stackIndex++;
+    //   const command = inverseCommand(this.command, this.gitStatus);
+    //   this.commandStack.push({
+    //     current: { command: this.command, ...classification(this.command, this.gitStatus) },
+    //     previous: { command, ...classification(command, this.gitStatus) },
+    //   });
+    //   this.stackIndex++;
 
-      if ([
-        this.commandStack[this.stackIndex].current.action,
-      ].includes(ACTIONS.DESTRUCTIVE)) {
+      // if ([
+      //   this.commandStack[this.stackIndex].current.action,
+      // ].includes(ACTIONS.DESTRUCTIVE)) {
         // Clone Repo Request
-        const { workingDirectory: directory, gbVersion } = this.gitStatus;
-        ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
+        // const { workingDirectory: directory, gbVersion } = this.gitStatus;
+        // ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
       // Non destructive Command - so we can accept as is
-      } else ipc.send('runTerminalCommand', 'VizWindow');
-    },
-    syncReplicate(pwd) {
-      process.chdir(pwd);
-      this.updateStatus();
-    },
-    async checkForPull(){
-      if (['pull'].includes(this.command.split(' ', 3)[1])){
-        await new Promise(r => setTimeout(r, 100));
-        this.gitPulled = true;
-      }else{
-        this.gitPulled = false;
-      }
-    },
-    retrieveOutput(data){
-      if (data.length !== 1 && !data.trim().startsWith('bash')){
-          // separate the output by new lines
-          let arrayOfLines = data.trim().split('\n');
-          // check if one of the lines contains "CONFLICT" and thus, there is a merge conflict
-          for(let i = 0; i < arrayOfLines.length; i++){
-            if(arrayOfLines[i].includes("CONFLICT") || arrayOfLines[i].includes("Automatic")){
-              // retrive the file that contains the merge conflict
-              this.mergeConflictExists = true;
-              this.mergeConflictData.push(arrayOfLines[i]);
+    //   } else ipc.send('runTerminalCommand', 'VizWindow');
+    // },
+    // syncReplicate(pwd) {
+    //   process.chdir(pwd);
+    //   this.updateStatus();
+    // },
+    // async checkForPull(){
+    //   if (['pull'].includes(this.command.split(' ', 3)[1])){
+    //     await new Promise(r => setTimeout(r, 100));
+    //     this.gitPulled = true;
+    //   }else{
+    //     this.gitPulled = false;
+    //   }
+    // },
+    // retrieveOutput(data){
+    //   if (data.length !== 1 && !data.trim().startsWith('bash')){
+    //       // separate the output by new lines
+    //       let arrayOfLines = data.trim().split('\n');
+    //       // check if one of the lines contains "CONFLICT" and thus, there is a merge conflict
+    //       for(let i = 0; i < arrayOfLines.length; i++){
+    //         if(arrayOfLines[i].includes("CONFLICT") || arrayOfLines[i].includes("Automatic")){
+    //           // retrive the file that contains the merge conflict
+    //           this.mergeConflictExists = true;
+    //           this.mergeConflictData.push(arrayOfLines[i]);
 
-                }
-              }
-        }
-    },
-    printStack() {
-      console.log(this.isInMiddleOfStack, 'mid stack');
-      console.log(this.commandStack.map(
-        ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command + '..' + current.action));
-    },
-    printInverseStack() {
-      console.log(this.commandStack.map(
-        ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
-    },
+    //             }
+    //           }
+    //     }
+    // },
+    // printStack() {
+    //   console.log(this.isInMiddleOfStack, 'mid stack');
+    //   console.log(this.commandStack.map(
+    //     ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command + '..' + current.action));
+    // },
+    // printInverseStack() {
+    //   console.log(this.commandStack.map(
+    //     ({ previous }, pos) => (pos === this.stackIndex ? '<' : ' ') + previous.command));
+    // },
 
-    actionCallback() {
-      let command;
-      if (this.advisoryModalForward) {
-        command = this.commandStack[this.stackIndex].current;
-      } else {
-        command = this.commandStack[this.stackIndex].previous;
-        this.stackIndex--;
-      }
-      console.log(`callback: Currently at pos ${this.stackIndex} -- ${command.command}`);
-      ipcRenderer.send(channel, command.command + '\n');
-      this.closeModal();
-    },
+    // actionCallback() {
+    //   let command;
+    //   if (this.advisoryModalForward) {
+    //     command = this.commandStack[this.stackIndex].current;
+    //   } else {
+    //     command = this.commandStack[this.stackIndex].previous;
+    //     this.stackIndex--;
+    //   }
+    //   console.log(`callback: Currently at pos ${this.stackIndex} -- ${command.command}`);
+    //   ipcRenderer.send(channel, command.command + '\n');
+    //   this.closeModal();
+    // },
 
-    closeModal() {
-      this.advisoryModalOpened = false;
-      this.advisoryModalMessage = '';
-    },
+    // closeModal() {
+    //   this.advisoryModalOpened = false;
+    //   this.advisoryModalMessage = '';
+    // },
 
-    nextCommand() {
-      this.advisoryModalForward = true;
-      this.isInMiddleOfStack = true;
-      this.stackIndex++;
-      const operation = this.commandStack[this.stackIndex].current;
-      switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: {
-          const { workingDirectory: directory, gbVersion } = this.gitStatus;
-          console.log(`nextCommand version: ${gbVersion}`)
-          ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
-          return;
-        }
-        case ACTIONS.ADVISORY:
-          this.advisoryModalOpened = true;
-          this.advisoryModalMessage = operation.note;
-          break;
-        case ACTIONS.NORMAL:
-        case ACTIONS.NOOP:
-          this.actionCallback();
-          break;
-        default:
-          throw new Error('Unknown forward action in commandStack of viz window')
-      } 
-    },
-    previousCommand() {
-      this.advisoryModalForward = false;
-      this.isInMiddleOfStack = true;
-      const operation = this.commandStack[this.stackIndex].previous;
-      console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
-      switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: {
-          this.stackIndex--;  // Does not run command, just changes directory
-          const { workingDirectory: directory, gbVersion } = this.gitStatus;
-          if (gbVersion <= 0) throw Error('This case should never occur');
-          ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
-          return;
-        }
-        case ACTIONS.ADVISORY:
-          this.advisoryModalOpened = true;
-          this.advisoryModalMessage = operation.note;
-          break;
-        case ACTIONS.NORMAL:
-        case ACTIONS.NOOP:
-          this.actionCallback();
-          break;
-        default:
-          throw new Error('Unknown prior action in commandStack of viz window')
-      } 
-    },
+    // nextCommand() {
+    //   this.advisoryModalForward = true;
+    //   this.isInMiddleOfStack = true;
+    //   this.stackIndex++;
+    //   const operation = this.commandStack[this.stackIndex].current;
+    //   switch (operation.action) {
+    //     case ACTIONS.DESTRUCTIVE: {
+    //       const { workingDirectory: directory, gbVersion } = this.gitStatus;
+    //       console.log(`nextCommand version: ${gbVersion}`)
+    //       ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
+    //       return;
+    //     }
+    //     case ACTIONS.ADVISORY:
+    //       this.advisoryModalOpened = true;
+    //       this.advisoryModalMessage = operation.note;
+    //       break;
+    //     case ACTIONS.NORMAL:
+    //     case ACTIONS.NOOP:
+    //       this.actionCallback();
+    //       break;
+    //     default:
+    //       throw new Error('Unknown forward action in commandStack of viz window')
+    //   } 
+    // },
+    // previousCommand() {
+    //   this.advisoryModalForward = false;
+    //   this.isInMiddleOfStack = true;
+    //   const operation = this.commandStack[this.stackIndex].previous;
+    //   console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
+    //   switch (operation.action) {
+    //     case ACTIONS.DESTRUCTIVE: {
+    //       this.stackIndex--;  // Does not run command, just changes directory
+    //       const { workingDirectory: directory, gbVersion } = this.gitStatus;
+    //       if (gbVersion <= 0) throw Error('This case should never occur');
+    //       ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
+    //       return;
+    //     }
+    //     case ACTIONS.ADVISORY:
+    //       this.advisoryModalOpened = true;
+    //       this.advisoryModalMessage = operation.note;
+    //       break;
+    //     case ACTIONS.NORMAL:
+    //     case ACTIONS.NOOP:
+    //       this.actionCallback();
+    //       break;
+    //     default:
+    //       throw new Error('Unknown prior action in commandStack of viz window')
+    //   } 
+    // },
     sendCommand(val) {
       this.$refs.vizChild.newCommand(val)
     }

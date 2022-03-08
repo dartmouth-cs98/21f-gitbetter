@@ -22,35 +22,42 @@ export default {
       status: 'untouched',
       statusObj: {},
       stage: {},
+      local: [],
+      staging: [],
     }
   },
   watch: {
     '$store.state.local': function() {
-     let local = this.$store.getters.getLocal
+      this.local = this.$store.getters.getLocal
     //  console.log('local;', local)
-      if(local && local.includes(this.filename)){
-        this.status = 'untracked'
-      }
+     
     },
      '$store.state.staging': function() {
-        let staging = this.$store.getters.getStaging
-        // console.log('staging;', staging)
+        this.staging = this.$store.getters.getStaging
 
-        if(staging && staging.includes(this.filename)){
-          this.status = 'tracked'
-        }
     }
   },
   computed: {
       getPadding() {
           return this.padding + '\t';
       },
+      stat() {
+        if(this.local && this.local.includes(this.filename)){
+           return'untracked'
+        }
+        else if(this.staging && this.staging.includes(this.filename)){
+          return 'tracked'
+        }
+        else {
+          return 'untouched'
+        }
+      },
       statusClass() {
         return {
-          untracked: this.status == 'untracked',
-          tracked: this.status == 'tracked',
-          untouched: this.status == 'untouched',
-          modified: this.status == 'modified' || this.status == 'tracked',
+          untracked: this.stat == 'untracked',
+          tracked: this.stat == 'tracked',
+          untouched: this.stat == 'untouched',
+          modified: this.stat == 'modified' || this.stat == 'tracked',
         }
       },
   },

@@ -26,7 +26,7 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    process.chdir(pwd);
+    process.chdir(pwd + '.gb')
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 

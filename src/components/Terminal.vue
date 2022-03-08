@@ -15,6 +15,7 @@ export default {
       fitObj: Object,
       branchN: "",
       curr: "",
+      dir: "",
     };
   },
   beforeDestroy() {
@@ -34,7 +35,13 @@ export default {
       // console.log('sending status to store in term', data)
       this.$store.commit('setStatus', {status: data});
     });
-
+    ipc.on('giveFilePath', (event, pwd) => {
+          this.dir = pwd;
+          if(pwd != "") {
+            ipc.send("terminal.toTerm", `cd ${this.dir}.gb\n`)
+            ipc.send("terminal.toTerm", `clear\n`)
+          }
+    });
     ipc.on('setCommand', (event, data) => {
       if(data === 'Enter') {
         if (this.curr != "") {
@@ -81,12 +88,13 @@ export default {
         term.open(document.getElementById('terminal'));
         fitAddon.fit();
         // fitAddon.fit();
-        ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
+        // ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
         //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
-        ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
-        ipc.send("terminal.toTerm", "clear")
-        ipc.send('runTerminalCommand', 'Terminal');
+        // ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
+        // ipc.send("terminal.toTerm", "clear")
+        // ipc.send('runTerminalCommand', 'Terminal');
         
+
         term.onData((data) => ipc.send("terminal.toTerm", data));
         ipc.on("terminal.incData", (event, data)  => {
           term.write(data);
