@@ -1,5 +1,5 @@
 <template>
-  <div style="display:flex;justify-content:center;">
+  <div class="image-wrapper" >
       <p style="margin-top:25%;" v-if="!this.source"> Window for the git visualizations!</p>
       <img :src="this.source" style="padding:5%;"/>
       <!-- <img :src="imgPath()" /> -->
@@ -70,3 +70,15 @@ export default {
   }
 }
 </script>
+<style scoped>
+.image-wrapper {
+    justify-content:center;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: calc(100% - 5rem - 72px);
+}
+
+.image-wrapper::-webkit-scrollbar {
+    display: none;
+}
+</style>
