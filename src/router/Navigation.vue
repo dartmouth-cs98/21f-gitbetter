@@ -131,16 +131,15 @@ export default {
       await saveChanges(this.pwd)
     },
     async startOver() {
-        VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
+       VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
         if (res) {
           this.isLoading.value = true;
+          ipc.eventNames().forEach(channel => ipc.removeAllListeners(channel));
           await start_over.start_over(this.pwd)
           this.isLoading.value = false;
           this.$router.push('/')
         }
-      }).catch((error) => {
-        console.log(error)
-      })
+      }).catch(console.log);
     },
     helpIconPressed() {
       if(this.$router.currentRoute.path !== '/home') {

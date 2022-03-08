@@ -74,7 +74,6 @@ export default {
   },
   mounted() {
       ipc.on('finderOpened', () => {
-        console.log("finder has been opened")
         if (this.$router.currentRoute.path != '/home') {
             this.$router.push('/home');
         }
