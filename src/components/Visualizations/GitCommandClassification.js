@@ -47,22 +47,23 @@ function classification(gitCommand) {
         case 'commit':
             return {action: ACTIONS.NORMAL};
         case 'merge':
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.DESTRUCTIVE};
         case 'rebase':
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.DESTRUCTIVE};
         case 'reset':
+            if (!parameters.length) return {action: ACTIONS.DESTRUCTIVE};
             return {action: ACTIONS.ADVISORY, note: 'WARNING: Your changes will no longer be tracked by git.'};
         case 'switch':
             return {action: ACTIONS.NORMAL};
         case 'tag':
             return {action: ACTIONS.NORMAL};
         case 'pull':
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.DESTRUCTIVE};
         case 'fetch':
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.DESTRUCTIVE};
         case 'push':
             return {action: ACTIONS.DESTRUCTIVE};
         default:
-            return {action: ACTIONS.ADVISORY};
+            return {action: ACTIONS.DESTRUCTIVE};
     }
 }

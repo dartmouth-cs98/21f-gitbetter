@@ -36,6 +36,7 @@ export default {
     return {
       test: true,
       dir: "",
+      priorDir: '',
       mergeConExists: this.mergeConflict
     }
   },
@@ -65,12 +66,11 @@ export default {
     });
   },
   methods: {
-    newCommand(val) {
-      // this.dir = this.$store.getters.getPWD;
-      console.log('dir is', this.dir)
-      if(val === 'git status') {
-        this.$refs.statusChild.getStatus(this.dir);
-      }
+    newCommand(val) { // Not entirely sure what to do with this 
+      console.log(`new command ${val}`)
+      // if(val === 'git status') {
+      //   this.$refs.statusChild.getStatus(this.dir);
+      // }
     },
     finished(){
       this.mergeConExists = false;

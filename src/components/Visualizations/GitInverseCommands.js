@@ -72,10 +72,10 @@ export default function classification(gitCommand, gitStatus) {
         case 'rm':
             // git rm [-r|-q] --cached <file> 
             if (parameters.includes('--cached')) return parameters.split(' ')
-            .filter(flag => !flag.startsWith('-'))
-            .filter(file => !filesRemoved.includes(file) && !filesUntracked.includes(file) )
-            .reduce((cumulative, current) => cumulative + ' ' + current, 'git add');
-            else return `echo "Cannot revert ${gitCommand}. File has been removed from file system."`;
+                .filter(flag => !flag.startsWith('-'))
+                .filter(file => !filesRemoved.includes(file) && !filesUntracked.includes(file) )
+                .reduce((cumulative, current) => cumulative + ' ' + current, 'git add');
+            else return gitCommand;
         // NOOP commands - return as is
         case 'bisect':
         case 'diff':
@@ -93,6 +93,6 @@ export default function classification(gitCommand, gitStatus) {
         case 'rebase':
         case 'reset':
         default:
-            return `echo "Cannot revert ${gitCommand}"`
+            return gitCommand;
     }
 }

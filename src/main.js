@@ -62,7 +62,7 @@ const store = new Vuex.Store({
       return state.recentSearches;
     },
     getStatus: state => {
-      console.log("status getter", state.status);
+      // console.log("status getter", state.status);
       return state.status;
     },
     getBranchName: state => {
