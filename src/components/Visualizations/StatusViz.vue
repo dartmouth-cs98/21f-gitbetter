@@ -160,17 +160,7 @@ export default {
   methods: {
       getStatus(pwd) {
         console.log('updating status in status viz')
-          // changes working directory in terminal to file users selected
-          // ipc.send("terminal.toTerm", '\n')
-          // ipc.send("terminal.toTerm", "clear\n")
-          // ipc.send("terminal.toTerm", '\n')
-          // // calls git status initally for the user
-          // ipc.send("terminal.toTerm", "git status")
-          // ipc.send("terminal.toTerm", '\n')
-          // ipc.send('runTerminalCommand', 'StatusViz');
-
-          // parse status takes the pwd the user selected and returns the status of
-          // their git repo to be displayed in the visulization if it is a git repo
+          
           parse.getStatus(pwd).then((result) => {
             console.log('status result', result)
             ipc.send("statusUpdate", result)
