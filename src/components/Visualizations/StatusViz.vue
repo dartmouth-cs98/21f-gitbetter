@@ -126,23 +126,23 @@ export default {
         console.log('result in get status',result)
         this.branchName = result[0];
         this.commits = result[1];
-        // this.changedLocal = result[2];
-        // this.tracked = result[3];
+        this.changedLocal = result[2];
+        this.tracked = result[3];
 
-      // get the files in the local and staging areas 
-        this.filesStaging = result[5].filesStaging;
-        this.filesLocal = result[5].filesLocal;
+      // // get the files in the local and staging areas 
+      //   this.filesStaging = result[5].filesStaging;
+      //   this.filesLocal = result[5].filesLocal;
 
-        // get list of all of the files in the staging area
-        this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
-        this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
+      //   // get list of all of the files in the staging area
+      //   this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
+      //   this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
 
-        // gets files in local 
-        this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
-        this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
-        console.log('files to add ', this.filesToAdd)
-        this.changedLocal = this.filesToAdd.length;
-        this.tracked = this.filesToCommit.length;
+      //   // gets files in local 
+      //   this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
+      //   this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
+      //   console.log('files to add ', this.filesToAdd)
+      //   this.changedLocal = this.filesToAdd.length;
+      //   this.tracked = this.filesToCommit.length;
       })
   },
   // watch: {

@@ -75,7 +75,7 @@ export default {
 
     ipc.on('getStatus', (event, result) => {
       this.commits = result[1];
-      this.files = result[5]
+      this.files = result[4]
     })
   },
   methods: {

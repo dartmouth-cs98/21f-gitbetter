@@ -41,15 +41,10 @@ export default {
   data() {
     return {
       test: true,
-<<<<<<< HEAD
       runStatusInFilesChanged: false,
-      dir: process.cwd(),
+      dir: "",
       mergeConExists: this.mergeConflict,
       commandCount: 0,
-=======
-      dir: "",
-      mergeConExists: this.mergeConflict
->>>>>>> main
     }
   },
   watch: {

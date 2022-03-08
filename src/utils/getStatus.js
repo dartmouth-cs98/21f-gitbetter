@@ -6,10 +6,11 @@ export async function getStatus(pwd) {
     var branchName = 'main'
     var commits = 0
     var changedLocal = 0
-    const filesAdded = []
-    const filesModified = []
-    const filesDeleted = []
-    const filesUntracked = []
+    var changedStaging = 0
+    // const filesAdded = []
+    // const filesModified = []
+    // const filesDeleted = []
+    // const filesUntracked = []
     const filesLocal = {
         filesAdded: [],
         filesModified: [],
@@ -52,8 +53,15 @@ export async function getStatus(pwd) {
     }
 
         const filesChanged = {filesLocal, filesStaging}
-        const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
-        return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+        changedStaging = filesStaging.filesAdded.length 
+                    + filesStaging.filesCopied.length 
+                    + filesStaging.filesDeleted.length
+                    + filesStaging.filesModified.length
+                    + filesStaging.filesRenamed.length
+        // const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
+        // return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+        return [branchName, commits, changedLocal, changedStaging, filesChanged]
+
     }
 
 
@@ -62,32 +70,32 @@ export async function getStatus(pwd) {
         if (stdout) {
             stdout = stdout.split("\n")
             for (let line in stdout) { 
-                var [operation, file] = stdout[line].trim().split(' ');
-                switch (operation) {
-                    case 'A':
-                        filesAdded.push(file);
-                        break;
-                    case 'M':
-                        filesModified.push(file);
-                        break;
-                    case 'D':
-                        filesDeleted.push(file);
-                        break;
-                    case '??':
-                        filesUntracked.push(file);
-                        break;
-                    case '':
-                        // Skip Empty Line
-                        break;
-                    default:
-                        console.error('Unknown operation in status ' + stdout[line]);
-                }
+                // var [operation, file] = stdout[line].trim().split(' ');
+                // switch (operation) {
+                //     case 'A':
+                //         filesAdded.push(file);
+                //         break;
+                //     case 'M':
+                //         filesModified.push(file);
+                //         break;
+                //     case 'D':
+                //         filesDeleted.push(file);
+                //         break;
+                //     case '??':
+                //         filesUntracked.push(file);
+                //         break;
+                //     case '':
+                //         // Skip Empty Line
+                //         break;
+                //     default:
+                //         console.error('Unknown operation in status ' + stdout[line]);
+                // }
 
                 // Can probably combine with switch statement above eventually 
                 const op1 = stdout[line].charAt(0) // in index (staging)
                 const op2 = stdout[line].charAt(1) // on working tree (local)
                 const fileNames = stdout[line].trim().split(' ')
-                file = fileNames[fileNames.length - 1]
+                var file = fileNames[fileNames.length - 1]
                 switch(op1) {
                     case ' ':
                         break;
@@ -145,7 +153,7 @@ export async function getStatus(pwd) {
                 }
             }
 
-            changedLocal = stdout.length - filesAdded.length - filesModified.length - filesDeleted.length - filesUntracked.length - 1
+            // changedLocal = stdout.length - filesAdded.length - filesModified.length - filesDeleted.length - filesUntracked.length - 1
         }
 
         else if (stderr) {
@@ -185,7 +193,6 @@ export async function getStatus(pwd) {
             let {stdout, stderr} = await exec(`git rev-list --left-right --count main...${branchName}`);
             if (stdout) {
                 commits = stdout.trim().split("\t")[1]
-                console.log("COMMITS:", commits)
             } else if (stderr) {
                 console.log(stderr)
             }
@@ -198,6 +205,19 @@ export async function getStatus(pwd) {
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually
     const filesChanged = {filesLocal, filesStaging}
-    const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
-    return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+    // const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
+
+    changedLocal = filesLocal.filesAdded.length 
+                    + filesLocal.filesCopied.length 
+                    + filesLocal.filesDeleted.length
+                    + filesLocal.filesModified.length
+                    + filesLocal.filesRenamed.length
+                    + filesLocal.filesUntracked.length
+    changedStaging = filesStaging.filesAdded.length 
+                    + filesStaging.filesCopied.length 
+                    + filesStaging.filesDeleted.length
+                    + filesStaging.filesModified.length
+                    + filesStaging.filesRenamed.length
+    // return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+    return [branchName, commits, changedLocal, changedStaging, filesChanged]
 }
