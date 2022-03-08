@@ -412,5 +412,55 @@ export const questions = {
      ],
      res: "git clone"  
 },
-
+"41": {
+    number: 41,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Which of the following best explains what happens when you run git clone?",
+     options: [
+        "This command makes a new branch where the branch name is the name of the repository you ran git clone with.",
+        "This command makes a copy of the branch that you are currently on puts it into the staging area.",
+        "This command copies the GitHub repository you ran git clone with and makes a local copy on your device in the main branch.",
+        "This command copies the GitHub repository you ran git clone with and makes a local copy on your device in a branch that has the same name as the repository."
+     ],
+     res: "This command copies the GitHub repository you ran git clone with and makes a local copy on your device in the main branch."
+},
+"42": {
+    number: 42,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Which of the following best describes what version control is?",
+     options: [
+        "Version control allows you to keep track of different versions of a codebase.",
+        "Version control allows you to save changes that you have made in a large codebase.",
+        "Version control helps developers track and manage changes to a software project's code.",
+        "Version control allows you to save multiple different versions of a file that you are working on."
+     ],
+     res: "Version control helps developers track and manage changes to a software project's code."
+},
+"43": {
+    number: 43,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Which of the following is correct?",
+     options: [
+        "A pull request is something you make before you commit your changes.",
+        "You should make a pull request before you clone a repository.",
+        "You should make a pull request after you push your commits.",
+        "A pull request is a different way to clone a repository."
+     ],
+     res: "You should make a pull request after you push your commits."
+},"44": {
+    number: 44,
+    difficulty: "medium",
+    label: "conceptual",
+    title: "Which of the following is incorrect?",
+     options: [
+        "A pull request is something you make before you commit your changes.",
+        "You should make a pull request before you clone a repository.",
+        "You should make a pull request after you push your commits.",
+        "A pull request is a different way to clone a repository."
+     ],
+     res: "You should make a pull request after you push your commits."
+},
 }
