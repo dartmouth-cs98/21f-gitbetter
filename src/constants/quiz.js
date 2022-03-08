@@ -451,4 +451,97 @@ export const questions = [
      ],
      res: "You should make a pull request after you push your commits."
 },
+{
+    number: 44,
+    'difficulty': "hard",
+    'label': "conceptual",
+    title: "Which of these is not something you can see on the GitHub website?",
+     options: [
+        "The project code",
+        "Code you have not pushed yet",
+        "The different branches that are being worked on",
+        "The commits people have made"
+     ],
+     res: "Code you have not pushed yet"
+},
+{
+    number: 45,
+    'difficulty': "hard",
+    'label': "conceptual",
+    title: "What is the best description of what forking is?",
+     options: [
+        "This is something you do when you want to make a new branch.",
+        "This is something you do when you want to revert to a previous version of the code",
+        "This is something you do when you want to save changes that you have made to the code.",
+        "This is something you can do if you want to edit some or all of a repository's source code on your account on a more permanent basis."
+     ],
+     res: "This is something you can do if you want to edit some or all of a repository's source code on your account on a more permanent basis."
+},
+{
+    number: 46,
+    'difficulty': "medium",
+    'label': "conceptual",
+    title: "Which of the following best explains what happens when you run git log?",
+     options: [
+        "When you run git log, you can see a list of all the commits made to the repository.",
+        "When you run git log, you can see a list of all of the branches in the repository.",
+        "When you run git log, you can see a list of all of the files that you have updated or added.",
+        "When you run git log, you can see a list of all of the files that will be included in your next commit."
+     ],
+     res:  "When you run git log, you can see a list of all the commits made to the repository."
+},
+{
+    number: 47,
+    'difficulty': "medium",
+    'label': "conceptual",
+    title: "Which of the following best explains what happens when you run git log?",
+     options: [
+        "When you run git log, you can see a list of all the commits made to the repository.",
+        "When you run git log, you can see a list of all of the branches in the repository.",
+        "When you run git log, you can see a list of all of the files that you have updated or added.",
+        "When you run git log, you can see a list of all of the files that will be included in your next commit."
+     ],
+     res:  "When you run git log, you can see a list of all the commits made to the repository."
+},
+{
+    number: 48,
+    'difficulty': "medium",
+    'label': "conceptual",
+    title: "Which of the following best explains what happens when you run git branch?",
+     options: [
+        "When you run git branch, you can see a list of all the commits made to the repository.",
+        "When you run git branch, you can see a list of all of the branches that you have made, including the main branch.",
+        "When you run git branch, you can see a list of all of the files that you have updated or added.",
+        "When you run git branch, you can see a list of all of the files that will be included in your next commit."
+     ],
+     res:  "When you run git branch, you can see a list of all of the branches that you have made, including the main branch."
+},
+{
+    number: 49,
+    'difficulty': "medium",
+    'label': "conceptual",
+    title: "Which of the following best explains what happens when you run git checkout -b new_branch?",
+     options: [
+        "This command allows you to switch from the current branch you are on to the branch new_branch.",
+        "This command allows you to create a main branch.",
+        "This command allows you to clone the branch 'new_branch'.",
+        "This command allows you to create a new branch named new_branch."
+     ],
+     res:  "This command allows you to create a new branch named new_branch."
+},
+{
+    number: 50,
+    'difficulty': "medium",
+    'label': "conceptual",
+    title: "Which of the following best explains what happens when you run git pull?",
+     options: [
+        "This command allows you to pull code from a different branch into the branch you are currently working on.",
+        "This command allows you to pull a commit from one branch into another branch.",
+        "This command allows you to copy all of the content in one branch into your current branch.",
+        "This command allows you to pull all changes that have been pushed to the main repository into the branch you are currently on."
+     ],
+     res:  "This command allows you to pull all changes that have been pushed to the main repository into the branch you are currently on."
+},
+
 ]
+
