@@ -47,7 +47,7 @@
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
               <div style="margin-left:35%;">
-                Visualizations 
+                Status
               </div>
               <div class="visButtons">
                 <button 
