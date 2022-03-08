@@ -41,7 +41,7 @@ export default {
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.workingDirectory = this.$store.getters.getPWD;
+      this.dir = this.$store.getters.getPWD;
     },
   },
   computed: {
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     newCommand(val) {
-      this.dir = this.$store.getters.getPWD;
+      // this.dir = this.$store.getters.getPWD;
       console.log('dir is', this.dir)
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);
