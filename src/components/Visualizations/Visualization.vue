@@ -35,14 +35,12 @@ export default {
   data() {
     return {
       test: true,
-      dir: "",
       mergeConExists: this.mergeConflict,
       pwd: "",
     }
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.dir = "";
       this.pwd = this.$store.getters.getPWD; 
     },
   },
@@ -69,9 +67,9 @@ export default {
   methods: {
     newCommand(val) {
       // this.dir = this.$store.getters.getPWD;
-      console.log('dir is', this.dir)
+      console.log('dir is', this.pwd)
       if(val === 'git status') {
-        this.$refs.statusChild.getStatus(this.dir);
+        this.$refs.statusChild.getStatus(this.pwd);
       }
     },
     finished(){
