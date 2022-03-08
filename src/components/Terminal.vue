@@ -15,6 +15,7 @@ export default {
       fitObj: Object,
       branchN: "",
       curr: "",
+      pwd: "",
     };
   },
   beforeDestroy() {
@@ -57,6 +58,12 @@ export default {
     this.$parent.$on('closeVisualization', this.resizeTerm);
 
   },
+
+    watch: {
+    '$store.state.workingDir': function() {
+      this.pwd = this.$store.getters.getPWD; 
+    }
+    },
   methods: {
     makeScript() {
       let recaptchaScript = document.createElement('script')

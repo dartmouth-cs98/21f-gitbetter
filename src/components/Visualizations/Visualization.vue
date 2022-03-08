@@ -36,12 +36,14 @@ export default {
     return {
       test: true,
       dir: "",
-      mergeConExists: this.mergeConflict
+      mergeConExists: this.mergeConflict,
+      pwd: "",
     }
   },
   watch: {
     '$store.state.workingDir': function() {
       this.dir = "";
+      this.pwd = this.$store.getters.getPWD; 
     },
   },
   computed: {

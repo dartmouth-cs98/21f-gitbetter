@@ -38,6 +38,7 @@ export default {
   name: 'VizWindow',
   data() {
     return {
+      pwd: '',
       gitPulled: false,
       mergeConflictExists: false,
       mergeConflictData: [],
