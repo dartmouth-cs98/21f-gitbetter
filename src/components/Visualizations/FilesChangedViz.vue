@@ -69,7 +69,6 @@ export default {
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
       localStorage.workingDir = pwd 
-      // this.setPath()
       this.getStatus(localStorage.workingDir)
     })
 
@@ -87,12 +86,6 @@ export default {
         // their git repo to be displayed in the visulization if it is a git repo
         parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
     },
-    // setPath() {
-    //   ipc.send("terminal.toTerm", `cd "${localStorage.workingDir}" `)
-    //   ipc.send("terminal.toTerm", '\n')
-    //   ipc.send("terminal.toTerm", "clear")
-    //   ipc.send("terminal.toTerm", '\n')
-    // },
     updateStatus() {
       if (this.commandCount > this.count && (
           this.command.startsWith('git add') 

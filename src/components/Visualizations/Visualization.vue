@@ -75,7 +75,6 @@ export default {
   mounted() {
     this.$root.$on('commandEntered', data => {
       this.commandCount = data
-      console.log('COMMAND ENTERED:', this.commandCount)
     });
   },
   methods: {
