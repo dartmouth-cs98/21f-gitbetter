@@ -54,25 +54,28 @@ var parse = require('../../utils/getStatus')
 export default {
   name: 'FilesChanged',
   props: {
-    command: String
+    command: String,
+    commandCount: Number
   },
   data() {
     return {
       prevCommand: '',
       commits: 0,
       files: {},
-      runStatus: false
+      runStatus: false,
+      count: 0
     }  
   },
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
       localStorage.workingDir = pwd 
+      // this.setPath()
       this.getStatus(localStorage.workingDir)
     })
 
     ipc.on('getStatus', (event, result) => {
-      this.files = result[5]
       this.commits = result[1];
+      this.files = result[5]
     })
   },
   methods: {
@@ -84,16 +87,24 @@ export default {
         // their git repo to be displayed in the visulization if it is a git repo
         parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
     },
+    // setPath() {
+    //   ipc.send("terminal.toTerm", `cd "${localStorage.workingDir}" `)
+    //   ipc.send("terminal.toTerm", '\n')
+    //   ipc.send("terminal.toTerm", "clear")
+    //   ipc.send("terminal.toTerm", '\n')
+    // },
     updateStatus() {
-      if (this.command.startsWith('git add') 
+      if (this.commandCount > this.count && (
+          this.command.startsWith('git add') 
           || this.command.startsWith('git restore') 
           || this.command.startsWith('git rm') 
           || this.command.startsWith('git commit') 
-          || this.command.startsWith('git push')) {
-        this.prevCommand = this.command
-        if (localStorage.workingDir) {
-          this.getStatus(localStorage.workingDir)
-        }
+          || this.command.startsWith('git push'))) {
+            this.prevCommand = this.command
+            this.count = this.commandCount
+            if (localStorage.workingDir) {
+              this.getStatus(localStorage.workingDir)
+            }
       }
     },
   },

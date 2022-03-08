@@ -17,7 +17,8 @@
                         || this.command.startsWith('git push')
                         || this.runStatusInFilesChanged"
                     @runStatus="onRunStatus"    
-                    :command="this.command"/>       
+                    :command="this.command"
+                    :commandCount="this.commandCount" />       
       <StatusViz v-else ref="statusChild"/>
   </div>
 </template>

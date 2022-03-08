@@ -50,7 +50,7 @@ export default {
           this.$emit('newCommand', this.curr);
           this.$root.$emit('commandEntered', this.commandCount);
           this.curr = ""
-          this.commandCount +=1
+          this.commandCount += 1
         }
       }
       else if (data == 'del') {
