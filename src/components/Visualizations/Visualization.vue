@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     newCommand(val) {
-      console.log('dir is', this.dir)
+      // console.log('dir is', this.dir)
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);
       }

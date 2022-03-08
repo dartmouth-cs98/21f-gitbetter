@@ -18,7 +18,7 @@ export default {
     };
   },
   beforeDestroy() {
-    console.log("in destroy")
+    // console.log("in destroy")
     ipc.removeAllListeners("terminal.incData");
   },
   mounted() {
@@ -31,7 +31,7 @@ export default {
     });
 
     ipc.on('getStatus', (event, data) => {
-      console.log('sending status to store in term', data)
+      // console.log('sending status to store in term', data)
       this.$store.commit('setStatus', {status: data});
     });
 

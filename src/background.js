@@ -94,6 +94,7 @@ async function createWindow() {
   });
  
   async function replicateRepoWrapper(directory, version=0) {
+    if (directory.includes('.gb.gb')) throw Error(`Bad directory (double gb) ${directory}`);
     ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
     win.webContents.send("finderOpened");
     const git = await isGit(directory)
