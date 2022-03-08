@@ -169,7 +169,6 @@ export default {
 
       if ([
         this.commandStack[this.stackIndex].current.action,
-        this.commandStack[this.stackIndex].previous.action,
       ].includes(ACTIONS.DESTRUCTIVE)) {
         // Clone Repo Request
         const { workingDirectory: directory, gbVersion } = this.gitStatus;

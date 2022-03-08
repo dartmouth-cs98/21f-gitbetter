@@ -66,10 +66,9 @@ export default {
     });
   },
   methods: {
-    newCommand(val) {
-      console.log('Someone called', val);
-      // if(val === 'git status' && this.priorDir !== this.dir) {
-      //   this.priorDir = this.dir;
+    newCommand(val) { // Not entirely sure what to do with this 
+      console.log(`new command ${val}`)
+      // if(val === 'git status') {
       //   this.$refs.statusChild.getStatus(this.dir);
       // }
     },
