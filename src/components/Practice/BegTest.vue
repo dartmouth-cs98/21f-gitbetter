@@ -101,6 +101,10 @@ export default {
 .questions {
   padding: 5% 2%;
   width: 95%;
+  padding: 5%;
+    background-color: #dbdbdb;
+    color: black;
+    margin: 2% 2.5%;
 }
 
 .quiz-wrapper {
@@ -124,7 +128,8 @@ export default {
 }
 
 .button {
-    
+     background-color: #AD47BC !important;
+    color: white !important;
     text-decoration: none;
     width: 18%;
 }

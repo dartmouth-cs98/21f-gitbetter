@@ -2,12 +2,15 @@
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
       <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
-      <div v-if="test">
+      <div v-else>
+        <div v-if="test">
         <StatusViz ref="statusChild" />
       </div>
       <div v-else>
         <!-- <StatusViz ref="statusChild"/> />  -->
       </div>
+      </div>
+      
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
   </div>
