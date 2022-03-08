@@ -15,6 +15,7 @@ export default {
       fitObj: Object,
       branchN: "",
       curr: "",
+      pwd: "",
     };
   },
   beforeDestroy() {
@@ -57,6 +58,12 @@ export default {
     this.$parent.$on('closeVisualization', this.resizeTerm);
 
   },
+
+    watch: {
+    '$store.state.workingDir': function() {
+      this.pwd = this.$store.getters.getPWD; 
+    }
+    },
   methods: {
     makeScript() {
       let recaptchaScript = document.createElement('script')
@@ -82,7 +89,6 @@ export default {
         fitAddon.fit();
         // fitAddon.fit();
         ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
-        //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
         ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
         ipc.send("terminal.toTerm", "clear")
         ipc.send('runTerminalCommand', 'Terminal');

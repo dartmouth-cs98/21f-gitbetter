@@ -35,14 +35,14 @@ export default {
   data() {
     return {
       test: true,
-      dir: "",
-      priorDir: '',
-      mergeConExists: this.mergeConflict
+      mergeConExists: this.mergeConflict,
+      pwd: "",
+
     }
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.dir = this.$store.getters.getPWD;
+      this.pwd = this.$store.getters.getPWD; 
     },
   },
   computed: {
@@ -66,6 +66,8 @@ export default {
     });
   },
   methods: {
+
+
     newCommand(val) { // Not entirely sure what to do with this 
       console.log(`new command ${val}`);
       this.dir = this.$store.getters.getPWD;
