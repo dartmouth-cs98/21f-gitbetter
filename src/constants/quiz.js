@@ -1,6 +1,8 @@
 export const questions = {
     "1": {
        number: 1,
+       difficulty: "easy",
+       label: "command",
        title: "What is the command for cloning a repository?",
         options: [
            "git add", 'git commit', 'git clone', "git clone <url of repo you want to clone>"
@@ -9,6 +11,8 @@ export const questions = {
    },
    "2": {
     number: 2,
+    difficulty: "easy",
+    label: "command",
     title: "What is the command for creating a new branch which is named 'bestbranch'?",
      options: [
         "git commit 'branch'", "git checkout 'bestbranch'", 
@@ -18,6 +22,8 @@ export const questions = {
    },
    "3": {
       number: 3,
+      difficulty: "easy",
+      label: "command",
       title: "What is the command for pulling new code from the main branch?",
        options: [
           "git pull", 'git commit newcode', 'git push', 'git status'
@@ -26,6 +32,8 @@ export const questions = {
   },
   "4": {
     number: 4,
+    difficulty: "easy",
+    label: "command",
     title: "What is the command for making a commit with the commit message 'Updated sorting.py so it is more efficient'",
      options: [
         "git commit", "git commit 'Updated sorting.py so it is more efficient'", 
@@ -36,6 +44,8 @@ export const questions = {
   },
   "5": {
     number: 5,
+    difficulty: "easy",
+    label: "command",
     title: "What is the command for pushing your commits to the main branch?",
      options: [
         "git push", "git push newcode", 
@@ -46,6 +56,8 @@ export const questions = {
   },
   "6": {
     number: 6,
+    difficulty: "easy",
+    label: "command",
     title: "What is the command for adding the file 'merging.py' to the group of files which will be included in your next commit?",
      options: [
         "git commit 'merging.py'", "git add 'newcode", 
@@ -56,6 +68,8 @@ export const questions = {
   },
   "7": {
     number: 7,
+    difficulty: "easy",
+    label: "command",
     title: "Which of the following is not a real GitHub command?",
      options: [
         "git push", "git pull", 
@@ -66,6 +80,8 @@ export const questions = {
   },
   "8": {
     number: 8,
+    difficulty: "easy",
+    label: "command",
     title: "Which of the following is a real GitHub command?",
      options: [
         "git make", "git push", 
@@ -76,6 +92,8 @@ export const questions = {
   },
   "9": {
     number: 9,
+    difficulty: "easy",
+    label: "conceptual",
     title: "Which of the following should you use if you have made changes to your code that you are ready to add to the main branch?",
      options: [
         "git add", "git push", 
@@ -86,6 +104,8 @@ export const questions = {
   },
   "10": {
     number: 10,
+    difficulty: "easy",
+    label: "conceptual",
     title: "Which of the following commands is useful when someone else has just added their new code to the main branch?",
      options: [
         "git clone", "git checkout -b main", 
@@ -96,6 +116,8 @@ export const questions = {
   },
   "11": {
     number: 11,
+    difficulty: "easy",
+    label: "conceptual",
     title: "Which of the following commands would not be useful if you are working with code that you just updated?",
      options: [
         "git checkout -b 'newbranch'", "git commit", 
@@ -106,6 +128,8 @@ export const questions = {
   },
   "12": {
     number: 12,
+    difficulty: "medium",
+    label: "conceptual",
     title: "Which two commands have opposite functions?",
      options: [
         "git checkout/git clone", "git push/git add", 
@@ -116,6 +140,8 @@ export const questions = {
   },
   "13": {
     number: 13,
+    difficulty: "medium",
+    label: "command",
     title: "Which of the following gives the proper order of commands to run if you want to add a new file that you wrote 'solver.py' to the main branch?",
      options: [
         "1. git push 2. git add solver.py 3. git commit", "1. git push 2. git commit 3. git add solver.py", 
@@ -126,6 +152,8 @@ export const questions = {
   },
   "14": {
     number: 14,
+    difficulty: "medium",
+    label: "conceptual",
     title: "Git push allows you to bring new code from the main branch to your branch",
      options: [
         "True", "False"
@@ -134,6 +162,8 @@ export const questions = {
   },
   "15": {
     number: 15,
+    difficulty: "easy",
+    label: "conceptual",
     title: "Use git checkout to clone a repository",
      options: [
         "True", "False"
@@ -142,6 +172,8 @@ export const questions = {
   },
   "16": {
     number: 16,
+    difficulty: "easy",
+    label: "conceptual",
     title: "Use git checkout to create a new branch",
      options: [
         "True", "False"
@@ -150,6 +182,8 @@ export const questions = {
   },
   "17": {
     number: 17,
+    difficulty: "easy",
+    label: "conceptual",
     title: "The main branch is your personal branch where you can work on the codes",
      options: [
         "True", "False"
@@ -158,6 +192,8 @@ export const questions = {
   },
   "18": {
     number: 18,
+    difficulty: "medium",
+    label: "conceptual",
     title: "A repository can only have one branch associated with it",
      options: [
         "True", "False"
@@ -166,6 +202,8 @@ export const questions = {
   },
   "19": {
     number: 19,
+    difficulty: "hard",
+    label: "conceptual",
     title: "One person may have many different branches at once",
      options: [
         "True", "False"
@@ -174,6 +212,8 @@ export const questions = {
   },
   "20": {
     number: 20,
+    difficulty: "hard",
+    label: "conceptual",
     title: "Any files that you git add will be included in the next commit that you make",
      options: [
         "True", "False"
@@ -182,6 +222,8 @@ export const questions = {
   },
   "21": {
     number: 21,
+    difficulty: "hard",
+    label: "conceptual",
     title: "When you make a commit, the code that is included in your commit will be added to the main branch",
      options: [
         "True", "False"
@@ -190,6 +232,8 @@ export const questions = {
   },
   "22": {
     number: 22,
+    difficulty: "hard",
+    label: "conceptual",
     title: "Where is the new code coming from when you run 'git pull'?",
      options: [
         "The branch you are currently on", "The main branch",
@@ -199,6 +243,8 @@ export const questions = {
   },
   "23": {
     number: 23,
+    difficulty: "hard",
+    label: "conceptual",
     title: "Any files that you git add will be included in the next commit that you make",
      options: [
         "True", "False"
@@ -207,6 +253,8 @@ export const questions = {
   },
   "24": {
     number: 24,
+    difficulty: "hard",
+    label: "conceptual",
     title: "Who will be able to see your new code when you run 'git push'",
      options: [
         "Only people who are using my branch", "My boss", 
@@ -216,6 +264,8 @@ export const questions = {
   },
   "25": {
     number: 25,
+    difficulty: "hard",
+    label: "conceptual",
     title: "Not all repositories have a main branch",
      options: [
         "True", "False", 
