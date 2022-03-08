@@ -164,12 +164,12 @@ export async function getStatus(pwd) {
             let firstLine = stdout.split("\n")[0].split(" ")
             branchName = firstLine.pop()
             
-            let words = stdout.split("\n")[1].split(" ")
-            for (let i=1; i<words.length; i++) {
-                if (!isNaN(words[i])){
-                    commits = words[i]
-                }
-            }
+            // let words = stdout.split("\n")[1].split(" ")
+            // for (let i=1; i<words.length; i++) {
+            //     if (!isNaN(words[i])){
+            //         commits = words[i]
+            //     }
+            // }
         }
 
         else if (stderr) {
@@ -181,17 +181,33 @@ export async function getStatus(pwd) {
         throw err
     } 
    
-    try {
-        let {stdout, stderr} = await exec(`git rev-list --left-right --count main...${branchName}`);
-        if (stdout) {
-            commits = stdout.trim().split("\t")[1]
-        } else if (stderr) {
-            console.log(stderr)
-        }
-    } catch (err){
-        console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
-        throw err
-    } 
+    if (branchName == 'main') {
+        try {
+            let {stdout, stderr} = await exec(`git rev-list --left-right --count origin/main...main`)
+    
+            if (stdout) {
+                commits = stdout.trim().split("\t")[1]
+            } else if (stderr) {
+                console.log(stderr)
+            }
+        } catch (err){
+            console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
+            throw err
+        } 
+    } else {
+        try {
+            let {stdout, stderr} = await exec(`git rev-list --left-right --count main...${branchName}`);
+
+            if (stdout) {
+                commits = stdout.trim().split("\t")[1]
+            } else if (stderr) {
+                console.log(stderr)
+            }
+        } catch (err){
+            console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
+            throw err
+        } 
+    }
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually
