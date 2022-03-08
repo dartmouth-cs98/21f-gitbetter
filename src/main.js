@@ -29,6 +29,7 @@ const store = new Vuex.Store({
     command: "git status",
     firstTime: true,
     isGit: true,
+    workingDir: "",
   },
   mutations: {
     add (state, command) {
@@ -52,6 +53,9 @@ const store = new Vuex.Store({
     setGitRepo(state, status) {
       state.isGit = status;
     },
+    setWorkingDir(state, pwd) {
+      state.workingDir = pwd;
+    },
   },
   getters: {
     getRecentSearches: state => {
@@ -72,6 +76,9 @@ const store = new Vuex.Store({
     },
     gitRepo: state => {
       return state.isGit;
+    },
+    getPWD: state => {
+      return state.workingDir;
     }
   }
 })
