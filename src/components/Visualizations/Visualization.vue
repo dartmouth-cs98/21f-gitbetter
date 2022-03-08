@@ -1,34 +1,42 @@
 <template>
   <div class="viz">
-      <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
-      <div v-else>
-        <div v-if="test">
-        <StatusViz ref="statusChild" />
-      </div>
-      <div v-else>
-        <!-- <StatusViz ref="statusChild"/> />  -->
-      </div>
-      </div>
-      
-      <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
-      <DirectoryTree v-else /> -->
+      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData" @done="finished"/>
+      <StatusViz v-else-if="(this.command.startsWith('git status') 
+                          || this.command.startsWith('touch')
+                          || this.command.startsWith('rm'))"
+                  :command="this.command"
+                  :commandCount="this.commandCount"        
+                  ref="statusChild"/> 
+      <BranchViz v-else-if="this.command.startsWith('git branc')
+                          || this.command.startsWith('git switch') 
+                          || this.command.startsWith('git checkout')"
+                  :command="this.command" 
+                  :commandCount="this.commandCount" />
+      <FilesChanged v-else-if="this.command.startsWith('git add') 
+                        || this.command.startsWith('git restore')
+                        || this.command.startsWith('git rm')
+                        || this.command.startsWith('git commit')
+                        || this.command.startsWith('git push')"
+                    :command="this.command"
+                    :commandCount="this.commandCount" />       
+      <StatusViz v-else ref="statusChild" :command="this.command" :commandCount="this.commandCount"/>
   </div>
 </template>
 
 <script>
-// import BranchViz from './BranchViz.vue'
+import BranchViz from './BranchViz.vue'
 import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
 // import InitViz from './StatusViz.vue'
 const ipc = require("electron").ipcRenderer
 
-// import FilesChanged from './FilesChangedViz.vue'
+import FilesChanged from './FilesChangedViz.vue'
 
 export default {
   name: 'Visualization',
   props: {
     command: String,
+    // commandCount: Number,
     mergeConflict: Boolean,
     mergeConflictData: Array,
   },
@@ -37,7 +45,8 @@ export default {
       test: true,
       dir: "",
       priorDir: '',
-      mergeConExists: this.mergeConflict
+      mergeConExists: this.mergeConflict,
+      commandCount: 0
     }
   },
   watch: {
@@ -54,11 +63,11 @@ export default {
     }
   },
   components: {
-      // BranchViz,
+      BranchViz,
       StatusViz,
       // InitViz,
       MergeCon,
-      // FilesChanged
+      FilesChanged
   },
   created() {
     ipc.on('notGit', () => {

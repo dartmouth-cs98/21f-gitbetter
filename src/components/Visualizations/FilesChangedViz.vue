@@ -8,7 +8,6 @@
       <div class='file-box'>
           <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
           <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
           <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
           <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
           <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
@@ -47,7 +46,24 @@ export default {
   data() {
     return {
       command: '',
-      files: []
+      commits: 0,
+      files: {
+        filesLocal: {
+          filesAdded: [],
+          filesModified: [],
+          filesDeleted: [],
+          filesRenamed: [],
+          filesCopied: [],
+          filesUntracked: []
+        },
+        filesStaging: {
+          filesAdded: [],
+          filesModified: [],
+          filesDeleted: [],
+          filesRenamed: [],
+          filesCopied: [],
+        }
+      }
     }  
   },
   mounted() {
@@ -57,6 +73,7 @@ export default {
 
     ipc.on('getStatus', (event, result) => {
       this.files = result[5]
+      this.commits = result[1]
     })
   },
   methods: {
