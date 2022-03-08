@@ -37,6 +37,7 @@ export default {
       test: true,
       mergeConExists: this.mergeConflict,
       pwd: "",
+
     }
   },
   watch: {
@@ -65,12 +66,14 @@ export default {
     });
   },
   methods: {
+
     newCommand(val) {
       // this.dir = this.$store.getters.getPWD;
       console.log('dir is', this.pwd)
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.pwd);
       }
+
     },
     finished(){
       this.mergeConExists = false;

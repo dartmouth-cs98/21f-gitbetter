@@ -28,10 +28,11 @@
 <script>
 import { ipcRenderer } from 'electron'
 const ipc = require("electron").ipcRenderer
-//import { getStatus } from '../../utils/getStatus'
+import { getStatus } from '../../utils/getStatus'
 import Visualization from './Visualization.vue'
 import classification, { ACTIONS } from './GitCommandClassification'
 import inverseCommand from './GitInverseCommands'
+import cleanMidOperation from '../../utils/cleanMidOperation'
 const channel = 'terminal.toTerm';
 
 export default {
@@ -45,6 +46,7 @@ export default {
       command: '',
       currCommand: '',
       stackIndex: 0,
+      isInMiddleOfStack: false,
       advisoryModalOpened: false,
       advisoryModalMessage: '',
       advisoryModalForward: true,
@@ -67,6 +69,7 @@ export default {
         filesRemoved: [],
         filesUntracked: [],
         output: '',
+        gbVersion: 0,
         workingDirectory: "",
       },
     }  
@@ -91,15 +94,13 @@ export default {
           this.gitStatus.output = '';
           this.command = this.currCommand;
           this.checkForPull();
-          this.updateStack();          
-        }
-        //this.updateStatus();
+          this.updateStack();
+        } else ipc.send('runTerminalCommand', 'VizWindow');
+        this.updateStatus();
         this.currCommand = '';
         return;
       }
-
       this.currCommand += data;
-
     });
 
     ipc.on("terminal.incData", (_, data) => {  
@@ -111,25 +112,52 @@ export default {
 
       if (data.includes('[K')) this.currCommand = this.currCommand.slice(0, -2);
       if (data.includes('\n')) this.currCommand = '';
-
     });
 
-    ipc.on('giveFilePath', (_, pwd) => (this.gitStatus.workingDirectory = pwd));
+    ipc.on('giveFilePath', async(_, pwd) => {
+      this.syncReplicate(pwd);
+      this.gitStatus.workingDirectory = pwd;
+      const [gb, gbVersion] = pwd.split('.').slice(-2);
+      if (gbVersion === 'gb') {
+        this.gitStatus.gbVersion = 0;
+      } else if (gb === 'gb') {
+        this.gitStatus.gbVersion = parseInt(gbVersion) || 0;
+      } else console.warn('??? unknown directory format: ' + pwd);
+
+      if (!this.isInMiddleOfStack) {
+        // Prior command was destroyed, postpone until we have repo prepared
+        await new Promise(r => setTimeout(r, 500));
+        ipc.send('terminal.toTerm.force', {
+          pwd: this.gitStatus.workingDirectory,
+          command: this.commandStack[this.stackIndex].current.command,
+        });
+        await new Promise(r => setTimeout(r, 500));
+        ipc.send('runTerminalCommand', 'VizWindow');
+      } 
+    });
   },
   methods: {
-    // async updateStatus() {
-    //   const [branchName,,,, files] = await getStatus(process.cwd());
-    //   this.gitStatus.branch = branchName;
-    //   this.gitStatus.filesAdded = files.filesAdded;
-    //   this.gitStatus.filesModified = files.filesModified;
-    //   this.gitStatus.filesRemoved = files.filesDeleted;
-    //   this.gitStatus.filesUntracked = files.filesUntracked;
-    // },
+    async updateStatus() {
+      const [branchName,,,, files] = await getStatus(process.cwd());
+      this.gitStatus.branch = branchName;
+      this.gitStatus.filesAdded = files.filesAdded;
+      this.gitStatus.filesModified = files.filesModified;
+      this.gitStatus.filesRemoved = files.filesDeleted;
+      this.gitStatus.filesUntracked = files.filesUntracked;
+    },
     async updateStack() {
-      // Operation in the middle of the stack
+      const { action } = classification(this.command, this.gitStatus);
+      if (
+        [ACTIONS.NOOP].includes(action)
+        && this.stackIndex < this.commandStack.length - 1
+      ) return;
       if (this.stackIndex < this.commandStack.length - 1) {
+        await cleanMidOperation(this.gitStatus.gbVersion+1);
         this.commandStack = this.commandStack.slice(0, this.stackIndex+1);
       }
+
+      this.isInMiddleOfStack = false;
+
       // Operations that depend on output
       if (['tag'].includes(this.command.split(' ', 3)[1])) await new Promise(r => setTimeout(r, 500));
 
@@ -139,6 +167,19 @@ export default {
         previous: { command, ...classification(command, this.gitStatus) },
       });
       this.stackIndex++;
+
+      if ([
+        this.commandStack[this.stackIndex].current.action,
+      ].includes(ACTIONS.DESTRUCTIVE)) {
+        // Clone Repo Request
+        const { workingDirectory: directory, gbVersion } = this.gitStatus;
+        ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
+      // Non destructive Command - so we can accept as is
+      } else ipc.send('runTerminalCommand', 'VizWindow');
+    },
+    syncReplicate(pwd) {
+      process.chdir(pwd);
+      this.updateStatus();
     },
     async checkForPull(){
       if (['pull'].includes(this.command.split(' ', 3)[1])){
@@ -147,7 +188,6 @@ export default {
       }else{
         this.gitPulled = false;
       }
-
     },
     retrieveOutput(data){
       if (data.length !== 1 && !data.trim().startsWith('bash')){
@@ -165,8 +205,9 @@ export default {
         }
     },
     printStack() {
+      console.log(this.isInMiddleOfStack, 'mid stack');
       console.log(this.commandStack.map(
-        ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command));
+        ({ current }, pos) => (pos === this.stackIndex ? '>' : ' ') + current.command + '..' + current.action));
     },
     printInverseStack() {
       console.log(this.commandStack.map(
@@ -176,13 +217,12 @@ export default {
     actionCallback() {
       let command;
       if (this.advisoryModalForward) {
-        this.stackIndex++;
         command = this.commandStack[this.stackIndex].current;
-        console.log(`Next: Currently at pos ${this.stackIndex} -- running ${command}`);
       } else {
         command = this.commandStack[this.stackIndex].previous;
         this.stackIndex--;
       }
+      console.log(`callback: Currently at pos ${this.stackIndex} -- ${command.command}`);
       ipcRenderer.send(channel, command.command + '\n');
       this.closeModal();
     },
@@ -194,15 +234,19 @@ export default {
 
     nextCommand() {
       this.advisoryModalForward = true;
+      this.isInMiddleOfStack = true;
+      this.stackIndex++;
       const operation = this.commandStack[this.stackIndex].current;
       switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: 
-          console.error('Cannot revert destructive command');
+        case ACTIONS.DESTRUCTIVE: {
+          const { workingDirectory: directory, gbVersion } = this.gitStatus;
+          console.log(`nextCommand version: ${gbVersion}`)
+          ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
           return;
+        }
         case ACTIONS.ADVISORY:
           this.advisoryModalOpened = true;
           this.advisoryModalMessage = operation.note;
-          console.warn("ADVISORY" + operation);
           break;
         case ACTIONS.NORMAL:
         case ACTIONS.NOOP:
@@ -214,14 +258,18 @@ export default {
     },
     previousCommand() {
       this.advisoryModalForward = false;
+      this.isInMiddleOfStack = true;
       const operation = this.commandStack[this.stackIndex].previous;
       console.log(`Prev: Currently at pos ${this.stackIndex} -- running ${operation.command}`);
       switch (operation.action) {
-        case ACTIONS.DESTRUCTIVE: 
-          console.error('Cannot revert destructive command');
+        case ACTIONS.DESTRUCTIVE: {
+          this.stackIndex--;  // Does not run command, just changes directory
+          const { workingDirectory: directory, gbVersion } = this.gitStatus;
+          if (gbVersion <= 0) throw Error('This case should never occur');
+          ipc.send('destructiveCommandClone', { directory, version: gbVersion - 1 });
           return;
+        }
         case ACTIONS.ADVISORY:
-          console.warn("ADVISORY" + operation);
           this.advisoryModalOpened = true;
           this.advisoryModalMessage = operation.note;
           break;

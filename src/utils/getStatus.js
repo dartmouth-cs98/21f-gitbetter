@@ -26,16 +26,11 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    console.log(pwd)
-    process.chdir(pwd + '.gb')
+    process.chdir(pwd);
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
-    
-    
-
 
     if (!fs.existsSync(path)) {
-
         try {
             let {stdout, stderr} = await exec('ls | wc -l');
             if (stdout) {

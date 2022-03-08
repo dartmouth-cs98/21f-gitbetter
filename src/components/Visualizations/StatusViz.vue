@@ -120,7 +120,7 @@ export default {
         VueSimpleAlert.alert("The directory you chose was not a git repository, saving changes will make it one.")
       })
       ipc.on('getStatus', (event, result) => {
-        console.log('result in get status',result)
+        // console.log('result in get status',result)
         this.branchName = result[0];
         this.commits = result[1];
         // this.changedLocal = result[2];
@@ -137,7 +137,7 @@ export default {
         // gets files in local 
         this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
         this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
-        console.log('files to add ', this.filesToAdd)
+        // console.log('files to add ', this.filesToAdd)
         this.changedLocal = this.filesToAdd.length;
         this.tracked = this.filesToCommit.length;
       })
@@ -159,19 +159,21 @@ export default {
 
   methods: {
       getStatus(pwd) {
+        
           // changes working directory in terminal to file users selected
-          ipc.send("terminal.toTerm", `cd "${pwd}".gb `)
-          ipc.send("terminal.toTerm", '\n')
-          ipc.send("terminal.toTerm", "clear")
-          ipc.send("terminal.toTerm", '\n')
-          // calls git status initally for the user
-          ipc.send("terminal.toTerm", "git status")
-          ipc.send("terminal.toTerm", '\n')
+          ipc.send("terminal.toTerm", `cd "${pwd}"`)
+          // ipc.send("terminal.toTerm", '\n')
+          // ipc.send("terminal.toTerm", "clear")
+          // ipc.send("terminal.toTerm", '\n')
+          // // calls git status initally for the user
+          // ipc.send("terminal.toTerm", "git status")
+          // ipc.send("terminal.toTerm", '\n')
+          ipc.send('runTerminalCommand', 'StatusViz');
 
           // parse status takes the pwd the user selected and returns the status of
           // their git repo to be displayed in the visulization if it is a git repo
           parse.getStatus(pwd).then((result) => {
-            console.log('status result', result)
+            // console.log('status result', result)
             ipc.send("statusUpdate", result)
         })
       },
@@ -213,7 +215,7 @@ export default {
           // this.filesToAdd = this.files.filesAdded.concat(this.files.filesDeleted, this.files.filesModified, this.files.filesUntracked);
           
           // this.filesToAdd = this.filesToAdd.filter(word => word.length != 0);
-          console.log('files to add', this.filesToAdd)
+          // console.log('files to add', this.filesToAdd)
         }
         else {
           this.filesToAdd = []
