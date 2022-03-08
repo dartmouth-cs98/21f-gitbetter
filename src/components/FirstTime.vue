@@ -26,7 +26,7 @@ export default {
   data() {
       return {
           messages: [
-              'This is the terminal, where you can run commands in the Gitbetter sandbox. The git commands that you run in here won\'t change the status of your real repository unless you run "gitbetter update".',
+              'This is the terminal, where you can run commands in the Gitbetter sandbox. The git commands that you run in here won\'t change the status of your real repository unless you click save.',
               'The visualization window is where you can visualize what\'s going on in your git repository. Use the button with the eye icon to show or hide this window as needed.',
               'The purple arrow buttons in the bottom right let you step back and forth between git commands you\'ve previously typed.',
               'The Help tab is where you can go to find a specific command by searching the dropdown menu options.',

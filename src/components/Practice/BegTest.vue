@@ -88,8 +88,16 @@ export default {
   },
   methods: {
     startQuiz() {
-      const _this = this
       const difs = []
+      if (this.qdifficulty == ""){
+        this.qdifficulty = 'medium'
+      }
+      if (this.qLen == 0){
+        this.qLen = 10
+      }
+      if (this.type == ""){
+        this.type = 'general'
+      }
       if(this.qdifficulty.value == 'hard') {
         difs.push('easy', 'medium', 'hard');
       }
@@ -99,15 +107,20 @@ export default {
       else {
         difs.push('easy')
       }
+      console.log(this.type, this.qLen, this.qdifficulty)
+      const type = this.type;
+      const diff = this.qdifficulty
+      const qlen = this.qLen
+
       let qs = questions.filter(function(item){
-        if(_this.type.value == 'general' && _this.qdifficulty.value !== 'random') {
+        if(type == 'general' && diff !== 'random') {
           return difs.includes(item.difficulty)
         }
-        else if (_this.type.value !== 'general' && _this.qdifficulty.value !== 'random') {
-          return difs.includes(item.difficulty) && item.label == _this.type.value; 
+        else if (type !== 'general' && diff !== 'random') {
+          return difs.includes(item.difficulty) && item.label == type; 
         }  
-        else if(_this.type.value !== 'general' && _this.qdifficulty.value == 'random') {
-          return item.label == _this.type.value
+        else if(type !== 'general' && diff == 'random') {
+          return item.label == type
         }    
         else {
           return item
@@ -115,7 +128,7 @@ export default {
       })
 
       const shuffled = qs.sort(() => 0.5 - Math.random());
-      this.questions = shuffled.slice(0, this.qLen.value);
+      this.questions = shuffled.slice(0, qlen);
 
       this.started = true;
     },
