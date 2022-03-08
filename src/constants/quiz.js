@@ -272,4 +272,96 @@ export const questions = {
      ],
      res: "False"       
   },
+  "26": {
+    number: 26,
+    difficulty: "easy",
+    label: "command",
+    title: "What is the command to use when you want to check which branch you are on?",
+     options: [
+        "git clone", 'git checkout -b branch', 'git branch', "git status"
+     ],
+     res: "git branch"  
+},
+"28": {
+    number: 28,
+    difficulty: "easy",
+    label: "command",
+    title: "What is the command to use if you want to see a history of all commits you have made?",
+     options: [
+        "git log", 'git commit -history', 'git status', "git find commits"
+     ],
+     res: "git log"  
+},
+"29": {
+    number: 29,
+    difficulty: "hard",
+    label: "command",
+    title: "What is the command to use if you want to see a history of all commits you have made?",
+     options: [
+        "git log", 'git commit -history', 'git status', "git find commits"
+     ],
+     res: "git log"  
+},
+"30": {
+    number: 30,
+    difficulty: "medium",
+    label: "command",
+    title: "Git branch shows you the most recent branch that you made.",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+"31": {
+    number: 31,
+    difficulty: "medium",
+    label: "conceptual",
+    title: "Git log allows you to see all of the branches that you have made.",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+"32": {
+    number: 32,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Git log and git checkout both involve branches specifically.",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+"33": {
+    number: 33,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Git branch and git clone are two commands that are associated with commits,",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+"34": {
+    number: 34,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "If you run 'git checkout -b new_branch', then new_branch will be included in the output from running 'git branch'.",
+     options: [
+        "True", "False"
+     ],
+     res: "True"  
+},
+"35": {
+    number: 35,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "If you run 'git checkout -b new_branch', new_branch will be not included in the output from running 'git branch'.",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+
+
 }
