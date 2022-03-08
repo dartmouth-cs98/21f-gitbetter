@@ -93,6 +93,6 @@ export default function classification(gitCommand, gitStatus) {
         case 'rebase':
         case 'reset':
         default:
-            return `echo "Cannot revert ${gitCommand}"`
+            return gitCommand;
     }
 }
