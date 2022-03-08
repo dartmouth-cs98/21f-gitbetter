@@ -1,5 +1,12 @@
 <template>
     <nav class="nav level has-shadow" >
+              <div 
+        class="level-item has-text-centered"
+        style="color:black; font-weight:500;cursor:pointer;"
+        @click="$router.push('/info')"
+      >
+        About Git
+      </div>
       <div 
         class="level-item has-text-centered"
         style="color:black; font-weight:500;cursor:pointer;"
@@ -7,13 +14,6 @@
       >
         Search
       </div>
-      <div 
-        class="level-item has-text-centered"
-        style="color:black; font-weight:500;cursor:pointer;"
-        @click="$router.push('/test')"
-      >
-          Test Yourself
-        </div>
         <div 
             class="level-item has-text-centered"
             @click="$router.push('/beginner')"
@@ -21,14 +21,14 @@
         >
           <img src="../assets/beginnerlogo.png" />
         </div>
-        
-        <div 
+              <div 
         class="level-item has-text-centered"
         style="color:black; font-weight:500;cursor:pointer;"
-        @click="$router.push('/info')"
+        @click="$router.push('/test')"
       >
-        About Git
-      </div>
+          Test Yourself
+        </div>
+        
         <div
             class="level-item has-text-centered"
             style="color:black; font-weight:500;cursor:pointer;"
