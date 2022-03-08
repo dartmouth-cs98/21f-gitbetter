@@ -184,7 +184,7 @@ export const questions = {
     number: 17,
     difficulty: "easy",
     label: "conceptual",
-    title: "The main branch is your personal branch where you can work on the codes",
+    title: "The main branch is your personal branch where you can work on the code.",
      options: [
         "True", "False"
      ],
@@ -194,7 +194,7 @@ export const questions = {
     number: 18,
     difficulty: "medium",
     label: "conceptual",
-    title: "A repository can only have one branch associated with it",
+    title: "A repository can only have one branch associated with it.",
      options: [
         "True", "False"
      ],
@@ -204,7 +204,7 @@ export const questions = {
     number: 19,
     difficulty: "hard",
     label: "conceptual",
-    title: "One person may have many different branches at once",
+    title: "One person may have many different branches at once.",
      options: [
         "True", "False"
      ],
@@ -214,7 +214,7 @@ export const questions = {
     number: 20,
     difficulty: "hard",
     label: "conceptual",
-    title: "Any files that you git add will be included in the next commit that you make",
+    title: "Any files that you git add will be included in the next commit that you make.",
      options: [
         "True", "False"
      ],
@@ -224,7 +224,7 @@ export const questions = {
     number: 21,
     difficulty: "hard",
     label: "conceptual",
-    title: "When you make a commit, the code that is included in your commit will be added to the main branch",
+    title: "When you make a commit, the code that is included in your commit will be added to the main branch.",
      options: [
         "True", "False"
      ],
@@ -245,7 +245,7 @@ export const questions = {
     number: 23,
     difficulty: "hard",
     label: "conceptual",
-    title: "Any files that you git add will be included in the next commit that you make",
+    title: "Any files that you git add will be included in the next commit that you make.",
      options: [
         "True", "False"
      ],
@@ -255,7 +255,7 @@ export const questions = {
     number: 24,
     difficulty: "hard",
     label: "conceptual",
-    title: "Who will be able to see your new code when you run 'git push'",
+    title: "Who will be able to see your new code when you run 'git push'?",
      options: [
         "Only people who are using my branch", "My boss", 
         "Everyone who cloned the repository and has a main branch", "Just me"
@@ -266,7 +266,7 @@ export const questions = {
     number: 25,
     difficulty: "hard",
     label: "conceptual",
-    title: "Not all repositories have a main branch",
+    title: "Not all repositories have a main branch.",
      options: [
         "True", "False", 
      ],
