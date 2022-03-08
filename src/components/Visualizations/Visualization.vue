@@ -35,9 +35,14 @@ export default {
   data() {
     return {
       test: true,
-      dir: process.cwd(),
+      dir: "",
       mergeConExists: this.mergeConflict
     }
+  },
+  watch: {
+    '$store.state.workingDir': function() {
+      this.workingDirectory = this.$store.getters.getPWD;
+    },
   },
   computed: {
     getCurrCommand(){
@@ -61,6 +66,7 @@ export default {
   },
   methods: {
     newCommand(val) {
+      this.dir = this.$store.getters.getPWD;
       console.log('dir is', this.dir)
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);
