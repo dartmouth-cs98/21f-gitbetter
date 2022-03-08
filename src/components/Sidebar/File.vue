@@ -25,26 +25,20 @@ export default {
     }
   },
   watch: {
-    '$store.state.status': function() {
-      this.statusObj = this.$store.state.status.status[4];
-      this.stage = this.$store.state.status.status[5];
-      // console.log('status store in file comp', this.filename, this.$store.state.status.status)
-
-      if(this.stage.filesStaging.filesAdded && this.stage.filesStaging.filesAdded.includes(this.filename)){
-        this.status = 'tracked'
-        if(this.stage.filesLocal.filesModified && this.stage.filesLocal.filesModified.includes(this.filename)){
-          this.status = 'modified'
-        }
-      }
-      else if(this.stage.filesLocal.filesModified && this.stage.filesLocal.filesModified.includes(this.filename)){
-        this.status = 'modified'
-      }
-      else if(this.statusObj.filesUntracked.includes(this.filename)){
+    '$store.state.local': function() {
+     let local = this.$store.getters.getLocal
+    //  console.log('local;', local)
+      if(local && local.includes(this.filename)){
         this.status = 'untracked'
       }
-      else {
-        this.status = 'untouched'
-      }
+    },
+     '$store.state.staging': function() {
+        let staging = this.$store.getters.getStaging
+        // console.log('staging;', staging)
+
+        if(staging && staging.includes(this.filename)){
+          this.status = 'tracked'
+        }
     }
   },
   computed: {

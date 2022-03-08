@@ -67,9 +67,10 @@ export default {
   },
   methods: {
     newCommand(val) { // Not entirely sure what to do with this 
-      console.log(`new command ${val}`)
+      console.log(`new command ${val}`);
+      this.dir = this.$store.getters.getPWD;
       // if(val === 'git status') {
-      //   this.$refs.statusChild.getStatus(this.dir);
+        this.$refs.statusChild.getStatus(this.dir);
       // }
     },
     finished(){

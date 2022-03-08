@@ -98,12 +98,14 @@ export default {
           }
           else if(data === 'bash-3.2$ ') {
             ipc.send('setCommand', 'Enter');
+            // add getStatus 
           }
         })
       }
     },
     resizeTerm() {
       try {
+        // term.open(document.getElementById('terminal'));
         this.fitObj.fit();
       }
       catch(error) {
