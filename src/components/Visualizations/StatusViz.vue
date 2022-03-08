@@ -120,11 +120,8 @@ export default {
         VueSimpleAlert.alert("The directory you chose was not a git repository, saving changes will make it one.")
       })
       ipc.on('getStatus', (event, result) => {
-        // console.log('result in get status',result)
         this.branchName = result[0];
         this.commits = result[1];
-        // this.changedLocal = result[2];
-        // this.tracked = result[3];
 
       // get the files in the local and staging areas 
         this.filesStaging = result[5].filesStaging;
@@ -140,6 +137,7 @@ export default {
         // console.log('files to add ', this.filesToAdd)
         this.changedLocal = this.filesToAdd.length;
         this.tracked = this.filesToCommit.length;
+        this.$store.commit('setFiles', this.filesToAdd, this.filesToCommit)
       })
   },
   // watch: {
@@ -211,13 +209,7 @@ export default {
       },
       // opens the add modal
       openAddModal() {
-        if(this.filesToAdd) {
-          // this.filesToAdd = this.files.filesAdded.concat(this.files.filesDeleted, this.files.filesModified, this.files.filesUntracked);
-          
-          // this.filesToAdd = this.filesToAdd.filter(word => word.length != 0);
-          // console.log('files to add', this.filesToAdd)
-        }
-        else {
+        if(!this.filesToAdd) {
           this.filesToAdd = []
         }
         this.$refs.addModal.classList.add('is-active');

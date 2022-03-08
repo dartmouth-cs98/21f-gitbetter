@@ -67,13 +67,13 @@ export default {
   },
   methods: {
 
-    newCommand(val) {
-      // this.dir = this.$store.getters.getPWD;
-      console.log('dir is', this.pwd)
-      if(val === 'git status') {
-        this.$refs.statusChild.getStatus(this.pwd);
-      }
 
+    newCommand(val) { // Not entirely sure what to do with this 
+      console.log(`new command ${val}`);
+      this.dir = this.$store.getters.getPWD;
+      // if(val === 'git status') {
+        this.$refs.statusChild.getStatus(this.dir);
+      // }
     },
     finished(){
       this.mergeConExists = false;

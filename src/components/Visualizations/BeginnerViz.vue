@@ -34,10 +34,14 @@ export default {
             this.source = require("../../assets/demo/begclone.png")
         } else if (this.command == "git checkout -b my_branch") {
             this.source = require("../../assets/demo/begnewbranch.png")
+        } else if (this.command == "git branch") {
+            this.source = require("../../assets/demo/begbranch.png")
         } else if (this.command == "git add merging.py") {
             this.source = require("../../assets/demo/begadd.png")
         } else if (this.command == "git commit -m 'Update to merging.py'") {
             this.source = require("../../assets/demo/begcommitupdate.png")
+        } else if (this.command == "git log") {
+            this.source = require("../../assets/demo/beglog.png")
         } else if (this.command == "git push") {
             this.source = require("../../assets/demo/begpushupdate.png")
         }

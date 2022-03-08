@@ -25,23 +25,34 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      dir: process.cwd(),
+      dir: this.$store.getters.getPWD,
       files: [],
       directories: [],
       file: "",
       status: [],
     }
   },
+  //   watch: {
+  //   '$store.state.workingDir': function() {
+  //     this.dir = this.$store.getters.getPWD;
+  //     console.log('this.dir in sidebar is', this.dir)
+  //   },
+  // },
   created(){
-    this.filesOnly(this.dir);
-    this.dirsOnly(this.dir);
+    if(this.dir !== '') {
+      this.filesOnly(this.dir);
+      this.dirsOnly(this.dir);
+    }
   },
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
       this.dir = pwd;
       this.filesOnly(this.dir)
       this.dirsOnly(this.dir)  
-    })
+    });
+    if(this.$store.getters.getPWD !== "") {
+      this.dir = this.$store.getters.getPWD;
+    }
   },
   // watch: {
   //   '$store.state.status': function() {
