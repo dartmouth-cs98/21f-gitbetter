@@ -121,12 +121,11 @@ export default {
   },
 
   mounted() {
-
     ipc.on("giveFilePath", (event, pwd) => {
-      this.pwd = pwd
+      this.pwd = pwd;
+      this.$store.commit('setWorkingDir', pwd);
     })
   },
-
   methods: {
     async saveChanges() {
       await saveChanges(this.pwd)

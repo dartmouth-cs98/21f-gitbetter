@@ -69,14 +69,21 @@ export default {
         filesUntracked: [],
         output: '',
         gbVersion: 0,
-        workingDirectory: process.cwd(),
+        workingDirectory: "",
       },
     }  
   },
   components: {
     Visualization,
   },
+  watch: {
+    '$store.state.workingDir': function() {
+      this.workingDirectory = this.$store.getters.getPWD;
+    },
+  },
   mounted() {
+    this.workingDirectory = this.$store.getters.getPWD;
+    console.log('working dir in viz window', this.workingDirectory)
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
