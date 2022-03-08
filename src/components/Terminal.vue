@@ -75,10 +75,11 @@ export default {
       const fitAddon = new FitAddon();
       this.fitObj = fitAddon;
       term.loadAddon(fitAddon);
-      fitAddon.fit();
+      
       if(!termParent.firstElementChild) {
 
         term.open(document.getElementById('terminal'));
+        fitAddon.fit();
         // fitAddon.fit();
         ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
         //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
