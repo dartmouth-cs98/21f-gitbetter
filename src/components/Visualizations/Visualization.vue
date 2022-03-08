@@ -1,24 +1,24 @@
 <template>
   <div class="viz">
       <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData" @done="finished"/>
-      <StatusViz v-else-if="(this.command.startsWith('git status') 
+      <!-- <StatusViz v-else-if="(this.command.startsWith('git status') 
                           || this.command.startsWith('touch')
                           || this.command.startsWith('rm'))"
                   :command="this.command"
                   :commandCount="this.commandCount"        
-                  ref="statusChild"/> 
+                  ref="statusChild"/>  -->
       <BranchViz v-else-if="this.command.startsWith('git branc')
                           || this.command.startsWith('git switch') 
                           || this.command.startsWith('git checkout')"
                   :command="this.command" 
                   :commandCount="this.commandCount" />
-      <FilesChanged v-else-if="this.command.startsWith('git add') 
+      <!-- <FilesChanged v-else-if="this.command.startsWith('git add') 
                         || this.command.startsWith('git restore')
                         || this.command.startsWith('git rm')
                         || this.command.startsWith('git commit')
                         || this.command.startsWith('git push')"
                     :command="this.command"
-                    :commandCount="this.commandCount" />       
+                    :commandCount="this.commandCount" />        -->
       <StatusViz v-else ref="statusChild" :command="this.command" :commandCount="this.commandCount"/>
   </div>
 </template>
@@ -30,13 +30,12 @@ import StatusViz from './StatusViz.vue'
 // import InitViz from './StatusViz.vue'
 const ipc = require("electron").ipcRenderer
 
-import FilesChanged from './FilesChangedViz.vue'
+// import FilesChanged from './FilesChangedViz.vue'
 
 export default {
   name: 'Visualization',
   props: {
     command: String,
-    // commandCount: Number,
     mergeConflict: Boolean,
     mergeConflictData: Array,
   },
@@ -44,7 +43,6 @@ export default {
     return {
       test: true,
       dir: "",
-      priorDir: '',
       mergeConExists: this.mergeConflict,
       commandCount: 0
     }
@@ -67,11 +65,16 @@ export default {
       StatusViz,
       // InitViz,
       MergeCon,
-      FilesChanged
+      // FilesChanged
   },
   created() {
     ipc.on('notGit', () => {
       this.$store.commit('setGitRepo', false);
+    });
+  },
+  mounted() {
+    this.$root.$on('commandEntered', data => {
+      this.commandCount = data
     });
   },
   methods: {

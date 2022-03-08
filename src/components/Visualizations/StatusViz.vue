@@ -1,5 +1,6 @@
 <template>
-  <div class="general-wrapper">
+  <div class="general-wrapper" :key="this.commandCount">
+      {{this.updateStatus()}}
       <h1 class="title pl-4">Current Project</h1>
        <div class="pl-4">Changes will be made from...</div>
       <div class="status-summary">
@@ -23,7 +24,7 @@
             {{ this.tracked }} files have changes which are ready to be committed.
         </div>
         <div class="status ready">
-        <div style="background:purple;" class="small numbers"> </div>
+        <div style="background:purple;" class="small numbers"  :key="this.commits"> </div>
             {{ this.commits }} commits are ready to be pushed from your branch.
         </div>
      </div>
@@ -95,6 +96,10 @@ import VueSimpleAlert from "vue-simple-alert";
 export default {
 
   name: 'Status',
+  props: {
+    command: String,
+    commandCount: Number
+  },
   data () {
     return {
       branchName: "",
@@ -108,12 +113,18 @@ export default {
       filesToAdd: [],
       filesToCommit: [],
       selectedFiles: [],
+      count: 0
     }
  },
   created() {
+      if (localStorage.workingDir) {
+        this.getStatus(localStorage.workingDir)
+      }
+
       ipc.on('giveFilePath', (event, pwd) => {
-        this.workingDir = pwd;
-        this.getStatus(this.workingDir)
+        localStorage.workingDir = pwd;
+        ipc.send("terminal.toTerm", `cd "${pwd}"`)
+        this.getStatus(localStorage.workingDir)
       })
 
       ipc.on('notGit', () => {
@@ -122,24 +133,24 @@ export default {
       ipc.on('getStatus', (event, result) => {
         // console.log('result in get status',result)
         this.branchName = result[0];
-        this.commits = result[1];
-        // this.changedLocal = result[2];
-        // this.tracked = result[3];
+        this.commits = this.command=='git push' ? 0: result[1];
+        this.changedLocal = result[2];
+        this.tracked = result[3];
 
-      // get the files in the local and staging areas 
-        this.filesStaging = result[5].filesStaging;
-        this.filesLocal = result[5].filesLocal;
+      // // get the files in the local and staging areas 
+      //   this.filesStaging = result[5].filesStaging;
+      //   this.filesLocal = result[5].filesLocal;
 
-        // get list of all of the files in the staging area
-        this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
-        this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
+      //   // get list of all of the files in the staging area
+      //   this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
+      //   this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
 
-        // gets files in local 
-        this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
-        this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
-        // console.log('files to add ', this.filesToAdd)
-        this.changedLocal = this.filesToAdd.length;
-        this.tracked = this.filesToCommit.length;
+      //   // gets files in local 
+      //   this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
+      //   this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
+      //   // console.log('files to add ', this.filesToAdd)
+      //   this.changedLocal = this.filesToAdd.length;
+      //   this.tracked = this.filesToCommit.length;
       })
   },
   // watch: {
@@ -161,7 +172,7 @@ export default {
       getStatus(pwd) {
         
           // changes working directory in terminal to file users selected
-          ipc.send("terminal.toTerm", `cd "${pwd}"`)
+          // ipc.send("terminal.toTerm", `cd "${pwd}"`)
           // ipc.send("terminal.toTerm", '\n')
           // ipc.send("terminal.toTerm", "clear")
           // ipc.send("terminal.toTerm", '\n')
@@ -236,6 +247,19 @@ export default {
         this.$refs.modal.classList.remove('is-active');
 
         this.commitMessage = ""
+      },
+
+      updateStatus() {
+        if (this.commandCount > this.count ) {
+          this.count = this.commandCount
+          if (localStorage.workingDir) {
+            this.getStatus(localStorage.workingDir)
+          }
+          // TODO: fix git push
+          if (this.command == 'git push') {
+            ipc.send("terminal.toTerm", `git push --set-upstream origin ${this.branchName}\n`)
+          }    
+        }
       },
       
   }

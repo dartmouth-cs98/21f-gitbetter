@@ -6,6 +6,7 @@ export async function getStatus(pwd) {
     var branchName = 'main'
     var commits = 0
     var changedLocal = 0
+    var changedStaging = 0
     const filesAdded = []
     const filesModified = []
     const filesDeleted = []
@@ -48,7 +49,12 @@ export async function getStatus(pwd) {
 
         const filesChanged = {filesLocal, filesStaging}
         const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
-        return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+        changedStaging = filesStaging.filesAdded.length 
+                        + filesStaging.filesCopied.length 
+                        + filesStaging.filesDeleted.length
+                        + filesStaging.filesModified.length
+                        + filesStaging.filesRenamed.length
+        return [branchName, commits, changedLocal, changedStaging, files, filesChanged]
     }
 
 
@@ -174,10 +180,33 @@ export async function getStatus(pwd) {
         console.warn(`Throwing ${err} in getStatus`)
         throw err
     } 
+   
+    try {
+        let {stdout, stderr} = await exec(`git rev-list --left-right --count main...${branchName}`);
+        if (stdout) {
+            commits = stdout.trim().split("\t")[1]
+        } else if (stderr) {
+            console.log(stderr)
+        }
+    } catch (err){
+        console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
+        throw err
+    } 
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually
     const filesChanged = {filesLocal, filesStaging}
     const files = { filesAdded, filesModified, filesDeleted, filesUntracked };
-    return [branchName, commits, changedLocal, filesAdded.length + filesModified.length, files, filesChanged]
+    changedLocal = filesLocal.filesAdded.length 
+                    + filesLocal.filesCopied.length 
+                    + filesLocal.filesDeleted.length
+                    + filesLocal.filesModified.length
+                    + filesLocal.filesRenamed.length
+                    + filesLocal.filesUntracked.length
+    changedStaging = filesStaging.filesAdded.length 
+                    + filesStaging.filesCopied.length 
+                    + filesStaging.filesDeleted.length
+                    + filesStaging.filesModified.length
+                    + filesStaging.filesRenamed.length
+    return [branchName, commits, changedLocal, changedStaging, files, filesChanged]
 }

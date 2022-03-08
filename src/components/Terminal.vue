@@ -15,6 +15,7 @@ export default {
       fitObj: Object,
       branchN: "",
       curr: "",
+      commandCount: 1
     };
   },
   beforeDestroy() {
@@ -41,7 +42,9 @@ export default {
           this.$store.commit('setCurrCommand', {command: this.curr});
           console.log('sending new curr', this.curr)
           this.$emit('newCommand', this.curr);
+          this.$root.$emit('commandEntered', this.commandCount);
           this.curr = ""
+          this.commandCount += 1
         }
       }
       else if (data == 'del') {
