@@ -1,7 +1,7 @@
 <template>
   <div class="viz">
     {{this.toggleStatus()}}
-      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
+      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData" @done="finished"/>
       <StatusViz v-else-if="this.command.startsWith('git status') 
                           && !this.runStatusInFilesChanged"
                   ref="statusChild"/> 
@@ -41,11 +41,21 @@ export default {
   data() {
     return {
       test: true,
+<<<<<<< HEAD
       runStatusInFilesChanged: false,
       dir: process.cwd(),
       mergeConExists: this.mergeConflict,
       commandCount: 0,
+=======
+      dir: "",
+      mergeConExists: this.mergeConflict
+>>>>>>> main
     }
+  },
+  watch: {
+    '$store.state.workingDir': function() {
+      this.dir = this.$store.getters.getPWD;
+    },
   },
   computed: {
     getCurrCommand(){
@@ -75,6 +85,7 @@ export default {
   },
   methods: {
     newCommand(val) {
+      // this.dir = this.$store.getters.getPWD;
       console.log('dir is', this.dir)
       if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);

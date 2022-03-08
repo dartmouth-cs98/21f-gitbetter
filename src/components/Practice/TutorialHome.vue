@@ -6,14 +6,14 @@
         <div class="error" v-else></div>
         <div class="command">{{this.responses[this.i]}}</div>
         <form v-show="i<responses.length">
-          <input class="input is-large my-5" type="text" placeholder="Your command here!" v-model="source" />
+          <textarea class="textarea is-large my-5 has-fixed-size" rows="3" type="text" placeholder="Your command here!" v-model="source" />
           <div class="button-wrap">
-            <button class="button" @click="newSource(source)"> Run the command </button>
+            <div class="button" @click="newSource(source)"> Run the command </div>
           </div>
           <!-- <div style = "position: relative; left: 80px"> -->
         </form>
         <div v-show="i==responses.length" class="button-wrap">
-            <button class="button" @click="resetTutorial()"> Start over! </button>
+            <div class="button" @click="resetTutorial()"> Start over! </div>
         </div>
     </div>
 </template>
@@ -66,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .beginner-tutorial {
     color: white;
@@ -78,6 +78,7 @@ export default {
     font-size: 1.5rem !important;
     text-align: center;
     margin-top: 1.5rem;
+    min-height: 8rem;
 }
 
 .button-wrap {

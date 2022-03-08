@@ -11,9 +11,11 @@
             </div>
         </div>
         <div id="button-area">
-            <button v-if="this.index > 0" @click="backStep"  class="button">Back</button>
-            <button v-if="this.index + 1< this.content.length" @click="nextStep"  class="button">Next</button>
-            <button v-if="this.index + 1 == this.content.length" @click="finishStep" class="button">Done</button>
+                <button v-if="this.index > 0" @click="backStep"  class="button">Back</button>
+                <div class="separator"></div>
+                <button v-if="this.index + 1< this.content.length" @click="nextStep"  class="button">Next</button>
+                <button v-if="this.index + 1 == this.content.length" @click="finishStep" class="button">DONE</button>
+            
         </div>  
     </div>
 
@@ -103,9 +105,16 @@ export default {
 
 #button-area{    
     position: absolute;
+    display: flex;
+    flex-direction: row;
     bottom: 10%;
     padding: 18px;
    
+}
+
+.separator{
+     width: 10px;
+
 }
 
 </style>
