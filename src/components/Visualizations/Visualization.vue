@@ -45,6 +45,7 @@ export default {
       mergeConExists: this.mergeConflict,
       commandCount: 0,
       pwd: "",
+      dir: ''
     }
   },
   watch: {
@@ -84,7 +85,7 @@ export default {
       console.log(`new command ${val}`);
       this.dir = this.$store.getters.getPWD;
       // if(val === 'git status') {
-        this.$refs.statusChild.getStatus(this.dir);
+        // this.$refs.statusChild.getStatus(this.dir);
       // }
     },
     finished(){
