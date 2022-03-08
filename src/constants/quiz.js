@@ -362,6 +362,55 @@ export const questions = {
      ],
      res: "False"  
 },
-
+"36": {
+    number: 36,
+    difficulty: "hard",
+    label: "command",
+    title: "Which of these commands does not involve branches, specifically?",
+     options: [
+        "git commit", "git branch", "git checkout -b new_branch", "git clone"
+     ],
+     res: "git commit"  
+},
+"37": {
+    number: 37,
+    difficulty: "medium",
+    label: "command",
+    title: "If you run git commit -m 'my message' and then run git log, you will see this commit in the output of git log.",
+     options: [
+        "True", "False"
+     ],
+     res: "True"  
+},
+"38": {
+    number: 38,
+    difficulty: "medium",
+    label: "command",
+    title: "If you run git commit -m 'my message' and then run git log, you will not see this commit in the output of git log.",
+     options: [
+        "True", "False"
+     ],
+     res: "False"  
+},
+"39": {
+    number: 39,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Which of these commands is the least like the others?",
+     options: [
+        "git log", "git branch", "git commit"
+     ],
+     res: "git commit"  
+},
+"40": {
+    number: 40,
+    difficulty: "hard",
+    label: "conceptual",
+    title: "Which of these commands is the least like the others?",
+     options: [
+        "git checkout -b new_branch", "git commit -m 'my commit'", "git push", "git clone"
+     ],
+     res: "git clone"  
+},
 
 }
