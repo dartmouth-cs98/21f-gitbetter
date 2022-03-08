@@ -126,8 +126,14 @@ export default {
       this.$store.commit('setWorkingDir', pwd);
     })
   },
+  watch: {
+    '$store.state.workingDir': function() {
+      this.pwd = this.$store.getters.getPWD;
+    },
+  },
   methods: {
     async saveChanges() {
+      console.log('saving changes on', this.pwd);
       await saveChanges(this.pwd)
     },
     async startOver() {

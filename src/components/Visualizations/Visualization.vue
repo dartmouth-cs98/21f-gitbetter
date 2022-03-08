@@ -41,7 +41,7 @@ export default {
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.dir = this.$store.getters.getPWD;
+      this.dir = "";
     },
   },
   computed: {
