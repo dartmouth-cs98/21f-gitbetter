@@ -1,15 +1,18 @@
 
 var start_over =  async function start_over(pwd) {
 
-   const util = require('util');
+    const util = require('util');
     const exec = util.promisify(require('child_process').exec);
     const fs = require('fs');
-
+    
+    if (pwd == undefined) {
+        return
+    }
     let  new_dir = pwd + ".gb"
-    console.log(new_dir)
+    if (!fs.existsSync())
 
     if (!fs.existsSync(new_dir)){
-        console.log(".gb directory already exists")
+        console.log("repo does not exist")
         return
     }
     try {

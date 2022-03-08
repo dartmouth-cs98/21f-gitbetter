@@ -7,7 +7,9 @@
                   ref="statusChild"/> 
       <BranchViz v-else-if="this.command.startsWith('git branch')
                           || this.command.startsWith('git switch') 
-                          || this.command.startsWith('git checkout')"/>
+                          || this.command.startsWith('git checkout')"
+                  :command="this.command" 
+                  :commandCount="this.commandCount" />
       <FilesChanged v-else-if="this.command.startsWith('git add') 
                         || this.command.startsWith('git restore')
                         || this.command.startsWith('git rm')
@@ -40,6 +42,8 @@ export default {
       test: true,
       runStatusInFilesChanged: false,
       dir: process.cwd(),
+      mergeConExists: this.mergeConflict,
+      commandCount: 0,
     }
   },
   computed: {
@@ -62,6 +66,12 @@ export default {
       this.$store.commit('setGitRepo', false);
     });
   },
+  mounted() {
+    this.$root.$on('commandEntered', data => {
+      this.commandCount = data
+      console.log('COMMAND ENTERED:', this.commandCount)
+    });
+  },
   methods: {
     newCommand(val) {
       console.log('dir is', this.dir)
@@ -81,7 +91,10 @@ export default {
     },
     onRunStatus (value) {
       this.runStatusInFilesChanged = value
-    }
+    },
+    finished(){
+      this.mergeConExists = false;
+    },
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
-<div class="branch-container">
+<div class="branch-container" :key="this.commandCount">
+    {{this.runCommand()}}
     <div v-for="direc in branches" :key="direc" >
         <button class="branch-button" v-on:click="switchBranch(direc)"> {{ direc }} </button>
     </div>
@@ -12,6 +13,10 @@ const pty = require("node-pty");
 
 export default {
     name: 'BranchViz',
+    props: {
+        command: String,
+        commandCount: Number
+    },
     data () {
         return {
             branches: ['firstName', 'somewhat_long_name_that_hopefully_exceeds_window_len', 'branch3'],
@@ -21,13 +26,23 @@ export default {
                 rows: 100,
                 cwd: process.CWD,
                 env: process.env
-            })
+            }),
+            count: 0
         }
     },
     methods: {
         switchBranch(branch) {
             this.ptyProcess.write(`git checkout ${branch} \n`);
             this.ptyProcess.write('git branch --no-color\n');
+        },
+        runCommand() {
+            if (this.commandCount > this.count && (
+              this.command.startsWith('git branch') 
+              || this.command.startsWith('git checkout') 
+              || this.command.startsWith('git switch'))) {
+                this.ptyProcess.write('git branch --no-color\n');
+                this.count = this.commandCount
+            }
         }
     },
     mounted() {
@@ -39,7 +54,7 @@ export default {
                 .map(branch => branch.includes('=') ? branch.split('=')[1].trim() : branch)
         });
         this.ptyProcess.write('git branch --no-color\n');
-    },
+    }
 }
 </script>
 <style lang="scss" scoped>
