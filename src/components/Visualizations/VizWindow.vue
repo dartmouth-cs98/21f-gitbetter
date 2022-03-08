@@ -39,6 +39,7 @@ export default {
   name: 'VizWindow',
   data() {
     return {
+      pwd: '',
       gitPulled: false,
       mergeConflictExists: false,
       mergeConflictData: [],
@@ -79,12 +80,12 @@ export default {
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.workingDirectory = this.$store.getters.getPWD;
+      this.pwd = this.$store.getters.getPWD;
     },
   },
   mounted() {
-    this.workingDirectory = this.$store.getters.getPWD;
-    console.log('working dir in viz window', this.workingDirectory)
+    this.pwd = this.$store.getters.getPWD;
+    console.log('working dir in viz window', this.pwd)
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {

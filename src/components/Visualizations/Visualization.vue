@@ -42,14 +42,14 @@ export default {
   data() {
     return {
       test: true,
-      dir: "",
       mergeConExists: this.mergeConflict,
-      commandCount: 0
+      commandCount: 0,
+      pwd: "",
     }
   },
   watch: {
     '$store.state.workingDir': function() {
-      this.dir = this.$store.getters.getPWD;
+      this.pwd = this.$store.getters.getPWD; 
     },
   },
   computed: {
@@ -78,10 +78,13 @@ export default {
     });
   },
   methods: {
+
+
     newCommand(val) { // Not entirely sure what to do with this 
-      console.log(`new command ${val}`)
+      console.log(`new command ${val}`);
+      this.dir = this.$store.getters.getPWD;
       // if(val === 'git status') {
-      //   this.$refs.statusChild.getStatus(this.dir);
+        this.$refs.statusChild.getStatus(this.dir);
       // }
     },
     finished(){

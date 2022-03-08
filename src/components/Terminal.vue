@@ -15,7 +15,8 @@ export default {
       fitObj: Object,
       branchN: "",
       curr: "",
-      commandCount: 1
+      commandCount: 1,
+      pwd: "",
     };
   },
   beforeDestroy() {
@@ -60,6 +61,12 @@ export default {
     this.$parent.$on('closeVisualization', this.resizeTerm);
 
   },
+
+    watch: {
+    '$store.state.workingDir': function() {
+      this.pwd = this.$store.getters.getPWD; 
+    }
+    },
   methods: {
     makeScript() {
       let recaptchaScript = document.createElement('script')
@@ -85,7 +92,6 @@ export default {
         fitAddon.fit();
         // fitAddon.fit();
         ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
-        //ipc.send("terminal.toTerm", "cp  gitbetter-commands.sh ~/.custom_bash_commands.sh\n")
         ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
         ipc.send("terminal.toTerm", "clear")
         ipc.send('runTerminalCommand', 'Terminal');
@@ -101,12 +107,14 @@ export default {
           }
           else if(data === 'bash-3.2$ ') {
             ipc.send('setCommand', 'Enter');
+            // add getStatus 
           }
         })
       }
     },
     resizeTerm() {
       try {
+        // term.open(document.getElementById('terminal'));
         this.fitObj.fit();
       }
       catch(error) {

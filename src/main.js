@@ -30,6 +30,8 @@ const store = new Vuex.Store({
     firstTime: true,
     isGit: true,
     workingDir: "",
+    local: [],
+    staging: [],
   },
   mutations: {
     add (state, command) {
@@ -56,6 +58,10 @@ const store = new Vuex.Store({
     setWorkingDir(state, pwd) {
       state.workingDir = pwd;
     },
+    setFiles(state, local, staging) {
+      state.local = local;
+      state.staging = staging;
+    },
   },
   getters: {
     getRecentSearches: state => {
@@ -79,6 +85,12 @@ const store = new Vuex.Store({
     },
     getPWD: state => {
       return state.workingDir;
+    },
+    getLocal: state => {
+      return state.local;
+    },
+    getStaging: state => {
+      return state.staging;
     }
   }
 })
