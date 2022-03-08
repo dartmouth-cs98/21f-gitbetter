@@ -6,16 +6,19 @@ import { getStatus } from './utils/getStatus';
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
-
 require('events').EventEmitter.defaultMaxListeners = 50;
-
 
 const os = require("os");
 const pty = require("node-pty");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
-var replicate = require('./replicate_repo')
+var replicate = require('./replicate_repo');
+let trapReady = {};
+
+const isTrapReady = () => [
+  'FilesChangedViz', 'VizWindow', 'StatusViz',
+].every(flag => flag in trapReady);
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -29,10 +32,9 @@ let win;
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
+    width: 1000,
     height: 600,
     webPreferences: {
-      
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -43,21 +45,44 @@ async function createWindow() {
   var ptyProcess = pty.spawn(shell, [], {
     name: "xterm-color",
     cols: 80,
-    rows: 100,
+    rows: 120,
     cwd: process.CWD,
     env: process.env
   });
 
   /* X-term integration using node-pty tutorial from VINCE on YouTube
   * Source: https://www.youtube.com/watch?v=vhDBbbMJWoY */
-
   ptyProcess.on("data", function(data) {
     win.webContents.send("terminal.incData", data);
   });
 
   ipcMain.on("terminal.toTerm", function(event, data) {
     win.webContents.send("user_input", data);
-    ptyProcess.write(data);
+    // Holds request until front end is ready (Traps newline)
+    const isNewLine = data.match(/^\s+/) && data !== ' ';
+    if (isTrapReady() || !isNewLine) ptyProcess.write(data);
+  });
+
+  ipcMain.on("terminal.toTerm.force", (_, { pwd, command }) => {
+    // There is a race condition after replicate repo and before terminal force write
+    const removeLock = [
+      `if [ -f "${pwd}/.git/index.lock" ]`,
+      `then rm "${pwd}/.git/index.lock"`,
+      'fi',
+      'clear',
+      '',
+    ].join('\n');
+    ptyProcess.write(removeLock);
+    ptyProcess.write(command);
+  });
+
+  ipcMain.on("runTerminalCommand", (_, data) => {
+    // Indicates the repo front end is in sync
+    trapReady[data] = true;
+
+    // runs command from trap
+    console.warn('loading trap', data);
+    ptyProcess.write('\n');
   });
 
   ipcMain.on('setCommand', (event, data) => {
@@ -67,36 +92,33 @@ async function createWindow() {
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
+ 
+  async function replicateRepoWrapper(directory, version=0) {
+    if (directory.includes('.gb.gb')) throw Error(`Bad directory (double gb) ${directory}`);
+    ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
+    win.webContents.send("finderOpened");
+    const git = await isGit(directory)
+    if (!git){
+      win.webContents.send("notGit");
+      await initializeGit(directory);
+    }
+    getStatus(directory);
+    const new_dir = await replicate.replicate_repo(directory, version)
+    win.webContents.send('giveFilePath', new_dir)
+  }
 
   // opens finder modal
-
-
   ipcMain.on("openFinder", async function() {
-
     dialog.showOpenDialog({
       defaultPath:app.getPath('home'),
       // only enables user to select directories
       properties:['openDirectory'],
-    }).then(async (result)=> {
-      let pwd = result.filePaths[0]
-      await replicate.replicate_repo(pwd);
-      win.webContents.send("finderOpened");
-      await isGit(pwd).then(async git => {
-        console.log(git)
-        if (!git) {
-          await initializeGit(pwd)
-        }
-      }).catch((error => {
-        console.log(error)
-    
-    }))
-     
-      getStatus(pwd)
-      win.webContents.send('giveFilePath', pwd);
-   
-    }).catch(console.error);
+    }).then(({ filePaths }) => replicateRepoWrapper(filePaths[0])).catch(console.error);
   })
 
+  ipcMain.on("destructiveCommandClone",
+    (_, { directory, version }) => replicateRepoWrapper(directory, version));
+  
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)

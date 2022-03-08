@@ -74,7 +74,6 @@ export default {
   },
   mounted() {
       ipc.on('finderOpened', () => {
-        console.log("finder has been opened")
         if (this.$router.currentRoute.path != '/home') {
             this.$router.push('/home');
         }
@@ -90,18 +89,6 @@ export default {
         //this.isLoading.value = false;
 
       },
-
-    //   searchCommands (input) {
-    //       let matches = [];
-    //       if(input.length > 2 && input !=="git") {
-    //         for (var key in gitCommands) {
-    //             if (key.includes(input) || gitCommands[key].includes(input)) {           
-    //                 matches.push({command: key, desc: gitCommands[key]})
-    //             }
-    //         }
-    //         this.commandOpts = matches;
-    //       }
-    //   }
   }
 }
 
@@ -272,6 +259,18 @@ body {
     .subtitle {
         font-size: 150%;
     }
+    .cta {
+    display: flex;
+    padding: 7px 21px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: white;
+    background: #272727;
+    transition: 1s;
+    box-shadow: -6px 6px 0 black;
+    transform: skewX(-15deg);
+}
 }
 
 @media only screen and (max-width: 770px) {
@@ -296,6 +295,16 @@ body {
          top: -1.5rem;
         font-size: 130%;
     }
+    .tool-desc {
+        font-size: 0.85rem;
+    }
+     .logo {
+        padding: 60px 30px 0 10px;
+        min-height: 42%;
+    }
+    .blurb {
+        min-height: 95%;
+    }
 
 }
 @media only screen and (max-width: 585px) {
@@ -315,6 +324,19 @@ body {
         width: 20%;
         left: 40%;
         font-size: 12px;
+    }
+    .tool-desc {
+        color: white;
+        padding: 3%;
+        min-height: 100%;
+        margin-bottom: 30px;
+    }
+    .logo {
+        padding: 60px 30px 0 10px;
+        min-height: 32%;
+    }
+    .blurb {
+        height: 80%;
     }
 }
 

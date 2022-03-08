@@ -18,7 +18,7 @@ export const mergeInterface = {
             mark: []
         },
         {
-            step: "Then run git commit with no options to complete the merge and automatically create a commit message. Now, you will be able to push your changes to your branch", 
+            step: "Then run git commit with no options to complete the merge and automatically create a commit message. Now, you will be able to push your changes to your branch. Once you have committed, you can click 'Done'.", 
             mark: ["git commit"]
         },
     ],

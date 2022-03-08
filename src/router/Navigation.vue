@@ -121,29 +121,26 @@ export default {
   },
 
   mounted() {
-
     ipc.on("giveFilePath", (event, pwd) => {
-      this.pwd = pwd
-      console.log("Naviagation: ")
-      console.log(pwd)
+      this.pwd = pwd;
+      console.log('set dir to', pwd, 'in nav')
+      this.$store.commit('setWorkingDir', pwd);
     })
   },
-
   methods: {
     async saveChanges() {
-      await saveChanges()
+      await saveChanges(this.pwd)
     },
     async startOver() {
-        VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
+       VueSimpleAlert.confirm("All unsaved changes will be lost").then(async (res)=>{
         if (res) {
           this.isLoading.value = true;
+          ipc.eventNames().forEach(channel => ipc.removeAllListeners(channel));
           await start_over.start_over(this.pwd)
           this.isLoading.value = false;
           this.$router.push('/')
         }
-      }).catch((error) => {
-        console.log(error)
-      })
+      }).catch(console.log);
     },
     helpIconPressed() {
       if(this.$router.currentRoute.path !== '/home') {

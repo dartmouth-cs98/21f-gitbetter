@@ -1,13 +1,16 @@
 <template>
   <div class="viz">
       <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon v-if="mergeConflict" :mergeData="this.mergeConflictData"/>
-      <div v-if="test">
+      <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
+      <div v-else>
+        <div v-if="test">
         <StatusViz ref="statusChild" />
       </div>
       <div v-else>
-        <StatusViz ref="statusChild"/> /> 
+        <!-- <StatusViz ref="statusChild"/> />  -->
       </div>
+      </div>
+      
       <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
       <DirectoryTree v-else /> -->
   </div>
@@ -32,8 +35,15 @@ export default {
   data() {
     return {
       test: true,
-      dir: process.cwd(),
+      dir: "",
+      priorDir: '',
+      mergeConExists: this.mergeConflict
     }
+  },
+  watch: {
+    '$store.state.workingDir': function() {
+      this.dir = this.$store.getters.getPWD;
+    },
   },
   computed: {
     getCurrCommand(){
@@ -56,12 +66,16 @@ export default {
     });
   },
   methods: {
-    newCommand(val) {
-      console.log('dir is', this.dir)
-      if(val === 'git status') {
+    newCommand(val) { // Not entirely sure what to do with this 
+      console.log(`new command ${val}`);
+      this.dir = this.$store.getters.getPWD;
+      // if(val === 'git status') {
         this.$refs.statusChild.getStatus(this.dir);
-      }
-    }
+      // }
+    },
+    finished(){
+      this.mergeConExists = false;
+    },
   }
 }
 </script>

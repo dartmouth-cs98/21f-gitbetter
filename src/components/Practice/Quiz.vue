@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="question-subtitle">
-            {{ question.number }}. {{ question.title }}
+            {{ this.number }}. {{ question.title }}
             <span v-if="submitted && correct" style="color: green;" class="res">
                 <font-awesome-icon icon="check"/>
             </span>
@@ -28,6 +28,7 @@ export default {
   props: {
       question: Object,
       submitted: Boolean,
+      number: Number,
   },
   data() {
       return {
@@ -57,7 +58,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .options { 
     display: flex;
     flex-direction: column;

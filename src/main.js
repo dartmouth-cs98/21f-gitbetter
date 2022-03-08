@@ -29,6 +29,9 @@ const store = new Vuex.Store({
     command: "git status",
     firstTime: true,
     isGit: true,
+    workingDir: "",
+    local: [],
+    staging: [],
   },
   mutations: {
     add (state, command) {
@@ -52,13 +55,20 @@ const store = new Vuex.Store({
     setGitRepo(state, status) {
       state.isGit = status;
     },
+    setWorkingDir(state, pwd) {
+      state.workingDir = pwd;
+    },
+    setFiles(state, local, staging) {
+      state.local = local;
+      state.staging = staging;
+    },
   },
   getters: {
     getRecentSearches: state => {
       return state.recentSearches;
     },
     getStatus: state => {
-      console.log("status getter", state.status);
+      // console.log("status getter", state.status);
       return state.status;
     },
     getBranchName: state => {
@@ -72,6 +82,15 @@ const store = new Vuex.Store({
     },
     gitRepo: state => {
       return state.isGit;
+    },
+    getPWD: state => {
+      return state.workingDir;
+    },
+    getLocal: state => {
+      return state.local;
+    },
+    getStaging: state => {
+      return state.staging;
     }
   }
 })
