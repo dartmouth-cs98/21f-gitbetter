@@ -31,15 +31,15 @@
       </p>
       <hr>
       <div class='commit-flow'>
-          <div v-bind:class="this.prevCommand.startsWith('git add') ? 'highlight-text' : 'commit-flow-text'">
+          <div v-bind:class="this.command.startsWith('git add') ? 'highlight-text' : 'commit-flow-text'">
               git add
           </div>   
           <font-awesome-icon icon='chevron-right'/> 
-          <div v-bind:class="this.prevCommand.startsWith('git commit') ? 'highlight-text' : 'commit-flow-text'">
+          <div v-bind:class="this.command.startsWith('git commit') ? 'highlight-text' : 'commit-flow-text'">
               git commit
           </div>  
           <font-awesome-icon icon='chevron-right'/> 
-          <div v-bind:class="this.prevCommand.startsWith('git push') ? 'highlight-text' : 'commit-flow-text'">
+          <div v-bind:class="this.command.startsWith('git push') ? 'highlight-text' : 'commit-flow-text'">
               git push
           </div>  
       </div>    
@@ -52,10 +52,10 @@ var parse = require('../../utils/getStatus')
 
 export default {
   name: 'FilesChanged',
-  // props: {
-  //   command: String,
-  //   commandCount: Number
-  // },
+  props: {
+    command: String,
+    commandCount: Number
+  },
   data() {
     return {
       prevCommand: '',
@@ -83,6 +83,7 @@ export default {
   mounted() {
     ipc.on('giveFilePath', (event, pwd) => {
       localStorage.workingDir = pwd 
+      ipc.send("terminal.toTerm", `cd "${pwd}"`)
       this.getStatus(localStorage.workingDir)
     })
 
@@ -94,7 +95,7 @@ export default {
   methods: {
     getStatus: function(pwd) {
         // changes working directory in terminal to file users selected
-        ipc.send("terminal.toTerm", `cd "${pwd}"`)
+        // ipc.send("terminal.toTerm", `cd "${pwd}"`)
         // ipc.send("terminal.toTerm", '\n')
         // ipc.send("terminal.toTerm", "clear")
         // ipc.send("terminal.toTerm", '\n')
@@ -108,18 +109,12 @@ export default {
         parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
     },
     updateStatus() {
-      if (this.commandCount > this.count && (
-          this.command.startsWith('git add') 
-          || this.command.startsWith('git restore') 
-          || this.command.startsWith('git rm') 
-          || this.command.startsWith('git commit') 
-          || this.command.startsWith('git push'))) {
-            this.prevCommand = this.command
-            this.count = this.commandCount
-            if (localStorage.workingDir) {
-              this.getStatus(localStorage.workingDir)
-            }
-      }
+      if (this.commandCount > this.count ) {
+          this.count = this.commandCount
+          if (localStorage.workingDir) {
+            this.getStatus(localStorage.workingDir)
+          }
+      }    
     },
   },
 };
