@@ -10,10 +10,15 @@
 
                     <div class="buttons-flex">
                         <div class="blurb">
+                            <div class="blurb-title">
+                                Familiar with Git? 
+                            </div>
+                            <div class="blurb-title">
+                                Try GitBetter!
+                            </div>
                             <div class="tool-desc">
-                            Gitbetter is a tool for people who know how to use git, but who sometimes struggle with remembering commands
-                            or remebering the specifics of how git works. The Gitbetter terminal is a sandbox which allows you to test out 
-                            git commands and resolve merge conflicts before applying changes to the git repository that you're working in. 
+                            GitBetter is a tool for people who know how to use git, but who sometimes struggle with git or are worried about lasting repercussions to their project. 
+                            Our terminal is a sandbox that allows you to test git commands before applying changes to your git repository. 
                             Ready to Git Started? Click the button below.
                             </div>
                         <div class="wrapper" v-on:click="gitStarted" >
@@ -22,15 +27,18 @@
                             </div>
                         </div>
                         </div>
-                        
-
-
                       <div class="vl"></div>
                         <div class="blurb">
+                            <div class="blurb-title">
+                                Never used Git before? 
+                            </div>
+                            <div class="blurb-title">
+                                Try GitLearning!
+                            </div>
                             <div class="tool-desc">
-                            Gitlearning is a tool for people who haven't used Github before. Gitlearning has walkthroughs for the common 
+                            GitLearning is a tool for people who never/rarely used Github before. GitLearning has walkthroughs for the common 
                             workflows you'll see while using Github as a developer, and can get you up to speed with the tools you need 
-                            to figure it out. 
+                            to figure them out. 
                             </div>
                             <div class="wrapper" @click="$router.push('/beginner')">
                             <div class="cta">
@@ -120,8 +128,7 @@ img {
 }
 .logo {
     padding: 60px 30px 0 10px;
-    min-height: 52%;
-
+    min-height: 50%;
 }
 
 .tool-desc {
@@ -141,10 +148,16 @@ img {
 
 .blurb { 
     width: 45%;
-    height: 70%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.blurb-title {
+    color: white;
+    margin: 0 auto;
+    font-weight: 800;
+    font-size: 20px;
 }
 
 .buttons-flex {
