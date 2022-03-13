@@ -18,7 +18,7 @@ export const questions = [
         "git commit 'branch'", "git checkout 'bestbranch'", 
         "git add 'bestbranch'", "git checkout -b 'bestbranch'"
      ],
-     res: 'git add'       
+     res: "git checkout -b 'bestbranch'"      
    },
  {
       number: 3,
@@ -73,7 +73,7 @@ export const questions = [
     title: "Which of the following is not a real GitHub command?",
      options: [
         "git push", "git pull", 
-        "git build ", 
+        "git build", 
         "git clone"
      ],
      res: "git build"       
@@ -124,7 +124,7 @@ export const questions = [
         "git push", 
         "git add"
      ],
-     res: "git pull"       
+     res: "git checkout -b 'newbranch'"      
   },
   {
     number: 12,
@@ -184,7 +184,7 @@ export const questions = [
     number: 17,
     'difficulty': "easy",
     'label': "conceptual",
-    title: "The main branch is your personal branch where you can work on the code.",
+    title: "The main branch is your personal branch and is the one you should be on when you want to work on the code.",
      options: [
         "True", "False"
      ],
@@ -245,7 +245,7 @@ export const questions = [
     number: 23,
     'difficulty': "hard",
     'label': "conceptual",
-    title: "Any files that you git add will be included in the next commit that you make.",
+    title: "If you do not git add a file, it will not be included in your next commit.",
      options: [
         "True", "False"
      ],
@@ -296,7 +296,7 @@ export const questions = [
     number: 29,
     'difficulty': "hard",
     'label': "command",
-    title: "What is the command to use if you want to see a history of all commits you have made?",
+    title: "Which of these is useful for looking at all of your commits?",
      options: [
         "git log", 'git commit -history', 'git status', "git find commits"
      ],
@@ -346,7 +346,7 @@ export const questions = [
     number: 34,
     'difficulty': "hard",
     'label': "conceptual",
-    title: "If you run 'git checkout -b new_branch', then new_branch will be included in the output from running 'git branch'.",
+    title: "If you run 'git checkout -b new_branch', then new_branch will be included in the output when you run 'git branch' next.",
      options: [
         "True", "False"
      ],
@@ -356,7 +356,7 @@ export const questions = [
     number: 35,
     'difficulty': "hard",
     'label': "conceptual",
-    title: "If you run 'git checkout -b new_branch', new_branch will be not included in the output from running 'git branch'.",
+    title: "If you run 'git checkout -b new_branch', new_branch will be not included in the output when you run 'git branch' next.",
      options: [
         "True", "False"
      ],
@@ -431,7 +431,7 @@ export const questions = [
     'label': "conceptual",
     title: "Which of the following best describes what version control is?",
      options: [
-        "Version control allows you to keep track of different versions of a codebase.",
+        "Version control allows you to update your code without losing your previous version.",
         "Version control allows you to save changes that you have made in a large codebase.",
         "Version control helps developers track and manage changes to a software project's code.",
         "Version control allows you to save multiple different versions of a file that you are working on."
@@ -442,7 +442,7 @@ export const questions = [
     number: 43,
     'difficulty': "hard",
     'label': "conceptual",
-    title: "Which of the following is correct?",
+    title: "Which of the following is the most correct?",
      options: [
         "A pull request is something you make before you commit your changes.",
         "You should make a pull request before you clone a repository.",
@@ -455,7 +455,7 @@ export const questions = [
     number: 44,
     'difficulty': "hard",
     'label': "conceptual",
-    title: "Which of these is not something you can see on the GitHub website?",
+    title: "Which of these is not something you can look at on the GitHub website?",
      options: [
         "The project code",
         "Code you have not pushed yet",
@@ -494,14 +494,11 @@ export const questions = [
     number: 47,
     'difficulty': "medium",
     'label': "conceptual",
-    title: "Which of the following best explains what happens when you run git log?",
+    title: "GitHub allows you people to code collaboratively.",
      options: [
-        "When you run git log, you can see a list of all the commits made to the repository.",
-        "When you run git log, you can see a list of all of the branches in the repository.",
-        "When you run git log, you can see a list of all of the files that you have updated or added.",
-        "When you run git log, you can see a list of all of the files that will be included in your next commit."
+        "True", "False"
      ],
-     res:  "When you run git log, you can see a list of all the commits made to the repository."
+     res:  "True"
 },
 {
     number: 48,
@@ -537,7 +534,7 @@ export const questions = [
      options: [
         "This command allows you to pull code from a different branch into the branch you are currently working on.",
         "This command allows you to pull a commit from one branch into another branch.",
-        "This command allows you to copy all of the content in one branch into your current branch.",
+        "This command allows you to copy all of the content in one branch and move it to your current branch.",
         "This command allows you to pull all changes that have been pushed to the main repository into the branch you are currently on."
      ],
      res:  "This command allows you to pull all changes that have been pushed to the main repository into the branch you are currently on."
