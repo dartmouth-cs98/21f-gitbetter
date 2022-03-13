@@ -106,7 +106,8 @@ export default {
     });
 
     ipc.on('giveFilePath', async(_, pwd) => {
-      this.syncReplicate(pwd);
+      ipc.send("terminal.toTerm", `cd "${pwd}" \n`)
+      process.chdir(pwd);
       this.gitStatus.workingDirectory = pwd;
       const [gb, gbVersion] = pwd.split('.').slice(-2);
       if (gbVersion === 'gb') {
@@ -124,7 +125,8 @@ export default {
         });
         await new Promise(r => setTimeout(r, 500));
         ipc.send('runTerminalCommand', 'VizWindow');
-      } 
+      }
+      this.updateStatus();
     });
   },
   methods: {
@@ -170,11 +172,6 @@ export default {
         ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
       // Non destructive Command - so we can accept as is
       } else ipc.send('runTerminalCommand', 'VizWindow');
-    },
-    syncReplicate(pwd) {
-      ipc.send("terminal.toTerm", `cd "${pwd}" \n`)
-      process.chdir(pwd);
-      this.updateStatus();
     },
     async checkForPull(){
       if (['pull'].includes(this.command.split(' ', 3)[1])){

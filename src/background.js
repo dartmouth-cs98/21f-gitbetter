@@ -1,7 +1,6 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-// import { getStatus } from './utils/getStatus';
 
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
@@ -14,11 +13,11 @@ const pty = require("node-pty");
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo');
-let trapReady = {};
+let trapReady = new Map();
 
-const isTrapReady = () => [
+const isTrapReady = () => ![
   'VizWindow', //'FilesChangedViz', 'StatusViz',
-].every(flag => flag in trapReady);
+].every(flag => trapReady.get(flag));
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -77,14 +76,15 @@ async function createWindow() {
   });
 
   ipcMain.on("runTerminalCommand", (_, data) => {
-    const isTrapSet = !isTrapReady();
-    if(!isTrapSet) return;
+    const isTrapSet = isTrapReady();
     // Indicates the repo front end is in sync
-    trapReady[data] = true;
+    trapReady.set(data, true);
 
-    // runs command from trap
-    console.warn('loading trap', data);
-    if (isTrapSet) ptyProcess.write('\n');
+    if (!isTrapSet || data == 'VizWindow') {
+      // runs command from trap
+      console.warn('loading trap', data);
+      ptyProcess.write('\n');
+    }    
   });
 
   ipcMain.on('setCommand', (event, data) => {
@@ -94,6 +94,8 @@ async function createWindow() {
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
+
+  ipcMain.on('trapClear', () => trapReady.clear());
  
   async function replicateRepoWrapper(directory, version=0) {
     if (directory.includes('.gb.gb')) throw Error(`Bad directory (double gb) ${directory}`);

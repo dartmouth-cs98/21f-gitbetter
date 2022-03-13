@@ -68,6 +68,10 @@ export async function getStatus() {
                     case 'D':
                         filesDeleted.push(file);
                         break;
+                    case 'AM':
+                        filesModified.push(file);
+                        filesAdded.push(file);
+                        break;
                     case '??':
                         filesUntracked.push(file);
                         break;
@@ -96,6 +100,10 @@ export async function getStatus() {
                     case 'M':
                         filesStaging.filesModified.push(file)
                         break;     
+                    case 'AM':
+                        filesStaging.filesAdded.push(file);
+                        filesStaging.filesModified.push(file);
+                        break;
                     case 'D':
                         filesStaging.filesDeleted.push(file)
                         break;     
@@ -124,6 +132,10 @@ export async function getStatus() {
                     case 'M':
                         filesLocal.filesModified.push(file)
                         break;     
+                    case 'AM':
+                        filesLocal.filesModified.push(file);
+                        filesLocal.filesAdded.push(file);
+                        break;
                     case 'D':
                         filesLocal.filesDeleted.push(file)
                         break;     

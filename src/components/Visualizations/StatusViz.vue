@@ -93,9 +93,6 @@ import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: 'Status',
-  props: {
-    gitStatus: Array,
-  },
   data () {
     return {
       branchName: "",
@@ -117,24 +114,24 @@ export default {
     ipc.on('getStatus', (event, result) => {
       this.branchName = result[0];
       this.commits = result[1];
-      console.log('status viz processed commits', this.commits);
+      // console.log('status viz processed commits', this.commits);
 
       // get the files in the local and staging areas 
       this.filesStaging = result[5].filesStaging;
       this.filesLocal = result[5].filesLocal;
-      console.log('status viz processed files local', this.filesLocal);
+      // console.log('status viz processed files local', this.filesLocal);
 
       // get list of all of the files in the staging area
       this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
       this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
-      console.log('status viz processed files to commit', this.filesToCommit);
+      // console.log('status viz processed files to commit', this.filesToCommit);
 
       this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
       this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
 
       this.changedLocal = this.filesToAdd.length;
       this.tracked = this.filesToCommit.length;
-      console.log('status viz processed tracked', this.tracked );
+      console.log('status viz processed tracked', this.filesStaging );
       this.$store.commit('setFiles', this.filesToAdd, this.filesToCommit)
     });
   },

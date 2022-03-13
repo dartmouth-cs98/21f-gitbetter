@@ -142,7 +142,8 @@ export default {
         if (res) {
           this.isLoading.value = true;
           ipc.eventNames().forEach(channel => ipc.removeAllListeners(channel));
-          await start_over.start_over(this.pwd)
+          await start_over.start_over(this.pwd);
+          ipc.send('trapClear');
           this.isLoading.value = false;
           this.$router.push('/')
         }

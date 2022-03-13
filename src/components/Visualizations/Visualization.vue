@@ -65,8 +65,8 @@ export default {
     });
   },
   methods: {
-    newCommand(val) { // THIS IS NOT WORKING -- changes directories in getStatus and messing with back/forth
-      console.log(`new command: ${val}`);
+    newCommand() { // THIS IS NOT WORKING -- changes directories in getStatus and messing with back/forth
+      // console.log(`new command: ${val}`);
       // this.dir = this.$store.getters.getPWD;
       // if(val === 'git status') {
         // this.$refs.statusChild.getStatus(this.dir);
