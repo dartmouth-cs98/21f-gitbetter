@@ -1,7 +1,7 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { getStatus } from './utils/getStatus';
+// import { getStatus } from './utils/getStatus';
 
 import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
@@ -17,7 +17,7 @@ var replicate = require('./replicate_repo');
 let trapReady = {};
 
 const isTrapReady = () => [
-  'FilesChangedViz', 'VizWindow', 'StatusViz',
+  'VizWindow', //'FilesChangedViz', 'StatusViz',
 ].every(flag => flag in trapReady);
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -77,12 +77,14 @@ async function createWindow() {
   });
 
   ipcMain.on("runTerminalCommand", (_, data) => {
+    const isTrapSet = !isTrapReady();
+    if(!isTrapSet) return;
     // Indicates the repo front end is in sync
     trapReady[data] = true;
 
     // runs command from trap
     console.warn('loading trap', data);
-    ptyProcess.write('\n');
+    if (isTrapSet) ptyProcess.write('\n');
   });
 
   ipcMain.on('setCommand', (event, data) => {
@@ -102,9 +104,9 @@ async function createWindow() {
       win.webContents.send("notGit");
       await initializeGit(directory);
     }
-    getStatus(directory);
-    const new_dir = await replicate.replicate_repo(directory, version)
-    win.webContents.send('giveFilePath', new_dir)
+
+    const new_dir = await replicate.replicate_repo(directory, version);
+    win.webContents.send('giveFilePath', new_dir);
   }
 
   // opens finder modal

@@ -37,7 +37,6 @@ export default {
       test: true,
       mergeConExists: this.mergeConflict,
       pwd: "",
-
     }
   },
   watch: {
@@ -66,13 +65,11 @@ export default {
     });
   },
   methods: {
-
-
-    newCommand(val) { // Not entirely sure what to do with this 
-      console.log(`new command ${val}`);
-      this.dir = this.$store.getters.getPWD;
+    newCommand(val) { // THIS IS NOT WORKING -- changes directories in getStatus and messing with back/forth
+      console.log(`new command: ${val}`);
+      // this.dir = this.$store.getters.getPWD;
       // if(val === 'git status') {
-        this.$refs.statusChild.getStatus(this.dir);
+        // this.$refs.statusChild.getStatus(this.dir);
       // }
     },
     finished(){

@@ -123,7 +123,7 @@ export default {
   mounted() {
     ipc.on("giveFilePath", (event, pwd) => {
       this.pwd = pwd;
-      console.log('set dir to', pwd, 'in nav')
+      // console.log('set dir to', pwd, 'in nav')
       this.$store.commit('setWorkingDir', pwd);
     })
   },

@@ -5,20 +5,19 @@ var start_over =  async function start_over(pwd) {
     const base_pwd = pwd.substring(0, pwd.indexOf('.gb'));
 
     try {
-        process.chdir("..")
-        console.log('directory has successfully been changed in start_over to move into general folder')
+        process.chdir("..");
+        console.log(`directory has changed in start_over to ${process.cwd()}`);
     } catch {
-        console.error("error while changing directory")
+        console.error("error while changing directory");
     }
 
     try {
         const { stdout } = await exec('rm -r ' + base_pwd + '.gb*');
 
         if (stdout) {
-            console.log(`${base_pwd} directories have been removed\n`)
-            console.log(stdout)
+            console.log(`${base_pwd} directories have been removed\n`, stdout);
         } 
-    } catch { console.log('Deleted all such GB Versions'); }
+    } catch (e) { console.log('Deleted all such GB Versions', e); }
 }
 
 const _start_over = start_over;

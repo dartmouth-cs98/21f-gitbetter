@@ -1,4 +1,4 @@
-export async function getStatus(pwd) {
+export async function getStatus() {
         
     const fs = require("fs");
     const path = './.git';
@@ -26,7 +26,7 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    process.chdir(pwd);
+    // process.chdir(pwd);
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
@@ -158,15 +158,11 @@ export async function getStatus(pwd) {
             let firstLine = stdout.split("\n")[0].split(" ")
             branchName = firstLine.pop()
             
-            let words = stdout.split("\n")[1].split(" ")
-            for (let i=1; i<words.length; i++) {
-                if (!isNaN(words[i])){
-                    commits = words[i]
-                }
-            }
-        }
-
-        else if (stderr) {
+            let stdoutLines = stdout.split(/[ ,]+/)
+            if (stdout.includes("ahead") || stdout.includes("diverged")) {
+                commits = stdoutLines.find((e) => !isNaN(e));
+            } 
+        } else if (stderr) {
             console.log(stderr)
         }
 
