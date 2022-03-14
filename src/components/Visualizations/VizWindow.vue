@@ -1,6 +1,11 @@
 <template>
   <div class="vis-box">
-    <Visualization ref="vizChild" :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
+    <Visualization
+      ref="vizChild"
+      :command="this.command"
+      :mergeConflict="this.mergeConflictExists"
+      :mergeConflictData="this.mergeConflictData"
+    /> 
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>

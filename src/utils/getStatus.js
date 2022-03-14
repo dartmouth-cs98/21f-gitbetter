@@ -182,6 +182,16 @@ export async function getStatus() {
         console.warn(`Throwing ${err} in getStatus`)
         throw err
     } 
+
+    if (branchName != 'main') {
+        try {
+            const {stdout} = await exec(`git rev-list --left-right --count main...${branchName}`);
+            if (stdout) commits = stdout.trim().split("\t")[1];
+        } catch (err){
+            console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
+            throw err
+        } 
+    }
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually

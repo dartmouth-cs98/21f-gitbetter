@@ -1,29 +1,21 @@
 <template>
   <div class="viz">
-      <!-- <FilesChanged :command="this.command"/> -->
-      <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
-      <div v-else>
-        <div v-if="test">
-        <StatusViz ref="statusChild" />
-      </div>
-      <div v-else>
-        <!-- <StatusViz ref="statusChild"/> />  -->
-      </div>
-      </div>
-      
-      <!-- <BranchViz v-if="this.command.startsWith('git branch') || this.command.startsWith('git switch') || this.command.startsWith('git checkout')" />
-      <DirectoryTree v-else /> -->
+    <MergeCon v-if="mergeConExists" :mergeData="this.mergeConflictData" @done="finished"/>
+    <BranchViz v-else-if="this.command.trim().split(' ', 3)[1] === 'branch'" />
+    <FilesChanged 
+      v-else-if="['add', 'restore', 'rm', 'commit', 'push'].includes(this.command.trim().split(' ', 3)[1])" 
+      :command="this.command"
+    />
+    <StatusViz v-else ref="statusChild" />
   </div>
 </template>
 
 <script>
-// import BranchViz from './BranchViz.vue'
+import BranchViz from './BranchViz.vue'
 import MergeCon from './MergeCon.vue'
 import StatusViz from './StatusViz.vue'
-// import InitViz from './StatusViz.vue'
+import FilesChanged from './FilesChangedViz.vue'
 const ipc = require("electron").ipcRenderer
-
-// import FilesChanged from './FilesChangedViz.vue'
 
 export default {
   name: 'Visualization',
@@ -34,30 +26,14 @@ export default {
   },
   data() {
     return {
-      test: true,
       mergeConExists: this.mergeConflict,
-      pwd: "",
-    }
-  },
-  watch: {
-    '$store.state.workingDir': function() {
-      this.pwd = this.$store.getters.getPWD; 
-    },
-  },
-  computed: {
-    getCurrCommand(){
-      return this.$store.getters.getCurrCommand.name
-    },
-    isGit() {
-      return this.$store.getters.gitRepo
     }
   },
   components: {
-      // BranchViz,
+      BranchViz,
       StatusViz,
-      // InitViz,
       MergeCon,
-      // FilesChanged
+      FilesChanged,
   },
   created() {
     ipc.on('notGit', () => {
@@ -65,12 +41,7 @@ export default {
     });
   },
   methods: {
-    newCommand() { // THIS IS NOT WORKING -- changes directories in getStatus and messing with back/forth
-      // console.log(`new command: ${val}`);
-      // this.dir = this.$store.getters.getPWD;
-      // if(val === 'git status') {
-        // this.$refs.statusChild.getStatus(this.dir);
-      // }
+    newCommand() {
     },
     finished(){
       this.mergeConExists = false;
