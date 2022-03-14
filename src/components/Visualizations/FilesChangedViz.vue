@@ -40,7 +40,7 @@
  
 <script>
 const ipc = require("electron").ipcRenderer
-var parse = require('../../utils/getStatus')
+// var parse = require('../../utils/getStatus')
 
 export default {
   name: 'FilesChanged',
@@ -51,30 +51,30 @@ export default {
     }  
   },
   mounted() {
-    ipc.on('giveFilePath', (event, pwd) => {
-      this.getStatus(pwd)
-    })
+    // ipc.on('giveFilePath', (event, pwd) => {
+    //   this.getStatus(pwd)
+    // })
 
     ipc.on('getStatus', (event, result) => {
       this.files = result[5]
     })
   },
   methods: {
-    getStatus: function(pwd) {
-        // changes working directory in terminal to file users selected
-        ipc.send("terminal.toTerm", `cd "${pwd}"`)
-        ipc.send("terminal.toTerm", '\n')
-        // ipc.send("terminal.toTerm", "clear")
-        // ipc.send("terminal.toTerm", '\n')
-        // // calls git status initally for the user
-        // ipc.send("terminal.toTerm", "git status")
-        // ipc.send("terminal.toTerm", '\n')
-        ipc.send('runTerminalCommand', 'FilesChangedViz');
+    // getStatus: function(pwd) {
+    //     // changes working directory in terminal to file users selected
+    //     ipc.send("terminal.toTerm", `cd "${pwd}"`)
+    //     ipc.send("terminal.toTerm", '\n')
+    //     // ipc.send("terminal.toTerm", "clear")
+    //     // ipc.send("terminal.toTerm", '\n')
+    //     // // calls git status initally for the user
+    //     // ipc.send("terminal.toTerm", "git status")
+    //     // ipc.send("terminal.toTerm", '\n')
+    //     ipc.send('runTerminalCommand', 'FilesChangedViz');
 
-        // parse status takes the pwd the user selected and returns the status of
-        // their git repo to be displayed in the visulization if it is a git repo
-        parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
-    },
+    //     // parse status takes the pwd the user selected and returns the status of
+    //     // their git repo to be displayed in the visulization if it is a git repo
+    //     // parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
+    // },
   },
 };
 </script>
