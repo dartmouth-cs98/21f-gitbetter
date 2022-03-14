@@ -58,9 +58,9 @@ const store = new Vuex.Store({
     setWorkingDir(state, pwd) {
       state.workingDir = pwd;
     },
-    setFiles(state, local, staging) {
-      state.local = local;
-      state.staging = staging;
+    setFiles(state, files) {
+      state.local = files.local;
+      state.staging = files.staging;
     },
   },
   getters: {

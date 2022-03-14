@@ -27,15 +27,12 @@ export default {
   watch: {
     '$store.state.local': function() {
      let local = this.$store.getters.getLocal
-    //  console.log('local;', local)
       if(local && local.includes(this.filename)){
         this.status = 'untracked'
       }
     },
      '$store.state.staging': function() {
         let staging = this.$store.getters.getStaging
-        // console.log('staging;', staging)
-
         if(staging && staging.includes(this.filename)){
           this.status = 'tracked'
         }
