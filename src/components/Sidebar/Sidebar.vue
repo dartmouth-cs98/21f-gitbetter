@@ -84,9 +84,7 @@ export default {
     },
     refresh() {
       this.status = this.$store.getters.getStatus;
-      // console.log('status in sidebar', this.status);
       this.filesOnly(this.dir)
-      // this.dirsOnly(this.dir)
     }
   }
 }
