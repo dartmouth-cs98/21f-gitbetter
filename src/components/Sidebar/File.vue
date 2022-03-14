@@ -34,7 +34,7 @@ export default {
     },
      '$store.state.staging': function() {
         let staging = this.$store.getters.getStaging
-        // console.log('staging;', staging)
+        console.log('staging;', staging)
 
         if(staging && staging.includes(this.filename)){
           this.status = 'tracked'
