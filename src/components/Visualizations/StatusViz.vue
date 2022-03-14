@@ -114,17 +114,13 @@ export default {
     ipc.on('getStatus', (event, result) => {
       this.branchName = result[0];
       this.commits = result[1];
-      // console.log('status viz processed commits', this.commits);
 
       // get the files in the local and staging areas 
       this.filesStaging = result[5].filesStaging;
       this.filesLocal = result[5].filesLocal;
-      console.log('status viz processed files local', this.filesStaging);
 
       // get list of all of the files in the staging area
       this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied, this.filesStaging.filesAdded);
-     
-
       this.filesToAdd = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
 
       this.changedLocal = Object.values(result[5].filesLocal).flatMap(e => e).length;
