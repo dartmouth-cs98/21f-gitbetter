@@ -1,9 +1,7 @@
 <template>
   <div class='default-layout'>
-      Commits: ready to push to GitHub
-      <div class='file-box'>
-          <!-- Files -->
-      </div>
+      {{this.nest.commits}} commits: ready to push to GitHub
+      <br>
       Staging: what you want pushed to GitHub
       <div class='file-box'>
           <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
@@ -40,41 +38,43 @@
  
 <script>
 const ipc = require("electron").ipcRenderer
-// var parse = require('../../utils/getStatus')
 
 export default {
   name: 'FilesChanged',
+  props: {
+    command: String,
+  },
   data() {
     return {
-      command: '',
-      files: []
+      nest: {
+        commits: 0,
+      },
+      files: {
+        filesLocal: {
+          filesModified: [],
+          filesAdded: [],
+          filesUntracked: [],
+          filesRenamed: [],
+          filesCopied: [],
+        },
+        filesStaging: {
+          filesModified: [],
+          filesAdded: [],
+          filesUntracked: [],
+          filesRenamed: [],
+          filesCopied: [],
+        },
+      }
     }  
   },
   mounted() {
-    // ipc.on('giveFilePath', (event, pwd) => {
-    //   this.getStatus(pwd)
-    // })
-
-    ipc.on('getStatus', (event, result) => {
-      this.files = result[5]
-    })
+    ipc.on('getStatus', (_, result) => {
+      this.files.filesStaging = result[5].filesStaging;
+      this.files.filesLocal = result[5].filesLocal;
+      this.nest.commits = result[1];
+    });
   },
   methods: {
-    // getStatus: function(pwd) {
-    //     // changes working directory in terminal to file users selected
-    //     ipc.send("terminal.toTerm", `cd "${pwd}"`)
-    //     ipc.send("terminal.toTerm", '\n')
-    //     // ipc.send("terminal.toTerm", "clear")
-    //     // ipc.send("terminal.toTerm", '\n')
-    //     // // calls git status initally for the user
-    //     // ipc.send("terminal.toTerm", "git status")
-    //     // ipc.send("terminal.toTerm", '\n')
-    //     ipc.send('runTerminalCommand', 'FilesChangedViz');
-
-    //     // parse status takes the pwd the user selected and returns the status of
-    //     // their git repo to be displayed in the visulization if it is a git repo
-    //     // parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
-    // },
   },
 };
 </script>

@@ -129,9 +129,9 @@ export default {
       this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
       this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
 
-      this.changedLocal = this.filesToAdd.length;
-      this.tracked = this.filesToCommit.length;
-      console.log('status viz processed tracked', this.filesStaging );
+      this.changedLocal = Object.values(result[5].filesLocal).flatMap(e => e).length;
+      this.tracked = Object.values(result[5].filesStaging).flatMap(e => e).length;
+      // console.log('status viz processed tracked', this.filesStaging );
       this.$store.commit('setFiles', this.filesToAdd, this.filesToCommit)
     });
   },
