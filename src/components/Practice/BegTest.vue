@@ -91,7 +91,6 @@ export default {
       let _type;
       let _qdifficulty;
 
-      console.log('type and difficulty', this.type.value, this.qdifficulty.value)
       if(!this.type.value) {
          _type = 'general'
       }
