@@ -53,33 +53,33 @@ First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on h
 
 ## Project Preview
 
+
 ### GitBetter
 **Opening/ Closing GitBetter**
 
-![](https://i.imgur.com/uyOougF.gif)
-
+![Open-Close](https://user-images.githubusercontent.com/52434838/158287851-fff3d022-e891-4b0a-a061-0e3bfe5a45f9.gif)
 
 **Help Page**
 
-![](https://i.imgur.com/YmMbpOC.gif)
+![Help-Page](https://user-images.githubusercontent.com/52434838/158287836-ab0d0703-1bb9-477e-ae35-5048b32a87a4.gif)
 
 **Tutorials**
 
-![](https://i.imgur.com/yPuOxWJ.gif)
+![Tutorials](https://user-images.githubusercontent.com/52434838/158287814-761ae993-a3c3-4acb-baa8-f328ee31c721.gif)
 
 **Terminal & Visualizations**
 
-![](https://i.imgur.com/4hB9zrI.gif)
+![Terminal-Visualizations](https://user-images.githubusercontent.com/52434838/158287797-f1754bf9-83c7-4b8b-bc4c-8d2a71954946.gif)
 
 **Ctrl-Z Functionality**
 
-![](https://i.imgur.com/3RkoG5i.gif)
+![Back-Forth](https://user-images.githubusercontent.com/52434838/158287781-32189f57-8aa7-4d23-bb9c-cf1e68e62b7a.gif)
 
 ### GitLearning
 
 **Guided Tutorials**
 
-![](https://i.imgur.com/n0AxR9A.gif)
+![GitLearning-Tutorials](https://user-images.githubusercontent.com/52434838/158287763-b11888d1-73e6-410f-b6c5-7760db0e9cd1.gif)
 
 **About Git and Search Commands Pages**
 
@@ -87,7 +87,7 @@ First, run `gitstarted`, then use `gitbetter -h` or `gitbetter -i` for tips on h
 
 **Test Yourself**
 
-![](https://i.imgur.com/dGoP23R.gif)
+![Quiz](https://user-images.githubusercontent.com/52434838/158287728-decb3cb2-5e4a-4ad7-bc78-73b732d45738.gif)
 
 ## The Gitbetter Team
 ![Team Selfie](https://i.imgur.com/HZ7Heww.jpg)
