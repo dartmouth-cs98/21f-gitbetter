@@ -73,7 +73,7 @@ export default {
         filesUntracked: [],
         output: '',
         gbVersion: 0,
-        workingDirectory: "",
+        workingDirectory: process.cwd(),
       },
     }  
   },

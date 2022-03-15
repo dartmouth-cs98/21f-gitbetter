@@ -8,8 +8,8 @@ var replicate_repo = async function replicate_repo(pwd, version = 0) {
     const [base, gb, gbVersion] = pwd.split('.').slice(-3);
 
     // path to new directory, in same parent directory but has .gb extension
-    const new_dir = gb === 'gb'
-        ? `${base}.gb${version ? '.' + version : ''}`
+    const new_dir = pwd.includes('.gb')
+        ? `${pwd.substring(0, pwd.indexOf('.gb'))}.gb${version ? '.' + version : ''}`
         : `${pwd}.gb${version ? '.' + version : ''}`;
 
     console.log("replicate repo", base, gb, gbVersion, pwd, new_dir);

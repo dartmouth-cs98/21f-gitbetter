@@ -1,17 +1,6 @@
 <template>
   <div class='default-layout'>
-      {{this.nest.commits}} commits: ready to push to GitHub
-      <br>
-      Staging: what you want pushed to GitHub
-      <div class='file-box'>
-          <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
-          <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
-          <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
-      </div>
-      Local: your current copy
+      <div class="default-bold">Local:</div> your current copy
       <div class='file-box'>
           <p v-for="file in this.files.filesLocal.filesModified" :key="file">{{file}}</p>
           <p v-for="file in this.files.filesLocal.filesAdded" :key="file">{{file}}</p>
@@ -20,6 +9,19 @@
           <p v-for="file in this.files.filesLocal.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
           <p class="file-deleted" v-for="file in this.files.filesLocal.filesDeleted" :key="file">{{file}}</p>
       </div>
+      <br>
+      <div class="default-bold">Staging:</div> what you want pushed to GitHub
+      <div class='file-box'>
+          <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
+      </div>
+      <br>
+      <div class="default-bold">Commits:</div> ready to push to GitHub<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have <div class="default-bold">{{this.nest.commits}}</div> {{this.nest.commits == 1 ? 'commit' : 'commits'}} 
       <div class='commit-flow'>
           <div v-bind:class="this.command.startsWith('git add') ? 'highlight-text' : 'commit-flow-text'">
               git add
@@ -118,5 +120,9 @@ export default {
 }
 .file-deleted {
   text-decoration: line-through
+}
+.default-bold {
+  display: contents;
+  font-weight: 600;
 }
 </style>

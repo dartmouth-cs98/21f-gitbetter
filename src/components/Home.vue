@@ -46,10 +46,10 @@
           </div>
           <div id="visualizations" class="visualizations-wrapper">
             <div class="headline-component">
-              <div style="margin-left:35%;">
+              <div>
                 Status
               </div>
-              <div class="visButtons">
+              <!-- <div class="visButtons">
                 <button 
                     id="closing-icon" 
                     class="button"
@@ -58,7 +58,7 @@
                   >
                     <font-awesome-icon icon="eye-slash"/>
                   </button>
-              </div>
+              </div> -->
             </div>
             <div v-bind:class="helpClass">
                 <FirstTime 

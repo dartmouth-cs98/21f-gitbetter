@@ -6,7 +6,6 @@ export async function initializeGit(pwd) {
 
     try {
         let {stdout, stderr} = await exec('git init');
-        console.log("here")
         if (stdout) {
             console.log(stdout)
         }
