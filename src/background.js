@@ -2,13 +2,13 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
-import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 const os = require("os");
 const pty = require("node-pty");
+const fs = require("fs");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
@@ -101,8 +101,10 @@ async function createWindow() {
     if (directory.includes('.gb.gb')) throw Error(`Bad directory (double gb) ${directory}`);
     ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
     win.webContents.send("finderOpened");
-    const git = await isGit(directory)
-    if (!git){
+    const base_pwd = directory.includes('.gb')
+      ? directory.substring(0, directory.indexOf('.gb'))
+      : directory;
+    if (!fs.existsSync(base_pwd + '/.git')){
       win.webContents.send("notGit");
       await initializeGit(directory);
     }
