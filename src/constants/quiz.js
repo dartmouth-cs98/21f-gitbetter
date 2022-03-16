@@ -566,13 +566,25 @@ export const questions = [
    number: 53,
    'difficulty': "hard",
    'label': "command",
-   title: "Which of these commands do you not need to run if you have updated a file that was already in the codebase?",
+   title: "When you push your code, your changes are merged into your main branch.",
     options: [
-       "git commit",
-       "git push",
-       "git add"
+       "True",
+       "False"
     ],
-    res:  "git add"
+    res:  "False"
+},
+{
+   number: 54,
+   'difficulty': "hard",
+   'label': "command",
+   title: "Where does your code go when you run git push?",
+    options: [
+       "Directly into the main GitHub repository",
+       "Into your main branch",
+       "Into all of the branches you have made",
+       "Into the GitHub repository where it will be reviewed"
+    ],
+    res:  "Into the GitHub repository where it will be reviewed"
 },
 
 
