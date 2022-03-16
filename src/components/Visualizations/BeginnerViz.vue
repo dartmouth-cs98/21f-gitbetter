@@ -35,11 +35,11 @@ export default {
         } else if (this.command == "git commit -m 'Update to merging.py'") {
             this.source = require("../../assets/demo/begcommitupdate.png")
         } else if (this.command == "git log") {
-            this.source = require("../../assets/demo/beglog.png")
+            this.source = require("../../assets/demo/beglogupdate.png")
         } else if (this.command == "git push") {
             this.source = require("../../assets/demo/begpushupdate.png")
         } else if (this.command == "git checkout main") {
-            this.souce = require("../../assets/demo/begcheckoutmainupdate.png")
+            this.source = require("../../assets/demo/begcheckoutmain.png")
         } else if (this.command == "git pull") {
             this.source = require("../../assets/demo/begpull.png")
         }
