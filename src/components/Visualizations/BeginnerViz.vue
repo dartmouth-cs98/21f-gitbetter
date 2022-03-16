@@ -33,7 +33,7 @@ export default {
         if (this.command == "git clone https://github.com/dartmouth-cs98/GitBetterTestRepository.git") {
             this.source = require("../../assets/demo/begclone.png")
         } else if (this.command == "git checkout -b my_branch") {
-            this.source = require("../../assets/demo/begnewbranch.png")
+            this.source = require("../../assets/demo/begcheckoutnewbranch.png")
         } else if (this.command == "git branch") {
             this.source = require("../../assets/demo/begbranch.png")
         } else if (this.command == "git add merging.py") {
@@ -42,6 +42,8 @@ export default {
             this.source = require("../../assets/demo/begcommitupdate.png")
         } else if (this.command == "git log") {
             this.source = require("../../assets/demo/beglog.png")
+        } else if (this.command == "git checkout main") {
+            this.souce = require("../../assets/demo/begcheckoutmain.png")
         } else if (this.command == "git push") {
             this.source = require("../../assets/demo/begpushupdate.png")
         }
