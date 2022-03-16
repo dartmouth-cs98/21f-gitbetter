@@ -29,8 +29,8 @@ export default {
         } else if (this.command == "git checkout -b my_branch") {
             this.source = require("../../assets/demo/begcheckoutnewbranch.png")
         } else if (this.command == "git branch") {
-            this.source = require("../../assets/demo/begbranchupdate.png")
-        } else if (this.command == "git add merging.py") {
+            this.source = require("../../assets/demo/begbranch.png")
+        } else if (this.command == "git add finder.py") {
             this.source = require("../../assets/demo/begaddupdate.png")
         } else if (this.command == "git commit -m 'Update to merging.py and added finder.py'") {
             this.source = require("../../assets/demo/begcommitupdate.png")

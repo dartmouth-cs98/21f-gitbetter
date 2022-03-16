@@ -94,7 +94,7 @@ export const questions = [
     number: 9,
     'difficulty': "easy",
     'label': "conceptual",
-    title: "Which of the following should you use if you have made changes to your code that you want to push to the GitHub repository to be reviewed?",
+    title: "Which of the following should you use if you are ready to push to your changes to the GitHub repository to be reviewed?",
      options: [
         "git add", "git push", 
         "git pull ", 
@@ -106,7 +106,7 @@ export const questions = [
     number: 10,
     'difficulty': "easy",
     'label': "conceptual",
-    title: "Which of the following commands would you want to use when someone else has just added their new code to the main branch?",
+    title: "Which of the following commands would you want to use when someone else has just added their new code to the GitHub repository?",
      options: [
         "git clone", "git checkout -b main", 
         "git get", 
@@ -539,6 +539,43 @@ export const questions = [
      ],
      res:  "This command allows you to pull all changes that have been pushed to the GitHub repository into the branch you are currently on."
 },
+{
+   number: 51,
+   'difficulty': "hard",
+   'label': "command",
+   title: "Git checkout my_branch creates a new branch called my_branch",
+    options: [
+       "True",
+       "False"
+    ],
+    res:  "False"
+},
+{
+   number: 52,
+   'difficulty': "hard",
+   'label': "command",
+   title: "Which of these commands do you not need to run if you have updated a file that was already in the codebase?",
+    options: [
+       "git commit",
+       "git push",
+       "git add"
+    ],
+    res:  "git add"
+},
+{
+   number: 53,
+   'difficulty': "hard",
+   'label': "command",
+   title: "Which of these commands do you not need to run if you have updated a file that was already in the codebase?",
+    options: [
+       "git commit",
+       "git push",
+       "git add"
+    ],
+    res:  "git add"
+},
+
+
 
 ]
 
