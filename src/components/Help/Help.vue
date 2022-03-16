@@ -2,9 +2,9 @@
   <div class="main">
     <Navigation />
     <div class="columns">
-        <div class="column is-fullheight is-one-fifth sidebar">
+        <!-- <div class="column is-fullheight is-one-fifth sidebar">
             <Sidebar />
-        </div>
+        </div> -->
         <div class="top-wrapper column">
           <div class="general-wrapper">
           <div class="title-wrapper">
@@ -22,7 +22,7 @@
 
 <script>
 
-import Sidebar from '../Sidebar/Sidebar.vue'
+// import Sidebar from '../Sidebar/Sidebar.vue'
 import Navigation from '../../router/Navigation.vue'
 import SearchBar from './SearchBar.vue'
 import RecentSearches from './RecentSearches.vue'
@@ -33,7 +33,7 @@ export default {
   components: {
     Navigation,
     SearchBar,
-    Sidebar,
+    // Sidebar,
     RecentSearches,
   },
   data () {
@@ -59,7 +59,7 @@ export default {
 }
 .general-wrapper {
   width: 100%;
-  padding: 15px;
+  padding: 3%;
 }
 .sidebar {
   padding-right: 0;

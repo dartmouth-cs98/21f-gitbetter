@@ -87,10 +87,9 @@ export default {
 
         term.open(document.getElementById('terminal'));
         fitAddon.fit();
-        // fitAddon.fit();
         ipc.send("terminal.toTerm", "touch ~/.custom_bash_commands.sh\n")
         ipc.send("terminal.toTerm", "source ~/.custom_bash_commands.sh\n")
-        ipc.send("terminal.toTerm", "clear")
+        ipc.send("terminal.toTerm", "clear\n")
         ipc.send('runTerminalCommand', 'Terminal');
         
         term.onData((data) => ipc.send("terminal.toTerm", data));

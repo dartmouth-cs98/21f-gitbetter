@@ -83,17 +83,15 @@
         </footer>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 const ipc = require("electron").ipcRenderer
-var parse = require('../../utils/getStatus')
+// var parse = require('../../utils/getStatus')
 import VueSimpleAlert from "vue-simple-alert";
 
 export default {
-
   name: 'Status',
   data () {
     return {
@@ -101,7 +99,6 @@ export default {
       commits: 0,
       changedLocal: 0,
       tracked: 0,
-      workingDir: "",
       commitMessage: "",
       filesStaging: [],
       filesLocal: [],
@@ -111,71 +108,28 @@ export default {
     }
  },
   created() {
-      ipc.on('giveFilePath', (event, pwd) => {
-        this.workingDir = pwd;
-        this.getStatus(this.workingDir)
-      })
-
-      ipc.on('notGit', () => {
-        VueSimpleAlert.alert("The directory you chose was not a git repository, saving changes will make it one.")
-      })
-      ipc.on('getStatus', (event, result) => {
-        this.branchName = result[0];
-        this.commits = result[1];
+    ipc.on('notGit', () => {
+      VueSimpleAlert.alert("The directory you chose was not a git repository, saving changes will make it one.")
+    })
+    ipc.on('getStatus', (event, result) => {
+      this.branchName = result[0];
+      this.commits = result[1];
 
       // get the files in the local and staging areas 
-        this.filesStaging = result[5].filesStaging;
-        this.filesLocal = result[5].filesLocal;
+      this.filesStaging = result[5].filesStaging;
+      this.filesLocal = result[5].filesLocal;
 
-        // get list of all of the files in the staging area
-        this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied);
-        this.filesToCommit = this.filesToCommit.filter(word => word.length != 0);
+      // get list of all of the files in the staging area
+      this.filesToCommit = this.filesStaging.filesDeleted.concat(this.filesStaging.filesModified, this.filesStaging.filesRenamed, this.filesStaging.filesCopied, this.filesStaging.filesAdded);
+      this.filesToAdd = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
 
-        // gets files in local 
-        this.filesLocal = this.filesLocal.filesAdded.concat(this.filesLocal.filesDeleted, this.filesLocal.filesModified, this.filesLocal.filesRenamed, this.filesLocal.filesCopied, this.filesLocal.filesUntracked);
-        this.filesToAdd = this.filesLocal.filter(word => word.length != 0);
-        // console.log('files to add ', this.filesToAdd)
-        this.changedLocal = this.filesToAdd.length;
-        this.tracked = this.filesToCommit.length;
-        this.$store.commit('setFiles', this.filesToAdd, this.filesToCommit)
-      })
+      this.changedLocal = Object.values(result[5].filesLocal).flatMap(e => e).length;
+      this.tracked = Object.values(result[5].filesStaging).flatMap(e => e).length;
+      
+      this.$store.commit('setFiles', {local: this.filesToAdd, staging: this.filesToCommit})
+    });
   },
-  // watch: {
-  //   '$store.state.status': function() {
-  //     console.log(this.$store.state.status.status[5]);
-  //     // console.log('status store in file comp', this.filename, this.$store.state.status.status)
-
-  //   }
-  // },
-  beforeDestroy() {
-    ipc.removeAllListeners("getStatus");
-    ipc.removeAllListeners("giveFilePath");
-
-  },
-// check event listner error
-// where is visulization being mounted from 
-
   methods: {
-      getStatus(pwd) {
-        
-          // changes working directory in terminal to file users selected
-          ipc.send("terminal.toTerm", `cd "${pwd}"`)
-          // ipc.send("terminal.toTerm", '\n')
-          // ipc.send("terminal.toTerm", "clear")
-          // ipc.send("terminal.toTerm", '\n')
-          // // calls git status initally for the user
-          // ipc.send("terminal.toTerm", "git status")
-          // ipc.send("terminal.toTerm", '\n')
-          ipc.send('runTerminalCommand', 'StatusViz');
-
-          // parse status takes the pwd the user selected and returns the status of
-          // their git repo to be displayed in the visulization if it is a git repo
-          parse.getStatus(pwd).then((result) => {
-            // console.log('status result', result)
-            ipc.send("statusUpdate", result)
-        })
-      },
-
       addAll() {
         ipc.send("terminal.toTerm", "git add .\n")
         this.$refs.addModal.classList.remove('is-active');
@@ -228,10 +182,8 @@ export default {
         this.$refs.modal.classList.remove('is-active');
 
         this.commitMessage = ""
-      },
-      
+      },   
   }
-
 }
 </script>
 

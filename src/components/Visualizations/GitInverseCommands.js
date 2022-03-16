@@ -17,13 +17,16 @@ export default function classification(gitCommand, gitStatus) {
             if (newBranch.startsWith('-')) return '';
             return parameters.startsWith('-b') ? `git checkout ${branch} && git branch -D ${newBranch}` : `git checkout ${branch}`;
         }
-        case 'add': 
+        case 'add': {
             // git add file [<pathspec>...] [--all|-A]
             // No change to filesAdded, filesModified that have already been added before
             if (parameters.includes('--all') || parameters.includes('-A')) return 'git reset';
-            return parameters.split(' ')
-                .filter(file => filesUntracked.includes(file) || filesRemoved.includes(file))
-                .reduce((cumulative, current) => cumulative + ' ' + current, 'git reset');
+            const filesToActuallyAdd = parameters.split(' ')
+                .filter(file => filesUntracked.includes(file) || filesRemoved.includes(file));
+            if (!filesToActuallyAdd.length) return 'echo nothing added/nothing can be reverted';
+            return filesToActuallyAdd.reduce(
+                (cumulative, current) => cumulative + ' ' + current, 'git reset');
+        }
         case 'commit':
             return 'git reset --soft HEAD~1';
         case 'switch':

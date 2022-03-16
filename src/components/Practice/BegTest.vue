@@ -88,25 +88,44 @@ export default {
   },
   methods: {
     startQuiz() {
-      const _this = this
+      let _type;
+      let _qdifficulty;
+
+      if(!this.type.value) {
+         _type = 'general'
+      }
+      else {
+        _type = this.type.value
+      }
+  
+      if(!this.qdifficulty.value) {
+        _qdifficulty = 'medium'
+      }
+      else {
+         _qdifficulty = this.qdifficulty.value
+      }
+
       let qs = questions.filter(function(item){
-        if(_this.type.value == 'general' && _this.qdifficulty.value !== 'random') {
-          return item.label == _this.qdifficulty.value
+        if(_type == 'general' && _qdifficulty !== 'random') {
+          return item.difficulty == _qdifficulty
         }
-        else if (_this.type.value !== 'general' && _this.qdifficulty.value !== 'random') {
-          return item.label == _this.qdifficulty.value && item.type == _this.type.value; 
+        else if (_type !== 'general' && _qdifficulty !== 'random') {
+          return item.difficulty == _qdifficulty && item.label == _type; 
         }  
-        else if(_this.type.value !== 'general' && _this.qdifficulty.value == 'random') {
-          return item.type == _this.type.value
+        else if(_type !== 'general' && _qdifficulty == 'random') {
+          return item.label == _type
         }    
         else {
           return item
         }  
       })
 
+      if(this.qLen.value == 0) {
+        this.qLen.value = 10;
+      }
+
       const shuffled = qs.sort(() => 0.5 - Math.random());
       this.questions = shuffled.slice(0, this.qLen.value);
-
       this.started = true;
     },
     submit() {

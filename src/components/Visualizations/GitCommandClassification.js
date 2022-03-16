@@ -22,12 +22,15 @@ function classification(gitCommand) {
     if (!gitCommand.startsWith('git ')) return { action: ACTIONS.NOOP };
     const [, operation, ...parameters] = gitCommand.split(' ');
     switch(operation) {
+        case '--help':
+        case 'help':
+            return { action: ACTIONS.NOOP };
         case 'checkout':
             return { action: ACTIONS.NORMAL };
         case 'branch':
             return {action: parameters.includes('-D') ? ACTIONS.ADVISORY : ACTIONS.NORMAL, note: 'WARNING: This will delete all changes on your new branch.'}
         case 'add':
-            // TODO: Include check for when the file has already been added, in which case it should be NOOP
+            if (parameters.includes('--all') || parameters.includes('-A')) return {action: ACTIONS.DESTRUCTIVE};
             return {action: ACTIONS.NORMAL};
         case 'mv':
             return {action: ACTIONS.NORMAL};
@@ -58,9 +61,7 @@ function classification(gitCommand) {
         case 'tag':
             return {action: ACTIONS.NORMAL};
         case 'pull':
-            return {action: ACTIONS.DESTRUCTIVE};
         case 'fetch':
-            return {action: ACTIONS.DESTRUCTIVE};
         case 'push':
             return {action: ACTIONS.DESTRUCTIVE};
         default:

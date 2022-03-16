@@ -1,24 +1,23 @@
 import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { getStatus } from './utils/getStatus';
 
-import { isGit } from './utils/isGit';
 import { initializeGit } from './utils/initializeGit'
 
 require('events').EventEmitter.defaultMaxListeners = 50;
 
 const os = require("os");
 const pty = require("node-pty");
+const fs = require("fs");
 
 var clear = require('./utils/start_over');
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 var replicate = require('./replicate_repo');
-let trapReady = {};
+let trapReady = new Map();
 
-const isTrapReady = () => [
-  'FilesChangedViz', 'VizWindow', 'StatusViz',
-].every(flag => flag in trapReady);
+const isTrapReady = () => ![
+  'VizWindow', //'FilesChangedViz', 'StatusViz',
+].every(flag => trapReady.get(flag));
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -77,12 +76,15 @@ async function createWindow() {
   });
 
   ipcMain.on("runTerminalCommand", (_, data) => {
+    const isTrapSet = isTrapReady();
     // Indicates the repo front end is in sync
-    trapReady[data] = true;
+    trapReady.set(data, true);
 
-    // runs command from trap
-    console.warn('loading trap', data);
-    ptyProcess.write('\n');
+    if (!isTrapSet || data == 'VizWindow') {
+      // runs command from trap
+      console.warn('loading trap', data);
+      ptyProcess.write('\n');
+    }    
   });
 
   ipcMain.on('setCommand', (event, data) => {
@@ -92,19 +94,23 @@ async function createWindow() {
   ipcMain.on("statusUpdate", function(event, data) {
     win.webContents.send('getStatus', data);
   });
+
+  ipcMain.on('trapClear', () => trapReady.clear());
  
   async function replicateRepoWrapper(directory, version=0) {
     if (directory.includes('.gb.gb')) throw Error(`Bad directory (double gb) ${directory}`);
     ptyProcess.kill('SIGINT'); // Sends ctrl-c to avoid current commend
     win.webContents.send("finderOpened");
-    const git = await isGit(directory)
-    if (!git){
+    const base_pwd = directory.includes('.gb')
+      ? directory.substring(0, directory.indexOf('.gb'))
+      : directory;
+    if (!fs.existsSync(base_pwd + '/.git')){
       win.webContents.send("notGit");
       await initializeGit(directory);
     }
-    getStatus(directory);
-    const new_dir = await replicate.replicate_repo(directory, version)
-    win.webContents.send('giveFilePath', new_dir)
+
+    const new_dir = await replicate.replicate_repo(directory, version);
+    win.webContents.send('giveFilePath', new_dir);
   }
 
   // opens finder modal

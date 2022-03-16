@@ -1,6 +1,11 @@
 <template>
   <div class="vis-box">
-    <Visualization ref="vizChild" :mergeConflict="this.mergeConflictExists" :mergeConflictData="this.mergeConflictData" /> 
+    <Visualization
+      ref="vizChild"
+      :command="this.command"
+      :mergeConflict="this.mergeConflictExists"
+      :mergeConflictData="this.mergeConflictData"
+    /> 
     <!-- <div class="print-container">
       <button @click="this.printStack" class="print-stack"> PRINT STACK </button>
       <button @click="this.printInverseStack" class="print-stack"> PRINT inverse STACK </button>
@@ -21,7 +26,6 @@
       <button v-if="this.stackIndex >= this.commandStack.length - 1" class="back-button back-button-next-grayed"> <font-awesome-icon icon="arrow-right"/> </button>
       <button v-if="this.stackIndex < this.commandStack.length - 1" @click="this.nextCommand" class="back-button back-button-next"> <font-awesome-icon icon="arrow-right"/> </button>
     </div>
-
   </div>
 </template>
 
@@ -39,7 +43,6 @@ export default {
   name: 'VizWindow',
   data() {
     return {
-      pwd: '',
       gitPulled: false,
       mergeConflictExists: false,
       mergeConflictData: [],
@@ -70,21 +73,14 @@ export default {
         filesUntracked: [],
         output: '',
         gbVersion: 0,
-        workingDirectory: "",
+        workingDirectory: process.cwd(),
       },
     }  
   },
   components: {
     Visualization,
   },
-  watch: {
-    '$store.state.workingDir': function() {
-      this.pwd = this.$store.getters.getPWD;
-    },
-  },
   mounted() {
-    this.pwd = this.$store.getters.getPWD;
-    console.log('working dir in viz window', this.pwd)
     const userInputChannel = 'user_input';
     ipcRenderer.removeAllListeners(userInputChannel);
     ipc.on(userInputChannel, (_, data) => {
@@ -115,7 +111,8 @@ export default {
     });
 
     ipc.on('giveFilePath', async(_, pwd) => {
-      this.syncReplicate(pwd);
+      ipc.send("terminal.toTerm", `cd "${pwd}" \n`)
+      process.chdir(pwd);
       this.gitStatus.workingDirectory = pwd;
       const [gb, gbVersion] = pwd.split('.').slice(-2);
       if (gbVersion === 'gb') {
@@ -133,12 +130,16 @@ export default {
         });
         await new Promise(r => setTimeout(r, 500));
         ipc.send('runTerminalCommand', 'VizWindow');
-      } 
+      }
+      this.updateStatus();
     });
   },
   methods: {
     async updateStatus() {
-      const [branchName,,,, files] = await getStatus(process.cwd());
+      const gitStatusForViz = await getStatus(process.cwd());
+      ipc.send("statusUpdate", gitStatusForViz);
+
+      const [branchName,,,, files] = gitStatusForViz;
       this.gitStatus.branch = branchName;
       this.gitStatus.filesAdded = files.filesAdded;
       this.gitStatus.filesModified = files.filesModified;
@@ -176,10 +177,6 @@ export default {
         ipc.send('destructiveCommandClone', { directory, version: gbVersion + 1 });
       // Non destructive Command - so we can accept as is
       } else ipc.send('runTerminalCommand', 'VizWindow');
-    },
-    syncReplicate(pwd) {
-      process.chdir(pwd);
-      this.updateStatus();
     },
     async checkForPull(){
       if (['pull'].includes(this.command.split(' ', 3)[1])){
@@ -224,6 +221,7 @@ export default {
       }
       console.log(`callback: Currently at pos ${this.stackIndex} -- ${command.command}`);
       ipcRenderer.send(channel, command.command + '\n');
+      this.updateStatus(); // Command may or may not have run by this point
       this.closeModal();
     },
 

@@ -1,4 +1,4 @@
-export async function getStatus(pwd) {
+export async function getStatus() {
         
     const fs = require("fs");
     const path = './.git';
@@ -26,7 +26,7 @@ export async function getStatus(pwd) {
         filesCopied: []
     }
 
-    process.chdir(pwd);
+    // process.chdir(pwd);
     const util = require('util');
     const exec = util.promisify(require('child_process').exec);
 
@@ -68,6 +68,10 @@ export async function getStatus(pwd) {
                     case 'D':
                         filesDeleted.push(file);
                         break;
+                    case 'AM':
+                        filesModified.push(file);
+                        filesAdded.push(file);
+                        break;
                     case '??':
                         filesUntracked.push(file);
                         break;
@@ -96,6 +100,10 @@ export async function getStatus(pwd) {
                     case 'M':
                         filesStaging.filesModified.push(file)
                         break;     
+                    case 'AM':
+                        filesStaging.filesAdded.push(file);
+                        filesStaging.filesModified.push(file);
+                        break;
                     case 'D':
                         filesStaging.filesDeleted.push(file)
                         break;     
@@ -124,6 +132,10 @@ export async function getStatus(pwd) {
                     case 'M':
                         filesLocal.filesModified.push(file)
                         break;     
+                    case 'AM':
+                        filesLocal.filesModified.push(file);
+                        filesLocal.filesAdded.push(file);
+                        break;
                     case 'D':
                         filesLocal.filesDeleted.push(file)
                         break;     
@@ -158,15 +170,11 @@ export async function getStatus(pwd) {
             let firstLine = stdout.split("\n")[0].split(" ")
             branchName = firstLine.pop()
             
-            let words = stdout.split("\n")[1].split(" ")
-            for (let i=1; i<words.length; i++) {
-                if (!isNaN(words[i])){
-                    commits = words[i]
-                }
-            }
-        }
-
-        else if (stderr) {
+            let stdoutLines = stdout.split(/[ ,]+/)
+            if (stdout.includes("ahead") || stdout.includes("diverged")) {
+                commits = stdoutLines.find((e) => !isNaN(e));
+            } 
+        } else if (stderr) {
             console.log(stderr)
         }
 
@@ -174,6 +182,16 @@ export async function getStatus(pwd) {
         console.warn(`Throwing ${err} in getStatus`)
         throw err
     } 
+
+    if (branchName != 'main') {
+        try {
+            const {stdout} = await exec(`git rev-list --left-right --count main...${branchName}`);
+            if (stdout) commits = stdout.trim().split("\t")[1];
+        } catch (err){
+            console.warn(`Throwing ${err} in getStatus: getting commits using git rev-list`)
+            throw err
+        } 
+    }
     
     // filesChanged used for git add/commit visualization
     // can probably combine files and filesChanged eventually

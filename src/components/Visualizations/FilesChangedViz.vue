@@ -1,19 +1,6 @@
 <template>
   <div class='default-layout'>
-      Commits: ready to push to GitHub
-      <div class='file-box'>
-          <!-- Files -->
-      </div>
-      Staging: what you want pushed to GitHub
-      <div class='file-box'>
-          <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
-          <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
-          <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
-          <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
-      </div>
-      Local: your current copy
+      <div class="default-bold">Local:</div> your current copy
       <div class='file-box'>
           <p v-for="file in this.files.filesLocal.filesModified" :key="file">{{file}}</p>
           <p v-for="file in this.files.filesLocal.filesAdded" :key="file">{{file}}</p>
@@ -22,6 +9,19 @@
           <p v-for="file in this.files.filesLocal.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
           <p class="file-deleted" v-for="file in this.files.filesLocal.filesDeleted" :key="file">{{file}}</p>
       </div>
+      <br>
+      <div class="default-bold">Staging:</div> what you want pushed to GitHub
+      <div class='file-box'>
+          <p v-for="file in this.files.filesStaging.filesModified" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesAdded" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesUntracked" :key="file">{{file}}</p>
+          <p v-for="file in this.files.filesStaging.filesRenamed" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p v-for="file in this.files.filesStaging.filesCopied" :key="file[1]">{{file[0]}} -> {{file[1]}}</p>
+          <p class="file-deleted" v-for="file in this.files.filesStaging.filesDeleted" :key="file">{{file}}</p>
+      </div>
+      <br>
+      <div class="default-bold">Commits:</div> ready to push to GitHub<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have <div class="default-bold">{{this.nest.commits}}</div> {{this.nest.commits == 1 ? 'commit' : 'commits'}} 
       <div class='commit-flow'>
           <div v-bind:class="this.command.startsWith('git add') ? 'highlight-text' : 'commit-flow-text'">
               git add
@@ -40,41 +40,43 @@
  
 <script>
 const ipc = require("electron").ipcRenderer
-var parse = require('../../utils/getStatus')
 
 export default {
   name: 'FilesChanged',
+  props: {
+    command: String,
+  },
   data() {
     return {
-      command: '',
-      files: []
+      nest: {
+        commits: 0,
+      },
+      files: {
+        filesLocal: {
+          filesModified: [],
+          filesAdded: [],
+          filesUntracked: [],
+          filesRenamed: [],
+          filesCopied: [],
+        },
+        filesStaging: {
+          filesModified: [],
+          filesAdded: [],
+          filesUntracked: [],
+          filesRenamed: [],
+          filesCopied: [],
+        },
+      }
     }  
   },
   mounted() {
-    ipc.on('giveFilePath', (event, pwd) => {
-      this.getStatus(pwd)
-    })
-
-    ipc.on('getStatus', (event, result) => {
-      this.files = result[5]
-    })
+    ipc.on('getStatus', (_, result) => {
+      this.files.filesStaging = result[5].filesStaging;
+      this.files.filesLocal = result[5].filesLocal;
+      this.nest.commits = result[1];
+    });
   },
   methods: {
-    getStatus: function(pwd) {
-        // changes working directory in terminal to file users selected
-        ipc.send("terminal.toTerm", `cd "${pwd}"`)
-        ipc.send("terminal.toTerm", '\n')
-        // ipc.send("terminal.toTerm", "clear")
-        // ipc.send("terminal.toTerm", '\n')
-        // // calls git status initally for the user
-        // ipc.send("terminal.toTerm", "git status")
-        // ipc.send("terminal.toTerm", '\n')
-        ipc.send('runTerminalCommand', 'FilesChangedViz');
-
-        // parse status takes the pwd the user selected and returns the status of
-        // their git repo to be displayed in the visulization if it is a git repo
-        parse.getStatus(pwd).then((result) => ipc.send("statusUpdate", result))
-    },
   },
 };
 </script>
@@ -118,5 +120,9 @@ export default {
 }
 .file-deleted {
   text-decoration: line-through
+}
+.default-bold {
+  display: contents;
+  font-weight: 600;
 }
 </style>
